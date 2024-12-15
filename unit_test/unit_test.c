@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 11:57:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 12:53:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*ft_itoa(int n)
 	return (result);
 }
 
-void	redirect_outputs(t_out *outputs)
+static int	redirect_outputs(t_out *outputs)
 {
 	outputs->out = open("cout.log", O_RDWR|O_CREAT|O_TRUNC, 0644);
 	if (-1 == outputs->out)
@@ -88,9 +88,10 @@ void	redirect_outputs(t_out *outputs)
 		perror("cannot redirect stderr");
 		return 255;
 	}
+	return (0);
 }
 
-void	set_normal_outputs(t_out *outputs)
+static void	set_normal_outputs(t_out *outputs)
 {
 	fflush(stdout);
 	close(outputs->out);
@@ -134,6 +135,27 @@ void	assert_equal_s(char *expected, char *result, size_t *i)
 		print_ok(i);
 	else
 		print_ko(expected, result, i);
+}
+
+void	assert_equal_out( char *expected, void (*f)(char *), char *arg, size_t *i)
+{
+	t_out	outputs;
+	char	*result;
+	int		fd;
+
+	if (redirect_outputs(&outputs))
+		return ;
+	f(arg);
+	set_normal_outputs(&outputs);
+	fd = open("cout.log", O_RDONLY);
+	result = malloc(10000);
+	read(fd, result, 10000);
+	close(fd);
+	if (strcmp(expected, result) == 0)
+		print_ok(i);
+	else
+		print_ko(expected, result, i);
+	free(result);
 }
 
 void	assert_equal_i(int expected, int result, size_t *i)

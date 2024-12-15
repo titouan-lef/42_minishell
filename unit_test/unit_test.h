@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:07:45 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 11:57:48 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 12:54:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <ctype.h>
 # include <string.h>
 # include <fcntl.h>
+# include <unistd.h>
 
 /*---Types----*/
 
@@ -36,6 +37,7 @@ typedef struct s_out
 /*---test functions---*/
 void	start_test(char *name);
 void	assert_equal_s(char *expected, char *result, size_t *i);
+void	assert_equal_out( char *expected, void (*f)(char *),char *arg, size_t *i);
 void	assert_equal_i(int expected, int result, size_t *i);
 void	assert_true(int result, size_t *i);
 void	assert_false(int result, size_t *i);
