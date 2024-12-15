@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:07:45 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/10/15 10:52:00 by tle-floc         ###   ########.fr       */
+/*   Updated: 2024/12/15 11:00:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # include <ctype.h>
 # include <string.h>
 
+/*---Colors---*/
+# define NO_COLOR "\033[0m"
+# define GREEN "\x1B[32m"
+# define RED "\x1B[31m"
+
+/*---Test functions---*/
 void	start_test(char *name);
 void	assert_equal_s(char *expected, char *result, size_t *i);
 void	assert_equal_i(int expected, int result, size_t *i);

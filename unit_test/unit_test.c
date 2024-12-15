@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/10/15 16:04:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2024/12/15 10:56:07 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,20 @@ void	start_test(char *name)
 
 void	print_ko(char* expected, char *result, size_t *i)
 {
-	printf("\x1B[31m");
+	printf(RED);
 	printf("\n====================== %zu.KO ======================\n", *i);
 	printf("expected : %s\n", expected);
 	printf("result : %s\n", result);
 	printf("==================================================\n");
-	printf("\x1B[0m");
+	printf(NO_COLOR);
 	*i += 1;
 }
 
 void	print_ok(size_t *i)
 {
-	printf("\x1B[32m");
+	printf(GREEN);
 	printf("%zu.OK ", *i);
-	printf("\x1B[0m");
+	printf(NO_COLOR);
 	*i += 1;
 }
 
