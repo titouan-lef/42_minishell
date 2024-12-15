@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/15 17:15:40 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/15 20:21:44 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@
 CC				:=	cc
 CFLAGS			+=	-Wall -Wextra -Werror -MP -MMD -g
 BUILD_DIR		:=	.build/
-HEADERS			:=	../minishell/includes/
+LIBFT_DIR		=	../minishell/libft/include
+HEADERS			:=	../minishell/include/
 NAME			:=	minishell_unit_tester
 
 #==================== SOURCE ====================#
@@ -71,12 +72,12 @@ display			:
 				sleep 0.5
 
 $(NAME)			: $(OBJ)
-				cc $(FLAGS) -I$(HEADERS) $(OBJ) minishell.a -o $(NAME);\
+				cc $(FLAGS) -I$(HEADERS) -I$(LIBFT_DIR) $(OBJ) minishell.a -o $(NAME);\
 				#echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)";\
 
 $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
 				#echo "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)"
-				$(CC) $(CFLAGS) -I$(HEADERS) -c $< -o $@
+				$(CC) $(CFLAGS) -I$(HEADERS) -I$(LIBFT_DIR) -c $< -o $@
 
 $(OBJ_DIR)		:
 				mkdir -p $@
@@ -89,8 +90,12 @@ clean			:
 
 fclean			:	clean
 				if [ -f minishell.a ];\
-				then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
-				rm -f $(NAME);\
+				then echo "$(RED)Removing : $(MAGENTA)minishell.a$(INIT)";\
+				rm -f minishell.a;\
+				fi;
+				if [ -f cerr.log ];\
+				then echo "$(RED)Removing : $(MAGENTA)cerr.log$(INIT)";\
+				rm -f minishell.a;\
 				fi;
 				if [ -f $(NAME) ];\
 				then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\

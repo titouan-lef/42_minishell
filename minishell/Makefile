@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/15 17:01:08 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/15 20:20:05 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,15 @@
 CC				:=	cc
 CFLAGS			+=	-Wall -Wextra -Werror -MP -MMD -g
 BUILD_DIR		:=	.build/
-HEADERS			:=	./includes/
+HEADERS			:=	./include/
 NAME			:=	minishell
 
 #==================== SOURCE ====================#
 
-LIBFT_DIR		=	libft/
+LIBFT_DIR		=	./libft/
+LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
-SRC_DIR			=	src/
+SRC_DIR			=	./src/
 SRC				=	commands/builtins/echo.c
 
 #==================== OBJECT ====================#
@@ -69,18 +70,19 @@ $(LIBFT)		:
 				make -C $(LIBFT_DIR) --no-print-directory
 
 $(NAME)			:	$(LIBFT) $(OBJ)
-				cc  -I$(HEADERS) $(FLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
+				cc  -I$(HEADERS) -I$(LIBFT_HEADER) $(FLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
 				echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)";\
 
 $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
 				echo "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)"
-				$(CC) -I$(HEADERS) $(CFLAGS) -c $< -o $@
+				$(CC) -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)		:
 				mkdir -p $@
 
 tester			:	$(LIBFT) $(filter-out minishell.c ,$(OBJ))
-				ar -rcs $(NAME).a $^
+				cp $(LIBFT) $(NAME).a
+				ar -rs $(NAME).a $(filter-out minishell.c ,$(OBJ))
 				echo "$(GREEN)$(NAME).a ready for tester ✅️✅️$(INIT)";\
 
 clean			:

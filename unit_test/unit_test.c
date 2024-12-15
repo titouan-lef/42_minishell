@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 13:07:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 20:20:15 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static int	redirect_outputs(t_out *outputs)
 		perror("opening cerr.log");
 		return 255;
 	}
+	fflush(stdout);
+	fflush(stderr);
 	outputs->save_out = dup(fileno(stdout));
 	outputs->save_err = dup(fileno(stderr));
 	if (-1 == dup2(outputs->out, fileno(stdout)))
@@ -137,7 +139,7 @@ void	assert_equal_s(char *expected, char *result, size_t *i)
 		print_ko(expected, result, i);
 }
 
-void	assert_equal_out( char *expected, void (*f)(char *), char *arg, size_t *i)
+void	assert_equal_out( char *expected, void (*f)(char **), char **arg, size_t *i)
 {
 	t_out	outputs;
 	char	*result;
