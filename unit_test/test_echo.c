@@ -6,14 +6,14 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/15 13:00:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 17:14:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "unit_test.h"
 
-int main(int argc, const char *argv[])
+int	main(void)
 {
 	size_t test_number;
 

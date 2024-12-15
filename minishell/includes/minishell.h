@@ -6,14 +6,13 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:32:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/15 11:45:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 16:24:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/*---builtins---*/
-void	echo(char *str);
+# include "builtins.h"
 
 #endif

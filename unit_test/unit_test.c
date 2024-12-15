@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 12:53:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 13:07:29 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void	assert_equal_out( char *expected, void (*f)(char *), char *arg, size_t *i)
 		print_ok(i);
 	else
 		print_ko(expected, result, i);
+	unlink("cout.log");
 	free(result);
 }
 
