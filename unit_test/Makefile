@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/15 20:27:55 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/15 20:38:39 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,7 @@ fclean			:	clean
 				fi;
 				if [ -f cerr.log ];\
 				then echo "$(RED)Removing : $(MAGENTA)cerr.log$(INIT)";\
-				rm -f minishell.a;\
+				rm -f cerr.log;\
 				fi;
 				if [ -f $(NAME) ];\
 				then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
