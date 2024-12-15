@@ -49,8 +49,37 @@ project-root/
 │   ├── [project files...]
 ├── README.md
 ├── .gitignore
-├── tests/
+├── test
+    E --> F(Env);s/
 │   ├── [unit test files...]
+```
+
+## General Process
+
+```mermaid
+graph TB;
+    A(Dislpay) --"char *line
+struct data"--> C(Prasing);
+    A ~~~ Z(Readlines);
+    Z --"char *line"--> A;
+    C --"struct data
+tab struct(enum && char *type)"--> D(Lexer);
+    D --"struct data"--> E{Redirect};
+    E --"char *word"--> F(Env);
+    F --"char *word"--> E;
+    E --"struct data
+char **cmd1
+char **cmd2" --> G(Pipe);
+    E --"struct data
+char **cmd" --> H(Choise_cmd);
+    G --"struct data
+char **cmd" --> H;
+
+    H --"struct data
+char **cmd" --> I(Exec_cmd);
+    H --"struct data
+char **cmd" --> J(Builtins);
+    
 ```
 
 ## Git Organisation
