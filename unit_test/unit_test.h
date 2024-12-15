@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:07:45 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 11:00:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 11:57:48 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,24 @@
 # include <stdlib.h>
 # include <ctype.h>
 # include <string.h>
+# include <fcntl.h>
 
-/*---Colors---*/
+/*---Types----*/
+
+typedef struct s_out
+{
+	int	out;
+	int	err;
+	int	save_out;
+	int	save_err;
+}				t_out;
+
+/*---colors---*/
 # define NO_COLOR "\033[0m"
 # define GREEN "\x1B[32m"
 # define RED "\x1B[31m"
 
-/*---Test functions---*/
+/*---test functions---*/
 void	start_test(char *name);
 void	assert_equal_s(char *expected, char *result, size_t *i);
 void	assert_equal_i(int expected, int result, size_t *i);

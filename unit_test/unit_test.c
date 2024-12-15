@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 10:56:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/15 11:57:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,48 @@ static char	*ft_itoa(int n)
 	if (offset)
 		result[0] = '-';
 	return (result);
+}
+
+void	redirect_outputs(t_out *outputs)
+{
+	outputs->out = open("cout.log", O_RDWR|O_CREAT|O_TRUNC, 0644);
+	if (-1 == outputs->out)
+	{
+		perror("opening cout.log");
+		return 255;
+	}
+	outputs->err = open("cerr.log", O_RDWR|O_CREAT|O_APPEND, 0644);
+	if (-1 == outputs->err)
+	{
+		perror("opening cerr.log");
+		return 255;
+	}
+	outputs->save_out = dup(fileno(stdout));
+	outputs->save_err = dup(fileno(stderr));
+	if (-1 == dup2(outputs->out, fileno(stdout)))
+	{
+		perror("cannot redirect stdout");
+		return 255;
+	}
+	if (-1 == dup2(outputs->err, fileno(stderr)))
+	{
+		perror("cannot redirect stderr");
+		return 255;
+	}
+}
+
+void	set_normal_outputs(t_out *outputs)
+{
+	fflush(stdout);
+	close(outputs->out);
+	fflush(stderr);
+	close(outputs->err);
+
+	dup2(outputs->save_out, fileno(stdout));
+	dup2(outputs->save_err, fileno(stderr));
+
+	close(outputs->save_out);
+	close(outputs->save_err);
 }
 
 void	start_test(char *name)
