@@ -114,7 +114,7 @@ git pull origin main
 
 4. Switch to `main`
 ```bash
-git switch main
+git checkout main
 ```
 5. Merge your work in main
 ```bash
