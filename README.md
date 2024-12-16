@@ -120,7 +120,7 @@ git switch main
 ```bash
 git merge <branch_name>
 ```
-Push modification
+6. Push modification
 ```bash
 git push
 ```

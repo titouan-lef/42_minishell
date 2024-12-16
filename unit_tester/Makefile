@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/15 20:38:39 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/16 15:53:05 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,17 @@
 
 CC				:=	cc
 CFLAGS			+=	-Wall -Wextra -Werror -MP -MMD -g
+MAKEFLAGS		+=	--no-print-directory
 BUILD_DIR		:=	.build/
-LIBFT_DIR		=	../minishell/libft/include
+LIBFT_DIR		:=	../minishell/libft/include
 HEADERS			:=	../minishell/include/
 NAME			:=	minishell_unit_tester
 
 #==================== SOURCE ====================#
 
 SRC_DIR			=	#src/
-SRC				=	unit_test.c\
+SRC				=	unit_test/unit_test.c		\
+					tester.c					\
 					test_echo.c
 
 #==================== OBJECT ====================#
@@ -52,10 +54,10 @@ endif
 
 all				:	display
 				if [ ! -f minishell.a ];\
-				then make tester -C ../minishell --no-print-directory;\
+				then make tester -C ../minishell;\
 				mv ../minishell/minishell.a minishell.a;\
 				fi;
-				make $(NAME) --no-print-directory
+				make $(NAME)
 				if [ -f $(NAME) ];\
 				then chmod +x $(NAME);\
 				./$(NAME);\
@@ -63,11 +65,11 @@ all				:	display
 
 display			:
 				clear
-				echo "$(BLUE)  __  __ _       _     _          _ _   _   _       _ _      _____         _            "
-				echo " |  \/  (_)_ __ (_)___| |__   ___| | | | | | |_ __ (_) |_   |_   _|__  ___| |_ ___ _ __ "
-				echo " | |\/| | | '_ \| / __| '_ \ / _ \ | | | | | | '_ \| | __|    | |/ _ \/ __| __/ _ \ '__|"
-				echo " | |  | | | | | | \__ \ | | |  __/ | | | |_| | | | | | |_     | |  __/\__ \ ||  __/ |   "
-				echo " |_|  |_|_|_| |_|_|___/_| |_|\___|_|_|  \___/|_| |_|_|\__|    |_|\___||___/\__\___|_|   "
+				echo "$(BLUE)  __  __ _       _     _           _ _   _   _       _ _      _____         _            "
+				echo " |  \/  (_)_ __ (_)___| |__   ___| | |  | | | |_ __ (_) |_   |_   _|__  ___| |_ ___ _ __ "
+				echo " | |\/| | | '_ \| / __| '_ \ / _ \ | |  | | | | '_ \| | __|    | |/ _ \/ __| __/ _ \ '__|"
+				echo " | |  | | | | | | \__ \ | | |  __/ | |  | |_| | | | | | |_     | |  __/\__ \ ||  __/ |   "
+				echo " |_|  |_|_|_| |_|_|___/_| |_|\___|_|_|   \___/|_| |_|_|\__|    |_|\___||___/\__\___|_|   "
 				echo "$(INIT)"
 				sleep 0.5
 

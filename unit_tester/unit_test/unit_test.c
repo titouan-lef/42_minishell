@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 20:20:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:25:56 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,19 @@ static char	*ft_itoa(int n)
 	return (result);
 }
 
-static int	redirect_outputs(t_out *outputs)
+int	redirect_outputs(t_out *outputs)
 {
 	outputs->out = open("cout.log", O_RDWR|O_CREAT|O_TRUNC, 0644);
 	if (-1 == outputs->out)
 	{
 		perror("opening cout.log");
-		return 255;
+		exit(255);
 	}
 	outputs->err = open("cerr.log", O_RDWR|O_CREAT|O_APPEND, 0644);
 	if (-1 == outputs->err)
 	{
 		perror("opening cerr.log");
-		return 255;
+		exit(255);
 	}
 	fflush(stdout);
 	fflush(stderr);
@@ -83,17 +83,17 @@ static int	redirect_outputs(t_out *outputs)
 	if (-1 == dup2(outputs->out, fileno(stdout)))
 	{
 		perror("cannot redirect stdout");
-		return 255;
+		exit(255);
 	}
 	if (-1 == dup2(outputs->err, fileno(stderr)))
 	{
 		perror("cannot redirect stderr");
-		return 255;
+		exit(255);
 	}
 	return (0);
 }
 
-static void	set_normal_outputs(t_out *outputs)
+void	set_normal_outputs(t_out *outputs)
 {
 	fflush(stdout);
 	close(outputs->out);
@@ -139,25 +139,20 @@ void	assert_equal_s(char *expected, char *result, size_t *i)
 		print_ko(expected, result, i);
 }
 
-void	assert_equal_out( char *expected, void (*f)(char **), char **arg, size_t *i)
+void	assert_equal_out(char *expected, size_t *i)
 {
-	t_out	outputs;
 	char	*result;
 	int		fd;
 
-	if (redirect_outputs(&outputs))
-		return ;
-	f(arg);
-	set_normal_outputs(&outputs);
 	fd = open("cout.log", O_RDONLY);
 	result = malloc(10000);
 	read(fd, result, 10000);
 	close(fd);
+	unlink("cout.log");
 	if (strcmp(expected, result) == 0)
 		print_ok(i);
 	else
 		print_ko(expected, result, i);
-	unlink("cout.log");
 	free(result);
 }
 

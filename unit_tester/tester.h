@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   tester.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/15 11:06:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/16 15:54:44 by lguerbig         ###   ########.fr       */
+/*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
+/*   Updated: 2024/12/16 15:37:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#ifndef TESTER_H
+# define TESTER_H
 
-/*
-* Goal: Equivalent of the echo command.
-*
-* Return: Nothing.
-*
-* Warning: None.
-*/
-void	echo(char **str)
-{
-	if (!ft_strcmp(str[1], "-n"))
-		printf("%s", str[2]);
-	else
-		printf("%s\n", str[1]);
-}
+#include "builtins.h"
+#include "unit_test/unit_test.h"
+
+/*---tests---*/
+void	test_echo();
+
+#endif

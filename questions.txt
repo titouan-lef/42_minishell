@@ -1,4 +1,4 @@
 
-Pourquoi il a "MAKEFLAGS +=	--no-print-directory" non utilisé dqns le Makefile de la libft ?
+
 
 
