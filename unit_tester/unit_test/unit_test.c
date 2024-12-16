@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/16 15:25:56 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/16 20:43:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,12 @@ void	assert_equal_out(char *expected, size_t *i)
 	int		fd;
 
 	fd = open("cout.log", O_RDONLY);
-	result = malloc(10000);
+	result = calloc(10000,sizeof(char));
+	if (!result)
+	{
+		perror("malloc failed: assert_equal_out");
+		exit(1);
+	}
 	read(fd, result, 10000);
 	close(fd);
 	unlink("cout.log");

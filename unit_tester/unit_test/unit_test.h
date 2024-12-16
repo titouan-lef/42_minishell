@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:07:45 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/16 15:18:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:53:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdarg.h>
 
 /*---Types----*/
 

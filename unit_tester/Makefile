@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/16 15:53:05 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/16 21:15:29 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,10 +54,11 @@ endif
 
 all				:	display
 				if [ ! -f minishell.a ];\
-				then make tester -C ../minishell;\
+				then $(MAKE) tester -C ../minishell;\
+				$(MAKE) clean -C ../minishell;\
 				mv ../minishell/minishell.a minishell.a;\
 				fi;
-				make $(NAME)
+				$(MAKE) $(NAME)
 				if [ -f $(NAME) ];\
 				then chmod +x $(NAME);\
 				./$(NAME);\
@@ -65,7 +66,7 @@ all				:	display
 
 display			:
 				clear
-				echo "$(BLUE)  __  __ _       _     _           _ _   _   _       _ _      _____         _            "
+				echo "$(BLUE)  __  __ _       _     _          _ _    _   _       _ _      _____         _            "
 				echo " |  \/  (_)_ __ (_)___| |__   ___| | |  | | | |_ __ (_) |_   |_   _|__  ___| |_ ___ _ __ "
 				echo " | |\/| | | '_ \| / __| '_ \ / _ \ | |  | | | | '_ \| | __|    | |/ _ \/ __| __/ _ \ '__|"
 				echo " | |  | | | | | | \__ \ | | |  __/ | |  | |_| | | | | | |_     | |  __/\__ \ ||  __/ |   "
@@ -104,7 +105,7 @@ fclean			:	clean
 				rm -f $(NAME);\
 				fi;
 
-re:	fclean all
+re				:	fclean all
 
 .PHONY	=	all clean fclean re $(NAME) $(OBJ) $(OBJ_DIR)
 

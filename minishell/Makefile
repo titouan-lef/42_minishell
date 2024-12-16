@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/15 20:20:05 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/16 21:25:49 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,11 +63,11 @@ all				:
 				echo "|__/     |__/|__/|__/  |__/|__/|_______/ |__/  |__/ \_______/|__/|__/"
 				echo 
 				sleep 0.5
-				make $(NAME) --no-print-directory
+				$(MAKE) $(NAME) --no-print-directory
 
 $(LIBFT)		:
 				echo "$(BLUE)Making libft👷👷$(INIT)"
-				make -C $(LIBFT_DIR) --no-print-directory
+				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
 $(NAME)			:	$(LIBFT) $(OBJ)
 				cc  -I$(HEADERS) -I$(LIBFT_HEADER) $(FLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
@@ -86,17 +86,25 @@ tester			:	$(LIBFT) $(filter-out minishell.c ,$(OBJ))
 				echo "$(GREEN)$(NAME).a ready for tester ✅️✅️$(INIT)";\
 
 clean			:
+				if [ -d $(LIBFT_DIR)$(BUILD_DIR) ];\
+				then echo "$(BLUE)Cleanning libft✨🧹$(INIT)";\
+				$(MAKE) $@ -C $(LIBFT_DIR) --no-print-directory;\
+				fi;
 				if [ -d $(BUILD_DIR) ];\
-				then echo "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)";\
+				then echo "$(BLUE)Cleanning $(NAME)✨🧹$(INIT)";\
+				echo "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)";\
 				rm -rf $(BUILD_DIR);\
-				$(MAKE) -C $(LIBFT_DIR) $@ --no-print-directory --silent;\
 				fi;
 
 fclean			:	clean
+				if [ -f $(LIBFT) ];\
+				then echo "$(BLUE)Cleanning libft✨🧹$(INIT)";\
+				$(MAKE) $@ -C $(LIBFT_DIR) --no-print-directory;\
+				fi;
 				if [ -f $(NAME) ];\
-				then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
+				then echo "$(BLUE)Cleanning $(NAME)✨🧹$(INIT)";\
+				echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
 				rm -f $(NAME);\
-				$(MAKE) -C $(LIBFT_DIR) $@ --no-print-directory;\
 				fi;
 
 re:	fclean all
