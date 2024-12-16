@@ -59,7 +59,7 @@ project-root/
 ```mermaid
 graph TB;
     A(Dislpay) --"char *line
-struct data"--> C(Prasing);
+struct data"--> C(Parsing);
     A ~~~ Z(Readlines);
     Z --"char *line"--> A;
     C --"struct data
