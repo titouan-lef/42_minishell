@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/17 11:27:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:52:08 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@
 */
 void	pwd(char **str, char **envp)
 {
-	int		i;
 	char	*pwd;
+	char	*no_error;
 
 	(void)str;
-	pwd = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
-			pwd = envp[i] + 4;
-		i++;
-	}
-	printf("%s\n", pwd);
+	(void)envp;
+	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
+	no_error = getcwd(pwd, PATH_MAX);
+	if (no_error)
+		printf("%s", pwd);
+	else
+		printf("\n");
+	free(pwd);
 }
