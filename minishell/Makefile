@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/17 12:45:12 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/17 16:08:14 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ $(LIBFT)		:
 				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
 $(NAME)			:	$(LIBFT) $(OBJ)
-				cc  -I$(HEADERS) -I$(LIBFT_HEADER) $(FLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
+				$(CC)  -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
 				echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)";\
 
 $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
