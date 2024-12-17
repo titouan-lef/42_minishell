@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/16 21:01:49 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/17 10:51:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,14 @@ void	test_echo(char **envp)
 	assert_equal_out("", &test_number);
 
 	/*--- test 13 ---*/
+	run_echo(envp, "-nn", NULL);
+	assert_equal_out("", &test_number);
+
+	/*--- test 14 ---*/
 	run_echo(envp, NULL);
 	assert_equal_out("\n", &test_number);
 
-	/*--- test 14 ---*/
+	/*--- test 15 ---*/
 	run_echo(envp, "-n", "-", "cequetuveux", NULL);
 	assert_equal_out("- cequetuveux", &test_number);
 }
-

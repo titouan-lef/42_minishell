@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/16 21:15:29 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/17 10:51:59 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ endif
 all				:	display
 				if [ ! -f minishell.a ];\
 				then $(MAKE) tester -C ../minishell;\
-				$(MAKE) clean -C ../minishell;\
+				$(MAKE) fclean -C ../minishell;\
 				mv ../minishell/minishell.a minishell.a;\
 				fi;
 				$(MAKE) $(NAME)
@@ -104,6 +104,7 @@ fclean			:	clean
 				then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
 				rm -f $(NAME);\
 				fi;
+				$(MAKE) fclean -C ../minishell;\
 
 re				:	fclean all
 
