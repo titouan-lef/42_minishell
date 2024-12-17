@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/17 11:33:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:50:59 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ void	test_pwd(char **envp)
 
 	/*--- test 1 ---*/
 	run_pwd(envp, NULL);
-	assert_equal_out(strcat(pwd, "\n"), &test_number);
+	assert_equal_out(pwd, &test_number);
+
+	/*--- test 2 ---*/
+	unsetenv("PWD");
+	run_pwd(envp, NULL);
+	setenv("PWD", pwd, 1);
+	assert_equal_out(pwd, &test_number);
 
 }
