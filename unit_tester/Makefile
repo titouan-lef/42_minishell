@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/17 10:51:59 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/17 11:58:38 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ NAME			:=	minishell_unit_tester
 SRC_DIR			=	#src/
 SRC				=	unit_test/unit_test.c		\
 					tester.c					\
-					test_echo.c
+					test_echo.c					\
+					test_pwd.c
 
 #==================== OBJECT ====================#
 
@@ -54,8 +55,8 @@ endif
 
 all				:	display
 				if [ ! -f minishell.a ];\
-				then $(MAKE) tester -C ../minishell;\
-				$(MAKE) fclean -C ../minishell;\
+				then $(MAKE) tester -C ../minishell >/dev/null;\
+				$(MAKE) fclean -C ../minishell >/dev/null;\
 				mv ../minishell/minishell.a minishell.a;\
 				fi;
 				$(MAKE) $(NAME)
@@ -66,13 +67,13 @@ all				:	display
 
 display			:
 				clear
-				echo "$(BLUE)  __  __ _       _     _          _ _    _   _       _ _      _____         _            "
+				echo "$(BLUE)"
+				echo "  __  __ _       _     _          _ _    _   _       _ _      _____         _            "
 				echo " |  \/  (_)_ __ (_)___| |__   ___| | |  | | | |_ __ (_) |_   |_   _|__  ___| |_ ___ _ __ "
 				echo " | |\/| | | '_ \| / __| '_ \ / _ \ | |  | | | | '_ \| | __|    | |/ _ \/ __| __/ _ \ '__|"
 				echo " | |  | | | | | | \__ \ | | |  __/ | |  | |_| | | | | | |_     | |  __/\__ \ ||  __/ |   "
 				echo " |_|  |_|_|_| |_|_|___/_| |_|\___|_|_|   \___/|_| |_|_|\__|    |_|\___||___/\__\___|_|   "
 				echo "$(INIT)"
-				sleep 0.5
 
 $(NAME)			: $(OBJ)
 				cc $(FLAGS) -I$(HEADERS) -I$(LIBFT_DIR) $(OBJ) minishell.a -o $(NAME);\
@@ -104,7 +105,7 @@ fclean			:	clean
 				then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
 				rm -f $(NAME);\
 				fi;
-				$(MAKE) fclean -C ../minishell;\
+				$(MAKE) $@ -C ../minishell;\
 
 re				:	fclean all
 

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:19:57 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/16 19:53:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:37:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@
 
 /*---funtions---*/
 void	echo(char **str, char **envp);
+void	pwd(char **str, char **envp);
 
 #endif

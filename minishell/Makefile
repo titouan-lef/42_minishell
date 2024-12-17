@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/16 21:25:49 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/17 11:38:08 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ LIBFT_DIR		=	./libft/
 LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
-SRC				=	commands/builtins/echo.c
+SRC				=	commands/builtins/echo.c	\
+					commands/builtins/pwd.c
 
 #==================== OBJECT ====================#
 
