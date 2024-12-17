@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/17 10:51:52 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:09:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	test_echo(char **envp)
 
 	start_test("echo");
 	test_number = 1;
+
 	/*--- test 1 ---*/
 	run_echo(envp, "-n", "Bonjour", NULL);
 	assert_equal_out("Bonjour", &test_number);
