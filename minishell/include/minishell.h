@@ -6,14 +6,15 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/19 17:35:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/19 21:29:41 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdlib.h>
+# include <unistd.h>
+# include "builtins.h"
 
 typedef enum e_token_name
 {
@@ -43,6 +44,7 @@ typedef struct s_queue
 	t_element	*tail;
 }	t_queue;
 
-
+/*---lexer.c---*/
+void	auto_tokenizer(const char *input);
 
 #endif
