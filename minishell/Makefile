@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/17 16:26:53 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/19 22:21:10 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
 SRC				=	commands/builtins/echo.c	\
-					commands/builtins/pwd.c
+					commands/builtins/pwd.c		\
+					commands/lexer/lexer.c		\
+					display/display.c
 
 #==================== OBJECT ====================#
 
@@ -71,7 +73,7 @@ $(LIBFT)		:
 				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
 $(NAME)			:	$(LIBFT) $(OBJ)
-				$(CC)  -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
+				$(CC) -lreadline -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
 				echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)";\
 
 $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
