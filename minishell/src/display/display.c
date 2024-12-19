@@ -6,12 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/17 18:26:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/19 21:33:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -35,7 +34,7 @@ int main(void)
 		if (!line_read)
 			break;
 		if (*line_read)
-			printf("%s\n", line_read);
+			auto_tokenizer(line_read);
 		free(line_read);
 	}
 	printf("exit\n");
