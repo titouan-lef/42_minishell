@@ -1,7 +1,0 @@
-{
-	"files.associations": {
-		"minishell.h": "c",
-		"unit_test.h": "c",
-		"sstream": "c"
-	}
-}
