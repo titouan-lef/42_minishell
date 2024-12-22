@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/19 22:21:10 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/22 16:55:14 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,12 +50,22 @@ MAGENTA			:=	\e[35m
 CYAN			:=	\e[36m
 
 #===================== RULE =====================#
+
+DISPLAY_TRACKER	:=	.display_done
+
 ifndef VERBOSE
 .SILENT:
 endif
 
+
 all				:
-				echo 
+				$(MAKE) $(NAME) --no-print-directory
+
+$(DISPLAY_TRACKER):
+				$(MAKE) display --no-print-directory
+
+display			:
+				echo
 				echo " /░░      /░░ /░░           /░░           /░░                 /░░ /░░"
 				echo "| ░░░    /░░░|__/          |__/          | ░░                | ░░| ░░"
 				echo "| ░░░░  /░░░░ /░░ /░░░░░░░  /░░  /░░░░░░░| ░░░░░░░   /░░░░░░ | ░░| ░░"
@@ -64,17 +74,17 @@ all				:
 				echo "| ░░\  ░ | ░░| ░░| ░░  | ░░| ░░ \____  ░░| ░░  | ░░| ░░_____/| ░░| ░░"
 				echo "| ░░ \/  | ░░| ░░| ░░  | ░░| ░░ /░░░░░░░/| ░░  | ░░|  ░░░░░░░| ░░| ░░"
 				echo "|__/     |__/|__/|__/  |__/|__/|_______/ |__/  |__/ \_______/|__/|__/"
-				echo 
+				echo
+				touch $(DISPLAY_TRACKER)
 				sleep 0.5
-				$(MAKE) $(NAME) --no-print-directory
 
 $(LIBFT)		:
 				echo "$(BLUE)Making libft👷👷$(INIT)"
 				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
-$(NAME)			:	$(LIBFT) $(OBJ)
-				$(CC) -lreadline -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME);\
-				echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)";\
+$(NAME)			:	$(DISPLAY_TRACKER) $(LIBFT) $(OBJ)
+				$(CC) -lreadline -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+				echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)"
 
 $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
 				echo "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)"
@@ -98,6 +108,7 @@ clean			:
 				echo "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)";\
 				rm -rf $(BUILD_DIR);\
 				fi;
+				rm -f $(DISPLAY_TRACKER)
 
 fclean			:	clean
 				if [ -f $(LIBFT) ];\
@@ -109,9 +120,15 @@ fclean			:	clean
 				echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
 				rm -f $(NAME);\
 				fi;
+				rm -f $(DISPLAY_TRACKER)
 
-re:	fclean all
+re				:
+				rm -f $(DISPLAY_TRACKER)
+				$(MAKE) $(DISPLAY_TRACKER) --no-print-directory
+				$(MAKE)	fclean --no-print-directory
+				touch $(DISPLAY_TRACKER)
+				$(MAKE) all --no-print-directory
 
-.PHONY	=	all clean fclean re $(LIBFT) $(NAME) $(OBJ) $(OBJ_DIR)
+.PHONY	=	display all clean fclean re $(LIBFT) $(NAME) $(OBJ) $(OBJ_DIR)
 
 -include $(DEP)
