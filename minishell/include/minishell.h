@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/19 21:29:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/27 16:34:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef struct s_token
 
 typedef struct s_element
 {
-	t_token			token;
-	struct s_elemnt	*next;
+	t_token				token;
+	struct s_element	*next;
 }	t_element;
 
 typedef struct s_queue
@@ -45,6 +45,12 @@ typedef struct s_queue
 }	t_queue;
 
 /*---lexer.c---*/
-void	auto_tokenizer(const char *input);
+t_queue	auto_tokenizer(const char *input);
+
+/*---queue_primitive.c---*/
+int		queue_push(t_queue *queue, t_token token);
+t_token	queue_pop(t_queue *queue);
+void	queue_clear(t_queue *queue);
+t_queue	queue_create(void);
 
 #endif
