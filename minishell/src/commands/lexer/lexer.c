@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/19 22:41:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/27 16:43:31 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,10 @@ static t_token_name	get_token(const char *input, int *index, char *output_buffer
 			test = 1;
 		}
 		skip_spaces(input, index);
-		get_word(input, index, word_buffer);
 		if (test)
-			sprintf(output_buffer, "%c%c%s", redir, redir, word_buffer);
+			sprintf(output_buffer, "%c%c", redir, redir);
 		else
-			sprintf(output_buffer, "%c%s", redir, word_buffer);
+			sprintf(output_buffer, "%c", redir);
 		return TOKEN_REDIR;
 	}
 	if (current == '&')
@@ -104,23 +103,30 @@ static t_token_name	get_token(const char *input, int *index, char *output_buffer
 	return TOKEN_WORD;
 }
 
-void	auto_tokenizer(const char *input)
+t_queue	auto_tokenizer(const char *input)
 {
-	int index = 0;
-	t_token_name token;
-	char buffer[100];
+	int		index = 0;
+	t_token	*token;
+	t_queue	tokens;
+	char	buffer[100];
 
 	printf("detected tokens :\n");
-
+	tokens = queue_create();
 	while (input[index] != '\0')
 	{
+		token = (t_token *)malloc(sizeof(t_token));
 		memset(buffer, 0, sizeof(buffer));
-		token = get_token(input, &index, buffer);
-		printf(" - %d", token);
+		token->name = get_token(input, &index, buffer);
+		token->value = (char **)malloc(sizeof(char *) * 2);
+		token->value [0] = buffer;
+		token->value [1] = NULL;
+		printf(" - %d", token->name);
 		if (strlen(buffer) > 0)
 			printf(" : %s", buffer);
 		printf("\n");
+		queue_push(&tokens, *token);
 	}
 	printf("end of lexical analysys.\n");
+	return(tokens);
 }
 
