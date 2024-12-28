@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/27 16:34:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:03:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum e_token_name
 	TOKEN_WORD,
 	TOKEN_REDIR,
 	TOKEN_OPE,
-	TOKEN_CMD
+	TOKEN_CMD,
+	TOKEN_NULL,
 } t_token_name;
 
 typedef struct s_token
@@ -52,5 +53,8 @@ int		queue_push(t_queue *queue, t_token token);
 t_token	queue_pop(t_queue *queue);
 void	queue_clear(t_queue *queue);
 t_queue	queue_create(void);
+
+/*---format_for_ast.c---*/
+t_element reorganize(t_queue tokens);
 
 #endif
