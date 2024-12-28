@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 13:03:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/28 18:52:31 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 
 typedef enum e_token_name
 {
+	TOKEN_NULL,
 	TOKEN_PIPE,
 	TOKEN_PAR,
 	TOKEN_WORD,
 	TOKEN_REDIR,
 	TOKEN_OPE,
 	TOKEN_CMD,
-	TOKEN_NULL,
 } t_token_name;
 
 typedef struct s_token
