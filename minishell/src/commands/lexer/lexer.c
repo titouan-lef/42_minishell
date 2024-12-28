@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/27 16:43:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:32:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,36 @@
 #include <string.h>
 #include <ctype.h>
 
-static void	skip_spaces(const char *input, int *index)
+/*
+* Goal: Compare the current input[*index] with the given char c.
+		Increment *index i they are equal
+*
+* Return: 1 if equal, 0 if not.
+*
+* Warning: input and index must not be null.
+*/
+static int	cmp_and_inc(const char *input, int *index, char c)
 {
-	while (isspace(input[*index]))
+	if (input[*index] == c)
+	{
 		(*index)++;
+		return (1);
+	}
+	return (0);
 }
 
+/*
+* Goal: Put the next lettres un buffer until it is not a specal character.
+*
+* Return: Nothing, as buffer is pointer.
+*
+* Warning: input, index and buffer must not be null.
+*/
 static void	get_word(const char *input, int *index, char *buffer)
 {
-	int start = *index;
+	int	start ;
+
+	start = *index;
 	while (input[*index] && input[*index] != '|' && input[*index] != '('
 		&& input[*index] != ')' && input[*index] != '&' && input[*index] != '<'
 		&& input[*index] != '>' && input[*index] != ' ')
@@ -45,88 +66,96 @@ static void	get_word(const char *input, int *index, char *buffer)
 	buffer[*index - start] = '\0';
 }
 
-static t_token_name	get_token(const char *input, int *index, char *output_buffer)
+/*
+* Goal: Found out if the token is an opperator, pipe or parenthesis.
+*
+* Return: The enum of the token type, TOKEN_NULL if none of them.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static t_token_name	get_operator(const char *input, int *index, char *buffer)
 {
-	char current = input[*index];
-	char word_buffer[100] = {0};
+	if (cmp_and_inc(input, index, '|'))
+	{
+		if (cmp_and_inc(input, index, '|'))
+			return (TOKEN_OPE);
+		return (TOKEN_PIPE);
+	}
+	if (input[*index] == '(' || input[*index] == ')')
+	{
+		buffer[0] = input[*index];
+		(*index)++;
+		return (TOKEN_PAR);
+	}
+	if (cmp_and_inc(input, index, '&'))
+		if (cmp_and_inc(input, index, '&'))
+			return (TOKEN_OPE);
+	return (TOKEN_NULL);
+}
 
-	skip_spaces(input, index);
+/*
+* Goal: Put the token found in buffer.
+*
+* Return: The enum of the token type.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static t_token_name	get_token(const char *input, int *index, char *buffer)
+{
+	char			current;
+	t_token_name	operator;
+
+	while (ft_isspace(input[*index]))
+		(*index)++;
+	operator = get_operator(input, index, buffer);
+	if (operator != TOKEN_NULL)
+		return (operator);
 	current = input[*index];
-	if (current == '|')
-	{
-		(*index)++;
-		if (input[*index] == '|')
-		{
-			(*index)++;
-			return TOKEN_OPE;
-		}
-		return TOKEN_PIPE;
-	}
-	if (current == '(')
-	{
-		(*index)++;
-		return TOKEN_PAR;
-	}
-	if (current == ')') 
-	{
-		(*index)++;
-		return TOKEN_PAR;
-	}
 	if (current == '<' || current == '>')
 	{
-		char redir = current;
-		int test = 0;
 		(*index)++;
 		if (input[*index] == current)
 		{
 			(*index)++;
-			test = 1;
+			buffer[1] = current;
 		}
-		skip_spaces(input, index);
-		if (test)
-			sprintf(output_buffer, "%c%c", redir, redir);
-		else
-			sprintf(output_buffer, "%c", redir);
-		return TOKEN_REDIR;
+		buffer[0] = current;
+		return (TOKEN_REDIR);
 	}
-	if (current == '&')
-	{
-		(*index)++;
-		if (input[*index] == '&')
-		{
-			(*index)++;
-			return TOKEN_OPE;
-		}
-	}
-	get_word(input, index, word_buffer);
-	strcpy(output_buffer, word_buffer);
-	return TOKEN_WORD;
+	get_word(input, index, buffer);
+	return (TOKEN_WORD);
 }
 
+/*
+* Goal: Found all the tokens in the input command.
+*
+* Return: A queue of tokens.
+*
+* Warning: input must not be null.
+*/
 t_queue	auto_tokenizer(const char *input)
 {
-	int		index = 0;
-	t_token	*token;
+	int		index;
+	t_token	token;
 	t_queue	tokens;
-	char	buffer[100];
+	char	*buffer;
 
 	printf("detected tokens :\n");
 	tokens = queue_create();
+	index = 0;
 	while (input[index] != '\0')
 	{
-		token = (t_token *)malloc(sizeof(t_token));
-		memset(buffer, 0, sizeof(buffer));
-		token->name = get_token(input, &index, buffer);
-		token->value = (char **)malloc(sizeof(char *) * 2);
-		token->value [0] = buffer;
-		token->value [1] = NULL;
-		printf(" - %d", token->name);
+		buffer = (char *)ft_calloc(sizeof(char), ft_strlen(input));
+		token.name = get_token(input, &index, buffer);
+		token.value = (char **)ft_calloc(sizeof(char *), 2);
+		token.value[0] = buffer;
+		queue_push(&tokens, token);
+		printf(" - %d", token.name);
 		if (strlen(buffer) > 0)
 			printf(" : %s", buffer);
 		printf("\n");
-		queue_push(&tokens, *token);
+		queue_push(&tokens, token);
 	}
 	printf("end of lexical analysys.\n");
-	return(tokens);
+	return (tokens);
 }
-
