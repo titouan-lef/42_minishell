@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 13:32:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/28 19:11:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,21 @@
 
 /*
 * Goal: Compare the current input[*index] with the given char c.
-		Increment *index i they are equal
+*		Put the operator in buffer.
+*		Increment *index i they are equal.
 *
 * Return: 1 if equal, 0 if not.
 *
-* Warning: input and index must not be null.
+* Warning: input, index and buffer must not be null.
 */
-static int	cmp_and_inc(const char *input, int *index, char c)
+static int	cmp_and_inc(const char *input, int *index, char c, char *buffer)
 {
 	if (input[*index] == c)
 	{
+		if (*index > 0 && input[*index - 1] == c)
+			buffer[1] = c;
+		else
+			buffer[0] = c;
 		(*index)++;
 		return (1);
 	}
@@ -63,7 +68,6 @@ static void	get_word(const char *input, int *index, char *buffer)
 		(*index)++;
 	}
 	strncpy(buffer, input + start, *index - start);
-	buffer[*index - start] = '\0';
 }
 
 /*
@@ -75,9 +79,9 @@ static void	get_word(const char *input, int *index, char *buffer)
 */
 static t_token_name	get_operator(const char *input, int *index, char *buffer)
 {
-	if (cmp_and_inc(input, index, '|'))
+	if (cmp_and_inc(input, index, '|', buffer))
 	{
-		if (cmp_and_inc(input, index, '|'))
+		if (cmp_and_inc(input, index, '|', buffer))
 			return (TOKEN_OPE);
 		return (TOKEN_PIPE);
 	}
@@ -87,8 +91,8 @@ static t_token_name	get_operator(const char *input, int *index, char *buffer)
 		(*index)++;
 		return (TOKEN_PAR);
 	}
-	if (cmp_and_inc(input, index, '&'))
-		if (cmp_and_inc(input, index, '&'))
+	if (cmp_and_inc(input, index, '&', buffer))
+		if (cmp_and_inc(input, index, '&', buffer))
 			return (TOKEN_OPE);
 	return (TOKEN_NULL);
 }
@@ -114,15 +118,13 @@ static t_token_name	get_token(const char *input, int *index, char *buffer)
 	if (current == '<' || current == '>')
 	{
 		(*index)++;
-		if (input[*index] == current)
-		{
-			(*index)++;
-			buffer[1] = current;
-		}
+		cmp_and_inc(input, index, current, buffer);
 		buffer[0] = current;
 		return (TOKEN_REDIR);
 	}
 	get_word(input, index, buffer);
+	if (*buffer == '\0')
+		return (TOKEN_NULL);
 	return (TOKEN_WORD);
 }
 
@@ -140,22 +142,26 @@ t_queue	auto_tokenizer(const char *input)
 	t_queue	tokens;
 	char	*buffer;
 
-	printf("detected tokens :\n");
+	// printf("detected tokens :\n");
 	tokens = queue_create();
 	index = 0;
 	while (input[index] != '\0')
 	{
 		buffer = (char *)ft_calloc(sizeof(char), ft_strlen(input));
 		token.name = get_token(input, &index, buffer);
+		if (token.name == TOKEN_NULL)
+		{
+			free(buffer);
+			continue;
+		}
 		token.value = (char **)ft_calloc(sizeof(char *), 2);
 		token.value[0] = buffer;
 		queue_push(&tokens, token);
-		printf(" - %d", token.name);
-		if (strlen(buffer) > 0)
-			printf(" : %s", buffer);
-		printf("\n");
-		queue_push(&tokens, token);
+		// printf(" - %d", token.name);
+		// if (strlen(buffer) > 0)
+		// 	printf(" : %s", buffer);
+		// printf("\n");
 	}
-	printf("end of lexical analysys.\n");
+	// printf("end of lexical analysys.\n");
 	return (tokens);
 }
