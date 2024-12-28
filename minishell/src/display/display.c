@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/19 21:33:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:36:38 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ char *rl_gets()
 
 int main(void)
 {
-	char	*line_read ;
+	char		*line_read ;
+	t_queue		tokens;
+	t_element	reoganized_tokens;
 
 	while (1)
 	{
@@ -34,8 +36,13 @@ int main(void)
 		if (!line_read)
 			break;
 		if (*line_read)
-			auto_tokenizer(line_read);
+		{
+			tokens = auto_tokenizer(line_read);
+			reoganized_tokens = reorganize(tokens);
+		}
 		free(line_read);
+		if (reoganized_tokens.next == NULL)
+			return 1;
 	}
 	printf("exit\n");
 	return (0);
