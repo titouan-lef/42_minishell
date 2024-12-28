@@ -6,7 +6,7 @@
 #    By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/22 16:55:14 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/28 13:39:40 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,12 @@ LIBFT_DIR		=	./libft/
 LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
-SRC				=	commands/builtins/echo.c	\
-					commands/builtins/pwd.c		\
-					commands/lexer/lexer.c		\
-					display/display.c
+SRC				=	commands/builtins/echo.c		\
+					commands/builtins/pwd.c			\
+					commands/lexer/lexer.c			\
+					commands/lexer/format_for_ast.c	\
+					display/display.c				\
+					queue/queue_primitive.c
 
 #==================== OBJECT ====================#
 
@@ -56,7 +58,6 @@ DISPLAY_TRACKER	:=	.display_done
 ifndef VERBOSE
 .SILENT:
 endif
-
 
 all				:
 				$(MAKE) $(NAME) --no-print-directory
