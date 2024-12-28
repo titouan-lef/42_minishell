@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/16 20:43:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/28 18:20:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ void	print_ko(char* expected, char *result, size_t *i)
 {
 	printf(RED);
 	printf("\n====================== %zu.KO ======================\n", *i);
-	printf("expected : %s\n", expected);
-	printf("result : %s\n", result);
+	printf("expected : '%s'\n", expected);
+	printf("result : '%s'\n", result);
 	printf("==================================================\n");
 	printf(NO_COLOR);
 	*i += 1;
