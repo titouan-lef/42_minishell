@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 18:52:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/30 03:30:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ void	queue_clear(t_queue *queue);
 t_queue	queue_create(void);
 
 /*---format_for_ast.c---*/
-t_element reorganize(t_queue tokens);
+t_element *reorganize(t_queue tokens);
 
 #endif
