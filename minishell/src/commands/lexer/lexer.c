@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/30 03:04:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/30 03:36:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ static int	valid_parenthesis(t_token token, int *nb_par)
 			(*nb_par)++;
 		if (!ft_strcmp(token.value[0], ")"))
 			(*nb_par)--;
-		printf("%d\n", *nb_par);
 		if (*nb_par < 0)
 			return (0);
 	}
