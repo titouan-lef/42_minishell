@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 13:36:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/30 03:27:56 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,26 @@ char *rl_gets()
 	return (line_read);
 }
 
+void print_tokens(t_element *tokens)
+{
+	int	i;
+
+	while(tokens)
+	{
+		printf("%d | ", tokens->token.name);
+		i = 0;
+		while (tokens->token.value[i])
+			printf("'%s' ", tokens->token.value[i++]);
+		printf("\n");
+		tokens = tokens->next;
+	}
+}
+
 int main(void)
 {
 	char		*line_read ;
 	t_queue		tokens;
-	t_element	reoganized_tokens;
+	t_element	*reorganized_tokens = NULL;
 
 	while (1)
 	{
@@ -38,11 +53,12 @@ int main(void)
 		if (*line_read)
 		{
 			tokens = auto_tokenizer(line_read);
-			reoganized_tokens = reorganize(tokens);
+			reorganized_tokens = reorganize(tokens);
+			print_tokens(reorganized_tokens);
 		}
 		free(line_read);
-		if (reoganized_tokens.next == NULL)
-			return 1;
+		if (reorganized_tokens == NULL)
+			continue;
 	}
 	printf("exit\n");
 	return (0);

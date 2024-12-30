@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 19:11:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/30 03:04:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,20 @@ static t_token_name	get_token(const char *input, int *index, char *buffer)
 	if (current == '<' || current == '>')
 	{
 		(*index)++;
-		cmp_and_inc(input, index, current, buffer);
+		if (input[*index] == current)
+		{
+			(*index)++;
+			buffer[1] = current;
+			while (ft_isspace(input[*index]))
+				(*index)++;
+			get_word(input, index, buffer + 2);
+		}
+		else
+		{
+			while (ft_isspace(input[*index]))
+				(*index)++;
+			get_word(input, index, buffer + 1);
+		}
 		buffer[0] = current;
 		return (TOKEN_REDIR);
 	}
@@ -126,6 +139,29 @@ static t_token_name	get_token(const char *input, int *index, char *buffer)
 	if (*buffer == '\0')
 		return (TOKEN_NULL);
 	return (TOKEN_WORD);
+}
+
+
+/*
+* Goal: Check if a there is an syntax error with parenthesis.
+*
+* Return: 0 if error, 1 if not.
+*
+* Warning: nb_par must not be null.
+*/
+static int	valid_parenthesis(t_token token, int *nb_par)
+{
+	if (token.name == TOKEN_PAR)
+	{
+		if (!ft_strcmp(token.value[0], "("))
+			(*nb_par)++;
+		if (!ft_strcmp(token.value[0], ")"))
+			(*nb_par)--;
+		printf("%d\n", *nb_par);
+		if (*nb_par < 0)
+			return (0);
+	}
+	return (1);
 }
 
 /*
@@ -138,12 +174,14 @@ static t_token_name	get_token(const char *input, int *index, char *buffer)
 t_queue	auto_tokenizer(const char *input)
 {
 	int		index;
+	int		nb_par;
 	t_token	token;
 	t_queue	tokens;
 	char	*buffer;
 
 	// printf("detected tokens :\n");
 	tokens = queue_create();
+	nb_par = 0;
 	index = 0;
 	while (input[index] != '\0')
 	{
@@ -161,7 +199,15 @@ t_queue	auto_tokenizer(const char *input)
 		// if (strlen(buffer) > 0)
 		// 	printf(" : %s", buffer);
 		// printf("\n");
+		if (!valid_parenthesis(token, &nb_par))
+		{
+			printf("syntax error near token '%s'\n", token.value[0]);
+			queue_clear(&tokens);
+			return tokens;
+		}
 	}
 	// printf("end of lexical analysys.\n");
+	if (nb_par > 0)
+		printf("parenthesis error, need heredoc ?\n");
 	return (tokens);
 }
