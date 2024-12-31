@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/30 03:36:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/30 23:02:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	get_word(const char *input, int *index, char *buffer)
 			while (input[*index] && input[*index] != '"')
 				(*index)++;
 		}
-		(*index)++;
+		if (input[*index])
+			(*index)++;
 	}
 	strncpy(buffer, input + start, *index - start);
 }
@@ -98,22 +99,16 @@ static t_token_name	get_operator(const char *input, int *index, char *buffer)
 }
 
 /*
-* Goal: Put the token found in buffer.
+* Goal: Found out if the token is an redirection.
 *
-* Return: The enum of the token type.
+* Return: TOKEN_REDIR if the current token is a redir, TOKEN_NULL if not.
 *
 * Warning: input, index and buffer must not be null.
 */
-static t_token_name	get_token(const char *input, int *index, char *buffer)
+static t_token_name	get_redir(const char *input, int *index, char *buffer)
 {
-	char			current;
-	t_token_name	operator;
+	char	current;
 
-	while (ft_isspace(input[*index]))
-		(*index)++;
-	operator = get_operator(input, index, buffer);
-	if (operator != TOKEN_NULL)
-		return (operator);
 	current = input[*index];
 	if (current == '<' || current == '>')
 	{
@@ -135,12 +130,33 @@ static t_token_name	get_token(const char *input, int *index, char *buffer)
 		buffer[0] = current;
 		return (TOKEN_REDIR);
 	}
+	return (TOKEN_NULL);
+}
+
+/*
+* Goal: Put the token found in buffer.
+*
+* Return: The enum of the token type.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static t_token_name	get_token(const char *input, int *index, char *buffer)
+{
+	t_token_name	token_name;
+
+	while (ft_isspace(input[*index]))
+		(*index)++;
+	token_name = get_operator(input, index, buffer);
+	if (token_name != TOKEN_NULL)
+		return (token_name);
+	token_name = get_redir(input, index, buffer);
+	if (token_name != TOKEN_NULL)
+		return (token_name);
 	get_word(input, index, buffer);
 	if (*buffer == '\0')
 		return (TOKEN_NULL);
 	return (TOKEN_WORD);
 }
-
 
 /*
 * Goal: Check if a there is an syntax error with parenthesis.
@@ -178,13 +194,12 @@ t_queue	auto_tokenizer(const char *input)
 	t_queue	tokens;
 	char	*buffer;
 
-	// printf("detected tokens :\n");
 	tokens = queue_create();
 	nb_par = 0;
 	index = 0;
 	while (input[index] != '\0')
 	{
-		buffer = (char *)ft_calloc(sizeof(char), ft_strlen(input));
+		buffer = (char *)ft_calloc(sizeof(char), ft_strlen(input) + 1);
 		token.name = get_token(input, &index, buffer);
 		if (token.name == TOKEN_NULL)
 		{
@@ -194,10 +209,6 @@ t_queue	auto_tokenizer(const char *input)
 		token.value = (char **)ft_calloc(sizeof(char *), 2);
 		token.value[0] = buffer;
 		queue_push(&tokens, token);
-		// printf(" - %d", token.name);
-		// if (strlen(buffer) > 0)
-		// 	printf(" : %s", buffer);
-		// printf("\n");
 		if (!valid_parenthesis(token, &nb_par))
 		{
 			printf("syntax error near token '%s'\n", token.value[0]);
@@ -205,8 +216,11 @@ t_queue	auto_tokenizer(const char *input)
 			return tokens;
 		}
 	}
-	// printf("end of lexical analysys.\n");
 	if (nb_par > 0)
+	{
 		printf("parenthesis error, need heredoc ?\n");
+		queue_clear(&tokens);
+	}
 	return (tokens);
 }
+

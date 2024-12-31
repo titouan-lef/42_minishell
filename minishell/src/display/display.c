@@ -6,7 +6,7 @@
 /*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/30 03:27:56 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:32:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@ char *rl_gets()
 	return (line_read);
 }
 
-void print_tokens(t_element *tokens)
+void print_tokens(t_queue *tokens)
 {
-	int	i;
+	t_element	*list;
+	int		i;
 
-	while(tokens)
+	list = tokens->head;
+	while(list)
 	{
-		printf("%d | ", tokens->token.name);
+		printf("%d | ", list->token.name);
 		i = 0;
-		while (tokens->token.value[i])
-			printf("'%s' ", tokens->token.value[i++]);
+		while (list->token.value[i])
+			printf("'%s' ", list->token.value[i++]);
 		printf("\n");
-		tokens = tokens->next;
+		list = list->next;
 	}
 }
 
@@ -43,7 +45,7 @@ int main(void)
 {
 	char		*line_read ;
 	t_queue		tokens;
-	t_element	*reorganized_tokens = NULL;
+	t_queue		reorganized_tokens;
 
 	while (1)
 	{
@@ -54,12 +56,16 @@ int main(void)
 		{
 			tokens = auto_tokenizer(line_read);
 			reorganized_tokens = reorganize(tokens);
-			print_tokens(reorganized_tokens);
+			print_tokens(&reorganized_tokens);
+			queue_clear(&reorganized_tokens);
 		}
+		else
+			reorganized_tokens = queue_create();
 		free(line_read);
-		if (reorganized_tokens == NULL)
+		(void)reorganized_tokens;
+		if (reorganized_tokens.head == NULL)
 			continue;
-	}
+	} 
 	printf("exit\n");
 	return (0);
 }

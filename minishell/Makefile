@@ -6,13 +6,13 @@
 #    By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/28 13:39:40 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/30 16:39:33 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #===================== BASE =====================#
 
-CC				:=	cc
+CC				:=	clang #change for cc
 CFLAGS			+=	-Wall -Wextra -Werror -MP -MMD -g
 BUILD_DIR		:=	.build/
 HEADERS			:=	./include/
