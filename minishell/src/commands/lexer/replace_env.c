@@ -6,12 +6,19 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 18:07:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:54:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+* Goal: Find the value of the 'name' env var int the env_local.
+*
+* Return: The value of the env var.
+*
+* Warning: name and env_local must not be null.
+*/
 static char	*get_value(char *name, char **env_local)
 {
 	int		name_length;
@@ -22,19 +29,26 @@ static char	*get_value(char *name, char **env_local)
 	while (*env_local)
 	{
 		if (ft_strncmp(name, *env_local, name_length) == 0)
-			return(*env_local + name_length + 1);
+			return (*env_local + name_length + 1);
 		env_local++;
 	}
 	return (NULL);
 }
 
+/*
+* Goal: Find the length of the word after replacing the env var by there value.
+*
+* Return: The length of the new word.
+*
+* Warning: word and env_local must not be null.
+*/
 static int	new_word_lenght(char *word, char **env_local)
 {
-	int	length;
+	int		length;
 	char	*env_var_value;
 
 	length = 0;
-	while(*word)
+	while (*word)
 	{
 		if (*word == '$')
 		{
@@ -54,14 +68,24 @@ static int	new_word_lenght(char *word, char **env_local)
 	return (length);
 }
 
-static char	*updated_cmd(char *word, char **env_local)
+/*
+* Goal: Make a new word with all the environement variables
+*		in the given word from there value in env_local.
+*
+* Return: The updated word.
+*
+* Warning: word and env_local must not be null.
+*/
+static char	*replace_word(char *word, char **env_local)
 {
 	int		letter;
 	char	*updated_word;
 	char	*env_var_value;
 
 	letter = 0;
-	updated_word = ft_calloc(sizeof(char), new_word_lenght(word, env_local) + 1);
+	updated_word = ft_calloc(sizeof(char),
+			new_word_lenght(word, env_local) + 1);
+	//manage malloc error
 	while (*word)
 	{
 		if (*word == '$')
@@ -69,7 +93,8 @@ static char	*updated_cmd(char *word, char **env_local)
 			word++;
 			env_var_value = get_value(word, env_local);
 			if (env_var_value)
-				ft_strlcpy(updated_word + letter, env_var_value, ft_strlen(env_var_value) + 1);
+				ft_strlcpy(updated_word + letter, env_var_value,
+					ft_strlen(env_var_value) + 1);
 			letter += ft_strlen(env_var_value);
 			while (ft_isalnum(*word) || *word == '_')
 				word++;
@@ -80,6 +105,14 @@ static char	*updated_cmd(char *word, char **env_local)
 	return (updated_word);
 }
 
+/*
+* Goal: Replace all the environement variables in all the TOKEN_CMD tokens
+*		from there value in env_local.
+*
+* Return: None.
+*
+* Warning: token and env_local must not be null.
+*/
 void	replace_env_var(t_queue *tokens, char **env_local)
 {
 	int			num_word;
@@ -87,14 +120,15 @@ void	replace_env_var(t_queue *tokens, char **env_local)
 	char		*updated_word;
 
 	list_tokens = tokens->head;
-	while(list_tokens)
+	while (list_tokens)
 	{
 		if (list_tokens->token.name == TOKEN_CMD)
 		{
 			num_word = 0;
 			while (list_tokens->token.value[num_word])
 			{
-				updated_word = updated_cmd(list_tokens->token.value[num_word], env_local);
+				updated_word = replace_word(list_tokens->token.value[num_word],
+						env_local);
 				free(list_tokens->token.value[num_word]);
 				list_tokens->token.value[num_word] = updated_word;
 				num_word++;

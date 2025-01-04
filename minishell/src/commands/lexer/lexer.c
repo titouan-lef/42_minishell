@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 09:34:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:53:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ t_queue	auto_tokenizer(const char *input)
 		if (token.name == TOKEN_NULL)
 		{
 			free(buffer);
-			continue;
+			continue ;
 		}
 		token.value = (char **)ft_calloc(sizeof(char *), 2);
 		token.value[0] = buffer;
@@ -211,7 +211,7 @@ t_queue	auto_tokenizer(const char *input)
 		{
 			printf("syntax error near token '%s'\n", token.value[0]);
 			queue_clear(&tokens);
-			return tokens;
+			return (tokens);
 		}
 	}
 	if (nb_par > 0)

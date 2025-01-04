@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 12:48:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:55:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-char *rl_gets()
+char	*rl_gets(void)
 {
 	char	*line_read ;
 
@@ -24,13 +24,13 @@ char *rl_gets()
 	return (line_read);
 }
 
-void print_tokens(t_queue *tokens)
+void	print_tokens(t_queue *tokens)
 {
 	t_element	*list;
-	int		i;
+	int			i;
 
 	list = tokens->head;
-	while(list)
+	while (list)
 	{
 		printf("%d | ", list->token.name);
 		i = 0;
@@ -41,7 +41,7 @@ void print_tokens(t_queue *tokens)
 	}
 }
 
-int main(int argc, char **argv, char**envp)
+int	main(int argc, char **argv, char**envp)
 {
 	char		*line_read ;
 	t_queue		tokens;
@@ -53,7 +53,7 @@ int main(int argc, char **argv, char**envp)
 	{
 		line_read = rl_gets();
 		if (!line_read)
-			break;
+			break ;
 		if (*line_read)
 		{
 			tokens = auto_tokenizer(line_read);
@@ -67,8 +67,8 @@ int main(int argc, char **argv, char**envp)
 		free(line_read);
 		(void)reorganized_tokens;
 		if (reorganized_tokens.head == NULL)
-			continue;
-	} 
+			continue ;
+	}
 	printf("exit\n");
 	return (0);
 }

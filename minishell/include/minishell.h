@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 13:14:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:44:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef enum e_token_name
 	TOKEN_REDIR,
 	TOKEN_OPE,
 	TOKEN_CMD,
-} t_token_name;
+}	t_token_name;
 
 typedef struct s_token
 {

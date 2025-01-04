@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/02 12:35:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:44:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ static char	**tab_join(char **tab1, char **tab2)
 	char	**new_tab;
 	int		index;
 
-	if (tab1 ==  NULL)
+	if (tab1 == NULL)
 		return (tab2);
-	if (tab2 ==  NULL)
+	if (tab2 == NULL)
 		return (tab1);
-	new_tab = (char **)ft_calloc(sizeof(char *), size_tab(tab1) + size_tab(tab2) + 1);
+	new_tab = (char **)ft_calloc(sizeof(char *),
+			size_tab(tab1) + size_tab(tab2) + 1);
 	index = 0;
 	while (*tab1)
 	{
@@ -77,7 +78,8 @@ static char	**tab_join_and_free(char **tab1, char **tab2)
 }
 
 /*
-* Goal: Push the tokens redir and cmd in the given token queue if they are not empty.
+* Goal: Push the tokens redir and cmd in the given token queue
+*		if they are not empty.
 *
 * Return: None.
 *

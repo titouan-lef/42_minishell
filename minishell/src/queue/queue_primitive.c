@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue_primitive.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/30 22:22:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:42:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	queue_clear(t_queue *queue)
 		element = queue->head;
 		queue->head = element->next;
 		i = 0;
-		while(element->token.value && element->token.value[i])
+		while (element->token.value && element->token.value[i])
 			free(element->token.value[i++]);
 		if (element->token.value)
 		{
