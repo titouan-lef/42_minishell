@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/30 14:49:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 13:14:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ void	queue_clear(t_queue *queue);
 t_queue	queue_create(void);
 
 /*---format_for_ast.c---*/
-t_queue reorganize(t_queue tokens);
+t_queue	reorganize(t_queue tokens);
+
+/*---replace_env.c---*/
+void	replace_env_var(t_queue *tokens, char **env_local);
 
 #endif

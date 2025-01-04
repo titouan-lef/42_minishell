@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_for_ast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/31 01:49:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:35:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	size_tab(char **tab)
 *
 * Return: The joined tab.
 *
-* Warning: tab2 must not be null.
+* Warning: None.
 */
 static char	**tab_join(char **tab1, char **tab2)
 {
@@ -43,6 +43,8 @@ static char	**tab_join(char **tab1, char **tab2)
 
 	if (tab1 ==  NULL)
 		return (tab2);
+	if (tab2 ==  NULL)
+		return (tab1);
 	new_tab = (char **)ft_calloc(sizeof(char *), size_tab(tab1) + size_tab(tab2) + 1);
 	index = 0;
 	while (*tab1)
@@ -60,14 +62,15 @@ static char	**tab_join(char **tab1, char **tab2)
 *
 * Return: The joined tab.
 *
-* Warning: tab2 must not be null.
+* Warning: None.
 */
 static char	**tab_join_and_free(char **tab1, char **tab2)
 {
 	char	**new_tab;
 
 	new_tab = tab_join(tab1, tab2);
-	free(tab1);
+	if (new_tab != tab1)
+		free(tab1);
 	if (new_tab != tab2)
 		free(tab2);
 	return (new_tab);

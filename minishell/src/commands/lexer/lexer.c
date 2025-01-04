@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/30 23:02:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 09:34:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
-#include <ctype.h>
 
 /*
 * Goal: Compare the current input[*index] with the given char c.
@@ -68,7 +66,7 @@ static void	get_word(const char *input, int *index, char *buffer)
 		if (input[*index])
 			(*index)++;
 	}
-	strncpy(buffer, input + start, *index - start);
+	ft_strlcpy(buffer, input + start, *index - start + 1);
 }
 
 /*
