@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 14:40:19 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/04 14:43:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/04 15:45:22 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,15 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 }	t_tree;
+
+/* tree primitive */
+int     tree_is_empty(t_tree *tree);
+void    tree_add_parent(t_tree **tree, t_token token);
+void	tree_clear(t_tree **tree);
+t_tree	tree_create(t_token token);
+
+/* tree push */
+void    tree_push_left(t_tree *tree, t_tree *sub_tree);
+void    tree_push_right(t_tree *tree, t_tree *sub_tree);
 
 #endif
