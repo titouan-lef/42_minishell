@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 14:44:48 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/04 15:08:12 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/04 15:36:59 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,17 @@ void    tree_add_parent(t_tree **tree, t_token token)
     *tree = &parent;
 }
 
-void	tree_clear(t_tree *tree)
+void	tree_clear(t_tree **tree)
 {
-	if (tree_is_empty(tree))
+	if (tree_is_empty(*tree))
         return ;
     // clear token
-    tree_clear(tree->left);
-    tree_clear(tree->right);
-    free(tree);
-    tree = NULL;
+    tree_clear((*tree)->left);
+    tree_clear((*tree)->right);
+    (*tree)->left = NULL;
+    (*tree)->right = NULL;
+    free(*tree);
+    *tree = NULL;
 }
 
 t_tree	tree_create(t_token token)
