@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 18:54:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/04 19:24:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*get_value(char *name, char **env_local)
 	name_length = 0;
 	while (ft_isalnum(*(name + name_length)) || *(name + name_length) == '_')
 		name_length++;
-	while (*env_local)
+	while (*env_local && name_length)
 	{
 		if (ft_strncmp(name, *env_local, name_length) == 0)
 			return (*env_local + name_length + 1);
@@ -93,9 +93,11 @@ static char	*replace_word(char *word, char **env_local)
 			word++;
 			env_var_value = get_value(word, env_local);
 			if (env_var_value)
+			{
 				ft_strlcpy(updated_word + letter, env_var_value,
 					ft_strlen(env_var_value) + 1);
-			letter += ft_strlen(env_var_value);
+				letter += ft_strlen(env_var_value);
+			}
 			while (ft_isalnum(*word) || *word == '_')
 				word++;
 		}
