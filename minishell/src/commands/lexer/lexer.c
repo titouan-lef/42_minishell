@@ -6,23 +6,47 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/19 22:41:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:51:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
-#include <ctype.h>
 
-static void	skip_spaces(const char *input, int *index)
+/*
+* Goal: Compare the current input[*index] with the given char c.
+*		Put the operator in buffer.
+*		Increment *index i they are equal.
+*
+* Return: 1 if equal, 0 if not.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static int	cmp_and_inc(const char *input, int *index, char c, char *buffer)
 {
-	while (isspace(input[*index]))
+	if (input[*index] == c)
+	{
+		if (*index > 0 && input[*index - 1] == c)
+			buffer[1] = c;
+		else
+			buffer[0] = c;
 		(*index)++;
+		return (1);
+	}
+	return (0);
 }
 
+/*
+* Goal: Put the next lettres un buffer until it is not a specal character.
+*
+* Return: Nothing, as buffer is pointer.
+*
+* Warning: input, index and buffer must not be null.
+*/
 static void	get_word(const char *input, int *index, char *buffer)
 {
-	int start = *index;
+	int	start ;
+
+	start = *index;
 	while (input[*index] && input[*index] != '|' && input[*index] != '('
 		&& input[*index] != ')' && input[*index] != '&' && input[*index] != '<'
 		&& input[*index] != '>' && input[*index] != ' ')
@@ -39,88 +63,127 @@ static void	get_word(const char *input, int *index, char *buffer)
 			while (input[*index] && input[*index] != '"')
 				(*index)++;
 		}
-		(*index)++;
+		if (input[*index])
+			(*index)++;
 	}
-	strncpy(buffer, input + start, *index - start);
-	buffer[*index - start] = '\0';
+	ft_strlcpy(buffer, input + start, *index - start + 1);
 }
 
-static t_token_name	get_token(const char *input, int *index, char *output_buffer)
+/*
+* Goal: Found out if the token is an opperator, pipe or parenthesis.
+*
+* Return: The enum of the token type, TOKEN_NULL if none of them.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static t_token_name	get_operator(const char *input, int *index, char *buffer)
 {
-	char current = input[*index];
-	char word_buffer[100] = {0};
+	if (cmp_and_inc(input, index, '|', buffer))
+	{
+		if (cmp_and_inc(input, index, '|', buffer))
+			return (TOKEN_OPE);
+		return (TOKEN_PIPE);
+	}
+	if (input[*index] == '(' || input[*index] == ')')
+	{
+		buffer[0] = input[*index];
+		(*index)++;
+		return (TOKEN_PAR);
+	}
+	if (cmp_and_inc(input, index, '&', buffer))
+		if (cmp_and_inc(input, index, '&', buffer))
+			return (TOKEN_OPE);
+	return (TOKEN_NULL);
+}
 
-	skip_spaces(input, index);
+/*
+* Goal: Found out if the token is an redirection.
+*
+* Return: TOKEN_REDIR if the current token is a redir, TOKEN_NULL if not.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static t_token_name	get_redir(const char *input, int *index, char *buffer)
+{
+	char	current;
+
 	current = input[*index];
-	if (current == '|')
-	{
-		(*index)++;
-		if (input[*index] == '|')
-		{
-			(*index)++;
-			return TOKEN_OPE;
-		}
-		return TOKEN_PIPE;
-	}
-	if (current == '(')
-	{
-		(*index)++;
-		return TOKEN_PAR;
-	}
-	if (current == ')') 
-	{
-		(*index)++;
-		return TOKEN_PAR;
-	}
 	if (current == '<' || current == '>')
 	{
-		char redir = current;
-		int test = 0;
 		(*index)++;
 		if (input[*index] == current)
 		{
 			(*index)++;
-			test = 1;
+			buffer[1] = current;
+			while (ft_isspace(input[*index]))
+				(*index)++;
+			get_word(input, index, buffer + 2);
 		}
-		skip_spaces(input, index);
-		get_word(input, index, word_buffer);
-		if (test)
-			sprintf(output_buffer, "%c%c%s", redir, redir, word_buffer);
 		else
-			sprintf(output_buffer, "%c%s", redir, word_buffer);
-		return TOKEN_REDIR;
-	}
-	if (current == '&')
-	{
-		(*index)++;
-		if (input[*index] == '&')
 		{
-			(*index)++;
-			return TOKEN_OPE;
+			while (ft_isspace(input[*index]))
+				(*index)++;
+			get_word(input, index, buffer + 1);
 		}
+		buffer[0] = current;
+		return (TOKEN_REDIR);
 	}
-	get_word(input, index, word_buffer);
-	strcpy(output_buffer, word_buffer);
-	return TOKEN_WORD;
+	return (TOKEN_NULL);
 }
 
-void	auto_tokenizer(const char *input)
+/*
+* Goal: Put the token found in buffer.
+*
+* Return: The enum of the token type.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static t_token_name	get_token(const char *input, int *index, char *buffer)
 {
-	int index = 0;
-	t_token_name token;
-	char buffer[100];
+	t_token_name	token_name;
 
-	printf("detected tokens :\n");
+	while (ft_isspace(input[*index]))
+		(*index)++;
+	token_name = get_operator(input, index, buffer);
+	if (token_name != TOKEN_NULL)
+		return (token_name);
+	token_name = get_redir(input, index, buffer);
+	if (token_name != TOKEN_NULL)
+		return (token_name);
+	get_word(input, index, buffer);
+	if (*buffer == '\0')
+		return (TOKEN_NULL);
+	return (TOKEN_WORD);
+}
 
+/*
+* Goal: Found all the tokens in the input command.
+*
+* Return: A queue of tokens.
+*
+* Warning: input must not be null.
+*/
+t_queue	auto_tokenizer(const char *input)
+{
+	int		index;
+	t_token	token;
+	t_queue	tokens;
+	char	*buffer;
+
+	tokens = queue_create();
+	index = 0;
 	while (input[index] != '\0')
 	{
-		memset(buffer, 0, sizeof(buffer));
-		token = get_token(input, &index, buffer);
-		printf(" - %d", token);
-		if (strlen(buffer) > 0)
-			printf(" : %s", buffer);
-		printf("\n");
+		buffer = (char *)ft_calloc(sizeof(char), ft_strlen(input) + 1);
+		token.name = get_token(input, &index, buffer);
+		if (token.name == TOKEN_NULL)
+		{
+			free(buffer);
+			continue ;
+		}
+		token.value = (char **)ft_calloc(sizeof(char *), 2);
+		token.value[0] = buffer;
+		queue_push(&tokens, token);
 	}
-	printf("end of lexical analysys.\n");
+	return (tokens);
 }
-

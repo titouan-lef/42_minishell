@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:07:45 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/16 19:53:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2024/12/28 16:25:49 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_out
 
 /*---test functions---*/
 void	start_test(char *name);
+void	print_ko(char* expected, char *result, size_t *i);
+void	print_ok(size_t *i);
 void	assert_equal_s(char *expected, char *result, size_t *i);
 int		redirect_outputs(t_out *outputs);
 void	set_normal_outputs(t_out *outputs);

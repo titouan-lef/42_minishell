@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/17 16:08:34 by lguerbig         ###   ########.fr        #
+#    Updated: 2024/12/28 18:19:18 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC_DIR			=	#src/
 SRC				=	unit_test/unit_test.c		\
 					tester.c					\
 					test_echo.c					\
-					test_pwd.c
+					test_pwd.c					\
+					test_lexer.c
 
 #==================== OBJECT ====================#
 

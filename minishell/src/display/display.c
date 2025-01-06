@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/19 21:33:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:26:10 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-char *rl_gets()
+char	*rl_gets(void)
 {
 	char	*line_read ;
 
@@ -24,19 +24,53 @@ char *rl_gets()
 	return (line_read);
 }
 
-int main(void)
+void	print_tokens(t_queue *tokens)
 {
-	char	*line_read ;
+	t_element	*list;
+	int			i;
 
+	list = tokens->head;
+	while (list)
+	{
+		printf("%d | ", list->token.name);
+		i = 0;
+		while (list->token.value[i])
+			printf("'%s' ", list->token.value[i++]);
+		printf("\n");
+		list = list->next;
+	}
+}
+
+int	main(int argc, char **argv, char**envp)
+{
+	char		*line_read ;
+	t_queue		tokens;
+	t_queue		reorganized_tokens;
+
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
 		line_read = rl_gets();
 		if (!line_read)
-			break;
+			break ;
 		if (*line_read)
-			auto_tokenizer(line_read);
+		{
+			if (!valid_parenthesis(line_read))
+				continue ;
+			tokens = auto_tokenizer(line_read);
+			reorganized_tokens = reorganize(tokens);
+			replace_env_var(&reorganized_tokens, envp);
+			print_tokens(&reorganized_tokens);
+			queue_clear(&reorganized_tokens);
+		}
+		else
+			reorganized_tokens = queue_create();
 		free(line_read);
+		if (reorganized_tokens.head == NULL)
+			continue ;
 	}
+	rl_clear_history();
 	printf("exit\n");
 	return (0);
 }
