@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/04 18:42:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:51:41 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,14 @@ t_token	queue_pop(t_queue *queue) // popleft ? do we need a popright ?
 void	queue_clear(t_queue *queue)
 {
 	t_element	*element;
-	int			i;
 
 	while (!queue_is_empty(queue))
 	{
 		element = queue->head;
 		queue->head = element->next;
-		i = 0;
-		while (element->token.value && element->token.value[i])
-			free(element->token.value[i++]);
-		if (element->token.value)
-		{
-			free(element->token.value);
-			element->token.value = NULL;
-		}
-		if (element)
-		{
-			free(element);
-			element = NULL;
-		}
+		token_clear(element->token);
+		free(element);
+		element = NULL;
 	}
 	queue->tail = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 18:44:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:04:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef struct s_queue
 	t_element	*head;
 	t_element	*tail;
 }	t_queue;
+
+/*---token.c---*/
+void	token_clear(t_token token);
+
+/*---parsing.c---*/
+int		valid_parenthesis(char *input);
 
 /*---lexer.c---*/
 t_queue	auto_tokenizer(const char *input);
