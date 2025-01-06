@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 14:48:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:26:10 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char**envp)
 		if (*line_read)
 		{
 			if (!valid_parenthesis(line_read))
-				continue;
+				continue ;
 			tokens = auto_tokenizer(line_read);
 			reorganized_tokens = reorganize(tokens);
 			replace_env_var(&reorganized_tokens, envp);

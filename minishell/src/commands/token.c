@@ -6,12 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 13:31:27 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 14:33:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:22:16 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*
 * Goal: Create a token with a nane and a value.
@@ -45,7 +44,6 @@ void	token_clear(t_token token)
 		free(token.value[i++]);
 	if (token.value)
 	{
-		
 		free(token.value);
 		token.value = NULL;
 	}

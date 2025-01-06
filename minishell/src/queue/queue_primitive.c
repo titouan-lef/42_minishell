@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 13:51:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:29:49 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	queue_push(t_queue *queue, t_token token)
 *
 * Warning: Queue mustn't be null.
 */
-t_token	queue_pop(t_queue *queue) // popleft ? do we need a popright ?
+t_token	queue_pop(t_queue *queue)
 {
 	t_element	*element;
 	t_token		token;
