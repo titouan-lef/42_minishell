@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 16:21:33 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 17:03:25 by tle-floc         ###   ########.fr       */
+/*   Created: 2025/01/06 16:39:26 by tle-floc          #+#    #+#             */
+/*   Updated: 2025/01/06 16:57:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef TOKEN_H
+# define TOKEN_H
 
-void	ft_free_matrix(void **matrix, size_t size)
+# include "minishell.h"
+
+typedef enum e_token_name
 {
-	size_t	i;
+	TOKEN_NULL,
+	TOKEN_PIPE,
+	TOKEN_PAR,
+	TOKEN_WORD,
+	TOKEN_REDIR,
+	TOKEN_OPE,
+	TOKEN_CMD,
+}	t_token_name;
 
-	i = 0;
-	while (i < size)
-	{
-		free(matrix[i]);
-		++i;
-	}
-	free(matrix);
-}
-
-void	ft_clean_matrix(void **matrix)
+typedef struct s_token
 {
-	size_t	i;
+	t_token_name	name;
+	char			**value;
+}	t_token;
 
-	i = 0;
-	while (matrix[i] != NULL)
-	{
-		free(matrix[i]);
-		++i;
-	}
-	free(matrix);
-}
+/*---token.c---*/
+t_token	token_create(t_token_name name, char **value);
+void	token_clear(t_token token);
+
+#endif

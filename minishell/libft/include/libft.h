@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:04:11 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/10 17:41:45 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/06 17:04:37 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ char	*ft_strndup(const char *s, size_t n);
 char	*ft_strdup(const char *s);
 
 /* malloc */
-void	*ft_free_matrix(void **matrix, size_t size);
+void	ft_free_matrix(void **matrix, size_t size);
+void	ft_clean_matrix(void **matrix);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 /* search */

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   replace_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 10:53:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:49:48 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "commands.h"
 
 /*
 * Goal: Find the value of the 'name' env var int the env_local.

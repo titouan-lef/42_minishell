@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   format_for_ast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 18:44:28 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:49:39 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "commands.h"
 
 /*
 * Goal: Find size of a null terminated tab.

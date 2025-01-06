@@ -1,0 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   commands.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
+/*   Updated: 2025/01/06 16:45:17 by tle-floc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef COMMANDS_H
+# define COMMANDS_H
+
+# include "token.h"
+
+typedef struct s_element
+{
+	t_token				token;
+	struct s_element	*next;
+}	t_element;
+
+typedef struct s_queue
+{
+	t_element	*head;
+	t_element	*tail;
+}	t_queue;
+
+/*---queue_primitive.c---*/
+int		queue_push(t_queue *queue, t_token token);
+t_token	queue_pop(t_queue *queue);
+void	queue_clear(t_queue *queue);
+t_queue	queue_create(void);
+
+/*---parsing.c---*/
+int		valid_parenthesis(char *input);
+
+/*---lexer.c---*/
+t_queue	auto_tokenizer(const char *input);
+
+/*---format_for_ast.c---*/
+t_queue	reorganize(t_queue tokens);
+
+/*---replace_env.c---*/
+void	replace_env_var(t_queue *tokens, char **env_local);
+
+#endif

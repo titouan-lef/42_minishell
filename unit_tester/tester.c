@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:28:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 16:51:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:47:05 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ int	main(int argc, char **argv, char **envp)
 	test_echo(envp);
 	test_pwd(envp);
 	test_lexer();
+	test_tree();
 	return (0);
 }

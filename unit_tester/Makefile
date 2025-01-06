@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2024/12/28 18:19:18 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/06 17:31:31 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC				=	unit_test/unit_test.c		\
 					tester.c					\
 					test_echo.c					\
 					test_pwd.c					\
-					test_lexer.c
+					test_lexer.c				\
+					test_tree.c
 
 #==================== OBJECT ====================#
 

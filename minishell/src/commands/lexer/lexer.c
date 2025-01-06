@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 14:51:28 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:49:19 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "commands.h"
 
 /*
 * Goal: Compare the current input[*index] with the given char c.

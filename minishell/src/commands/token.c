@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 13:31:27 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 15:22:16 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 17:30:36 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "token.h"
 
 /*
 * Goal: Create a token with a nane and a value.
@@ -37,14 +37,5 @@ t_token	token_create(t_token_name name, char **value)
 */
 void	token_clear(t_token token)
 {
-	int	i;
-
-	i = 0;
-	while (token.value && token.value[i])
-		free(token.value[i++]);
-	if (token.value)
-	{
-		free(token.value);
-		token.value = NULL;
-	}
+	ft_clean_matrix((void **)token.value);
 }

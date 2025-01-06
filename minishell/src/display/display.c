@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 15:26:10 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:51:10 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "commands.h"// todo remove
 
 char	*rl_gets(void)
 {

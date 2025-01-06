@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   queue_primitive.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 15:29:49 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:51:29 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "commands.h"
 
 /*
 * Goal: Look if the given queue is empty.

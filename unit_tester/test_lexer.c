@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 19:06:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 17:47:08 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	assert_equal_queue(t_queue result, size_t *i, ...)
 	}
 	va_end(args);
 	print_ok(i);
+	queue_clear(&result);
 }
 
 void	test_lexer()
