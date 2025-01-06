@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 14:50:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:38:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	valid_parenthesis(char *input)
 			printf("syntax error near token '%c'\n", *input);
 			return (0);
 		}
+		input++;
 	}
 	if (nb_par > 0)
 	{
