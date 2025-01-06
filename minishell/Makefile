@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/04 12:52:02 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/06 14:57:54 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRC				=	commands/builtins/echo.c		\
 					commands/lexer/lexer.c			\
 					commands/lexer/format_for_ast.c	\
 					commands/lexer/replace_env.c	\
+					commands/token.c				\
+					commands/parsing/parsing.c		\
 					display/display.c				\
 					queue/queue_primitive.c
 

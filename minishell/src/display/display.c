@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 19:28:16 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:48:54 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	main(int argc, char **argv, char**envp)
 			break ;
 		if (*line_read)
 		{
+			if (!valid_parenthesis(line_read))
+				continue;
 			tokens = auto_tokenizer(line_read);
 			reorganized_tokens = reorganize(tokens);
 			replace_env_var(&reorganized_tokens, envp);
@@ -65,10 +67,10 @@ int	main(int argc, char **argv, char**envp)
 		else
 			reorganized_tokens = queue_create();
 		free(line_read);
-		(void)reorganized_tokens;
 		if (reorganized_tokens.head == NULL)
 			continue ;
 	}
+	rl_clear_history();
 	printf("exit\n");
 	return (0);
 }

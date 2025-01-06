@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 19:24:53 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/06 10:53:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*get_value(char *name, char **env_local)
 		name_length++;
 	while (*env_local && name_length)
 	{
-		if (ft_strncmp(name, *env_local, name_length) == 0)
+		if (ft_strncmp(name, *env_local, name_length) == 0) //compare with =
 			return (*env_local + name_length + 1);
 		env_local++;
 	}
