@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/07 09:58:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:38:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_queue
 }	t_queue;
 
 /*---queue_primitive.c---*/
+int				queue_is_empty(t_queue *queue);
 int				queue_push(t_queue *queue, t_token token);
 t_token			queue_pop(t_queue *queue);
 void			queue_clear(t_queue *queue);

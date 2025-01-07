@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/07 09:57:31 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/07 18:14:17 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC				=	commands/builtins/echo.c				\
 					commands/parsing/parsing.c				\
 					display/display.c						\
 					queue/queue_primitive.c					\
+					tab_utils.c								\
 					minishell.c
 
 #==================== OBJECT ====================#
