@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 18:15:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:21:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,26 @@ static int	push_redir_cmd(t_queue *tokens, t_token *redir, t_token *cmd)
 	return (malloc_succes);
 }
 
-static int	manage_tokens(t_token *token, t_token *cmd, t_token *redir, t_queue *reorganized_tokens)
+static int	manage_tokens(t_token *tk, t_token *cmd, t_token *rdr, t_queue *rt)
 {
 	int	malloc_succes;
 
 	malloc_succes = 0;
-	if (token->name == TOKEN_WORD)
+	if (tk->name == TOKEN_WORD)
 	{
-		cmd->value = tab_join_and_free(cmd->value, token->value);
+		cmd->value = tab_join_and_free(cmd->value, tk->value);
 		malloc_succes = (cmd->value != NULL);
 	}
-	else if (token->name == TOKEN_REDIR)
+	else if (tk->name == TOKEN_REDIR)
 	{
-		redir->value = tab_join_and_free(redir->value, token->value);
+		rdr->value = tab_join_and_free(rdr->value, tk->value);
 		malloc_succes = (cmd->value != NULL);
 	}
 	else
 	{
-		push_redir_cmd(reorganized_tokens, redir, cmd);
-		if(! push_redir_cmd(reorganized_tokens, redir, cmd)
-			|| !queue_push(reorganized_tokens, *token))
+		push_redir_cmd(rt, rdr, cmd);
+		if (! push_redir_cmd(rt, rdr, cmd)
+			|| !queue_push(rt, *tk))
 			malloc_succes = 0;
 	}
 	if (!malloc_succes)
@@ -92,7 +92,7 @@ t_queue	reorganize(t_queue tokens)
 			return (reorganized_tokens);
 		}
 	}
-	if(!push_redir_cmd(&reorganized_tokens, &redir, &cmd))
+	if (!push_redir_cmd(&reorganized_tokens, &redir, &cmd))
 		queue_clear(&reorganized_tokens);
 	return (reorganized_tokens);
 }

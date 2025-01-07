@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 15:25:18 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:19:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_queue	auto_tokenizer(char *input)
 			queue_clear(&tokens);
 			return (tokens);
 		}
-		if(fill_token(&token, input, &index, buffer))
+		if (fill_token(&token, input, &index, buffer))
 			queue_push(&tokens, token);
 	}
 	return (tokens);

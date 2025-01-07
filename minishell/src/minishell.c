@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 16:04:43 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:22:22 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	execute_cmd(char *input, char **envp)
 			return ;
 		}
 		print_tokens(&reorganized_tokens);
-	 	queue_clear(&reorganized_tokens);
+		queue_clear(&reorganized_tokens);
 	}
 	else
 		reorganized_tokens = queue_create();
