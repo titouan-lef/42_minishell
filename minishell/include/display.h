@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   display.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 10:29:33 by lguerbig         ###   ########.fr       */
+/*   Created: 2025/01/07 09:58:36 by lguerbig          #+#    #+#             */
+/*   Updated: 2025/01/07 10:29:49 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef DISPLAY_H
+# define DISPLAY_H
 
+# include "commands.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <linux/limits.h>
-# include "libft.h"
 
-/*---minishell.c---*/
+/*---display.c---*/
+char	*rl_gets(void);
+void	print_tokens(t_queue *tokens);
 
 #endif

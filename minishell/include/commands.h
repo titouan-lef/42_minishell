@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 16:45:17 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/07 09:58:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,24 @@ typedef struct s_queue
 }	t_queue;
 
 /*---queue_primitive.c---*/
-int		queue_push(t_queue *queue, t_token token);
-t_token	queue_pop(t_queue *queue);
-void	queue_clear(t_queue *queue);
-t_queue	queue_create(void);
+int				queue_push(t_queue *queue, t_token token);
+t_token			queue_pop(t_queue *queue);
+void			queue_clear(t_queue *queue);
+t_queue			queue_create(void);
 
 /*---parsing.c---*/
-int		valid_parenthesis(char *input);
+int				valid_parenthesis(char *input);
+
+/*---get_token.c---*/
+t_token_name	get_token(char *input, int *index, char *buffer);
 
 /*---lexer.c---*/
-t_queue	auto_tokenizer(const char *input);
+t_queue			auto_tokenizer(char *input);
 
 /*---format_for_ast.c---*/
-t_queue	reorganize(t_queue tokens);
+t_queue			reorganize(t_queue tokens);
 
 /*---replace_env.c---*/
-void	replace_env_var(t_queue *tokens, char **env_local);
+int				replace_env_var(t_queue *tokens, char **env_local);
 
 #endif

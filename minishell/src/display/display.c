@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 16:51:10 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/07 09:59:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "commands.h"// todo remove
+#include "display.h"
 
 char	*rl_gets(void)
 {
@@ -40,38 +37,4 @@ void	print_tokens(t_queue *tokens)
 		printf("\n");
 		list = list->next;
 	}
-}
-
-int	main(int argc, char **argv, char**envp)
-{
-	char		*line_read ;
-	t_queue		tokens;
-	t_queue		reorganized_tokens;
-
-	(void)argc;
-	(void)argv;
-	while (1)
-	{
-		line_read = rl_gets();
-		if (!line_read)
-			break ;
-		if (*line_read)
-		{
-			if (!valid_parenthesis(line_read))
-				continue ;
-			tokens = auto_tokenizer(line_read);
-			reorganized_tokens = reorganize(tokens);
-			replace_env_var(&reorganized_tokens, envp);
-			print_tokens(&reorganized_tokens);
-			queue_clear(&reorganized_tokens);
-		}
-		else
-			reorganized_tokens = queue_create();
-		free(line_read);
-		if (reorganized_tokens.head == NULL)
-			continue ;
-	}
-	rl_clear_history();
-	printf("exit\n");
-	return (0);
 }

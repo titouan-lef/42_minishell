@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 16:49:48 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/07 10:32:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static char	*get_value(char *name, char **env_local)
 		name_length++;
 	while (*env_local && name_length)
 	{
-		if (ft_strncmp(name, *env_local, name_length) == 0) //compare with =
+		if (ft_strncmp(name, *env_local, name_length) == 0
+			&& *(*env_local + name_length) == '=')
 			return (*env_local + name_length + 1);
 		env_local++;
 	}
@@ -69,6 +70,31 @@ static int	new_word_lenght(char *word, char **env_local)
 }
 
 /*
+* Goal: Add the value of the env var in the buffer "n_word".
+*
+* Return: None.
+*
+* Warning: word, new_word, letter and env_local must not be null.
+*/
+static void	update_env_var(char **word, char *new_word, int *letter, char **env)
+{
+	char	*env_var_value;
+
+	(*word)++;
+	printf("%s\n", *word);
+	env_var_value = get_value(*word, env);
+	printf("%s\n", env_var_value);
+	if (env_var_value)
+	{
+		ft_strlcpy(new_word + *letter, env_var_value,
+			ft_strlen(env_var_value) + 1);
+		*letter += ft_strlen(env_var_value);
+	}
+	while (ft_isalnum(**word) || **word == '_')
+		(*word)++;
+}
+
+/*
 * Goal: Make a new word with all the environement variables
 *		in the given word from there value in env_local.
 *
@@ -80,29 +106,22 @@ static char	*replace_word(char *word, char **env_local)
 {
 	int		letter;
 	char	*updated_word;
-	char	*env_var_value;
 
 	letter = 0;
 	updated_word = ft_calloc(sizeof(char),
 			new_word_lenght(word, env_local) + 1);
-	//manage malloc error
+	if (!updated_word)
+		return (NULL);
 	while (*word)
 	{
 		if (*word == '$')
-		{
-			word++;
-			env_var_value = get_value(word, env_local);
-			if (env_var_value)
-			{
-				ft_strlcpy(updated_word + letter, env_var_value,
-					ft_strlen(env_var_value) + 1);
-				letter += ft_strlen(env_var_value);
-			}
-			while (ft_isalnum(*word) || *word == '_')
-				word++;
-		}
+			update_env_var(&word, updated_word, &letter, env_local);
 		else
-			updated_word[letter++] = *word++;
+		{
+			updated_word[letter] = *word;
+			letter++;
+			word++;
+		}
 	}
 	return (updated_word);
 }
@@ -115,7 +134,7 @@ static char	*replace_word(char *word, char **env_local)
 *
 * Warning: token and env_local must not be null.
 */
-void	replace_env_var(t_queue *tokens, char **env_local)
+int	replace_env_var(t_queue *tokens, char **env_local)
 {
 	int			num_word;
 	t_element	*list_tokens;
@@ -131,6 +150,8 @@ void	replace_env_var(t_queue *tokens, char **env_local)
 			{
 				updated_word = replace_word(list_tokens->token.value[num_word],
 						env_local);
+				if (!updated_word)
+					return (0);
 				free(list_tokens->token.value[num_word]);
 				list_tokens->token.value[num_word] = updated_word;
 				num_word++;
@@ -138,4 +159,5 @@ void	replace_env_var(t_queue *tokens, char **env_local)
 		}
 		list_tokens = list_tokens->next;
 	}
+	return (1);
 }
