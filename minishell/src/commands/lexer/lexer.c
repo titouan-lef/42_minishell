@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 15:21:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/07 15:25:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 *
 * Warning: input, index and buffer must not be null.
 */
-static void	fill_token(t_token *token, char *input, int *index, char *buffer)
+static int	fill_token(t_token *token, char *input, int *index, char *buffer)
 {
 	token->name = get_token(input, index, buffer);
 	if (token->name == TOKEN_NULL)
 	{
 		free(buffer);
-		return ;
+		return (0);
 	}
 	token->value[0] = buffer;
+	return (1);
 }
 
 /*
@@ -57,8 +58,8 @@ t_queue	auto_tokenizer(char *input)
 			queue_clear(&tokens);
 			return (tokens);
 		}
-		fill_token(&token, input, &index, buffer);
-		queue_push(&tokens, token);
+		if(fill_token(&token, input, &index, buffer))
+			queue_push(&tokens, token);
 	}
 	return (tokens);
 }
