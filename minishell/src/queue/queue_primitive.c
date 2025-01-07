@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue_primitive.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/07 09:29:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:11:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 *
 * Warning: Queue mustn't be null.
 */
-static int	queue_is_empty(t_queue *queue)
+int	queue_is_empty(t_queue *queue)
 {
 	return (queue->head == NULL);
 }

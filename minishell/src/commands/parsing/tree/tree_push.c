@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:37:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 16:06:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:26:05 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 * Goal: Add 'sub_tree' on the left part of 'tree'
 *
-* Return: 0 if 'tree' is empty or 'tree->left' isn't null, 1 else
+* Return: 0 if error, 1 else
 */
 int	tree_push_left(t_tree *tree, t_tree *sub_tree)
 {
@@ -31,7 +31,7 @@ int	tree_push_left(t_tree *tree, t_tree *sub_tree)
 /*
 * Goal: Add 'sub_tree' on the right part of 'tree'
 *
-* Return: 0 if 'tree' is empty or 'tree->left' isn't null, 1 else
+* Return: 0 if error, 1 else
 */
 int	tree_push_right(t_tree *tree, t_tree *sub_tree)
 {
