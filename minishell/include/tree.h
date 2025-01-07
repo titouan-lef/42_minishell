@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tree.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 14:40:19 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/07 09:47:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:13:15 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TREE_H
 # define TREE_H
 
-#include "token.h"
+# include "token.h"
 
 typedef struct s_tree
 {
@@ -29,7 +29,7 @@ void	tree_clear(t_tree **tree);
 t_tree	*tree_create(t_token token);
 
 /* tree push */
-int	tree_push_left(t_tree *tree, t_tree *sub_tree);
-int	tree_push_right(t_tree *tree, t_tree *sub_tree);
+int		tree_push_left(t_tree *tree, t_tree *sub_tree);
+int		tree_push_right(t_tree *tree, t_tree *sub_tree);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 16:47:24 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:11:19 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TESTER_H
 
 # include <stdlib.h>
+# include "builtins.h"
 # include "commands.h"
 # include "tree.h"
 # include "unit_test/unit_test.h"
