@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 18:50:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/08 10:45:55 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ static int	update(t_token *token, t_token *cmd, t_token *redir, t_queue *r_tk)
 		token->value = tab_join_and_free(redir->value, token->value);
 		malloc_succes = (cmd->value != NULL);
 	}
-	else
+	if (!malloc_succes)
+		printf("malloc error\n");
+	if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
 	{
 		if (!push_redir_cmd(r_tk, redir, cmd))
 			malloc_succes = 0;
 		if (!queue_push(r_tk, *token))
 			malloc_succes = 0;
 	}
-	if (!malloc_succes)
-		printf("malloc error\n");
 	return (malloc_succes);
 }
 
