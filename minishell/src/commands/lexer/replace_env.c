@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 18:17:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:15:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static int	new_word_lenght(char *word, char **env_local)
 		}
 		else
 		{
-			length++;
+			if (*word != '\'' && *word != '\"')
+				length++;
 			word++;
 		}
 	}
@@ -114,12 +115,17 @@ static char	*replace_word(char *word, char **env_local)
 	{
 		if (*word == '$')
 			update_env_var(&word, updated_word, &letter, env_local);
-		else
+		else if (*word == '\'')
 		{
-			updated_word[letter] = *word;
-			letter++;
+			word++;
+			while (*word != '\'')
+				updated_word[letter++] = *word++;
 			word++;
 		}
+		else if (*word == '\"')
+			word++;
+		else
+			updated_word[letter++] = *word++;
 	}
 	return (updated_word);
 }
