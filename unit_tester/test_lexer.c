@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 17:47:08 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:50:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static char* enum_to_str(t_token_name token) {
 	switch (token) {
 		case TOKEN_PIPE: return "TOKEN_PIPE";
-		case TOKEN_PAR: return "TOKEN_PAR";
+		case TOKEN_PAR_OPEN: return "TOKEN_PAR_OPEN";
+		case TOKEN_PAR_CLOSE: return "TOKEN_PAR_OPEN";
 		case TOKEN_WORD: return "TOKEN_WORD";
 		case TOKEN_REDIR: return "TOKEN_REDIR";
 		case TOKEN_OPE: return "TOKEN_OPE";
@@ -102,10 +103,10 @@ void	test_lexer()
 	assert_equal_queue(auto_tokenizer("echo oui | cat non"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_PIPE, "|", TOKEN_WORD, "cat", TOKEN_WORD, "non", NULL);
 
 	/*--- test 8 ---*/
-	assert_equal_queue(auto_tokenizer("()"), &test_number, TOKEN_PAR, "(", TOKEN_PAR, ")", NULL);
+	assert_equal_queue(auto_tokenizer("()"), &test_number, TOKEN_PAR_OPEN, "(", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 9 ---*/
-	assert_equal_queue(auto_tokenizer("echo oui && ( 1 || 0 )"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_OPE, "&&", TOKEN_PAR, "(", TOKEN_WORD, "1", TOKEN_OPE, "||", TOKEN_WORD, "0", TOKEN_PAR, ")", NULL);
+	assert_equal_queue(auto_tokenizer("echo oui && ( 1 || 0 )"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_WORD, "1", TOKEN_OPE, "||", TOKEN_WORD, "0", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 10 ---*/
 	assert_equal_queue(auto_tokenizer("    "), &test_number, NULL);

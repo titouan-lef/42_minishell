@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 09:45:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:50:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,17 @@ static t_token_name	get_operator(const char *input, int *index, char *buffer)
 			return (TOKEN_OPE);
 		return (TOKEN_PIPE);
 	}
-	if (input[*index] == '(' || input[*index] == ')')
+	if (input[*index] == '(' )
 	{
 		buffer[0] = input[*index];
 		(*index)++;
-		return (TOKEN_PAR);
+		return (TOKEN_PAR_OPEN);
+	}
+	if (input[*index] == ')')
+	{
+		buffer[0] = input[*index];
+		(*index)++;
+		return (TOKEN_PAR_CLOSE);
 	}
 	if (cmp_and_inc(input, index, '&', buffer))
 		if (cmp_and_inc(input, index, '&', buffer))
