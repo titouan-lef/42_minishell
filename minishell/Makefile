@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/07 18:14:17 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/08 18:40:50 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,10 @@ SRC				=	commands/builtins/echo.c				\
 					commands/parsing/tree/tree_push.c		\
 					commands/token.c						\
 					commands/parsing/parsing.c				\
+					commands/parsing/token_state.c			\
 					display/display.c						\
 					queue/queue_primitive.c					\
+					queue/queue_utils.c						\
 					tab_utils.c								\
 					minishell.c
 
