@@ -6,19 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:49:39 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 13:18:49 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:44:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "commands.h"
-
-typedef enum e_redir_name
-{
-	INPUT,
-	HERE_DOC,
-	OUTPUT,
-	OUTPUT_APPEND,
-}			t_redir_name;
+#include "redir.h"
 
 /*
 * Goal: Identify the type of redirection.
@@ -41,13 +33,13 @@ static int	choose_redir(char *redir)
 }
 
 /*
-* Goal: Identify the type of redirection.
+* Goal: Find id in the redir.
 *
-* Return: The fd found.
+* Return: The fd found, -1 if no fd.
 *
 * Warning: redir must not me null.
 */
-static int	find_fd_if_precised(char **redir)
+static int	find_fd(char **redir)
 {
 	int		fd;
 
@@ -59,30 +51,36 @@ static int	find_fd_if_precised(char **redir)
 	return (fd);
 }
 
+/*
+* Goal: Redirect the output or input with the given redirection.
+*
+* Return: 0 if succes, the code error if an error occur.
+*
+* Warning: token.value must not me null.
+*/
 int	make_redirs(t_token token_redir)
 {
 	int		i;
 	int		fd;
+	int		code_error;
 	char	*redir;
 
 	i = 0;
 	redir = token_redir.value[i];
 	while (redir)
 	{
-		fd = find_fd_if_precised(&redir);
+		fd = find_fd(&redir);
 		if (choose_redir(redir) == INPUT)
-			if (!redirect_intput(fd, redir + 1))
-				return (0);
-		if (choose_redir(redir) == HERE_DOC)
-			if (!here_doc(fd, redir + 2))
-				return (0);
-		if (choose_redir(redir) == OUTPUT)
-			if (!redir_output(fd, redir + 1))
-				return (0);
-		if (choose_redir(redir) == OUTPUT_APPEND)
-			if (!redir_output_append_mode(fd, redir + 2))
-				return (0);
+			code_error = redirect_input(fd, redir + 1);
+		else if (choose_redir(redir) == HERE_DOC)
+			code_error = here_doc(fd, redir + 2);
+		else if (choose_redir(redir) == OUTPUT)
+			code_error = redirirect_output(fd, redir + 1);
+		else
+			code_error = redirect_output_append_mode(fd, redir + 2);
+		if (code_error)
+			return (code_error);
 		redir = token_redir.value[++i];
 	}
-	return (1);
+	return (0);
 }

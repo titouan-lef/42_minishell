@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 13:31:27 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 18:40:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:32:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,4 @@ void	token_clear(t_token token)
 {
 	if (token.value)
 		ft_clean_matrix((void **)token.value);
-	
 }
