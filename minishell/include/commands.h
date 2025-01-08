@@ -6,14 +6,14 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/07 16:12:25 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:20:52 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMANDS_H
 # define COMMANDS_H
 
-# include "token.h"
+# include "tree.h"
 
 typedef struct s_element
 {
@@ -33,9 +33,15 @@ int				queue_push(t_queue *queue, t_token token);
 t_token			queue_pop(t_queue *queue);
 void			queue_clear(t_queue *queue);
 t_queue			queue_create(void);
+t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
 int				valid_parenthesis(char *input);
+t_tree			*state_redir(t_tree *tree, t_queue *queue, t_token token);
+t_tree			*state_cmd(t_tree *tree, t_queue *queue, t_token token);
+t_tree			*state_pipe(t_tree *tree, t_queue *queue, t_token token);
+t_tree			*state_ope(t_tree *tree, t_queue *queue, t_token token);
+t_tree			*get_tree(t_queue *queue);
 
 /*---get_token.c---*/
 t_token_name	get_token(char *input, int *index, char *buffer);
