@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/07 16:11:45 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:35:21 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ t_token	queue_pop(t_queue *queue)
 /*
 * Goal: Remove and free all the elements of the queue.
 *
-* Return: None.
-*
 * Warning: Queue mustn't be null.
 */
 void	queue_clear(t_queue *queue)
@@ -99,8 +97,6 @@ void	queue_clear(t_queue *queue)
 * Goal: Create the queue.
 *
 * Return: The created queue.
-*
-* Warning: None.
 */
 t_queue	queue_create(void)
 {

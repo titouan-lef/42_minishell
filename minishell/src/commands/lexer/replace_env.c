@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 10:32:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:15:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static int	new_word_lenght(char *word, char **env_local)
 		}
 		else
 		{
-			length++;
+			if (*word != '\'' && *word != '\"')
+				length++;
 			word++;
 		}
 	}
@@ -81,9 +82,7 @@ static void	update_env_var(char **word, char *new_word, int *letter, char **env)
 	char	*env_var_value;
 
 	(*word)++;
-	printf("%s\n", *word);
 	env_var_value = get_value(*word, env);
-	printf("%s\n", env_var_value);
 	if (env_var_value)
 	{
 		ft_strlcpy(new_word + *letter, env_var_value,
@@ -116,12 +115,17 @@ static char	*replace_word(char *word, char **env_local)
 	{
 		if (*word == '$')
 			update_env_var(&word, updated_word, &letter, env_local);
-		else
+		else if (*word == '\'')
 		{
-			updated_word[letter] = *word;
-			letter++;
+			word++;
+			while (*word != '\'')
+				updated_word[letter++] = *word++;
 			word++;
 		}
+		else if (*word == '\"')
+			word++;
+		else
+			updated_word[letter++] = *word++;
 	}
 	return (updated_word);
 }
@@ -130,7 +134,7 @@ static char	*replace_word(char *word, char **env_local)
 * Goal: Replace all the environement variables in all the TOKEN_CMD tokens
 *		from there value in env_local.
 *
-* Return: None.
+* Return: 0 if errror, 1 if not.
 *
 * Warning: token and env_local must not be null.
 */
