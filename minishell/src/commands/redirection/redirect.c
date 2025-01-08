@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 17:45:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 00:35:31 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,11 @@ int	redirect_output_append_mode(int fd, char *file_name)
 	return (0);
 }
 
+/*
+* Goal: Put all the readed lines in the here_doc file until EOF.
+*
+* Warning: limit must not me null.
+*/
 void	get_here_doc_input(int file, char *limit)
 {
 	int		size_limit;
@@ -134,12 +139,24 @@ void	get_here_doc_input(int file, char *limit)
 	free(line);
 }
 
+/*
+* Goal: Redirect the fd input in a file in append mode(STDOUT if fd=-1).
+*
+* Return: 0 if succes, the code error if an error occur.
+*
+* Warning: limit must not me null.
+*/
 int	here_doc(int fd, char *limit)
 {
 	int		fd_file;
 	char	*file_name;
 
-	file_name = ".here_doc"; //randomize name
+	file_name = generate_random_string(10);
+	if (!file_name)
+	{
+		ft_putendl_error("Impossible to geneate a here_doc name");
+		return (1);
+	}
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 644);
 	if (fd_file < 0)
 	{
