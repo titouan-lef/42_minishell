@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/08 18:40:50 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/09 19:27:12 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC				=	commands/builtins/echo.c				\
 					commands/token.c						\
 					commands/parsing/parsing.c				\
 					commands/parsing/token_state.c			\
+					commands/parsing/token_state_utils.c	\
 					display/display.c						\
 					queue/queue_primitive.c					\
 					queue/queue_utils.c						\
