@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 19:21:19 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:55:55 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ void	print_error_token(t_queue *queue)
 	t_token	token;
 
 	token = queue_pop(queue);
-	ft_putstr_error("bash: syntax error near unexpected token `");
-	ft_putstr_error(token.value[0]);
-	ft_putendl_error("'");
+	ft_printf_fd(2, "bash: syntax error near unexpected token `%s'\n", token.value[0]);
 	token_clear(token);
 }
 
