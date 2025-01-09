@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 10:45:55 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:46:02 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	update(t_token *token, t_token *cmd, t_token *redir, t_queue *r_tk)
 {
 	int	malloc_succes;
 
-	malloc_succes = 0;
+	malloc_succes = 1;
 	if (token->name == TOKEN_WORD)
 	{
 		cmd->value = tab_join_and_free(cmd->value, token->value);
@@ -50,8 +50,8 @@ static int	update(t_token *token, t_token *cmd, t_token *redir, t_queue *r_tk)
 	}
 	else if (token->name == TOKEN_REDIR)
 	{
-		token->value = tab_join_and_free(redir->value, token->value);
-		malloc_succes = (cmd->value != NULL);
+		redir->value = tab_join_and_free(redir->value, token->value);
+		malloc_succes = (redir->value != NULL);
 	}
 	if (!malloc_succes)
 		printf("malloc error\n");
@@ -80,7 +80,7 @@ t_queue	reorganize(t_queue tokens)
 	t_token	redir;
 
 	cmd = token_create(TOKEN_CMD, NULL);
-	redir = token_create(TOKEN_CMD, NULL);
+	redir = token_create(TOKEN_REDIR, NULL);
 	reorganized_tokens = queue_create();
 	while (tokens.head)
 	{

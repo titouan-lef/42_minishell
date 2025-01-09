@@ -6,11 +6,13 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 18:50:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 20:20:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
+
+static t_token_name	get_redir(const char *input, int *index, char *buffer);
 
 /*
 * Goal: Compare the current input[*index] with the given char c.
@@ -35,6 +37,23 @@ static int	cmp_and_inc(const char *input, int *index, char c, char *buffer)
 	return (0);
 }
 
+int	is_int(char *str) // TODO: remake without atol and put into libft
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		if (!ft_isdigit(str[i++]))
+			return (0);
+	while (*str == '0')
+		str++;
+	if (ft_strlen(str) > 10)
+		return (0);
+	if (atol(str) > INT_MAX)
+		return (0);
+	return (1);
+}
+
 /*
 * Goal: Put the next lettres un buffer until it is not a specal character.
 *
@@ -42,14 +61,12 @@ static int	cmp_and_inc(const char *input, int *index, char c, char *buffer)
 *
 * Warning: input, index and buffer must not be null.
 */
-static void	get_word(const char *input, int *index, char *buffer)
+static t_token_name	get_word(const char *input, int *index, char *buffer)
 {
 	int	start ;
 
 	start = *index;
-	while (input[*index] && input[*index] != '|' && input[*index] != '('
-		&& input[*index] != ')' && input[*index] != '&' && input[*index] != '<'
-		&& input[*index] != '>' && input[*index] != ' ')
+	while (input[*index] && !ft_is_in_charset("&|()<> ", input[*index]))
 	{
 		if (input[*index] == '\'')
 		{
@@ -57,16 +74,22 @@ static void	get_word(const char *input, int *index, char *buffer)
 			while (input[*index] && input[*index] != '\'')
 				(*index)++;
 		}
-		if (input[*index] == '"')
+		else if (input[*index] == '"')
 		{
 			(*index)++;
 			while (input[*index] && input[*index] != '"')
 				(*index)++;
 		}
-		if (input[*index])
+		else
 			(*index)++;
 	}
 	ft_strlcpy(buffer, input + start, *index - start + 1);
+	if ((input[*index] == '<' || input[*index] == '>') && is_int(buffer))
+	{
+		get_redir(input, index, buffer + *index - start);
+		return (TOKEN_REDIR);
+	}
+	return (TOKEN_WORD);
 }
 
 /*
@@ -156,8 +179,8 @@ t_token_name	get_token(char *input, int *index, char *buffer)
 	token_name = get_redir(input, index, buffer);
 	if (token_name != TOKEN_NULL)
 		return (token_name);
-	get_word(input, index, buffer);
+	token_name = get_word(input, index, buffer);
 	if (*buffer == '\0')
 		return (TOKEN_NULL);
-	return (TOKEN_WORD);
+	return (token_name);
 }
