@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 22:29:47 by tle-floc          #+#    #+#              #
-#    Updated: 2024/12/16 21:13:36 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/09 12:08:10 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRC =		char/ft_check_alnum.c \
 			string/ft_concat.c \
 			string/ft_get_substr.c \
 			string/ft_split.c \
+			string/ft_split_charset.c \
 			string/ft_strlen.c \
 			ft_fill_memory.c
 

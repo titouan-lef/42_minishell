@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:04:11 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 17:04:37 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:04:20 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
+int		ft_is_in_charset(char *charset, char c);
+char	**ft_split_charset(char *str, char *charset);
 size_t	ft_strlen(const char *s);
 size_t	ft_strnlen(const char *s, size_t n);
 
