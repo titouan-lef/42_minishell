@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/08 18:23:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 13:35:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,54 @@ static t_tree	*add_new_token(t_tree *tree, t_token token)
 	return (NULL);
 }
 
+static void	print_error_token(char *token_value)
+{
+	ft_putstr_error("bash: syntax error near unexpected token `");
+	ft_putstr_error(token_value);
+	ft_putendl_error("'");
+}
+
 t_tree	*state_redir(t_tree *tree, t_queue *queue, t_token token)
 {
+	t_token_name	next_token_name;
+
 	tree = add_new_token(tree, token);
 	if (tree == NULL || queue_is_empty(queue))
 		return (tree);
-	if (queue_first_name(queue) == TOKEN_CMD || queue_first_name(queue) == TOKEN_CMD)
+	next_token_name = queue_first_name(queue);
+	if (next_token_name == TOKEN_CMD || next_token_name == TOKEN_PIPE)
 	{
 		token = queue_pop(queue);
-		if (token.name == TOKEN_CMD)
+		if (next_token_name == TOKEN_CMD)
 			return (state_cmd(tree, queue, token));
 		return (state_pipe(tree, queue, token));
+	} else if (next_token_name == TOKEN_PAR_OPEN)
+	{
+		print_error_token("(");
+		tree_clear(&tree);
+		return (NULL);
 	}
-	// manage par error
 	return (tree);
 }
 
 t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_token token)
 {
+	t_token_name	next_token_name;
+
 	tree = add_new_token(tree, token);
 	if (tree == NULL || queue_is_empty(queue))
 		return (tree);
-	if (queue_first_name(queue) == TOKEN_PIPE)
+	next_token_name = queue_first_name(queue);
+	if (next_token_name == TOKEN_PIPE)
 	{
 		token = queue_pop(queue);
 		return (state_pipe(tree, queue, token));
+	} else if (next_token_name == TOKEN_PAR_OPEN)
+	{
+		print_error_token("(");
+		tree_clear(&tree);
+		return (NULL);
 	}
-	// manage par error
 	return (tree);
 }
 
@@ -66,32 +87,36 @@ t_tree	*state_pipe(t_tree *tree, t_queue *queue, t_token token)
 		return (NULL);
 	if (queue_is_empty(queue))
 	{
-		// print error
+		print_error_token("|");// no heardoc ?
 		tree_clear(&tree);
 		return (NULL);
 	}
 	token = queue_pop(queue);
-	sub_tree = NULL;
 	if (token.name == TOKEN_REDIR)
 		sub_tree = state_redir(NULL, queue, token);
 	else if (token.name == TOKEN_CMD)
 		sub_tree = state_cmd(NULL, queue, token);
-	// manage par
-	if (sub_tree != NULL)
+	else if (token.name == TOKEN_PAR_OPEN)
+		sub_tree = state_par_open(NULL, queue, token);
+	else
 	{
-		result = tree_push_right(tree, sub_tree);
-		if (result == 0)
-		{
-			tree_clear(&sub_tree);
-			tree_clear(&tree);
-			return (NULL);
-		}
-		return (tree);
+		sub_tree = NULL;
+		print_error_token(token.value[0]);
+		token_clear(token);
 	}
-	// manage par
-	// print error
-	tree_clear(&tree);
-	return (NULL);
+	if (!sub_tree)
+	{
+		tree_clear(&tree);
+		return (NULL);
+	}
+	result = tree_push_right(tree, sub_tree);
+	if (result == 0)
+	{
+		tree_clear(&sub_tree);
+		tree_clear(&tree);
+		return (NULL);
+	}
+	return (tree);
 }
 
 t_tree	*state_ope(t_tree *tree, t_queue *queue, t_token token)
@@ -101,7 +126,7 @@ t_tree	*state_ope(t_tree *tree, t_queue *queue, t_token token)
 
 	if (!tree)
 	{
-		// print error
+		print_error_token(token.value[0]);
 		token_clear(token);
 		return (NULL);
 	}
@@ -110,35 +135,39 @@ t_tree	*state_ope(t_tree *tree, t_queue *queue, t_token token)
 		return (NULL);
 	if (queue_is_empty(queue))
 	{
-		// print error
+		print_error_token(tree->token.value[0]);// no heardoc ?
 		tree_clear(&tree);
 		return (NULL);
 	}
 	token = queue_pop(queue);
-	sub_tree = NULL;
 	if (token.name == TOKEN_REDIR)
 		sub_tree = state_redir(NULL, queue, token);
 	else if (token.name == TOKEN_CMD)
 		sub_tree = state_cmd(NULL, queue, token);
-	// manage par
-	if (sub_tree != NULL)
+	else if (token.name == TOKEN_PAR_OPEN)
+		sub_tree = state_par_open(NULL, queue, token);
+	else
 	{
-		result = tree_push_right(tree, sub_tree);
-		if (result == 0)
-		{
-			tree_clear(&sub_tree);
-			tree_clear(&tree);
-			return (NULL);
-		}
-		return (tree);
+		sub_tree = NULL;
+		print_error_token(token.value[0]);
+		token_clear(token);
 	}
-	// manage par
-	// print error
-	tree_clear(&tree);
-	return (NULL);
+	if (!sub_tree)
+	{
+		tree_clear(&tree);
+		return (NULL);
+	}
+	result = tree_push_right(tree, sub_tree);
+	if (result == 0)
+	{
+		tree_clear(&sub_tree);
+		tree_clear(&tree);
+		return (NULL);
+	}
+	return (tree);
 }
 
-//t_tree	*state_par(t_tree *tree, t_queue queue, t_token token) {}
+/*t_tree	*state_par_close(t_tree *tree, t_queue *queue, t_token token) {}*/
 
 /*static void	tree_traversal_in_order(t_tree *tree)
 {
@@ -240,19 +269,39 @@ static t_tree	*next_state(t_tree *tree, t_queue *queue, t_token token)
 		tree = state_redir(tree, queue, token);
 	else if (token.name == TOKEN_CMD)
 		tree = state_cmd(tree, queue, token);
-	/*else if (token.name == TOKEN_PIPE)
-		tree = state_pipe(tree, queue);*/
 	else if (token.name == TOKEN_OPE)
 		tree = state_ope(tree, queue, token);
-	/*else if (token.name == TOKEN_PAR)
-		tree = state_redir(tree, queue);*/
+	else if (token.name == TOKEN_PAR_OPEN)
+		tree = state_par_open(tree, queue, token);
 	else
 	{
-		// print error
+		print_error_token(tree->token.value[0]);
 		token_clear(token);
 		tree_clear(&tree);
 		return (NULL);
 	}
+	return (tree);
+}
+
+t_tree	*state_par_open(t_tree *tree, t_queue *queue, t_token token)
+{
+	token_clear(token);
+	if (!tree_is_empty(tree) || queue_is_empty(queue))
+	{
+		print_error_token("(");
+		tree_clear(&tree);
+		return (NULL);
+	}
+	token = queue_pop(queue);
+	while (token.name != TOKEN_PAR_CLOSE)
+	{
+		tree = next_state(tree, queue, token);
+		if (tree == NULL)
+			break;
+		token = queue_pop(queue);
+	}
+	if (token.name == TOKEN_PAR_CLOSE)
+		token_clear(token);
 	return (tree);
 }
 
@@ -270,6 +319,8 @@ t_tree *get_tree(t_queue *queue)
 			break;
 	}
 	queue_clear(queue);
+	tree_clear(&tree);//todo remove
+	tree = NULL;//todo remove
 	/*--//
 	breadth_first_search(tree);
 	ft_printf("\n\n");
