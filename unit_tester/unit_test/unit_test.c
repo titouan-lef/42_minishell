@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/28 18:20:06 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:01:39 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,26 +139,36 @@ void	assert_equal_s(char *expected, char *result, size_t *i)
 		print_ko(expected, result, i);
 }
 
-void	assert_equal_out(char *expected, size_t *i)
+static void	assert_equal_output(char *expected, size_t *i, char *file)
 {
 	char	*result;
 	int		fd;
 
-	fd = open("cout.log", O_RDONLY);
+	fd = open(file, O_RDONLY);
 	result = calloc(10000,sizeof(char));
 	if (!result)
 	{
-		perror("malloc failed: assert_equal_out");
+		perror("malloc failed: assert_equal_output");
 		exit(1);
 	}
 	read(fd, result, 10000);
 	close(fd);
-	unlink("cout.log");
+	unlink(file);
 	if (strcmp(expected, result) == 0)
 		print_ok(i);
 	else
 		print_ko(expected, result, i);
 	free(result);
+}
+
+void	assert_equal_out(char *expected, size_t *i)
+{
+	assert_equal_output(expected, i, "cout.log");
+}
+
+void	assert_equal_err(char *expected, size_t *i)
+{
+	assert_equal_output(expected, i, "cerr.log");
 }
 
 void	assert_equal_i(int expected, int result, size_t *i)

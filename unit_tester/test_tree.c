@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:51:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 18:05:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:02:15 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,16 +117,25 @@ void	test_tree_push_left(void)
 	t_tree	*tree = NULL;
 	t_tree	*aux;
 	t_token token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)));
-	int		is_ok;
-	is_ok = tree_push_left(tree, sub_tree);
-	assert_equal_i(0, is_ok, &test_number);
+	t_out	outputs;
+
+	redirect_outputs(&outputs);
+	tree_push_left(tree, sub_tree);
+	set_normal_outputs(&outputs);
+	assert_equal_err("Error tree push left\n", &test_number);
+
 	tree = tree_create(token);
 	tree->left = sub_tree;
-	is_ok = tree_push_left(tree, sub_tree);
-	assert_equal_i(0, is_ok, &test_number);
+	redirect_outputs(&outputs);
+	tree_push_left(tree, sub_tree);
+	set_normal_outputs(&outputs);
+	assert_equal_err("Error tree push left\n", &test_number);
+
 	tree->left = NULL;
-	is_ok = tree_push_left(tree, sub_tree);
-	assert_equal_i(1, is_ok, &test_number);
+	redirect_outputs(&outputs);
+	tree_push_left(tree, sub_tree);
+	set_normal_outputs(&outputs);
+	assert_equal_err("", &test_number);
 	assert_equal_i(TOKEN_REDIR, tree->token.name, &test_number);
 	assert_not_null(tree->left, &test_number);
 	assert_null(tree->right, &test_number);
@@ -156,16 +165,25 @@ void	test_tree_push_right(void)
 	t_tree	*tree = NULL;
 	t_tree	*aux;
 	t_token	token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)));
-	int		is_ok;
-	is_ok = tree_push_right(tree, sub_tree);
-	assert_equal_i(0, is_ok, &test_number);
+	t_out	outputs;
+
+	redirect_outputs(&outputs);
+	tree_push_right(tree, sub_tree);
+	set_normal_outputs(&outputs);
+	assert_equal_err("Error tree push right\n", &test_number);
+
 	tree = tree_create(token);
 	tree->right = sub_tree;
-	is_ok = tree_push_right(tree, sub_tree);
-	assert_equal_i(0, is_ok, &test_number);
+	redirect_outputs(&outputs);
+	tree_push_right(tree, sub_tree);
+	set_normal_outputs(&outputs);
+	assert_equal_err("Error tree push right\n", &test_number);
+
 	tree->right = NULL;
-	is_ok = tree_push_right(tree, sub_tree);
-	assert_equal_i(1, is_ok, &test_number);
+	redirect_outputs(&outputs);
+	tree_push_right(tree, sub_tree);
+	set_normal_outputs(&outputs);
+	assert_equal_err("", &test_number);
 	assert_equal_i(TOKEN_REDIR, tree->token.name, &test_number);
 	assert_null(tree->left, &test_number);
 	assert_not_null(tree->right, &test_number);
