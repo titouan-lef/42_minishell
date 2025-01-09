@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 18:50:45 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:50:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,23 @@ void	test_lexer()
 
 	/*--- test 12 ---*/
 	assert_equal_queue(auto_tokenizer("echo \"oui && cat non\""), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "\"oui && cat non\"", NULL);
+
+	/*--- test 13 ---*/
+	assert_equal_queue(auto_tokenizer(">out"), &test_number, TOKEN_REDIR, ">out", NULL);
+
+	/*--- test 14 ---*/
+	assert_equal_queue(auto_tokenizer(">out >>oui"), &test_number, TOKEN_REDIR, ">out", TOKEN_REDIR, ">>oui", NULL);
+
+	/*--- test 15 ---*/
+	assert_equal_queue(auto_tokenizer("ls 2>out"), &test_number, TOKEN_WORD, "ls", TOKEN_REDIR, "2>out", NULL);
+
+	/*--- test 16 ---*/
+	assert_equal_queue(auto_tokenizer("ls 2147483648>out"), &test_number, TOKEN_WORD, "ls", TOKEN_WORD, "2147483648", TOKEN_REDIR, ">out", NULL);
+
+	/*--- test 17 ---*/
+	assert_equal_queue(auto_tokenizer("cat <in"), &test_number, TOKEN_WORD, "cat", TOKEN_REDIR, "<in", NULL);
+
+	/*--- test 18 ---*/
+	assert_equal_queue(auto_tokenizer("cat <<here_doc"), &test_number, TOKEN_WORD, "cat", TOKEN_REDIR, "<<here_doc", NULL);
 
 }
