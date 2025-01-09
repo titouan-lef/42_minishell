@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/06 17:31:31 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/09 19:58:05 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,10 @@ fclean			:	clean
 				if [ -f minishell.a ];\
 				then echo "$(RED)Removing : $(MAGENTA)minishell.a$(INIT)";\
 				rm -f minishell.a;\
+				fi;
+				if [ -f cout.log ];\
+				then echo "$(RED)Removing : $(MAGENTA)cout.log$(INIT)";\
+				rm -f cout.log;\
 				fi;
 				if [ -f cerr.log ];\
 				then echo "$(RED)Removing : $(MAGENTA)cerr.log$(INIT)";\

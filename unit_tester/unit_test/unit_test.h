@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:07:45 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/28 16:25:49 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:01:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	assert_equal_s(char *expected, char *result, size_t *i);
 int		redirect_outputs(t_out *outputs);
 void	set_normal_outputs(t_out *outputs);
 void	assert_equal_out( char *expected, size_t *i);
+void	assert_equal_err(char *expected, size_t *i);
 void	assert_equal_i(int expected, int result, size_t *i);
 void	assert_true(int result, size_t *i);
 void	assert_false(int result, size_t *i);

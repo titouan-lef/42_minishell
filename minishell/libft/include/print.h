@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:23:02 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/11/02 15:23:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:52:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 
 ssize_t	ft_printf(const char *format, ...);
+ssize_t	ft_printf_fd(int fd, const char *format, ...);
 ssize_t	ft_putchar_fd(char c, int fd);
 ssize_t	ft_putchar_error(char c);
 ssize_t	ft_putchar(char c);

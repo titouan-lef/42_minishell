@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 18:16:13 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:19:13 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,38 @@ int	valid_parenthesis(char *input)
 		return (0);
 	}
 	return (1);
+}
+
+t_tree	*next_state(t_tree *tree, t_queue *queue)
+{
+	t_token_name	type;
+
+	type = queue_first_name(queue);
+	if (type == TOKEN_OPE)
+		tree = state_ope(tree, queue);
+	else
+		tree = common_state(tree, queue, type);
+	return (tree);
+}
+
+t_tree	*get_tree(t_queue *queue)
+{
+	t_tree	*tree;
+
+	tree = NULL;
+	while (!queue_is_empty(queue))
+	{
+		tree = next_state(tree, queue);
+		if (tree == NULL)
+			break ;
+	}
+	queue_clear(queue);
+	tree_clear(&tree);//todo remove
+	tree = NULL;//todo remove
+	/*--//
+	breadth_first_search(tree);
+	ft_printf("\n\n");
+	tree_traversal_in_order(tree);
+	//--*/
+	return (tree);
 }
