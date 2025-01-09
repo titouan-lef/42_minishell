@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
+#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/08 18:40:50 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/09 17:06:29 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRC				=	commands/builtins/echo.c				\
 					commands/lexer/get_token.c				\
 					commands/lexer/lexer.c					\
 					commands/lexer/format_for_ast.c			\
-					commands/lexer/replace_env.c			\
 					commands/parsing/tree/tree_primitive.c	\
 					commands/parsing/tree/tree_push.c		\
 					commands/token.c						\

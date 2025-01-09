@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 15:09:39 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:22:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <linux/limits.h>
 # include <fcntl.h>
+# include <limits.h>
 # include "libft.h"
 
 /*---tab_utils.c---*/

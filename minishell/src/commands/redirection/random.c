@@ -6,12 +6,17 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/09 00:27:50 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/09 00:39:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+* Goal: Generate a random string of alpha numeric characters.
+*
+* Return: The generated string.
+*/
 char	*generate_random_string(size_t length)
 {
 	int		fd;

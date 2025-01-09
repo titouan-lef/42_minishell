@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/08 18:35:23 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 11:25:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ t_queue			auto_tokenizer(char *input);
 /*---format_for_ast.c---*/
 t_queue			reorganize(t_queue tokens);
 
-/*---replace_env.c---*/
-int				replace_env_var(t_queue *tokens, char **env_local);
+/*---expansions.c---*/
+int				expand(t_token *token);
+int				expand_env_var(t_token *token, char **env_local);
+int				remove_quotes(t_token *token);
 
 #endif
