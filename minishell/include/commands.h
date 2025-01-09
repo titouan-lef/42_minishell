@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 12:57:29 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:00:14 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
 int				valid_parenthesis(char *input);
-t_tree			*state_redir(t_tree *tree, t_queue *queue, t_token token);
-t_tree			*state_cmd(t_tree *tree, t_queue *queue, t_token token);
-t_tree			*state_pipe(t_tree *tree, t_queue *queue, t_token token);
-t_tree			*state_ope(t_tree *tree, t_queue *queue, t_token token);
-t_tree			*state_par_open(t_tree *tree, t_queue *queue, t_token token);
+t_tree			*state_redir(t_tree *tree, t_queue *queue);
+t_tree			*state_cmd(t_tree *tree, t_queue *queue);
+t_tree			*state_pipe(t_tree *tree, t_queue *queue);
+t_tree			*state_ope(t_tree *tree, t_queue *queue);
+t_tree			*state_par_open(t_tree *tree, t_queue *queue);
 t_tree			*get_tree(t_queue *queue);
 
 /*---get_token.c---*/
