@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 18:43:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:59:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	pwd(char **str, char **env_local)
 
 	(void)str;
 	(void)env_local;
-	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
+	pwd = (char *)malloc(sizeof(char) * PATH_MAX); //malloc protection
 	no_error = getcwd(pwd, PATH_MAX);
 	if (no_error)
 		printf("%s", pwd);
