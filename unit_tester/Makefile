@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/09 19:58:05 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/10 15:43:47 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC				=	unit_test/unit_test.c		\
 					test_echo.c					\
 					test_pwd.c					\
 					test_lexer.c				\
-					test_tree.c
+					test_tree.c					\
+					test_get_tree.c
 
 #==================== OBJECT ====================#
 
