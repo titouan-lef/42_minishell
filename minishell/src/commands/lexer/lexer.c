@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 18:19:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:33:49 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	fill_token(t_token *token, char *input, int *index, char *buffer)
 	if (token->name == TOKEN_NULL)
 	{
 		free(buffer);
+		free(token->value);
 		return (0);
 	}
 	token->value[0] = buffer;
@@ -53,6 +54,7 @@ t_queue	auto_tokenizer(char *input)
 		token.value = (char **)ft_calloc(2, sizeof(char *));
 		if (!buffer || !token.value)
 		{
+			ft_printf_fd(2, "malloc error");
 			free(buffer);
 			free(token.value);
 			queue_clear(&tokens);
