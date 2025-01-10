@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 19:55:55 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:02:33 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ void	remove_token(t_queue *queue)
 
 void	print_error_token(t_queue *queue)
 {
-	t_token	token;
+	t_token	t;
 
-	token = queue_pop(queue);
-	ft_printf_fd(2, "bash: syntax error near unexpected token `%s'\n", token.value[0]);
-	token_clear(token);
+	t = queue_pop(queue);
+	ft_printf_fd(2, "bash: syntax error near unexpected token `%s'\n",
+		t.value[0]);
+	token_clear(t);
 }
 
 t_tree	*common_state(t_tree *tree, t_queue *queue, t_token_name type)
