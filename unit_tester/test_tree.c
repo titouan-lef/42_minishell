@@ -6,13 +6,13 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:51:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 19:02:15 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:34:18 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tester.h"
 
-void	test_tree_is_empty(void)
+static void	test_tree_is_empty(void)
 {
 	size_t	test_number;
 	start_test("tree_is_empty");
@@ -28,7 +28,7 @@ void	test_tree_is_empty(void)
 	tree_clear(&tree);
 }
 
-void	test_tree_add_parent(void)
+static void	test_tree_add_parent(void)
 {
 	size_t	test_number;
 	start_test("tree_add_parent");
@@ -52,7 +52,7 @@ void	test_tree_add_parent(void)
 	tree_clear(&tree);
 }
 
-void	test_tree_clear(void)
+static void	test_tree_clear(void)
 {
 	size_t	test_number;
 	start_test("tree_clear");
@@ -88,7 +88,7 @@ void	test_tree_clear(void)
 	assert_null(tree1, &test_number);
 }
 
-void	test_tree_create(void)
+static void	test_tree_create(void)
 {
 	size_t	test_number;
 	start_test("tree_create");
@@ -103,7 +103,7 @@ void	test_tree_create(void)
 	tree_clear(&tree);
 }
 
-void	test_tree_push_left(void)
+static void	test_tree_push_left(void)
 {
 	size_t	test_number;
 	start_test("tree_push_left");
@@ -151,7 +151,7 @@ void	test_tree_push_left(void)
 	tree_clear(&tree);
 }
 
-void	test_tree_push_right(void)
+static void	test_tree_push_right(void)
 {
 	size_t	test_number;
 	start_test("tree_push_right");
