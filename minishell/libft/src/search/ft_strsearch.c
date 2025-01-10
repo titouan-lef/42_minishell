@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsearch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:18:06 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/10/28 16:01:50 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/10 11:27:04 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+size_t	ft_strcspn(const char *s, const char *reject)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0' && !ft_is_in_charset(reject, s[i]))
+		++i;
+	return (i);
+}
 
 char	*ft_strchrnul(const char *s, int c)
 {

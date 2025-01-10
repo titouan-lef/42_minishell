@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:07:52 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/10/15 16:33:39 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/10 11:07:37 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static size_t	ft_count_substr(char const *s, int c)
 	return (count);
 }
 
-static char	**fill_result(char const *s, char c, char **result)
+static char	**ft_fill_result(char const *s, char c, char **result)
 {
 	size_t	i;
 	char	*end;
@@ -74,6 +74,6 @@ char	**ft_split(char const *s, char c)
 	result = (char **)malloc((nb_substr + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
-	result = fill_result(s, c, result);
+	result = ft_fill_result(s, c, result);
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:04:11 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 17:04:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/10 11:38:40 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 
 /* search */
 void	*ft_memchr(const void *s, int c, size_t n);
+size_t	ft_strcspn(const char *s, const char *reject);
 char	*ft_strchrnul(const char *s, int c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
@@ -90,8 +91,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
-int		ft_is_in_charset(char *charset, char c);
-char	**ft_split_charset(char *str, char *charset);
+int		ft_is_in_charset(const char *charset, char c);
+char	**ft_split_charset(char const *s, char const *charset);
 size_t	ft_strlen(const char *s);
 size_t	ft_strnlen(const char *s, size_t n);
 
