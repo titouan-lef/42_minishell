@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:04:11 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/10 11:38:40 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/10 13:08:20 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include "print.h"
 # include "get_next_line.h"
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -48,6 +49,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
 /* convert */
+int		ft_to_positive_int(const char *nptr);
 int		ft_toint(int c);
 int		ft_tochar(int c);
 int		ft_toupper(int c);
