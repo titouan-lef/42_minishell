@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_charset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:07:52 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 17:15:16 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/10 12:02:13 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_is_in_charset(char *charset, char c) //keep this function please
+int	ft_is_in_charset(char const *charset, char c)
 {
 	while (*charset)
 	{
@@ -23,56 +23,71 @@ int	ft_is_in_charset(char *charset, char c) //keep this function please
 	return (0);
 }
 
-static void	str_to_tab(char **tab, int size_tab, char *str, char *charset)
+static size_t	ft_count_substr(char const *s, char const *charset)
 {
-	int	count;
-	int	count2;
-	int	size;
+	size_t	count;
+	int		is_new_substr;
 
 	count = 0;
-	while (count < size_tab)
+	is_new_substr = 1;
+	while (*s != '\0')
 	{
-		size = 0;
-		count2 = 0;
-		while (*str && ft_is_in_charset(charset, *str))
-			str++;
-		while (str[size] && !ft_is_in_charset(charset, str[size]))
-			size++;
-		tab[count] = (char *)malloc(sizeof(char) * (size + 1));
-		while (count2 < size)
+		if (ft_is_in_charset(charset, *s))
+			is_new_substr = 1;
+		else if (is_new_substr)
 		{
-			tab[count][count2] = str[count2];
-			count2++;
+			is_new_substr = 0;
+			++count;
 		}
-		str += size + 1;
-		tab[count][count2] = 0;
-		count++;
+		++s;
 	}
-	tab[count] = 0;
+	return (count);
 }
 
-char	**ft_split_charset(char *str, char *charset) //change with better one
+static char	**ft_fill_result(char const *s, char const *charset, char **result)
 {
-	char	**tab;
-	int		count;
-	int		size_tab;
+	size_t		i;
+	const char	*end;
 
-	count = 0;
-	size_tab = 0;
-	while (str[count] && ft_is_in_charset(charset, str[count]))
-		count++;
-	while (str[count])
+	i = 0;
+	while (*s != '\0')
 	{
-		size_tab++;
-		count++;
-		while (str[count] && !ft_is_in_charset(charset, str[count]))
-			count++;
-		while (str[count] && ft_is_in_charset(charset, str[count]))
-			count++;
+		while (ft_is_in_charset(charset, *s))
+			++s;
+		if (*s == '\0')
+			break ;
+		end = s + 1 + ft_strcspn(s + 1, charset);
+		result[i] = ft_substr(s, 0, end - s);
+		if (!result[i])
+		{
+			ft_free_matrix((void **)result, i);
+			return (NULL);
+		}
+		++i;
+		s = end;
 	}
-	tab = (char **)malloc(sizeof(char *) * (size_tab + 1));
-	if (!tab)
-		return (0);
-	str_to_tab(tab, size_tab, str, charset);
-	return (tab);
+	result[i] = NULL;
+	return (result);
+}
+
+/*
+* Goal: Do a ft_split with 'charset' (char *) and not a char.
+*
+* Return: An array null terminated (or null if error).
+*
+* Warning: 'charset' mustn't be null.
+*/
+char	**ft_split_charset(char const *s, char const *charset)
+{
+	char	**result;
+	size_t	nb_substr;
+
+	if (!s)
+		return (NULL);
+	nb_substr = ft_count_substr(s, charset);
+	result = (char **)malloc((nb_substr + 1) * sizeof(char *));
+	if (!result)
+		return (NULL);
+	result = ft_fill_result(s, charset, result);
+	return (result);
 }

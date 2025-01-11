@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:04:11 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 17:04:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/10 13:08:20 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include "print.h"
 # include "get_next_line.h"
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -48,6 +49,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
 /* convert */
+int		ft_to_positive_int(const char *nptr);
 int		ft_toint(int c);
 int		ft_tochar(int c);
 int		ft_toupper(int c);
@@ -70,6 +72,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 
 /* search */
 void	*ft_memchr(const void *s, int c, size_t n);
+size_t	ft_strcspn(const char *s, const char *reject);
 char	*ft_strchrnul(const char *s, int c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
@@ -90,8 +93,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
-int		ft_is_in_charset(char *charset, char c);
-char	**ft_split_charset(char *str, char *charset);
+int		ft_is_in_charset(const char *charset, char c);
+char	**ft_split_charset(char const *s, char const *charset);
 size_t	ft_strlen(const char *s);
 size_t	ft_strnlen(const char *s, size_t n);
 

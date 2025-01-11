@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:28:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/06 16:47:05 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:25:08 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int	main(int argc, char **argv, char **envp)
 	test_pwd(envp);
 	test_lexer();
 	test_tree();
+	test_get_tree();
 	return (0);
 }
