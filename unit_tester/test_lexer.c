@@ -6,14 +6,16 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/11 15:35:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:39:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tester.h"
 
-static char* enum_to_str(t_token_name token) {
-	switch (token) {
+char* enum_to_str(t_token_name token)
+{
+	switch (token)
+	{
 		case TOKEN_PIPE: return "TOKEN_PIPE";
 		case TOKEN_PAR_OPEN: return "TOKEN_PAR_OPEN";
 		case TOKEN_PAR_CLOSE: return "TOKEN_PAR_OPEN";
@@ -26,7 +28,7 @@ static char* enum_to_str(t_token_name token) {
 	}
 }
 
-static void	assert_equal_queue(t_queue result, size_t *i, ...)
+void	assert_equal_queue(t_queue result, size_t *i, ...)
 {
 	t_element		*tokens;
 	t_token			token;
