@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/09 16:58:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:00:15 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,23 +142,37 @@ int	expand_env_var(t_token *token, char **env_local)
 {
 	int			num_word;
 	char		*updated_word;
+	char		**updated_value;
+	t_queue		tmp;
+	t_token		splited;
 
 	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
 	{
 		num_word = 0;
 		while (token->value[num_word])
 		{
-			updated_word = replace_word(token->value[num_word],
-					env_local);
+			updated_word = replace_word(token->value[num_word],env_local);
 			if (!updated_word)
 			{
-				ft_putendl_error("Malloc Error");
+				ft_putendl_error("malloc error");
 				return (0);
 			}
-			free(token->value[num_word]);
-			token->value[num_word] = updated_word;
+			tmp = auto_tokenizer(updated_word);
+			splited = split_command(tmp);
+			queue_clear(&tmp);
+			free(updated_word);
+			if (!splited.value);
+				return (0);
+			updated_value = tab_join_and_free(updated_value, splited.value); //check leaks
+			if (!updated_value)
+			{
+				free(updated_word);
+				return (0);
+			}
 			num_word++;
 		}
+		ft_clean_matrix((void **)token->value);
+		token->value = updated_value;
 	}
 	return (1);
 }

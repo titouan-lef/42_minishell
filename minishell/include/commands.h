@@ -6,13 +6,14 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 20:35:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:36:15 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMANDS_H
 # define COMMANDS_H
 
+# include <dirent.h>
 # include "tree.h"
 
 typedef struct s_element
@@ -61,10 +62,12 @@ t_queue			auto_tokenizer(char *input);
 
 /*---format_for_ast.c---*/
 t_queue			reorganize(t_queue tokens);
+t_token			split_command(t_queue tokens);
 
 /*---expansions.c---*/
-int				expand(t_token *token);
+int				expand(t_token *token, char **env_local);
 int				expand_env_var(t_token *token, char **env_local);
+int				expand_wildcard(t_token *token);
 int				remove_quotes(t_token *token);
 
 #endif
