@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/10 15:41:21 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/11 14:28:55 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 /*---tests---*/
 void	test_echo(char **envp);
 void	test_pwd(char **envp);
+void	test_tokenizer(void);
 void	test_lexer(void);
 void	test_tree(void);
 void	test_get_tree(void);
