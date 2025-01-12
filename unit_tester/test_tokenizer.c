@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/11 15:41:51 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:00:49 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,14 @@ void	test_tokenizer(void)
 
 	/*--- test 18 ---*/
 	assert_equal_queue(auto_tokenizer("cat <<here_doc"), &test_number, TOKEN_WORD, "cat", TOKEN_REDIR, "<<here_doc", NULL);
+
+	/*--- test 19 ---*/
+	assert_equal_queue(auto_tokenizer("\"echo\""), &test_number, TOKEN_WORD, "\"echo\"", NULL);
+
+	/*--- test 20 ---*/
+	assert_equal_queue(auto_tokenizer("\"echo\" >out"), &test_number, TOKEN_WORD, "\"echo\"", TOKEN_REDIR, ">out", NULL);
+
+	/*--- test 21 ---*/
+	assert_equal_queue(auto_tokenizer("\"echo >out\""), &test_number, TOKEN_WORD, "\"echo >out\"", NULL);
 
 }

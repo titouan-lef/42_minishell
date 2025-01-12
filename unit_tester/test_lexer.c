@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/11 20:30:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:00:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,4 +143,12 @@ void	test_lexer(void)
 	/*--- test 18 ---*/
 	assert_equal_queue(reorganize(auto_tokenizer("cat <<here_doc")), &test_number, TOKEN_REDIR, "<<here_doc", TOKEN_CMD, "cat", NULL);
 
+	/*--- test 19 ---*/
+	assert_equal_queue(reorganize(auto_tokenizer("\"echo\"")), &test_number, TOKEN_CMD, "\"echo\"", NULL);
+
+	/*--- test 20 ---*/
+	assert_equal_queue(reorganize(auto_tokenizer("\"echo\" >out")), &test_number, TOKEN_REDIR, ">out", TOKEN_CMD, "\"echo\"", NULL);
+
+	/*--- test 21 ---*/
+	assert_equal_queue(reorganize(auto_tokenizer("\"echo >out\"")), &test_number, TOKEN_CMD, "\"echo >out\"", NULL);
 }

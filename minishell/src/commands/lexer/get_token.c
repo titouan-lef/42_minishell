@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/09 20:20:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/12 18:58:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 			(*index)++;
 			while (input[*index] && input[*index] != '\'')
 				(*index)++;
+			(*index)++;
 		}
-		else if (input[*index] == '"')
+		else if (input[*index] == '\"')
 		{
 			(*index)++;
-			while (input[*index] && input[*index] != '"')
+			while (input[*index] && input[*index] != '\"')
 				(*index)++;
+			(*index)++;
 		}
 		else
 			(*index)++;
