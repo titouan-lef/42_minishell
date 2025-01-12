@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/10 18:54:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:00:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,27 +101,24 @@ t_queue	reorganize(t_queue tokens)
 
 t_token	split_command(t_queue tokens)
 {
-	t_queue	reorganized_tokens;
 	t_token	token;
 	t_token	cmd;
 	t_token	redir;
 
 	cmd = token_create(TOKEN_CMD, NULL);
 	redir = token_create(TOKEN_REDIR, NULL);
-	reorganized_tokens = queue_create();
 	while (!queue_is_empty(&tokens))
 	{
 		token = queue_pop(&tokens);
-		if (!update(&token, &cmd, &redir, &reorganized_tokens))
+		if (!update(&token, &cmd, &redir, NULL))
 		{
 			token_clear(cmd);
 			token_clear(redir);
 			queue_clear(&tokens);
-			queue_clear(&reorganized_tokens);
 			return (cmd);
 		}
 	}
 	token_clear(redir);
-	queue_clear(&reorganized_tokens);
+	queue_clear(&tokens);
 	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/11 10:00:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:50:57 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static int	new_word_lenght(char *word, char **env_local)
 		}
 		else
 		{
-			if (*word != '\'' && *word != '\"')
-				length++;
+			length++;
 			word++;
 		}
 	}
@@ -117,13 +116,11 @@ static char	*replace_word(char *word, char **env_local)
 			update_env_var(&word, updated_word, &letter, env_local);
 		else if (*word == '\'')
 		{
-			word++;
+			updated_word[letter++] = *word++;
 			while (*word != '\'')
 				updated_word[letter++] = *word++;
-			word++;
+			updated_word[letter++] = *word++;
 		}
-		else if (*word == '\"')
-			word++;
 		else
 			updated_word[letter++] = *word++;
 	}
@@ -140,14 +137,15 @@ static char	*replace_word(char *word, char **env_local)
 */
 int	expand_env_var(t_token *token, char **env_local)
 {
-	int			num_word;
-	char		*updated_word;
-	char		**updated_value;
-	t_queue		tmp;
-	t_token		splited;
+	int		num_word;
+	char	*updated_word;
+	char	**updated_value;
+	t_queue	tmp;
+	t_token	splited;
 
 	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
 	{
+		updated_value = NULL;
 		num_word = 0;
 		while (token->value[num_word])
 		{
@@ -159,15 +157,16 @@ int	expand_env_var(t_token *token, char **env_local)
 			}
 			tmp = auto_tokenizer(updated_word);
 			splited = split_command(tmp);
-			queue_clear(&tmp);
+			//queue_clear(&tmp);
 			free(updated_word);
-			if (!splited.value);
-				return (0);
-			updated_value = tab_join_and_free(updated_value, splited.value); //check leaks
-			if (!updated_value)
+			if (splited.value)
 			{
-				free(updated_word);
-				return (0);
+				updated_value = tab_join_and_free(updated_value, splited.value); //check leaks
+				if (!updated_value)
+				{
+					ft_clean_matrix((void **)updated_value);
+					return (0);
+				}
 			}
 			num_word++;
 		}

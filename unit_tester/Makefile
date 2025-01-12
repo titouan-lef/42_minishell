@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/11 14:29:50 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/11 20:30:52 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRC				=	unit_test/unit_test.c		\
 					test_tokenizer.c			\
 					test_lexer.c				\
 					test_tree.c					\
-					test_get_tree.c
+					test_get_tree.c				\
+					test_var_expansion.c
 
 #==================== OBJECT ====================#
 
