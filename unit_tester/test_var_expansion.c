@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/12 13:48:51 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/13 18:18:32 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ static void	assert_equal_token(t_token token, size_t *i, ...)
 	while (j < nb_args - 1)
 	{
 		expected_value = (char *)va_arg(args, char *);
-		if (!token.value[j])
+		if (!token.value)
+		{
+			print_ko(expected_value, "(null)", i);
+			va_end(args);
+			return ;
+		}if (!token.value[j])
 		{
 			print_ko(expected_value, token.value[j], i);
 			va_end(args);
@@ -164,7 +169,7 @@ void	test_var_expand(char **envp)
 	/*--- test 8 ---*/
 	token = token_create(TOKEN_CMD, built_tab("$e$b$c$d", "bonjour", NULL));
 	expand_env_var(&token, env);
-	assert_equal_token(token, &test_number, TOKEN_CMD, "'e'cho", "bonjour", NULL);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "\"'\"e\"'\"cho", "bonjour", NULL);
 	token_clear(token);
 
 	env = add_env_var(env,"f='e '");
@@ -172,7 +177,19 @@ void	test_var_expand(char **envp)
 	/*--- test 9 ---*/
 	token = token_create(TOKEN_CMD, built_tab("$f$b$c$d", "bonjour", NULL));
 	expand_env_var(&token, env);
-	assert_equal_token(token, &test_number, TOKEN_CMD, "'e", "'cho", "bonjour", NULL);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "\"'\"e", "\"'\"cho", "bonjour", NULL);
+	token_clear(token);
+
+	/*--- test 10 ---*/
+	token = token_create(TOKEN_CMD, built_tab("$", NULL));
+	expand_env_var(&token, env);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "$", NULL);
+	token_clear(token);
+
+	/*--- test 11 ---*/
+	token = token_create(TOKEN_CMD, built_tab("$$test", NULL));
+	expand_env_var(&token, env);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "$oui", "non", NULL);
 	token_clear(token);
 
 	ft_clean_matrix((void **)env);
