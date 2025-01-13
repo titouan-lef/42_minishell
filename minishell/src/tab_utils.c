@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:27:31 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 17:31:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:43:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 * Goal: Find size of a null terminated tab.
 *
 * Return: The size of the tab.
-*
-* Warning: None.
 */
 int	size_tab(char **tab)
 {

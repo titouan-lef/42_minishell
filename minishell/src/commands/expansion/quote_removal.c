@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/10 18:58:23 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:39:23 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*replace_word(char *word)
 	char	*updated_word;
 
 	letter = 0;
-	updated_word = ft_calloc(sizeof(char),new_word_lenght(word) + 1);
+	updated_word = ft_calloc(sizeof(char), new_word_lenght(word) + 1);
 	if (!updated_word)
 		return (NULL);
 	while (*word)

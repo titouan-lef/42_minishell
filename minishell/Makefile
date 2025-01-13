@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/11 18:41:42 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/13 19:35:27 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
 SRC				=	commands/builtins/echo.c				\
 					commands/builtins/pwd.c					\
+					commands/expansion/get_env_var.c		\
 					commands/expansion/variable_expansion.c	\
+					commands/lexer/token_utils.c			\
 					commands/lexer/get_token.c				\
 					commands/lexer/lexer.c					\
 					commands/lexer/format_for_ast.c			\
