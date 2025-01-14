@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/14 11:01:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:37:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,24 @@ void	test_var_expand(char **envp)
 	token = token_create(TOKEN_CMD, built_tab("$$test", NULL));
 	expand_env_var(&token, env);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "$oui", "non", NULL);
+	token_clear(token);
+
+	/*--- test 12 ---*/
+	token = token_create(TOKEN_REDIR, built_tab("<oui", NULL));
+	expand_env_var(&token, env);
+	assert_equal_token(token, &test_number, TOKEN_REDIR, "<oui", NULL);
+	token_clear(token);
+	
+	/*--- test 13 ---*/
+	token = token_create(TOKEN_REDIR, built_tab("<$test", NULL));
+	expand_env_var(&token, env);
+	assert_equal_token(token, &test_number, TOKEN_REDIR, "<oui", "non", NULL);
+	token_clear(token);
+
+	/*--- test 14 ---*/
+	token = token_create(TOKEN_REDIR, built_tab("<<\'$test\'", NULL)); // when creating heredocs before tree cration add \' befor and after here_doc limiter
+	expand_env_var(&token, env);
+	assert_equal_token(token, &test_number, TOKEN_REDIR, "<<\'$test\'", NULL);
 	token_clear(token);
 
 	ft_clean_matrix((void **)env);
