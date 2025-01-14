@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/13 18:18:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:01:54 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	assert_equal_token(t_token token, size_t *i, ...)
 		print_ok(i);
 }
 
-char **add_env_var(char **envp,const char *value)
+static char **add_env_var(char **envp,const char *value)
 {
 	char	**new_var;
 	
@@ -103,7 +103,6 @@ char **add_env_var(char **envp,const char *value)
 	}
 	new_var[0] = ft_strdup(value);
 	envp = tab_join_and_free(envp, new_var); //rip protection
-
 	return envp;
 }
 

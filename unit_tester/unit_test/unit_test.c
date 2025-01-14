@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 19:01:39 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/14 20:48:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ static char	*ft_itoa(int n)
 
 int	redirect_outputs(t_out *outputs)
 {
-	outputs->out = open("cout.log", O_RDWR|O_CREAT|O_TRUNC, 0644);
+	outputs->out = open("cout.log", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (-1 == outputs->out)
 	{
 		perror("opening cout.log");
 		exit(255);
 	}
-	outputs->err = open("cerr.log", O_RDWR|O_CREAT|O_APPEND, 0644);
+	outputs->err = open("cerr.log", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (-1 == outputs->err)
 	{
 		perror("opening cerr.log");
