@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/08 18:35:21 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:08:18 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	queue_clear(t_queue *queue)
 		queue->head = element->next;
 		token_clear(element->token);
 		free(element);
-		element = NULL;
 	}
 	queue->tail = NULL;
 }
