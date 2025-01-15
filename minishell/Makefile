@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/14 17:49:51 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/15 16:57:10 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,24 +24,29 @@ LIBFT_DIR		=	./libft/
 LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
-SRC				=	commands/ast/parsing/parsing.c				\
-					commands/ast/parsing/token_state.c			\
-					commands/ast/parsing/token_state_utils.c	\
-					commands/ast/tree/tree_primitive.c			\
-					commands/ast/tree/tree_push.c				\
-					commands/builtins/echo.c					\
-					commands/builtins/pwd.c						\
-					commands/expansion/get_env_var.c			\
-					commands/expansion/variable_expansion.c		\
-					commands/lexer/token_utils.c				\
-					commands/lexer/get_token.c					\
-					commands/lexer/lexer.c						\
-					commands/lexer/format_for_ast.c				\
-					commands/token.c							\
-					display/display.c							\
-					queue/queue_primitive.c						\
-					queue/queue_utils.c							\
-					tab_utils.c									\
+SRC				=	commands/ast/execution/stack/stack_primitive.c	\
+					commands/ast/execution/common_execution.c		\
+					commands/ast/execution/execution.c				\
+					commands/ast/execution/operation_execution.c	\
+					commands/ast/execution/pipe_execution.c			\
+					commands/ast/parsing/parsing.c					\
+					commands/ast/parsing/token_state.c				\
+					commands/ast/parsing/token_state_utils.c		\
+					commands/ast/tree/tree_primitive.c				\
+					commands/ast/tree/tree_push.c					\
+					commands/builtins/echo.c						\
+					commands/builtins/pwd.c							\
+					commands/expansion/get_env_var.c				\
+					commands/expansion/variable_expansion.c			\
+					commands/lexer/token_utils.c					\
+					commands/lexer/get_token.c						\
+					commands/lexer/lexer.c							\
+					commands/lexer/format_for_ast.c					\
+					commands/token.c								\
+					display/display.c								\
+					queue/queue_primitive.c							\
+					queue/queue_utils.c								\
+					tab_utils.c										\
 					minishell.c
 
 #==================== OBJECT ====================#
