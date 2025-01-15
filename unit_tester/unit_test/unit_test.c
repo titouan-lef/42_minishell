@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:16:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/14 20:48:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/15 21:03:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,12 @@ void	set_normal_outputs(t_out *outputs)
 
 	close(outputs->save_out);
 	close(outputs->save_err);
+}
+
+void	set_normal_input(t_in *input)
+{
+	dup2(input->save_in, fileno(stdin));
+	close(input->save_in);
 }
 
 void	start_test(char *name)

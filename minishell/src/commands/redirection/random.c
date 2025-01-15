@@ -6,11 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/09 00:39:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:10:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "redir.h"
 
 /*
 * Goal: Generate a random string of alpha numeric characters.
@@ -30,6 +30,7 @@ char	*generate_random_string(size_t length)
 	fd = open("/dev/random", O_RDONLY);
 	if (fd < 0)
 	{
+		ft_putendl_error("Impossible to geneate a here_doc name");
 		free(random_string);
 		return (NULL);
 	}

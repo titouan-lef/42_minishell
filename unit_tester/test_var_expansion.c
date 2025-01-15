@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/14 21:37:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:42:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static void	assert_equal_token(t_token token, size_t *i, ...)
 			print_ko(expected_value, "(null)", i);
 			va_end(args);
 			return ;
-		}if (!token.value[j])
+		}
+		if (!token.value[j])
 		{
 			print_ko(expected_value, token.value[j], i);
 			va_end(args);

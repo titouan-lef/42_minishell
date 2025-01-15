@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/14 14:16:37 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/15 17:10:58 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,10 @@ SRC				=	commands/builtins/echo.c				\
 					commands/parsing/parsing.c				\
 					commands/parsing/token_state.c			\
 					commands/parsing/token_state_utils.c	\
+					commands/redirection/random.c			\
+					commands/redirection/here_doc.c			\
+					commands/redirection/redirect.c			\
+					commands/redirection/redirection.c		\
 					display/display.c						\
 					queue/queue_primitive.c					\
 					queue/queue_utils.c						\

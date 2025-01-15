@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/14 21:37:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:22:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ t_token	split_command(t_queue tokens)
 		if (new_token.value == NULL)
 		{
 			ft_putendl_error("malloc error");
+			token_clear(token);
 			token_clear(new_token);
 			queue_clear(&tokens);
 			return (new_token);
