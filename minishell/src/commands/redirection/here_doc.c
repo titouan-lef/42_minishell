@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 02:11:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 14:31:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,15 @@ t_list	*create_here_docs(t_queue *tokens)
 {
 	t_list		*result;
 	t_token		token;
-	t_queue		rebuilt_tokens;
+	t_queue		*rebuilt_tokens;
 	int			i;
 
 	result = NULL;
-	rebuilt_tokens = queue_create();
-	while (!queue_is_empty(tokens))
+	rebuilt_tokens = tokens;
+	*tokens = queue_create();
+	while (!queue_is_empty(rebuilt_tokens))
 	{
-		token = queue_pop(tokens);
+		token = queue_pop(rebuilt_tokens);
 		if (token.name == TOKEN_REDIR)
 		{
 			i = 0;
@@ -112,22 +113,22 @@ t_list	*create_here_docs(t_queue *tokens)
 				if (!process_redir(token.value[i++], &result))
 				{
 					token_clear(token);
-					queue_clear(&rebuilt_tokens);
+					queue_clear(tokens);
 					ft_lstclear(&result, NULL);
 					return (result);
 				}
 			}
 		}
-		if (!queue_push(&rebuilt_tokens, token))
+		if (!queue_push(tokens, token))
 		{
-			//token_clear(token);
-			queue_clear(&rebuilt_tokens);
+			token_clear(token);
+			queue_clear(tokens);
 			ft_lstclear(&result, NULL);
 			return (result);
 		}
 	}
-	//queue_clear(tokens);
-	tokens = &rebuilt_tokens;
+	//queue_clear(*tokens);
+	//*tokens = &rebuilt_tokens;
 	return (result);
 }
 
@@ -137,7 +138,6 @@ void	clear_here_docs(t_list *here_docs)
 	{
 		unlink(((t_here_doc *)here_docs->content)->filename);
 		free(((t_here_doc *)here_docs->content)->filename);
-		free(here_docs->content);
-		here_docs = here_docs->next;
+		here_docs = ft_lstremove_front(here_docs, free);
 	}
 }

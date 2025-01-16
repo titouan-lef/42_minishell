@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 02:31:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 14:32:51 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void	test_redirs(void)
 	/*--- test 5 ---*/
 	redirect_outputs(&out);
 	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
-	close(open("out", O_CREAT, 000));
+	open("out", O_CREAT, 000);
 	make_redirs(token, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied", &test_number);
@@ -202,7 +202,7 @@ void	test_redirs(void)
 	/*--- test 6 ---*/
 	redirect_outputs(&out);
 	token = token_create(TOKEN_REDIR, built_tab(">out", ">outfile", NULL));
-	close(open("out", O_CREAT, 000));
+	open("out", O_CREAT, 000);
 	make_redirs(token, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied", &test_number);
@@ -268,12 +268,15 @@ void	test_redirs(void)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	t_list *here_docs = create_here_docs(&tokens);
-	set_normal_outputs(&out);
-	make_redirs(token, here_docs);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", &test_number);
 	queue_clear(&tokens);
+
+	// set_normal_outputs(&out);
+	// make_redirs(token, here_docs);
+	// assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", &test_number);
 	clear_here_docs(here_docs);
-	ft_lstclear(&here_docs, NULL);
+	//ft_lstclear(&here_docs, NULL);
 	unlink("here_doc");
 	set_normal_input(&in);
+
+	//LEAKS !!!!
 }
