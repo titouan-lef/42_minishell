@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/15 16:24:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:59:10 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_queue	auto_tokenizer(char *input)
 			return (tokens);
 		}
 		if (fill_token(&token, input, &index, buffer))
-			queue_push(&tokens, token);
+			queue_push(&tokens, token);//protect push
 	}
 	return (tokens);
 }

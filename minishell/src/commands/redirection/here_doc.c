@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 14:31:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:59:11 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_list	*create_here_docs(t_queue *tokens)
 				}
 			}
 		}
-		if (!queue_push(tokens, token))
+		if (queue_push(tokens, token))
 		{
 			token_clear(token);
 			queue_clear(tokens);

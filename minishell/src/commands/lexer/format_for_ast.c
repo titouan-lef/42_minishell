@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_for_ast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/15 17:22:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:01:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,49 +20,49 @@
 */
 static int	push_redir_cmd(t_queue *tokens, t_token *redir, t_token *cmd)
 {
-	int	malloc_succes;
+	int	malloc_error;
 
-	malloc_succes = 1;
+	malloc_error = 0;
 	if (redir->value)
 	{
-		malloc_succes = queue_push(tokens, *redir);
-		if (malloc_succes)
+		malloc_error = queue_push(tokens, *redir);
+		if (!malloc_error)
 			redir->value = NULL;
 	}
 	if (cmd->value)
 	{
-		malloc_succes = queue_push(tokens, *cmd);
-		if (malloc_succes)
+		malloc_error = queue_push(tokens, *cmd);
+		if (!malloc_error)
 			cmd->value = NULL;
 	}
-	return (malloc_succes);
+	return (malloc_error);
 }
 
 static int	update(t_token *token, t_token *cmd, t_token *redir, t_queue *r_tk)
 {
-	int	malloc_succes;
+	int	malloc_error;
 
-	malloc_succes = 1;
+	malloc_error = 0;
 	if (token->name == TOKEN_WORD)
 	{
 		cmd->value = tab_join_and_free(cmd->value, token->value);
-		malloc_succes = (cmd->value != NULL);
+		malloc_error = (cmd->value == NULL);
 	}
 	else if (token->name == TOKEN_REDIR)
 	{
 		redir->value = tab_join_and_free(redir->value, token->value);
-		malloc_succes = (redir->value != NULL);
+		malloc_error = (redir->value == NULL);
 	}
-	if (!malloc_succes)
+	if (malloc_error)
 		ft_putendl_error("malloc error");
 	if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
 	{
-		if (!push_redir_cmd(r_tk, redir, cmd))
-			malloc_succes = 0;
-		if (!queue_push(r_tk, *token))
-			malloc_succes = 0;
+		if (push_redir_cmd(r_tk, redir, cmd))
+			malloc_error = 1;
+		if (queue_push(r_tk, *token))
+			malloc_error = 1;
 	}
-	return (malloc_succes);
+	return (malloc_error);
 }
 
 /*
@@ -85,7 +85,7 @@ t_queue	reorganize(t_queue tokens)
 	while (!queue_is_empty(&tokens))
 	{
 		token = queue_pop(&tokens);
-		if (!update(&token, &cmd, &redir, &reorganized_tokens))
+		if (update(&token, &cmd, &redir, &reorganized_tokens))
 		{
 			token_clear(cmd);
 			token_clear(redir);
@@ -94,7 +94,7 @@ t_queue	reorganize(t_queue tokens)
 			return (reorganized_tokens);
 		}
 	}
-	if (!push_redir_cmd(&reorganized_tokens, &redir, &cmd))
+	if (push_redir_cmd(&reorganized_tokens, &redir, &cmd))
 		queue_clear(&reorganized_tokens);
 	return (reorganized_tokens);
 }

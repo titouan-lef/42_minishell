@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:39:27 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/15 15:08:18 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:50:31 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	queue_is_empty(t_queue *queue)
 /*
 * Goal: Add a new token at the end of the queue.
 *
-* Return: 1 if goes as expected, 0 in case of malloc problem.
+* Return: 0 if goes as expected, 1 in case of malloc problem.
 *
 * Warning: Queue mustn't be null.
 */
@@ -40,7 +40,7 @@ int	queue_push(t_queue *queue, t_token token)
 	{
 		queue_clear(queue);
 		ft_putendl_error("Error malloc queue push");
-		return (0);
+		return (1);
 	}
 	element->token = token;
 	element->next = NULL;
@@ -49,7 +49,7 @@ int	queue_push(t_queue *queue, t_token token)
 	else
 		queue->tail->next = element;
 	queue->tail = element;
-	return (1);
+	return (0);
 }
 
 /*
