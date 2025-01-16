@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 16:59:11 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:32:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,33 @@
 *
 * Warning: limit must not me null.
 */
-static void	get_here_doc_input(int file, char *limit)
+static int	get_here_doc_input(int file, char *limiter)
 {
 	int		size_limit;
 	char	*line;
 
-	size_limit = ft_strlen(limit);
+	size_limit = ft_strlen(limiter);
 	while (1)
 	{
 		ft_putstr("> ");
 		line = get_next_line(0);
 		if (!line)
 		{
-			ft_printf_fd(2, "minishell: warning: here-document delimited by end-of-file (wanted '%s')", limit);
-			return ;
+			ft_printf_fd(2, "minishell: warning: here-document delimited by end-of-file (wanted '%s')", limiter);
+			return (1);
 		}
-		if (!ft_strncmp(limit, line, size_limit) && line[size_limit] == '\n')
+		if (!ft_strncmp(limiter, line, size_limit) && line[size_limit] == '\n')
 			break ;
-		write(file, line, ft_strlen(line));
+		if (write(file, line, ft_strlen(line)) == -1)
+		{
+			ft_printf_fd(2, "minishell: error here_doc access");
+			free(line);
+			return (1);
+		}
 		free(line);
 	}
 	free(line);
+	return (0);
 }
 
 /*
@@ -45,7 +51,40 @@ static void	get_here_doc_input(int file, char *limit)
 *
 * Warning: limit must not me null.
 */
-static t_here_doc	*here_doc(char *limiter)
+int	read_here_docs(t_list *here_docs)
+{
+	t_here_doc	*here_doc;
+	int			fd;
+
+	while (here_docs)
+	{
+		here_doc = here_docs->content;
+		here_doc->filename = generate_random_string(10);
+		if (!here_doc->filename)
+			return (1);
+		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			ft_putendl_error("minishell: error here_doc access");
+			return (1);
+		}
+		if (get_here_doc_input(fd, here_doc->limiter))
+		{
+			close(fd);
+			return (1);
+		}
+		close(fd);
+		here_docs = here_docs->next;
+	}
+	return (0);
+}
+
+/*
+* Goal: Create a file witha random name.
+*
+* Warning: limit must not me null.
+*/
+static t_here_doc	*new_here_doc(char *limiter)
 {
 	t_here_doc	*result;
 
@@ -56,80 +95,38 @@ static t_here_doc	*here_doc(char *limiter)
 		return (NULL);
 	}
 	result->limiter = limiter;
-	result->filename = generate_random_string(10);
-	if (!result->filename)
-	{
-		free(result);
-		return (NULL);
-	}
-	result->fd = open(result->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (result->fd < 0)
-	{
-		ft_putendl_error("minishell: here_doc temrorary file has desapered");
-		free(result);
-		return (NULL);
-	}
-	get_here_doc_input(result->fd, limiter);
-	close(result->fd);
 	return (result);
 }
 
-static int	process_redir(char *redir, t_list **result)
+int	detect_here_docs(t_token token, t_list **here_docs)
 {
 	t_here_doc	*element;
 	t_list		*new;
-
-	while (*redir && *(redir + 1) && (*redir != '<' || *(redir + 1) != '<'))
-		redir++;
-	if (!*redir)
-		return (1);
-	redir += 2;
-	element = here_doc(redir);
-	if (!element)
-		return (0);
-	new = ft_lstnew((void *)element);
-	ft_lstadd_back(result, new);
-	return (1);
-}
-
-t_list	*create_here_docs(t_queue *tokens)
-{
-	t_list		*result;
-	t_token		token;
-	t_queue		*rebuilt_tokens;
+	char		*redir;
 	int			i;
 
-	result = NULL;
-	rebuilt_tokens = tokens;
-	*tokens = queue_create();
-	while (!queue_is_empty(rebuilt_tokens))
+	i = 0;
+	while (token.value[i])
 	{
-		token = queue_pop(rebuilt_tokens);
-		if (token.name == TOKEN_REDIR)
+		redir = token.value[i];
+		i++;
+		while (*redir && *(redir + 1) && (*redir != '<' || *(redir + 1) != '<'))
+			redir++;
+		if (!*redir)
+			continue ;
+		redir += 2;
+		element = new_here_doc(redir);
+		if (!element)
+			return (1);
+		new = ft_lstnew(element);
+		if (!new)
 		{
-			i = 0;
-			while (token.value[i])
-			{
-				if (!process_redir(token.value[i++], &result))
-				{
-					token_clear(token);
-					queue_clear(tokens);
-					ft_lstclear(&result, NULL);
-					return (result);
-				}
-			}
+			free(element);
+			return (1);
 		}
-		if (queue_push(tokens, token))
-		{
-			token_clear(token);
-			queue_clear(tokens);
-			ft_lstclear(&result, NULL);
-			return (result);
-		}
+		ft_lstadd_back(here_docs, new);
 	}
-	//queue_clear(*tokens);
-	//*tokens = &rebuilt_tokens;
-	return (result);
+	return (0);
 }
 
 void	clear_here_docs(t_list *here_docs)

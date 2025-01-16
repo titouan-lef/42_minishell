@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/15 17:10:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:38:20 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*generate_random_string(size_t length)
 	i = 0;
 	while (i < length)
 	{
-		if (read(fd, &random_char, 1) != 1)
+		if (read(fd, &random_char, 1) != 1) //protection + free random_string
 			return (NULL);
 		if (ft_isalnum(random_char))
 			random_string[i++] = random_char;

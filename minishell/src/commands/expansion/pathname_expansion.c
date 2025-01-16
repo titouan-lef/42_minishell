@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/14 20:47:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:34:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*replace_word(char *patern)
 *
 * Warning: updated_value and updated_word must not be null.
 */
-static int update_value(char ***updated_value, char *updated_word)
+static int	update_value(char ***updated_value, char *updated_word)
 {
 	char	**splited;
 
@@ -108,9 +108,9 @@ static int update_value(char ***updated_value, char *updated_word)
 */
 int	expand_wildcard(t_token *token)
 {
-	int			num_word;
-	char		*updated_word;
-	char		**updated_value;
+	int		num_word;
+	char	*updated_word;
+	char	**updated_value;
 
 	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
 	{

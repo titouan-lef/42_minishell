@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 16:23:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:26:56 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,26 +255,25 @@ void	test_redirs(void)
 
 	fflush(stdout);
 
-	// /*--- test 14 ---*/
-	// in.save_in = dup(STDIN_FILENO);
-	// redirect_outputs(&out);
-	// token = token_create(TOKEN_REDIR, built_tab("<<here_doc", NULL));
-	// t_queue tokens = queue_create();
-	// queue_push(&tokens, token);
-	// int fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	// write(fd, "here_doc\n", 9);
-	// close(fd);
-	// fd = open("here_doc", O_RDONLY);
-	// dup2(fd, STDIN_FILENO);
-	// close(fd);
-	// t_list *here_docs = create_here_docs(&tokens);
-	// queue_clear(&tokens);
-	// set_normal_outputs(&out);
-	// make_redirs(token, here_docs);
-	// assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", &test_number);
-	// clear_here_docs(here_docs);
-	// ft_lstclear(&here_docs, NULL);
-	// unlink("here_doc");
-	// set_normal_input(&in);
+	/*--- test 14 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", NULL));
+	int fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "here_doc\n", 9);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	t_list *here_docs = NULL;
+	detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs);
+	set_normal_outputs(&out);
+	make_redirs(token, here_docs);
+	token_clear(token);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", &test_number);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
 
 }

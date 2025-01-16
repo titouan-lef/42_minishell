@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:40:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 17:07:30 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:32:22 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int			redirect_here_doc(int fd, char *limit, t_list *here_docs);
 int			make_redirs(t_token token_redir, t_list *here_docs);
 
 /*---here_doc---*/
-t_list		*create_here_docs(t_queue *tokens);
+int			detect_here_docs(t_token token, t_list **here_docs);
+int			read_here_docs(t_list *here_docs);
 void		clear_here_docs(t_list *here_docs);
 
 #endif
