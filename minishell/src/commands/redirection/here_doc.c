@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/15 17:17:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 02:11:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static void	get_here_doc_input(int file, char *limit)
 		line = get_next_line(0);
 		if (!line)
 		{
-			ft_printf_fd(2, "minishell: warning: here-document \
-				delimited by end-of-file (wanted '%s')", limit);
+			ft_printf_fd(2, "minishell: warning: here-document delimited by end-of-file (wanted '%s')", limit);
 			return ;
 		}
 		if (!ft_strncmp(limit, line, size_limit) && line[size_limit] == '\n')
@@ -46,7 +45,7 @@ static void	get_here_doc_input(int file, char *limit)
 *
 * Warning: limit must not me null.
 */
-t_here_doc	*here_doc(char *limiter)
+static t_here_doc	*here_doc(char *limiter)
 {
 	t_here_doc	*result;
 
@@ -93,7 +92,7 @@ static int	process_redir(char *redir, t_list **result)
 	return (1);
 }
 
-t_list	*create_here_docs(t_queue	*tokens)
+t_list	*create_here_docs(t_queue *tokens)
 {
 	t_list		*result;
 	t_token		token;
@@ -119,13 +118,26 @@ t_list	*create_here_docs(t_queue	*tokens)
 				}
 			}
 		}
-		if (queue_push(&rebuilt_tokens, token))
+		if (!queue_push(&rebuilt_tokens, token))
 		{
-			token_clear(token);
+			//token_clear(token);
 			queue_clear(&rebuilt_tokens);
 			ft_lstclear(&result, NULL);
 			return (result);
 		}
 	}
+	//queue_clear(tokens);
+	tokens = &rebuilt_tokens;
 	return (result);
+}
+
+void	clear_here_docs(t_list *here_docs)
+{
+	while (here_docs)
+	{
+		unlink(((t_here_doc *)here_docs->content)->filename);
+		free(((t_here_doc *)here_docs->content)->filename);
+		free(here_docs->content);
+		here_docs = here_docs->next;
+	}
 }

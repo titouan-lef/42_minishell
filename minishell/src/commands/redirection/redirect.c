@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/15 19:58:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 02:13:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ int	redirect_input(int fd, char *file_name)
 
 	if (fd == -1)
 		fd = STDIN_FILENO;
-	if (access(file_name, R_OK) == -1)
+	if (access(file_name, F_OK) == 0)
 	{
-		ft_printf_fd(2, "minishell: %s: Permission denied", file_name);
-		return (1);
+		if (access(file_name, R_OK) == -1)
+		{
+			ft_printf_fd(2, "minishell: %s: Permission denied", file_name);
+			return (1);
+		}
 	}
 	fd_file = open(file_name, O_RDONLY);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "minishell: %s: No such file or dirrectory", file_name);
+		ft_printf_fd(2, "minishell: %s: No such file or directory", file_name);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
@@ -87,17 +90,19 @@ int	redirect_output_append_mode(int fd, char *fn)
 	int	fd_file;
 
 	if (fd == -1)
-		fd = STDIN_FILENO;
+		fd = STDOUT_FILENO;
+	if (access(fn, F_OK) == 0)
+	{
+		if (access(fn, W_OK) == -1)
+		{
+			ft_printf_fd(2, "minishell: %s: Permission denied", fn);
+			return (1);
+		}
+	}
 	fd_file = open(fn, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "minishell: %s: No such file or dirrectory", fn);
-		return (1);
-	}
-	if (access(fn, W_OK) == -1)
-	{
-		ft_printf_fd(2, "minishell: %s: Permission denied", fn);
-		close(fd_file);
+		ft_printf_fd(2, "minishell: %s: No such file or directory", fn);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
@@ -125,7 +130,7 @@ int	redirect_here_doc(int fd, char *limiter, t_list *here_docs)
 	file_name = NULL;
 	while (here_docs)
 	{
-		if (ft_strcmp(((t_here_doc *)(here_docs->content))->limiter, limiter))
+		if (!ft_strcmp(((t_here_doc *)(here_docs->content))->limiter, limiter))
 		{
 			file_name = ((t_here_doc *)(here_docs->content))->filename;
 			break ;

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/15 22:11:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 02:31:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	assert_redir_out(t_out out, size_t *i, ...)
 		{
 			set_normal_outputs(&out);
 			print_ko(file, "(file does not exist)", i);
+			unlink(file);
 			return ;
 		}
 		result = calloc(10000,sizeof(char)); //rip protection
@@ -88,6 +89,7 @@ static void	assert_redir_out(t_out out, size_t *i, ...)
 			print_ko(file, "(permission denied)", i);
 			free(result);
 			close(fd);
+			unlink(file);
 			return ;
 		}
 		close(fd);
@@ -148,7 +150,7 @@ void	test_redirs(void)
 
 	start_test("redirections");
 	test_number = 1;
-
+	
 	/*--- test 1 ---*/
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
@@ -168,6 +170,57 @@ void	test_redirs(void)
 	fflush(stdout);
 
 	/*--- test 3 ---*/
+	out.save_out = dup(STDOUT_FILENO);
+	out.save_err = dup(STDERR_FILENO);
+	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
+	make_redirs(token, NULL);
+	assert_redir_out(out, &test_number, "out", "outfile", NULL);
+	token_clear(token);
+	fflush(stdout);
+
+	/*--- test 4 ---*/
+	out.save_out = dup(STDOUT_FILENO);
+	out.save_err = dup(STDERR_FILENO);
+	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
+	close(open("out", O_CREAT, 0644));
+	make_redirs(token, NULL);
+	assert_redir_out(out, &test_number, "out", "outfile", NULL);
+	token_clear(token);
+	fflush(stdout);
+
+	/*--- test 5 ---*/
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
+	close(open("out", O_CREAT, 000));
+	make_redirs(token, NULL);
+	set_normal_outputs(&out);
+	assert_equal_err("minishell: out: Permission denied", &test_number);
+	unlink("out");
+	token_clear(token);
+	fflush(stdout);
+
+	/*--- test 6 ---*/
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab(">out", ">outfile", NULL));
+	close(open("out", O_CREAT, 000));
+	make_redirs(token, NULL);
+	set_normal_outputs(&out);
+	assert_equal_err("minishell: out: Permission denied", &test_number);
+	unlink("out");
+	token_clear(token);
+	fflush(stdout);
+
+	/*--- test 7 ---*/
+	redirect_outputs(&out);
+	in.save_in = dup(STDIN_FILENO);
+	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
+	make_redirs(token, NULL);
+	set_normal_outputs(&out);
+	assert_equal_err("minishell: in: No such file or directory", &test_number);
+	set_normal_input(&in);
+	token_clear(token);
+
+	/*--- test 8 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
 	close(open("in", O_CREAT, 0644));
@@ -176,7 +229,7 @@ void	test_redirs(void)
 	set_normal_input(&in);
 	token_clear(token);
 
-	/*--- test 4 & 5 ---*/
+	/*--- test 9 & 10 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab("<in", "<infile", NULL));
 	close(open("in", O_CREAT, 0644));
@@ -187,7 +240,7 @@ void	test_redirs(void)
 	set_normal_input(&in);
 	token_clear(token);
 
-	/*--- test 6 & 7 & 8 ---*/
+	/*--- test 11 & 12 & 13 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab("<in", "<infile", "<testin", NULL));
 	close(open("in", O_CREAT, 0644));
@@ -199,5 +252,28 @@ void	test_redirs(void)
 	assert_redir_in("testin", "test\n", &test_number);
 	set_normal_input(&in);
 	token_clear(token);
-	
+
+	fflush(stdout);
+
+	/*--- test 14 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", NULL));
+	t_queue tokens = queue_create();
+	queue_push(&tokens, token);
+	int fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "here_doc\n", 9);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	t_list *here_docs = create_here_docs(&tokens);
+	set_normal_outputs(&out);
+	make_redirs(token, here_docs);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", &test_number);
+	queue_clear(&tokens);
+	clear_here_docs(here_docs);
+	ft_lstclear(&here_docs, NULL);
+	unlink("here_doc");
+	set_normal_input(&in);
 }
