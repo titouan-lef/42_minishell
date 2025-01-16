@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:40:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 00:58:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:07:30 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ typedef enum e_redir_name
 	OUTPUT,
 	OUTPUT_APPEND,
 }			t_redir_name;
-
-typedef struct s_here_doc
-{
-	char	*filename;
-	char	*limiter;
-	int		fd;
-}			t_here_doc;
 
 /*---random.c---*/
 char		*generate_random_string(size_t length);

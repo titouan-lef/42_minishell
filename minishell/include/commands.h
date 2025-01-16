@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/15 13:48:57 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:18:25 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ typedef struct s_queue
 	t_element	*head;
 	t_element	*tail;
 }	t_queue;
+
+typedef struct s_here_doc
+{
+	char	*filename;
+	char	*limiter;
+	int		fd;
+}			t_here_doc;
+
+typedef struct s_data
+{
+	t_tree	*tree;
+	t_list	*lst;
+	int		fd[2];//pipe
+}			t_data;
 
 /*---queue_primitive.c---*/
 int				queue_is_empty(t_queue *queue);
