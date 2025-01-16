@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unit_test.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:07:45 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 19:01:56 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/15 10:42:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ typedef struct s_out
 	int	save_err;
 }				t_out;
 
+typedef struct s_in
+{
+	int	in;
+	int	save_in;
+}				t_in;
+
 /*---colors---*/
 # define NO_COLOR "\033[0m"
 # define GREEN "\x1B[32m"
@@ -37,11 +43,12 @@ typedef struct s_out
 
 /*---test functions---*/
 void	start_test(char *name);
-void	print_ko(char* expected, char *result, size_t *i);
+void	print_ko(char *expected, char *result, size_t *i);
 void	print_ok(size_t *i);
 void	assert_equal_s(char *expected, char *result, size_t *i);
 int		redirect_outputs(t_out *outputs);
 void	set_normal_outputs(t_out *outputs);
+void	set_normal_input(t_in *input);
 void	assert_equal_out( char *expected, size_t *i);
 void	assert_equal_err(char *expected, size_t *i);
 void	assert_equal_i(int expected, int result, size_t *i);

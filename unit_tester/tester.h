@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/11 18:39:28 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/15 13:53:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "builtins.h"
 # include "commands.h"
 # include "tree.h"
+# include "redir.h"
 # include "unit_test/unit_test.h"
 
 /*---utils---*/
@@ -33,6 +34,8 @@ void	test_lexer(void);
 void	test_tree(void);
 void	test_get_tree(void);
 void	test_var_expand(char **envp);
+void	test_pathname_expand(void);
+void	test_redirs(void);
 
 
 #endif

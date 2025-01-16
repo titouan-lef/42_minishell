@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/15 16:57:10 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/16 16:38:35 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,8 @@ SRC				=	commands/ast/execution/stack/stack_primitive.c	\
 					commands/ast/execution/common_execution.c		\
 					commands/ast/execution/execution.c				\
 					commands/ast/execution/operation_execution.c	\
+					commands/expansion/get_files.c			\
+					commands/expansion/pathname_expansion.c	\
 					commands/ast/execution/pipe_execution.c			\
 					commands/ast/parsing/parsing.c					\
 					commands/ast/parsing/token_state.c				\
@@ -43,6 +45,10 @@ SRC				=	commands/ast/execution/stack/stack_primitive.c	\
 					commands/lexer/lexer.c							\
 					commands/lexer/format_for_ast.c					\
 					commands/token.c								\
+					commands/redirection/random.c			\
+					commands/redirection/here_doc.c			\
+					commands/redirection/redirect.c			\
+					commands/redirection/redirection.c		\
 					display/display.c								\
 					queue/queue_primitive.c							\
 					queue/queue_utils.c								\

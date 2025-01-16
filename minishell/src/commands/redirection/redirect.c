@@ -6,11 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/09 00:35:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 02:13:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "redir.h"
 
 /*
 * Goal: Redirect the fd input in a file (STDIN if fd=-1).
@@ -25,20 +25,24 @@ int	redirect_input(int fd, char *file_name)
 
 	if (fd == -1)
 		fd = STDIN_FILENO;
-	if (access(file_name, R_OK) == -1)
+	if (access(file_name, F_OK) == 0)
 	{
-		ft_putendl_error("Permission denied"); //add minishell: %s, file_name
-		return (1);
+		if (access(file_name, R_OK) == -1)
+		{
+			ft_printf_fd(2, "minishell: %s: Permission denied", file_name);
+			return (1);
+		}
 	}
 	fd_file = open(file_name, O_RDONLY);
 	if (fd_file == -1)
 	{
-		ft_putendl_error("No such file or dirrectory"); //add minishell: %s, file_name
+		ft_printf_fd(2, "minishell: %s: No such file or directory", file_name);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
 	{
 		ft_putendl_error("dup2 failed");
+		close(fd_file);
 		return (1);
 	}
 	close(fd_file);
@@ -58,20 +62,16 @@ int	redirect_output(int fd, char *file_name)
 
 	if (fd == -1)
 		fd = STDOUT_FILENO;
-	if (access(file_name, W_OK) == -1)
-	{
-		ft_putendl_error("Permission denied"); //add minishell: %s, file_name
-		return (1);
-	}
-	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 644);
+	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_file == -1)
 	{
-		ft_putendl_error("No such file or dirrectory"); //add minishell: %s, file_name
+		ft_printf_fd(2, "minishell: %s: Permission denied", file_name);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
 	{
 		ft_putendl_error("dup2 failed");
+		close(fd_file);
 		return (1);
 	}
 	close(fd_file);
@@ -83,60 +83,36 @@ int	redirect_output(int fd, char *file_name)
 *
 * Return: 0 if succes, the code error if an error occur.
 *
-* Warning: file_name must not me null.
+* Warning: file_name (fn) must not me null.
 */
-int	redirect_output_append_mode(int fd, char *file_name)
+int	redirect_output_append_mode(int fd, char *fn)
 {
 	int	fd_file;
 
 	if (fd == -1)
-		fd = STDIN_FILENO;
-	if (access(file_name, W_OK) == -1)
+		fd = STDOUT_FILENO;
+	if (access(fn, F_OK) == 0)
 	{
-		ft_putendl_error("Permission denied"); //add minishell: %s, file_name
-		return (1);
+		if (access(fn, W_OK) == -1)
+		{
+			ft_printf_fd(2, "minishell: %s: Permission denied", fn);
+			return (1);
+		}
 	}
-	fd_file = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 644);
+	fd_file = open(fn, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_file == -1)
 	{
-		ft_putendl_error("No such file or dirrectory"); //add minishell: %s, file_name
+		ft_printf_fd(2, "minishell: %s: No such file or directory", fn);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
 	{
 		ft_putendl_error("dup2 failed");
+		close(fd_file);
 		return (1);
 	}
 	close(fd_file);
 	return (0);
-}
-
-/*
-* Goal: Put all the readed lines in the here_doc file until EOF.
-*
-* Warning: limit must not me null.
-*/
-void	get_here_doc_input(int file, char *limit)
-{
-	int		size_limit;
-	char	*line;
-
-	size_limit = ft_strlen(limit);
-	while (1)
-	{
-		ft_putstr("> "); // as much "pipe" as (b_cmd - 1)
-		line = get_next_line(0);
-		if (!line)
-		{
-			ft_printf_fd(2, "minishell: warning: here-document delimited by end-of-file (wanted '%s')", limit); // use of ft_printf_ft
-			return ;
-		}
-		if (!ft_strncmp(limit, line, size_limit) && line[size_limit] == '\n')
-			break ;
-		write(file, line, ft_strlen(line));
-		free(line);
-	}
-	free(line);
 }
 
 /*
@@ -146,26 +122,21 @@ void	get_here_doc_input(int file, char *limit)
 *
 * Warning: limit must not me null.
 */
-int	here_doc(int fd, char *limit)
+int	redirect_here_doc(int fd, char *limiter, t_list *here_docs)
 {
-	int		fd_file;
 	char	*file_name;
+	int		result;
 
-	file_name = generate_random_string(10);
-	if (!file_name)
+	file_name = NULL;
+	while (here_docs)
 	{
-		ft_putendl_error("Impossible to geneate a here_doc name");
-		return (1);
+		if (!ft_strcmp(((t_here_doc *)(here_docs->content))->limiter, limiter))
+		{
+			file_name = ((t_here_doc *)(here_docs->content))->filename;
+			break ;
+		}
+		here_docs = here_docs->next;
 	}
-	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 644);
-	if (fd_file < 0)
-	{
-		ft_putendl_error("No such file or dirrectory"); //add minishell: %s, file_name
-		return (1);
-	}
-	ft_get_here_doc_input(fd_file, limit);
-	close(fd_file);
-	redirect_input(fd, file_name);
-	//pipex->file_in_name = file_name;				//save somewhere to unlink at the end
-	return (0);
+	result = redirect_input(fd, file_name);
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/13 19:39:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:37:49 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,22 @@ static char	*replace_word(char *word, char **env_local)
 	return (updated_word);
 }
 
+/*
+* Goal: Make a new word with all the environement variables
+*		in the given word from there value in env_local.
+*
+* Return: The updated word.
+*
+* Warning: word and env_local must not be null.
+*/
 static char	**update_value(char **updated_value, char *updated_word)
 {
 	t_queue	tmp;
 	t_token	splited;
 
 	tmp = auto_tokenizer(updated_word);
-	splited = split_command(tmp);
 	free(updated_word);
+	splited = split_command(tmp);
 	if (splited.value)
 	{
 		updated_value = tab_join_and_free(updated_value, splited.value);
