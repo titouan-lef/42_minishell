@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 19:26:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:48:05 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ t_tree	*state_cmd(t_tree *tree, t_queue *queue)
 		return (state_pipe(tree, queue));
 	else if (next_token_name == TOKEN_PAR_OPEN)
 	{
+		if (tree->token.value[1] == NULL)
+			token_clear(queue_pop(queue));
 		print_error_token(queue);
 		tree_clear(&tree);
 		return (NULL);
@@ -65,8 +67,7 @@ t_tree	*state_pipe(t_tree *tree, t_queue *queue)//
 		return (NULL);
 	if (queue_is_empty(queue))
 	{
-		ft_putendl_error("to define");
-		//print_error_token("|");// no heardoc ?
+		print_error_token_value(tree->token.value[0]);
 		tree_clear(&tree);
 		return (NULL);
 	}
@@ -103,13 +104,19 @@ t_tree	*state_par_open(t_tree *tree, t_queue *queue)
 		return (NULL);
 	}
 	remove_token(queue);
-	type = queue_first_name(queue);
-	while (type != TOKEN_PAR_CLOSE)
+	while (!queue_is_empty(queue))
 	{
+		type = queue_first_name(queue);
+		if (type == TOKEN_PAR_CLOSE)
+			break ;
 		tree = next_state(tree, queue);
 		if (tree == NULL)
 			return (NULL);
-		type = queue_first_name(queue);
+	}
+	if (queue_is_empty(queue))
+	{
+		print_error_token_value("(");
+		return (NULL);
 	}
 	if (tree_is_empty(tree))
 	{

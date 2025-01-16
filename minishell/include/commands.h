@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/16 17:18:25 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:29:51 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_tree			*state_par_open(t_tree *tree, t_queue *queue);
 /*---token_state_utils.c---*/
 t_tree			*add_new_token(t_tree *tree, t_queue *queue);
 void			remove_token(t_queue *queue);
+void			print_error_token_value(char *value);
 void			print_error_token(t_queue *queue);
 t_tree			*common_state(t_tree *tree, t_queue *queue, t_token_name type);
 
