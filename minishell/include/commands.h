@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/16 20:44:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:48:16 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_here_doc
 {
 	char	*filename;
 	char	*limiter;
-	int		fd;
 }			t_here_doc;
 
 typedef struct s_data
