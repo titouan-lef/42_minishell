@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/10 19:56:18 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:51:22 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -477,6 +477,134 @@ static void test_get_tree20(void)
 	write_result(&queue);
 }
 
+// echo | )
+static void test_get_tree21(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue);
+}
+
+// echo | (
+static void test_get_tree22(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+
+	write_result(&queue);
+}
+
+// echo | (cat && grep))
+static void test_get_tree23(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue);
+}
+
+// echo | )cat && grep()
+static void test_get_tree24(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")1")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue);
+}
+
+// echo | cat (grep)
+static void test_get_tree25(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue);
+}
+
+// echo (
+static void test_get_tree26(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+
+	write_result(&queue);
+}
+
+// &&
+static void test_get_tree27(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+
+	write_result(&queue);
+}
+
+// echo (( cat )
+static void test_get_tree28(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue);
+}
+
+// )
+static void test_get_tree29(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue);
+}
+
+// (
+static void test_get_tree30(void)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+
+	write_result(&queue);
+}
+
 static char	*add_element_test(char *str, char *add)
 {
 	char	*new;
@@ -593,7 +721,7 @@ void	test_get_tree(void)
 
 	/*--- test 8 ---*/
 	test_get_tree8();
-	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
+	assert_equal_err("bash: syntax error near unexpected token `||'\n", &test_number);
 
 	/*--- test 9 ---*/
 	test_get_tree9();
@@ -714,4 +842,44 @@ void	test_get_tree(void)
 	/*--- test 20 ---*/
 	test_get_tree20();
 	assert_equal_err("bash: syntax error near unexpected token `|'\n", &test_number);
+
+	/*--- test 21 ---*/
+	test_get_tree21();
+	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+
+	/*--- test 22 ---*/
+	test_get_tree22();
+	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
+
+	/*--- test 23 ---*/
+	test_get_tree23();
+	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+
+	/*--- test 24 ---*/
+	test_get_tree24();
+	assert_equal_err("bash: syntax error near unexpected token `)1'\n", &test_number);
+
+	/*--- test 25 ---*/
+	test_get_tree25();
+	assert_equal_err("bash: syntax error near unexpected token `grep'\n", &test_number);
+
+	/*--- test 26 ---*/
+	test_get_tree26();
+	assert_equal_err("bash: syntax error near unexpected token `newline'\n", &test_number);
+
+	/*--- test 27 ---*/
+	test_get_tree27();
+	assert_equal_err("bash: syntax error near unexpected token `&&'\n", &test_number);
+
+	/*--- test 28 ---*/
+	test_get_tree28();
+	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
+
+	/*--- test 29 ---*/
+	test_get_tree29();
+	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+
+	/*--- test 30 ---*/
+	test_get_tree30();
+	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
 }
