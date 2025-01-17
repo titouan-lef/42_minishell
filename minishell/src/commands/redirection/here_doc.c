@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 20:32:52 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:52:53 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,13 @@ static t_here_doc	*new_here_doc(char *limiter)
 		ft_putendl_error("malloc error");
 		return (NULL);
 	}
-	result->limiter = limiter;
+	result->limiter = ft_strdup(limiter);
+	if (!result)
+	{
+		ft_putendl_error("malloc error");
+		free(result);
+		return (NULL);
+	}
 	return (result);
 }
 
@@ -110,9 +116,9 @@ int	detect_here_docs(t_token token, t_list **here_docs)
 	{
 		redir = token.value[i];
 		i++;
-		while (*redir && *(redir + 1) && (*redir != '<' || *(redir + 1) != '<'))
+		while (*(redir + 1) && (*redir != '<' || *(redir + 1) != '<'))
 			redir++;
-		if (!*redir)
+		if (!*(redir + 1))
 			continue ;
 		redir += 2;
 		element = new_here_doc(redir);
@@ -135,6 +141,7 @@ void	clear_here_docs(t_list *here_docs)
 	{
 		unlink(((t_here_doc *)here_docs->content)->filename);
 		free(((t_here_doc *)here_docs->content)->filename);
+		free(((t_here_doc *)here_docs->content)->limiter);
 		here_docs = ft_lstremove_front(here_docs, free);
 	}
 }
