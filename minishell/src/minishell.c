@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/11 20:30:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:18:31 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 // include the commands and token headers (.h)
+#include "execution.h"
 
 static void	execute_cmd(char *input, char **envp)
 {
@@ -26,7 +27,7 @@ static void	execute_cmd(char *input, char **envp)
 		tokens = auto_tokenizer(input);
 		reorganized_tokens = reorganize(tokens);
 		print_tokens(&reorganized_tokens);
-		queue_clear(&reorganized_tokens);
+		make_execution(&reorganized_tokens);
 	}
 	else
 		reorganized_tokens = queue_create();
@@ -45,6 +46,7 @@ int	main(int argc, char **argv, char**envp)
 			break ;
 		execute_cmd(line_read, envp);
 		free(line_read);
+		break ;//one command
 	}
 	rl_clear_history();
 	printf("exit\n");
