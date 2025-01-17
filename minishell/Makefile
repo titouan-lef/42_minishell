@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
+#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/16 16:49:02 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/17 11:21:47 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC				=	minishell.c										\
 					commands/expansion/get_files.c					\
 					commands/expansion/pathname_expansion.c			\
 					commands/expansion/variable_expansion.c			\
+					commands/expansion/quote_removal.c				\
 					commands/lexer/format_for_ast.c					\
 					commands/lexer/get_token.c						\
 					commands/lexer/lexer.c							\

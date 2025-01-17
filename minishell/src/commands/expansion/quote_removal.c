@@ -6,11 +6,28 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/13 19:39:23 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:13:35 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
+
+/*
+* Goal: Increment lenght until the quote is open.
+*
+* Warning: word and length must not be null.
+*/
+static void	skip_quotes_in_counting(char **word, int *length, char c)
+{
+	(*word)++;
+	while (**word && **word != c)
+	{
+		(*length)++;
+		(*word)++;
+	}
+	if (**word)
+		(*word)++;
+}
 
 /*
 * Goal: Find the length of the word after removing the quotes.
@@ -26,11 +43,32 @@ static int	new_word_lenght(char *word)
 	length = 0;
 	while (*word)
 	{
-		if (*word != '\'' && *word != '\"')
+		if (*word == '\'')
+			skip_quotes_in_counting(&word, &length, '\'');
+		else if (*word == '\"')
+			skip_quotes_in_counting(&word, &length, '\"');
+		else
+		{
 			length++;
-		word++;
+			word++;
+		}
 	}
 	return (length);
+}
+
+/*
+* Goal: Update word until the quote is open.
+*
+* Warning: updated_word, word and length must not be null.
+*/
+static void	skip_quotes_in_replacing(char *updated_word,
+		char **word, int *letter, char c)
+{
+	(*word)++;
+	while (**word && **word != c)
+		updated_word[(*letter)++] = *(*word)++;
+	if (**word)
+		(*word)++;
 }
 
 /*
@@ -53,14 +91,9 @@ static char	*replace_word(char *word)
 	while (*word)
 	{
 		if (*word == '\'')
-		{
-			word++;
-			while (*word != '\'')
-				updated_word[letter++] = *word++;
-			word++;
-		}
+			skip_quotes_in_replacing(updated_word, &word, &letter, '\'');
 		else if (*word == '\"')
-			word++;
+			skip_quotes_in_replacing(updated_word, &word, &letter, '\"');
 		else
 			updated_word[letter++] = *word++;
 	}

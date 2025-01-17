@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_for_ast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 17:01:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:13:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static int	push_redir_cmd(t_queue *tokens, t_token *redir, t_token *cmd)
 	return (malloc_error);
 }
 
-static int	update(t_token *token, t_token *cmd, t_token *redir, t_queue *r_tk)
+static int	update(t_token *token, t_token *cmd,
+		t_token *redir, t_queue *reorganized_tokens)
 {
 	int	malloc_error;
 
@@ -57,9 +58,9 @@ static int	update(t_token *token, t_token *cmd, t_token *redir, t_queue *r_tk)
 		ft_putendl_error("malloc error");
 	if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
 	{
-		if (push_redir_cmd(r_tk, redir, cmd))
+		if (push_redir_cmd(reorganized_tokens, redir, cmd))
 			malloc_error = 1;
-		if (queue_push(r_tk, *token))
+		if (queue_push(reorganized_tokens, *token))
 			malloc_error = 1;
 	}
 	return (malloc_error);
