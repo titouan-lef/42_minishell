@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 22:29:47 by tle-floc          #+#    #+#              #
-#    Updated: 2025/01/09 12:08:10 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/17 15:09:58 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRC =		char/ft_check_alnum.c \
 			search/ft_search.c \
 			search/ft_strsearch.c \
 			sort/ft_simplesort.c \
+			sort/ft_simplesort_custom.c \
 			string/ft_change_str.c \
 			string/ft_concat.c \
 			string/ft_get_substr.c \

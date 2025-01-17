@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/16 19:51:22 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:36:49 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,10 +178,13 @@ static char **create_token_value(char *value)
 static void write_result(t_queue *queue)
 {
 	t_out	outputs;
+	t_data	data;
 	t_tree *tree;
 
 	redirect_outputs(&outputs);
-	tree = get_tree(queue);
+	data = get_tree_data(queue);
+	tree = data.tree;
+	clear_here_docs(data.lst);
 	breadth_first_search(tree);
 	set_normal_outputs(&outputs);
 	tree_clear(&tree);
@@ -234,34 +237,34 @@ static void test_get_tree4(void)
 	write_result(&queue);
 }
 
-// redir1 echo && cat | redir2 grep || cut
+// <redir1 echo && cat | <redir2 grep || cut
 static void test_get_tree5(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir2")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 
 	write_result(&queue);
 }
 
-// redir1 echo && cat | (redir2 grep || cut)
+// <redir1 echo && cat | (<redir2 grep || cut)
 static void test_get_tree6(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir2")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
@@ -270,17 +273,17 @@ static void test_get_tree6(void)
 	write_result(&queue);
 }
 
-// redir1 echo && cat | redir2 grep || cut
+// <redir1 echo && cat | <redir2 grep || cut
 static void test_get_tree7(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir2")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
@@ -288,18 +291,18 @@ static void test_get_tree7(void)
 	write_result(&queue);
 }
 
-// redir1 echo && cat | (redir2 grep (|| cut))
+// <redir1 echo && cat | (<redir2 grep (|| cut))
 static void test_get_tree8(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir2")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
@@ -310,18 +313,18 @@ static void test_get_tree8(void)
 	write_result(&queue);
 }
 
-// redir1 echo && cat | (redir2 grep || (cut))
+// <redir1 echo && cat | (<redir2 grep || (cut))
 static void test_get_tree9(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir2")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
@@ -417,48 +420,48 @@ static void test_get_tree16(void)
 	write_result(&queue);
 }
 
-// redir1 && cat | (redir2 grep || (redir3))
+// <redir1 && cat | (<redir2 grep || (<redir3))
 static void test_get_tree17(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir2")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir3")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir3")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
 	write_result(&queue);
 }
 
-// redir1
+// <redir1
 static void test_get_tree18(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 
 	write_result(&queue);
 }
 
-// redir1 echo | cat | redir2 grep | cut
+// <redir1 echo | cat | <redir2 grep | cut
 static void test_get_tree19(void)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir1")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("redir2")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
@@ -622,7 +625,7 @@ void	test_get_tree(void)
 	size_t	test_number;
 	char	*str;
 
-	start_test("get_tree");
+	start_test("get_tree_data");
 	test_number = 1;
 
 	/*--- test 1 ---*/
@@ -671,11 +674,11 @@ void	test_get_tree(void)
 	str = add_element_test(str, "echo r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "redir1 l r");
+	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "grep r");
 	str = add_element_test(str, "3");
-	str = add_element_test(str, "redir2 l r");
+	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -688,14 +691,14 @@ void	test_get_tree(void)
 	str = add_element_test(str, "echo r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "redir1 l r");
+	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "||");
 	str = add_element_test(str, "3");
 	str = add_element_test(str, "grep r");
 	str = add_element_test(str, "cut l r");
 	str = add_element_test(str, "4");
-	str = add_element_test(str, "redir2 l r");
+	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -711,11 +714,11 @@ void	test_get_tree(void)
 	str = add_element_test(str, "echo r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "3");
-	str = add_element_test(str, "redir1 l r");
+	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "grep r");
 	str = add_element_test(str, "4");
-	str = add_element_test(str, "redir2 l r");
+	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -732,14 +735,14 @@ void	test_get_tree(void)
 	str = add_element_test(str, "echo r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "redir1 l r");
+	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "||");
 	str = add_element_test(str, "3");
 	str = add_element_test(str, "grep r");
 	str = add_element_test(str, "cut l r");
 	str = add_element_test(str, "4");
-	str = add_element_test(str, "redir2 l r");
+	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -798,16 +801,16 @@ void	test_get_tree(void)
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
 	str = add_element_test(str, "1");
-	str = add_element_test(str, "redir1 l r");
+	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "2");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "||");
 	str = add_element_test(str, "3");
 	str = add_element_test(str, "grep r");
-	str = add_element_test(str, "redir3 l r");
+	str = add_element_test(str, "<redir3 l r");
 	str = add_element_test(str, "4");
-	str = add_element_test(str, "redir2 l r");
+	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -815,7 +818,7 @@ void	test_get_tree(void)
 	test_get_tree18();
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
-	str = add_element_test(str, "redir1 l r");
+	str = add_element_test(str, "<redir1 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -828,14 +831,14 @@ void	test_get_tree(void)
 	str = add_element_test(str, "echo r");
 	str = add_element_test(str, "|2");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "redir1 l r");
+	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "|3");
 	str = add_element_test(str, "3");
 	str = add_element_test(str, "grep r");
 	str = add_element_test(str, "cut l r");
 	str = add_element_test(str, "4");
-	str = add_element_test(str, "redir2 l r");
+	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 

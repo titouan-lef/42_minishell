@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:04:11 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/16 13:57:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:26:35 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	ft_swap(int *a, int *b);
 void	ft_insertion_sort(int *tab, size_t n);
 void	ft_bubble_sort(int *tab, size_t n);
 void	ft_selection_sort(int *tab, size_t n);
+void	ft_insertion_qsort(void *tab, size_t nmemb, size_t size,
+			int (*compar)(const void *, const void *));
 
 /* stinrg */
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
