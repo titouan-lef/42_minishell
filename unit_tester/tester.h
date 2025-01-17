@@ -6,13 +6,14 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 11:20:10 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:30:07 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTER_H
 # define TESTER_H
 
+# include <sys/stat.h>
 # include <stdlib.h>
 # include "builtins.h"
 # include "commands.h"

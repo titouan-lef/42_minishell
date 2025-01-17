@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/14 17:52:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:30:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,23 +100,77 @@ void	test_pathname_expand(void)
 	start_test("pathname expansion");
 	test_number = 1;
 
+	mkdir("test", 0755);
+	chdir("test");
+
 	/*--- test 1 ---*/
-	token = token_create(TOKEN_CMD, built_tab("echo", "*pathname*", NULL));
+	token = token_create(TOKEN_CMD, built_tab("echo", "*", NULL));
 	expand_wildcard(&token);
-	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test_pathname_expansion.c", NULL);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "*", NULL);
 	token_clear(token);
 
-	/*--- test 2 ---*/ //need sorting
-	token = token_create(TOKEN_CMD, built_tab("echo", "tester*", NULL));
+	/*--- test 2 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "*.c", NULL));
 	expand_wildcard(&token);
-	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "tester.c", "tester.h", NULL);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "*.c", NULL);
 	token_clear(token);
 
 	/*--- test 3 ---*/
-	token = token_create(TOKEN_CMD, built_tab("echo", "*.a", "*.h", NULL));
+	token = token_create(TOKEN_CMD, built_tab("echo", "blabla*", NULL));
 	expand_wildcard(&token);
-	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "minishell.a", "tester.h", NULL);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "blabla*", NULL);
 	token_clear(token);
 
-	//check "echo *" when directory is empty, waiting for cd for mor testr
+	/*--- test 4 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "**test**", NULL));
+	expand_wildcard(&token);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "**test**", NULL);
+	token_clear(token);
+
+	close(creat("test.c", 0644));
+	close(creat("test2.c", 0644));
+
+	/*--- test 5 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "test*", NULL));
+	expand_wildcard(&token);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test.c", "test2.c", NULL);
+	token_clear(token);
+
+	close(creat("test.h", 0644));
+
+	/*--- test 6 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "test*", NULL));
+	expand_wildcard(&token);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test2.c", "test.c", "test.h", NULL);
+	token_clear(token);
+
+	close(creat("oui", 0644));
+	close(creat("bonjour", 0644));
+
+	/*--- test 7 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "*s*", NULL));
+	expand_wildcard(&token);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test2.c", "test.c", "test.h", NULL);
+	token_clear(token);
+
+	/*--- test 8 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "*i", NULL));
+	expand_wildcard(&token);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "oui", NULL);
+	token_clear(token);
+
+	/*--- test 9 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "i*", NULL));
+	expand_wildcard(&token);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "i*", NULL);
+	token_clear(token);
+
+	unlink("test.c");
+	unlink("test2.c");
+	unlink("test.h");
+	unlink("oui");
+	unlink("bonjour");
+	chdir("..");
+	rmdir("test");
+
 }

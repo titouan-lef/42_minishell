@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/17 11:21:47 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/17 19:19:39 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC				=	minishell.c										\
 					commands/ast/tree/tree_push.c					\
 					commands/builtins/echo.c						\
 					commands/builtins/pwd.c							\
+					commands/expansion/expansions.c					\
 					commands/expansion/get_env_var.c				\
 					commands/expansion/get_files.c					\
 					commands/expansion/pathname_expansion.c			\

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/13 19:44:08 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:00:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,50 +38,6 @@ static char	*get_value(char *name, char **env_local)
 	return (NULL);
 }
 
-/*
-* Goal: Find the length of the value afted being quoted.
-*
-* Return: The new length.
-*
-* Warning: value must not be null.
-*/
-static int	value_length(char *value)
-{
-	int	length;
-
-	length = 0;
-	while (*value)
-	{
-		length++;
-		if (*value == '\"' || *value == '\'')
-			length += 2;
-		value++;
-	}
-	return (length);
-}
-
-/*
-* Goal: Copy the char value[i] and quoting quotes in quoted_value .
-*
-* Warning: value and quoted_value must not be null.
-*/
-static void	quote_value(char *value, char *quoted_value, int *i)
-{
-	if (*value == '\"')
-	{
-		quoted_value[(*i)++] = '\'';
-		quoted_value[(*i)++] = *value;
-		quoted_value[(*i)++] = '\'';
-	}
-	else if (*value == '\'')
-	{
-		quoted_value[(*i)++] = '\"';
-		quoted_value[(*i)++] = *value;
-		quoted_value[(*i)++] = '\"';
-	}
-	else
-		quoted_value[(*i)++] = *value;
-}
 
 /*
 * Goal: Find the value of the 'name' env var int the env_local
@@ -100,7 +56,7 @@ char	*get_quoted_value(char *name, char **env_local)
 	value = get_value(name, env_local);
 	if (!value)
 		return (NULL);
-	quoted_value = ft_calloc(value_length(value) + 1, sizeof(char));
+	quoted_value = ft_calloc(value_length_quoted(value) + 1, sizeof(char));
 	if (!quoted_value)
 	{
 		ft_putendl_error("malloc error");
