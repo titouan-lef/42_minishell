@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/10 16:07:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:59:49 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,34 @@ int	valid_parenthesis(char *input)
 	return (1);
 }
 
-t_tree	*next_state(t_tree *tree, t_queue *queue)
+t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 {
 	t_token_name	type;
 
 	type = queue_first_name(queue);
 	if (type == TOKEN_OPE)
-		tree = state_ope(tree, queue);
+		tree = state_ope(tree, queue, here_docs);
 	else
-		tree = common_state(tree, queue, type);
+		tree = common_state(tree, queue, type, here_docs);
 	return (tree);
 }
 
-t_tree	*get_tree(t_queue *queue)
+t_data	get_tree_data(t_queue *queue)
 {
 	t_tree	*tree;
+	t_list	*here_docs;
+	t_data	data;
 
 	tree = NULL;
+	here_docs = NULL;
 	while (!queue_is_empty(queue))
 	{
-		tree = next_state(tree, queue);
+		tree = next_state(tree, queue, &here_docs);
 		if (tree == NULL)
 			break ;
 	}
 	queue_clear(queue);
-	return (tree);
+	data.tree = tree;
+	data.lst = here_docs;
+	return (data);
 }

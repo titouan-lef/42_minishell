@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/16 19:28:34 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:57:19 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,15 @@ void	print_error_token(t_queue *queue)
 	}
 }
 
-t_tree	*common_state(t_tree *tree, t_queue *queue, t_token_name type)
+t_tree	*common_state(t_tree *tree, t_queue *queue,
+		t_token_name type, t_list **here_docs)
 {
 	if (type == TOKEN_REDIR)
-		tree = state_redir(tree, queue);
+		tree = state_redir(tree, queue, here_docs);
 	else if (type == TOKEN_CMD)
-		tree = state_cmd(tree, queue);
+		tree = state_cmd(tree, queue, here_docs);
 	else if (type == TOKEN_PAR_OPEN)
-		tree = state_par_open(tree, queue);
+		tree = state_par_open(tree, queue, here_docs);
 	else
 	{
 		print_error_token(queue);

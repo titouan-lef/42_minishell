@@ -6,26 +6,26 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/16 19:48:05 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:43:46 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tree.h"
-#include "commands.h"
+#include "redir.h"
 
-t_tree	*state_redir(t_tree *tree, t_queue *queue)
+t_tree	*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs)
 {
 	t_token_name	next_token_name;
 
 	tree = add_new_token(tree, queue);
 	if (tree == NULL || queue_is_empty(queue))
 		return (tree);
+	detect_here_docs(tree->token, here_docs);// tree null protect
 	next_token_name = queue_first_name(queue);
 	if (next_token_name == TOKEN_CMD || next_token_name == TOKEN_PIPE)
 	{
 		if (next_token_name == TOKEN_CMD)
-			return (state_cmd(tree, queue));
-		return (state_pipe(tree, queue));
+			return (state_cmd(tree, queue, here_docs));
+		return (state_pipe(tree, queue, here_docs));
 	}
 	else if (next_token_name == TOKEN_PAR_OPEN)
 	{
@@ -36,7 +36,7 @@ t_tree	*state_redir(t_tree *tree, t_queue *queue)
 	return (tree);
 }
 
-t_tree	*state_cmd(t_tree *tree, t_queue *queue)
+t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs)
 {
 	t_token_name	next_token_name;
 
@@ -45,7 +45,7 @@ t_tree	*state_cmd(t_tree *tree, t_queue *queue)
 		return (tree);
 	next_token_name = queue_first_name(queue);
 	if (next_token_name == TOKEN_PIPE)
-		return (state_pipe(tree, queue));
+		return (state_pipe(tree, queue, here_docs));
 	else if (next_token_name == TOKEN_PAR_OPEN)
 	{
 		if (tree->token.value[1] == NULL)
@@ -57,7 +57,7 @@ t_tree	*state_cmd(t_tree *tree, t_queue *queue)
 	return (tree);
 }
 
-t_tree	*state_pipe(t_tree *tree, t_queue *queue)//
+t_tree	*state_pipe(t_tree *tree, t_queue *queue, t_list **here_docs)//
 {
 	t_token_name	type;
 	t_tree			*sub_tree;
@@ -72,7 +72,7 @@ t_tree	*state_pipe(t_tree *tree, t_queue *queue)//
 		return (NULL);
 	}
 	type = queue_first_name(queue);
-	sub_tree = common_state(NULL, queue, type);
+	sub_tree = common_state(NULL, queue, type, here_docs);
 	if (!sub_tree)
 	{
 		tree_clear(&tree);
@@ -82,18 +82,18 @@ t_tree	*state_pipe(t_tree *tree, t_queue *queue)//
 	return (tree);
 }
 
-t_tree	*state_ope(t_tree *tree, t_queue *queue)//
+t_tree	*state_ope(t_tree *tree, t_queue *queue, t_list **here_docs)//
 {
 	if (!tree)
 	{
 		print_error_token(queue);
 		return (NULL);
 	}
-	tree = state_pipe(tree, queue);
+	tree = state_pipe(tree, queue, here_docs);
 	return (tree);
 }
 
-t_tree	*state_par_open(t_tree *tree, t_queue *queue)
+t_tree	*state_par_open(t_tree *tree, t_queue *queue, t_list **here_docs)
 {
 	t_token_name	type;
 
@@ -109,7 +109,7 @@ t_tree	*state_par_open(t_tree *tree, t_queue *queue)
 		type = queue_first_name(queue);
 		if (type == TOKEN_PAR_CLOSE)
 			break ;
-		tree = next_state(tree, queue);
+		tree = next_state(tree, queue, here_docs);
 		if (tree == NULL)
 			return (NULL);
 	}

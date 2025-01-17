@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 16:13:07 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:58:35 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,24 @@ t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
 int				valid_parenthesis(char *input);
-t_tree			*next_state(t_tree *tree, t_queue *queue);
-t_tree			*get_tree(t_queue *queue);
+t_tree			*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
+t_data			get_tree_data(t_queue *queue);
 
 /*---token_state.c---*/
-t_tree			*state_redir(t_tree *tree, t_queue *queue);
-t_tree			*state_cmd(t_tree *tree, t_queue *queue);
-t_tree			*state_pipe(t_tree *tree, t_queue *queue);
-t_tree			*state_ope(t_tree *tree, t_queue *queue);
-t_tree			*state_par_open(t_tree *tree, t_queue *queue);
+t_tree			*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs);
+t_tree			*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs);
+t_tree			*state_pipe(t_tree *tree, t_queue *queue, t_list **here_docs);
+t_tree			*state_ope(t_tree *tree, t_queue *queue, t_list **here_docs);
+t_tree			*state_par_open(t_tree *tree, t_queue *queue,
+					t_list **here_docs);
 
 /*---token_state_utils.c---*/
 t_tree			*add_new_token(t_tree *tree, t_queue *queue);
 void			remove_token(t_queue *queue);
 void			print_error_token_value(char *value);
 void			print_error_token(t_queue *queue);
-t_tree			*common_state(t_tree *tree, t_queue *queue, t_token_name type);
+t_tree			*common_state(t_tree *tree, t_queue *queue,
+					t_token_name type, t_list **here_docs);
 
 /*---get_token.c---*/
 int				cmp_and_inc(const char *input, int *index, char c,
