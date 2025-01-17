@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 19:19:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 21:07:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,50 +70,6 @@ static char	*replace_word(char *patern)
 	return (updated_word);
 }
 
-int	compare_lexicographicly(char char1, char char2)
-{
-	int	is_char1_alnum;
-	int	is_char2_alnum;
-
-	is_char1_alnum = ft_isalnum(char1);
-	is_char2_alnum = ft_isalnum(char2);
-	if (!is_char1_alnum && is_char2_alnum)
-		return (-1);
-	else if (is_char1_alnum && !is_char2_alnum)
-		return (1);
-	if (char1 < char2)
-		return (-1);
-	else if (char1 > char2)
-		return (1);
-	else
-		return (0);
-}
-
-int	strcmp_lexicographicly(void *p1, void *p2)
-{
-	size_t	i;
-	char	*str1;
-	char	*str2;
-	int		result;
-
-	i = 0;
-	str1 = (char *)p1;
-	str2 = (char *)p2;
-	while (str1[i] != '\0' && str2[i] != '\0')
-	{
-		result = compare_lexicographicly(str1[i], str2[i]);
-		if (result != 0)
-			return (result);
-		i++;
-	}
-	if (str1[i] == '\0' && str2[i] == '\0')
-		return (0);
-	else if (str1[i] == '\0')
-		return (-1);
-	else
-		return (1);
-}
-
 /*
 * Goal: Add the splited updated word in updated_value.
 *
@@ -125,15 +81,15 @@ static int	update_value(char ***updated_value, char *updated_word)
 {
 	t_queue	tmp;
 	t_token	splited;
-	//char	**sorted;
 
 	tmp = auto_tokenizer(updated_word);
 	free(updated_word);
 	splited = split_command(tmp);
 	if (splited.value)
 	{
-		//lexicophacical sort
-		*updated_value = tab_join_and_free(*updated_value, splited.value); //sorted
+		ft_insertion_qsort(splited.value, size_tab(splited.value),
+			sizeof(char *), strcmp_lexicographicly);
+		*updated_value = tab_join_and_free(*updated_value, splited.value);
 		if (!*updated_value)
 		{
 			ft_putendl_error("malloc error");
@@ -150,7 +106,7 @@ static int	update_value(char ***updated_value, char *updated_word)
 *
 * Warning: token must not be null.
 */
-int	expand_wildcard(t_token *token)
+int	expand_wildcard(t_token *token) //check speed creation
 {
 	int		num_word;
 	char	*updated_word;

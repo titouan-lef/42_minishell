@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_simplesort_custom.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:29:19 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 15:47:00 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:23:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 * Goal: Sort a 'tab' of 'nmemb' element, where every element has a size
 * of 'size'. The function 'compar' allows to define is 2 elements are sorted
-* (return greater than 0), not sorted (return less than 0) or equal (return 0).
+* (return less than 0), not sorted (return greater than 0) or equal (return 0).
 *
 * Warning: The 'size' of elements must be less than or equal to 100 and greater
 * than 0.

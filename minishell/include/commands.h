@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 19:37:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:48:23 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,6 @@ int				remove_quotes(t_token *token);
 
 /*---compare.c---*/
 int				compare_lexicographicly(char char1, char char2);
-int				strcmp_lexicographicly(void *p1, void *p2);
+int				strcmp_lexicographicly(const void *p1, const void *p2);
 
 #endif

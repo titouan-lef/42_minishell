@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/17 19:19:39 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/17 19:45:44 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC_DIR			=	./src/
 SRC				=	minishell.c										\
 					tab_utils.c										\
 					commands/token.c								\
+					commands/compare.c								\
 					commands/ast/execution/common_execution.c		\
 					commands/ast/execution/execution.c				\
 					commands/ast/execution/operation_execution.c	\

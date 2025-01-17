@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 16:30:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/17 21:15:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,16 +127,16 @@ void	test_pathname_expand(void)
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "**test**", NULL);
 	token_clear(token);
 
-	close(creat("test.c", 0644));
-	close(creat("test2.c", 0644));
+	close(open("test.c", O_CREAT | O_SYNC, 0644));
+	close(open("test2.c", O_CREAT | O_SYNC, 0644));
 
 	/*--- test 5 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "test*", NULL));
 	expand_wildcard(&token);
-	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test.c", "test2.c", NULL);
+	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test2.c", "test.c", NULL);
 	token_clear(token);
 
-	close(creat("test.h", 0644));
+	close(open("test.h", O_CREAT | O_SYNC, 0644));
 
 	/*--- test 6 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "test*", NULL));
@@ -144,8 +144,8 @@ void	test_pathname_expand(void)
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test2.c", "test.c", "test.h", NULL);
 	token_clear(token);
 
-	close(creat("oui", 0644));
-	close(creat("bonjour", 0644));
+	close(open("oui", O_CREAT | O_SYNC, 0644));
+	close(open("bonjour", O_CREAT | O_SYNC, 0644));
 
 	/*--- test 7 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*s*", NULL));

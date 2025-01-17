@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/17 11:20:51 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/17 20:52:29 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ all				:	display
 				$(MAKE) $(NAME)
 				if [ -f $(NAME) ];\
 				then chmod +x $(NAME);\
-				./$(NAME);\
+				valgrind --leak-check=full --show-leak-kinds=all ./$(NAME);\
 				fi;
 
 display			:
