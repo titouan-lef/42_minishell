@@ -6,13 +6,13 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:50:44 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/15 17:15:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:05:24 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static int	fork_management(t_tree *data, t_tree *sub_tree, t_stack *stack)
+static int	fork_management(t_data *data, t_tree *sub_tree, t_stack **stack)
 {
 	int	pid;
 	int	result;
@@ -25,15 +25,15 @@ static int	fork_management(t_tree *data, t_tree *sub_tree, t_stack *stack)
 	}
 	if (pid == 0)
 	{
-		stack_clear(&stack);
+		stack_clear(stack);
 		result = tree_execution(data, sub_tree, 1);
-		return (result);
+		exit_exec(data, result);
 	}
-	result = stack_push(&stack, pid);
+	result = stack_push(stack, pid);
 	return (result);
 }
 
-static int	sub_pipe_execution(t_tree *data, t_tree *tree, t_stack *stack)
+static int	sub_pipe_execution(t_data *data, t_tree *tree, t_stack **stack)
 {
 	int	result;
 
@@ -72,13 +72,13 @@ static int	wait_children(t_stack *stack)
 	return (result);
 }
 
-int	pipe_execution(t_tree *data, t_tree *tree)
+int	pipe_execution(t_data *data, t_tree *tree)
 {
 	int		result;
 	t_stack	*stack;
 
 	stack_init(&stack);
-	result = sub_pipe_execution(data, tree, stack);
+	result = sub_pipe_execution(data, tree, &stack);
 	if (result)
 	{
 		stack_clear(&stack);

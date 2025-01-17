@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:33:41 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 16:12:05 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:26:06 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define EXECUTION_H
 
 # include <sys/wait.h>
-# include "tree.h"
+# include "redir.h"
 
 typedef struct s_stack
 {
@@ -30,14 +30,14 @@ void	stack_clear(t_stack **stack);
 void	stack_init(t_stack **stack);
 
 /*---execution.c---*/
-void	data_clear(t_tree *data);
-int		tree_execution(t_tree *data, t_tree *tree, int is_piped);
-int		make_execution(t_tree *data);
+void	exit_exec(t_data *data, int code);
+int		tree_execution(t_data *data, t_tree *tree, int is_piped);
+int		make_execution(t_queue *queue);
 
 /*---*_execution.c---*/
-int		redir_execution(t_tree *data, t_token token, int is_piped);
-int		cmd_execution(t_tree *data, t_tree *tree, t_token token, int is_piped);
-int		pipe_execution(t_tree *data, t_tree *tree);
-int		ope_execution(t_tree *data, t_tree *tree, t_token token, int is_piped);
+int		redir_execution(t_data *data, t_token token, int is_piped);
+int		cmd_execution(t_data *data, t_tree *tree, t_token token, int is_piped);
+int		pipe_execution(t_data *data, t_tree *tree);
+int		ope_execution(t_data *data, t_tree *tree, t_token token, int is_piped);
 
 #endif
