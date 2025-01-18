@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:27:31 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/14 20:49:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:16:23 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	**append_to_tab(char **tab, const char *str)
 
 	new_tab = ft_calloc((size_tab(tab) + 2), sizeof(char *));
 	if (!new_tab)
-		return (NULL);
+		return (NULL); //free tab ??
 	j = 0;
 	while (tab && tab[j])
 	{

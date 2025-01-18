@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 17:52:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/18 14:24:07 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 /*
 * Goal: Put all the readed lines in the here_doc file until EOF.
+*
+* Return: 1 if succed, 0 if not.
 *
 * Warning: limit must not me null.
 */
@@ -29,14 +31,14 @@ static int	get_here_doc_input(int file, char *limiter)
 		line = get_next_line(0);
 		if (!line)
 		{
-			ft_printf_fd(2, "minishell: warning: here-document delimited by end-of-file (wanted '%s')", limiter);
+			ft_printf_fd(2, "%s: %s (wanted '%s')", NAME, HERDOC_END, limiter);
 			return (1);
 		}
 		if (!ft_strncmp(limiter, line, size_limit) && line[size_limit] == '\n')
 			break ;
 		if (write(file, line, ft_strlen(line)) == -1)
 		{
-			ft_printf_fd(2, "minishell: error here_doc access");
+			ft_printf_fd(2, "%s: %s", NAME, HERDOC_ACC);
 			free(line);
 			return (1);
 		}
@@ -48,6 +50,8 @@ static int	get_here_doc_input(int file, char *limiter)
 
 /*
 * Goal: Create a file witha random name.
+*
+* Return: 1 if succed, 0 if not.
 *
 * Warning: limit must not me null.
 */
@@ -65,7 +69,7 @@ int	read_here_docs(t_list *here_docs)
 		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
 		{
-			ft_putendl_error("minishell: error here_doc access");
+			ft_printf_fd(2, "%s: %s", NAME, HERDOC_ACC);
 			return (1);
 		}
 		if (get_here_doc_input(fd, here_doc->limiter))
@@ -80,33 +84,48 @@ int	read_here_docs(t_list *here_docs)
 }
 
 /*
-* Goal: Create a file witha random name.
+* Goal: Create a new node of struct here_doc with the given limiter.
+*
+* Return: The here_doc struct, NULL if error.
 *
 * Warning: limit must not me null.
 */
-static t_here_doc	*new_here_doc(char *limiter)
+static t_list	*new_here_doc(char *limiter)
 {
-	t_here_doc	*result;
+	t_list		*new;
+	t_here_doc	*element;
 
-	result = ft_calloc(1, sizeof(t_here_doc));
-	if (!result)
+	element = ft_calloc(1, sizeof(t_here_doc));
+	if (!element)
 	{
-		ft_putendl_error("malloc error");
+		ft_printf_fd(2, "%s: %s", NAME, MALLOC);
 		return (NULL);
 	}
-	result->limiter = ft_strdup(limiter);
-	if (!result)
+	element->limiter = ft_strdup(limiter);
+	if (!element)
 	{
-		ft_putendl_error("malloc error");
-		free(result);
+		ft_printf_fd(2, "%s: %s", NAME, MALLOC);
+		free(element);
 		return (NULL);
 	}
-	return (result);
+	new = ft_lstnew(element);
+	if (!new)
+	{
+		clear_here_docs(new);
+		return (NULL);
+	}
+	return (new);
 }
 
+/*
+* Goal: Add each here_dc found in the list.
+*
+* Return: 1 if succed, 0 if not.
+*
+* Warning: limit must not me null.
+*/
 int	detect_here_docs(t_token token, t_list **here_docs)
 {
-	t_here_doc	*element;
 	t_list		*new;
 	char		*redir;
 	int			i;
@@ -114,27 +133,25 @@ int	detect_here_docs(t_token token, t_list **here_docs)
 	i = 0;
 	while (token.value[i])
 	{
-		redir = token.value[i];
-		i++;
+		redir = token.value[i++];
 		while (*(redir + 1) && (*redir != '<' || *(redir + 1) != '<'))
 			redir++;
 		if (!*(redir + 1))
 			continue ;
 		redir += 2;
-		element = new_here_doc(redir);
-		if (!element)
-			return (1);
-		new = ft_lstnew(element);
+		new = new_here_doc(redir);
 		if (!new)
-		{
-			free(element);
 			return (1);
-		}
 		ft_lstadd_back(here_docs, new);
 	}
 	return (0);
 }
 
+/*
+* Goal: Clear the list of here_doc struct.
+*
+* Warning: here_docs must not me null.
+*/
 void	clear_here_docs(t_list *here_docs)
 {
 	while (here_docs)

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 13:13:35 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:40:02 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	skip_quotes_in_replacing(char *updated_word,
 *
 * Warning: word and env_local must not be null.
 */
-static char	*replace_word(char *word)
+static char	*replace_word_quotes(char *word)
 {
 	int		letter;
 	char	*updated_word;
@@ -118,7 +118,7 @@ int	remove_quotes(t_token *token)
 		num_word = 0;
 		while (token->value[num_word])
 		{
-			updated_word = replace_word(token->value[num_word]);
+			updated_word = replace_word_quotes(token->value[num_word]);
 			if (!updated_word)
 				return (0);
 			free(token->value[num_word]);

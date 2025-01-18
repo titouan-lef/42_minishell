@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 19:00:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:48:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static char	*get_value(char *name, char **env_local)
 	}
 	return (NULL);
 }
-
 
 /*
 * Goal: Find the value of the 'name' env var int the env_local

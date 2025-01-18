@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 02:13:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 14:29:41 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	redirect_input(int fd, char *file_name)
 {
 	int	fd_file;
 
-	if (fd == -1)
-		fd = STDIN_FILENO;
+	fd = (fd * (fd != -1) || STDIN_FILENO);
 	if (access(file_name, F_OK) == 0)
 	{
 		if (access(file_name, R_OK) == -1)
@@ -60,8 +59,7 @@ int	redirect_output(int fd, char *file_name)
 {
 	int	fd_file;
 
-	if (fd == -1)
-		fd = STDOUT_FILENO;
+	fd = (fd * (fd != -1) || STDOUT_FILENO);
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_file == -1)
 	{
@@ -89,8 +87,7 @@ int	redirect_output_append_mode(int fd, char *fn)
 {
 	int	fd_file;
 
-	if (fd == -1)
-		fd = STDOUT_FILENO;
+	fd = (fd * (fd != -1) || STDOUT_FILENO);
 	if (access(fn, F_OK) == 0)
 	{
 		if (access(fn, W_OK) == -1)

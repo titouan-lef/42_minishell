@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/17 19:45:44 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/18 13:36:39 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC				=	minishell.c										\
 					commands/expansion/expansions.c					\
 					commands/expansion/get_env_var.c				\
 					commands/expansion/get_files.c					\
+					commands/expansion/wildcard_utils.c				\
 					commands/expansion/pathname_expansion.c			\
 					commands/expansion/variable_expansion.c			\
 					commands/expansion/quote_removal.c				\

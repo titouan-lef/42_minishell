@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 19:48:23 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:41:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void			quote_value(char *value, char *quoted_value, int *i);
 char			*get_quoted_value(char *name, char **env_local);
 int				expand_env_var(t_token *token, char **env_local);
 t_list			*find_matches(char *patern);
+char			*replace_word_wildcard(char *patern);
 int				expand_wildcard(t_token *token);
 int				remove_quotes(t_token *token);
 
