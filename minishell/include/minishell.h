@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 14:30:13 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:13:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # define HERDOC_END "warning: here-document delimited by end-of-file"
 # define HERDOC_ACC "error here_doc access"
 # define MALLOC "malloc error"
+# define FORK "fork failed"
+# define NO_FILE "No such file or directory"
+# define NO_CMD "Command not found"
 
 /*---tab_utils.c---*/
 int		size_tab(char **tab);

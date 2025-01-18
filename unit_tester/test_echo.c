@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/17 11:09:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:45:38 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	run_echo(char **envp, ...)
 	va_list	args;
 	t_out	outputs;
 
+	(void)envp;
 	va_start(args, envp);
 	split_cmd = format_cmd(args);
 	va_end(args);
@@ -52,7 +53,7 @@ static void	run_echo(char **envp, ...)
 		exit(1);
 	}
 	redirect_outputs(&outputs);
-	echo(split_cmd, envp);
+	echo(split_cmd);
 	set_normal_outputs(&outputs);
 	free(split_cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 14:24:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:24:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	get_here_doc_input(int file, char *limiter)
 		}
 		if (!ft_strncmp(limiter, line, size_limit) && line[size_limit] == '\n')
 			break ;
-		if (write(file, line, ft_strlen(line)) == -1)
+		if (write(file, line, ft_strlen(line)) == -1) //expand env var if not in quotes and add entry here_doc in history
 		{
 			ft_printf_fd(2, "%s: %s", NAME, HERDOC_ACC);
 			free(line);
@@ -52,8 +52,6 @@ static int	get_here_doc_input(int file, char *limiter)
 * Goal: Create a file witha random name.
 *
 * Return: 1 if succed, 0 if not.
-*
-* Warning: limit must not me null.
 */
 int	read_here_docs(t_list *here_docs)
 {

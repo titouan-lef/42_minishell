@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:06:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/04 18:43:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:42:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@
 *
 * Warning: None.
 */
-void	echo(char **str, char **env_local)
+void	echo(char **str)
 {
 	int	i;
 	int	is_new_line;
 
-	(void)env_local;
 	is_new_line = 1;
 	while (str[0] && str[0][0] == '-')
 	{

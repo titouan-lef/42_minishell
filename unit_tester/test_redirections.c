@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 20:26:56 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:41:50 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,23 +110,26 @@ static void	assert_redir_out(t_out out, size_t *i, ...)
 	print_ok(i);
 }
 
-static void	assert_redir_in(char *file, char *expected, size_t *i)
+static void	assert_redir_in(char *file, char *expected, int here_doc, size_t *i)
 {
 	char	*result;
 	int		fd;
 
-	fd = open(file, O_WRONLY);
-	if (fd == -1)
+	if (!here_doc)
 	{
-		print_ko(file, "(file does not exist)", i);
-		return ;
+		fd = open(file, O_WRONLY);
+		if (fd == -1)
+		{
+			print_ko(file, "(file does not exist)", i);
+			return ;
+		}
+		if (write(fd, "test\n", 5) == -1)
+		{
+			print_ko(file, "(permission denied)", i);
+			return ;
+		}
+		close(fd);
 	}
-	if (write(fd, "test\n", 5) == -1)
-	{
-		print_ko(file, "(permission denied)", i);
-		return ;
-	}
-	close(fd);
 	result = calloc(10000,sizeof(char)); //rip protection
 	if (read(STDIN_FILENO, result, 10000) == -1)
 	{
@@ -143,10 +146,12 @@ static void	assert_redir_in(char *file, char *expected, size_t *i)
 
 void	test_redirs(void)
 {
+	t_list	*here_docs;
 	size_t	test_number;
 	t_token	token;
 	t_out	out;
 	t_in	in;
+	int		fd;
 
 	start_test("redirections");
 	test_number = 1;
@@ -225,7 +230,7 @@ void	test_redirs(void)
 	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
 	close(open("in", O_CREAT, 0644));
 	make_redirs(token, NULL);
-	assert_redir_in("in", "test\n", &test_number);
+	assert_redir_in("in", "test\n", 0, &test_number);
 	set_normal_input(&in);
 	token_clear(token);
 
@@ -235,8 +240,8 @@ void	test_redirs(void)
 	close(open("in", O_CREAT, 0644));
 	close(open("infile", O_CREAT, 0644));
 	make_redirs(token, NULL);
-	assert_redir_in("in", "", &test_number);
-	assert_redir_in("infile", "test\n", &test_number);
+	assert_redir_in("in", "", 0, &test_number);
+	assert_redir_in("infile", "test\n", 0, &test_number);
 	set_normal_input(&in);
 	token_clear(token);
 
@@ -247,9 +252,9 @@ void	test_redirs(void)
 	close(open("infile", O_CREAT, 0644));
 	close(open("testin", O_CREAT, 0644));
 	make_redirs(token, NULL);
-	assert_redir_in("in", "", &test_number);
-	assert_redir_in("infile", "", &test_number);
-	assert_redir_in("testin", "test\n", &test_number);
+	assert_redir_in("in", "", 0, &test_number);
+	assert_redir_in("infile", "", 0, &test_number);
+	assert_redir_in("testin", "test\n", 0, &test_number);
 	set_normal_input(&in);
 	token_clear(token);
 
@@ -259,21 +264,64 @@ void	test_redirs(void)
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
 	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", NULL));
-	int fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "here_doc\n", 9);
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 15);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	t_list *here_docs = NULL;
+	here_docs = NULL;
 	detect_here_docs(token, &here_docs);
 	read_here_docs(here_docs);
 	set_normal_outputs(&out);
 	make_redirs(token, here_docs);
 	token_clear(token);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", &test_number);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
+	/*--- test 15 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "$USER\nhere_doc\n", 16);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs);
+	set_normal_outputs(&out);
+	make_redirs(token, here_docs);
+	token_clear(token);
+	char *expected = ft_strjoin(getenv("USER"),"\n");
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, expected, 1, &test_number);
+	free(expected);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 16 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<\"here_doc\"", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "$USER\nhere_doc\n", 18);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs);
+	set_normal_outputs(&out);
+	make_redirs(token, here_docs);
+	token_clear(token);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
 }

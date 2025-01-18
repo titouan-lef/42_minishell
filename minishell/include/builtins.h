@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:19:57 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/07 10:29:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:15:10 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 /*---funtions---*/
-void	echo(char **str, char **env_local);
-void	pwd(char **str, char **env_local);
+void	echo(char **str);
+int		pwd();
 
 #endif

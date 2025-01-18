@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 19:18:31 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:37:35 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 // include the commands and token headers (.h)
 #include "execution.h"
 
-static void	execute_cmd(char *input, char **envp)
+static void	process_cmd(char *input, char **envp)
 {
-	t_queue		tokens;
-	t_queue		reorganized_tokens;
+	t_queue	tokens;
+	t_queue	reorganized_tokens;
 
 	(void) envp;
 	if (*input)
@@ -35,7 +35,7 @@ static void	execute_cmd(char *input, char **envp)
 
 int	main(int argc, char **argv, char**envp)
 {
-	char		*line_read ;
+	char	*line_read ;
 
 	(void)argc;
 	(void)argv;
@@ -44,9 +44,9 @@ int	main(int argc, char **argv, char**envp)
 		line_read = rl_gets();
 		if (!line_read)
 			break ;
-		execute_cmd(line_read, envp);
+		process_cmd(line_read, envp);
 		free(line_read);
-		break ;//one command
+		//break ;//one command
 	}
 	rl_clear_history();
 	printf("exit\n");
