@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/18 18:10:14 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/19 15:43:58 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC				=	minishell.c										\
 					commands/ast/tree/tree_push.c					\
 					commands/builtins/echo.c						\
 					commands/builtins/pwd.c							\
+					commands/builtins/unset.c						\
 					commands/execute_cmd/execute_cmd.c				\
 					commands/execute_cmd/get_path.c					\
 					commands/expansion/expansions.c					\

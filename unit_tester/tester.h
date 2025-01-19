@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 20:08:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:44:43 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	assert_equal_queue(t_queue result, size_t *i, ...);
 /*---tests---*/
 void	test_echo(char **envp);
 void	test_pwd(char **envp);
+void	test_unset(void);
 void	test_tokenizer(void);
 void	test_lexer(void);
 void	test_tree(void);
