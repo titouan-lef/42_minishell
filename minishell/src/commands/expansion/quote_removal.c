@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 13:40:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/19 20:46:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	skip_quotes_in_replacing(char *updated_word,
 *
 * Warning: word and env_local must not be null.
 */
-static char	*replace_word_quotes(char *word)
+char	*replace_word_quotes(char *word)
 {
 	int		letter;
 	char	*updated_word;
@@ -87,7 +87,10 @@ static char	*replace_word_quotes(char *word)
 	letter = 0;
 	updated_word = ft_calloc(sizeof(char), new_word_lenght(word) + 1);
 	if (!updated_word)
+	{
+		ft_printf_fd(2, "%s: %s", NAME, MALLOC);
 		return (NULL);
+	}
 	while (*word)
 	{
 		if (*word == '\'')

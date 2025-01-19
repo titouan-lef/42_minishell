@@ -6,54 +6,18 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 19:24:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:47:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
 
 /*
-* Goal: Put all the readed lines in the here_doc file until EOF.
-*
-* Return: 1 if succed, 0 if not.
-*
-* Warning: limit must not me null.
-*/
-static int	get_here_doc_input(int file, char *limiter)
-{
-	int		size_limit;
-	char	*line;
-
-	size_limit = ft_strlen(limiter);
-	while (1)
-	{
-		ft_putstr("> ");
-		line = get_next_line(0);
-		if (!line)
-		{
-			ft_printf_fd(2, "%s: %s (wanted '%s')", NAME, HERDOC_END, limiter);
-			return (1);
-		}
-		if (!ft_strncmp(limiter, line, size_limit) && line[size_limit] == '\n')
-			break ;
-		if (write(file, line, ft_strlen(line)) == -1) //expand env var if not in quotes and add entry here_doc in history
-		{
-			ft_printf_fd(2, "%s: %s", NAME, HERDOC_ACC);
-			free(line);
-			return (1);
-		}
-		free(line);
-	}
-	free(line);
-	return (0);
-}
-
-/*
 * Goal: Create a file witha random name.
 *
 * Return: 1 if succed, 0 if not.
 */
-int	read_here_docs(t_list *here_docs)
+int	read_here_docs(t_list *here_docs, char **env)
 {
 	t_here_doc	*here_doc;
 	int			fd;
@@ -70,7 +34,7 @@ int	read_here_docs(t_list *here_docs)
 			ft_printf_fd(2, "%s: %s", NAME, HERDOC_ACC);
 			return (1);
 		}
-		if (get_here_doc_input(fd, here_doc->limiter))
+		if (get_here_doc_input(fd, here_doc->limiter, env))
 		{
 			close(fd);
 			return (1);

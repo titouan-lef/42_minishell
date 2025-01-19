@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 13:39:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/19 20:50:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	update_env_var(char **word, char *new_word, int *letter, char **env)
 *
 * Warning: word and env_local must not be null.
 */
-static char	*replace_word_env(char *word, char **env_local)
+char	*replace_word_env(char *word, char **env_local, int here_doc)
 {
 	int		letter;
 	char	*updated_word;
@@ -93,7 +93,7 @@ static char	*replace_word_env(char *word, char **env_local)
 	{
 		if (*word == '$')
 			update_env_var(&word, updated_word, &letter, env_local);
-		else if (*word == '\'')
+		else if (!here_doc && *word == '\'')
 		{
 			updated_word[letter++] = *word++;
 			while (*word != '\'')
@@ -154,7 +154,7 @@ int	expand_env_var(t_token *token, char **env_local)
 		num_word = 0;
 		while (token->value[num_word])
 		{
-			updated_word = replace_word_env(token->value[num_word], env_local);
+			updated_word = replace_word_env(token->value[num_word], env_local, 0);
 			if (!updated_word)
 			{
 				ft_putendl_error("malloc error");

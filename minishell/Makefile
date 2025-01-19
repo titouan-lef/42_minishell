@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/19 15:43:58 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/19 19:49:02 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC				=	minishell.c										\
 					commands/lexer/get_token.c						\
 					commands/lexer/lexer.c							\
 					commands/lexer/token_utils.c					\
+					commands/redirection/get_here_doc.c				\
 					commands/redirection/here_doc.c					\
 					commands/redirection/random.c					\
 					commands/redirection/redirect.c					\

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 19:37:35 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:41:07 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	process_cmd(char *input, char **envp)
 		tokens = auto_tokenizer(input);
 		reorganized_tokens = reorganize(tokens);
 		print_tokens(&reorganized_tokens);
-		make_execution(&reorganized_tokens);
+		make_execution(&reorganized_tokens, envp);
 	}
 	else
 		reorganized_tokens = queue_create();

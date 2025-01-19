@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 19:09:25 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:34:35 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	tree_execution(t_data *data, t_tree *tree, int is_piped)
 	return (result);
 }
 
-int	make_execution(t_queue *queue)
+int	make_execution(t_queue *queue, char **env)
 {
 	int		result;
 	t_data	data;
@@ -50,7 +50,7 @@ int	make_execution(t_queue *queue)
 		return (0);//Good code ???
 	data = get_tree_data(queue);
 	queue_clear(queue);
-	read_here_docs(data.lst);
+	read_here_docs(data.lst, env);
 	if (tree_is_empty(data.tree))
 	{
 		clear_data(&data);
