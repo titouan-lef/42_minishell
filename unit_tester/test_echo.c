@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 19:45:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:44:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,62 +66,62 @@ void	test_echo(char **envp)
 	test_number = 1;
 
 	/*--- test 1 ---*/
-	run_echo(envp, "-n", "Bonjour", NULL);
+	run_echo(envp, "echo", "-n", "Bonjour", NULL);
 	assert_equal_out("Bonjour", &test_number);
 
 	/*--- test 2 ---*/
-	run_echo(envp, "Bonjour", NULL);
+	run_echo(envp, "echo", "Bonjour", NULL);
 	assert_equal_out("Bonjour\n", &test_number);
 
 	/*--- test 3 ---*/
-	run_echo(envp, "-n", "-n", "Bonjour", NULL);
+	run_echo(envp, "echo", "-n", "-n", "Bonjour", NULL);
 	assert_equal_out("Bonjour", &test_number);
 
 	/*--- test 4 ---*/
-	run_echo(envp, "-n-n", "Bonjour", NULL);
+	run_echo(envp, "echo", "-n-n", "Bonjour", NULL);
 	assert_equal_out("-n-n Bonjour\n", &test_number);
 
 	/*--- test 5 ---*/
-	run_echo(envp, "--n", "Bonjour", NULL);
+	run_echo(envp, "echo", "--n", "Bonjour", NULL);
 	assert_equal_out("--n Bonjour\n", &test_number);
 
 	/*--- test 6 ---*/
-	run_echo(envp, "-nn", "Bonjour", NULL);
+	run_echo(envp, "echo", "-nn", "Bonjour", NULL);
 	assert_equal_out("Bonjour", &test_number);
 
 	/*--- test 7 ---*/
-	run_echo(envp, "-n", "Bonjour", "-n", NULL);
+	run_echo(envp, "echo", "-n", "Bonjour", "-n", NULL);
 	assert_equal_out("Bonjour -n", &test_number);
 
 	/*--- test 8 ---*/
-	run_echo(envp, "-", "Bonjour", NULL);
+	run_echo(envp, "echo", "-", "Bonjour", NULL);
 	assert_equal_out("- Bonjour\n", &test_number);
 
 	/*--- test 9 ---*/
-	run_echo(envp, "--", "Bonjour", NULL);
+	run_echo(envp, "echo", "--", "Bonjour", NULL);
 	assert_equal_out("-- Bonjour\n", &test_number);
 
 	/*--- test 10 ---*/
-	run_echo(envp, "-a", "Bonjour", NULL);
+	run_echo(envp, "echo", "-a", "Bonjour", NULL);
 	assert_equal_out("-a Bonjour\n", &test_number);
 
 	/*--- test 11 ---*/
-	run_echo(envp, "-na", "Bonjour", NULL);
+	run_echo(envp, "echo", "-na", "Bonjour", NULL);
 	assert_equal_out("-na Bonjour\n", &test_number);
 
 	/*--- test 12 ---*/
-	run_echo(envp, "-n", NULL);
+	run_echo(envp, "echo", "-n", NULL);
 	assert_equal_out("", &test_number);
 
 	/*--- test 13 ---*/
-	run_echo(envp, "-nn", NULL);
+	run_echo(envp, "echo", "-nn", NULL);
 	assert_equal_out("", &test_number);
 
 	/*--- test 14 ---*/
-	run_echo(envp, NULL);
+	run_echo(envp, "echo", NULL);
 	assert_equal_out("\n", &test_number);
 
 	/*--- test 15 ---*/
-	run_echo(envp, "-n", "-", "cequetuveux", NULL);
+	run_echo(envp, "echo", "-n", "-", "cequetuveux", NULL);
 	assert_equal_out("- cequetuveux", &test_number);
 }
