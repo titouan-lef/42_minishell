@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 20:50:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:25:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,17 +144,17 @@ static char	**update_value(char **updated_value, char *updated_word)
 */
 int	expand_env_var(t_token *token, char **env_local)
 {
-	int		num_word;
+	int		i;
 	char	*updated_word;
 	char	**updated_value;
 
 	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
 	{
 		updated_value = NULL;
-		num_word = 0;
-		while (token->value[num_word])
+		i = 0;
+		while (token->value[i])
 		{
-			updated_word = replace_word_env(token->value[num_word], env_local, 0);
+			updated_word = replace_word_env(token->value[i], env_local, 0);
 			if (!updated_word)
 			{
 				ft_putendl_error("malloc error");
@@ -163,7 +163,7 @@ int	expand_env_var(t_token *token, char **env_local)
 			updated_value = update_value(updated_value, updated_word);
 			if (!updated_value)
 				return (0);
-			num_word++;
+			i++;
 		}
 		ft_clean_matrix((void **)token->value);
 		token->value = updated_value;

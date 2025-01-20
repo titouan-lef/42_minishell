@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:38:50 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:16:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:22:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static int	is_var_to_unset(char *var_name, char **list)
 	int	length;
 
 	while (list && *list)
-		{
-			length = ft_strlen(*list);
-			if (!ft_strncmp(var_name, *list, length) && var_name[length] == '=')
-				return (1);
-			list++;
-		}
+	{
+		length = ft_strlen(*list);
+		if (!ft_strncmp(var_name, *list, length) && var_name[length] == '=')
+			return (1);
+		list++;
+	}
 	return (0);
 }
 

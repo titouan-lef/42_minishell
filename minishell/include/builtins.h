@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:19:57 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 15:45:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:23:08 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 /*---funtions---*/
 void	echo(char **cmd);
-int		pwd();
+int		pwd(void);
 int		unset(char **cmd, char ***env);
 
 #endif

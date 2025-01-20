@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:06:43 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:24:31 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 static int	is_builtin_cmd(char *cmd_name)
 {
-	if (ft_strcmp(cmd_name, "echo") == 0 ||
-		ft_strcmp(cmd_name, "cd") == 0 ||
-		ft_strcmp(cmd_name, "pwd") == 0 ||
-		ft_strcmp(cmd_name, "export") == 0 ||
-		ft_strcmp(cmd_name, "unset") == 0 ||
-		ft_strcmp(cmd_name, "env") == 0 ||
-		ft_strcmp(cmd_name, "exit") == 0 )
+	if (ft_strcmp(cmd_name, "echo") == 0
+		|| ft_strcmp(cmd_name, "cd") == 0
+		|| ft_strcmp(cmd_name, "pwd") == 0
+		|| ft_strcmp(cmd_name, "export") == 0
+		|| ft_strcmp(cmd_name, "unset") == 0
+		|| ft_strcmp(cmd_name, "env") == 0
+		|| ft_strcmp(cmd_name, "exit") == 0)
 		return (1);
 	return (0);
 }

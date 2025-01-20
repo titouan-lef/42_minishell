@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 18:14:45 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:23:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 *
 * Warning: None.
 */
-int	pwd()
+int	pwd(void)
 {
 	char	*pwd;
 	char	*no_error;

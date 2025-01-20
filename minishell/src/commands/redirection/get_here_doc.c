@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:10:43 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:28:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 {
 	char	*tmp;
 
-	if (!ft_strchr(limiter,'\'') && !ft_strchr(limiter,'\"'))
+	if (!ft_strchr(limiter, '\'') && !ft_strchr(limiter, '\"'))
 	{
 		tmp = replace_word_env(line, env, 1);
 		if (!tmp)
@@ -52,7 +52,8 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 *
 * Warning: limiters and env must not me null.
 */
-static int	process_line(int file, char *limiter, char *unquoted_limiter, char **env)
+static int	process_line(int file, char *limiter,
+			char *unquoted_limiter, char **env)
 {
 	char	*line;
 	int		limiter_length;
@@ -62,12 +63,13 @@ static int	process_line(int file, char *limiter, char *unquoted_limiter, char **
 	line = get_next_line(0);
 	if (!line)
 	{
-		ft_printf_fd(2, "%s: %s (wanted '%s')", NAME, HERDOC_END, unquoted_limiter);
+		ft_printf_fd(2, "%s: %s (wanted '%s')",
+			NAME, HERDOC_END, unquoted_limiter);
 		free(unquoted_limiter);
 		return (1);
 	}
 	if (!ft_strncmp(unquoted_limiter, line, limiter_length)
-			&& line[limiter_length] == '\n')
+		&& line[limiter_length] == '\n')
 	{
 		free(line);
 		return (-1);
@@ -76,6 +78,7 @@ static int	process_line(int file, char *limiter, char *unquoted_limiter, char **
 		return (1);
 	return (0);
 }
+
 /*
 * Goal: Put all the readed lines in the here_doc file until EOF.
 *
@@ -95,7 +98,7 @@ int	get_here_doc_input(int file, char *limiter, char **env)
 	{
 		result = process_line(file, limiter, unquoted_limiter, env);
 		if (result == -1)
-			break;
+			break ;
 		if (result)
 		{
 			free(unquoted_limiter);
