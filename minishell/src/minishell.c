@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 19:41:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:19:24 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 // include the commands and token headers (.h)
 #include "execution.h"
 
-static void	process_cmd(char *input, char **envp)
+static void	process_cmd(char *input, char ***env)
 {
 	t_queue	tokens;
 	t_queue	reorganized_tokens;
 
-	(void) envp;
 	if (*input)
 	{
 		if (!valid_parenthesis(input))
@@ -27,7 +26,7 @@ static void	process_cmd(char *input, char **envp)
 		tokens = auto_tokenizer(input);
 		reorganized_tokens = reorganize(tokens);
 		print_tokens(&reorganized_tokens);
-		make_execution(&reorganized_tokens, envp);
+		make_execution(&reorganized_tokens, env);
 	}
 	else
 		reorganized_tokens = queue_create();
@@ -35,19 +34,22 @@ static void	process_cmd(char *input, char **envp)
 
 int	main(int argc, char **argv, char**envp)
 {
-	char	*line_read ;
+	char	*line_read;
+	char	**env;
 
 	(void)argc;
 	(void)argv;
+	env = strdup_tab(envp);
 	while (1)
 	{
 		line_read = rl_gets();
 		if (!line_read)
 			break ;
-		process_cmd(line_read, envp);
+		process_cmd(line_read, &env);
 		free(line_read);
 		//break ;//one command
 	}
+	ft_clean_matrix((void **)env);
 	rl_clear_history();
 	printf("exit\n");
 	return (0);

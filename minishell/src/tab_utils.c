@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tab_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:27:31 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:15:49 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:20:14 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,46 @@
 *
 * Return: The size of the tab.
 */
-int	size_tab(char **tab)
+size_t	size_tab(char **tab)
 {
-	int		size;
+	size_t	size;
 
+	if (!tab)
+		return (0);
 	size = 0;
-	while (tab && tab[size])
+	while (tab[size])
 		size++;
 	return (size);
+}
+
+/*
+* Goal: Strdup a tab.
+*
+* Return: The dup tab.
+*/
+char	**strdup_tab(char **tab)
+{
+	char	**result;
+	size_t	len;
+	size_t	i;
+
+	len = size_tab(tab);
+	result = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		result[i] = ft_strdup(tab[i]);
+		if (!result[i])
+		{
+			ft_free_matrix((void **)result, i);
+			return (NULL);
+		}
+		++i;
+	}
+	result[len] = NULL;
+	return (result);
 }
 
 /*

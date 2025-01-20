@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/19 18:21:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:11:31 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_data
 {
 	t_tree	*tree;
 	t_list	*lst;
+	char	***env;
 	int		fd[2];
 }			t_data;
 
@@ -52,7 +53,7 @@ t_token_name	queue_first_name(t_queue *queue);
 /*---parsing.c---*/
 int				valid_parenthesis(char *input);
 t_tree			*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
-t_data			get_tree_data(t_queue *queue);
+t_data			get_tree_data(t_queue *queue, char ***env);
 
 /*---token_state.c---*/
 t_tree			*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs);

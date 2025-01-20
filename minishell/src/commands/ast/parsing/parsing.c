@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 16:59:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:08:21 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 	return (tree);
 }
 
-t_data	get_tree_data(t_queue *queue)
+t_data	get_tree_data(t_queue *queue, char ***env)
 {
 	t_tree	*tree;
 	t_list	*here_docs;
@@ -75,5 +75,6 @@ t_data	get_tree_data(t_queue *queue)
 	queue_clear(queue);
 	data.tree = tree;
 	data.lst = here_docs;
+	data.env = env;
 	return (data);
 }
