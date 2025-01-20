@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 19:43:13 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:06:43 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,13 @@
 
 static int	is_builtin_cmd(char *cmd_name)
 {
-	if (!ft_strcmp(cmd_name, "echo"))
-		return (1);
-	if (!ft_strcmp(cmd_name, "cd"))
-		return (1);
-	if (!ft_strcmp(cmd_name, "pwd"))
-		return (1);
-	if (!ft_strcmp(cmd_name, "export"))
-		return (1);
-	if (!ft_strcmp(cmd_name, "unset"))
-		return (1);
-	if (!ft_strcmp(cmd_name, "env"))
-		return (1);
-	if (!ft_strcmp(cmd_name, "exit"))
+	if (ft_strcmp(cmd_name, "echo") == 0 ||
+		ft_strcmp(cmd_name, "cd") == 0 ||
+		ft_strcmp(cmd_name, "pwd") == 0 ||
+		ft_strcmp(cmd_name, "export") == 0 ||
+		ft_strcmp(cmd_name, "unset") == 0 ||
+		ft_strcmp(cmd_name, "env") == 0 ||
+		ft_strcmp(cmd_name, "exit") == 0 )
 		return (1);
 	return (0);
 }
@@ -98,7 +92,7 @@ int	execute_cmd(t_token token, char **env, int is_piped)
 	cmd = token.value;
 	result = 0;
 	if (is_builtin_cmd(cmd[0]))
-		result = execute_builtin(cmd, env);
+		result = execute_builtin(cmd, env); // compress 2 functions in 1 ?
 	else if (!is_piped)
 		result = fork_and_execute(cmd, env);
 	else

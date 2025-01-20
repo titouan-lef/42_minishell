@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 18:37:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:19:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ static int	add_path_and_access(char *dir, char *cmd, char **path)
 		ft_printf_fd(2, "%s: %s", NAME, MALLOC);
 		return (1);
 	}
-	if (access(*path, F_OK | X_OK) == 0)
-		return (0);
-	*path = NULL;
+	if (access(*path, F_OK | X_OK) != 0)
+	{
+		free(*path);
+		*path = NULL;
+	}
 	return (0);
 }
 
@@ -86,6 +88,8 @@ int	get_path(char **path, char *cmd_name, char **env)
 		return (result);
 	}
 	paths_tab = find_paths_in_env(env);
+	if (!path)
+		return (1);
 	i = 0;
 	while (paths_tab && paths_tab[i])
 	{
@@ -95,7 +99,6 @@ int	get_path(char **path, char *cmd_name, char **env)
 			ft_clean_matrix((void **)paths_tab);
 			return (result);
 		}
-		free(*path);
 	}
 	if (paths_tab)
 		ft_clean_matrix((void **)paths_tab);

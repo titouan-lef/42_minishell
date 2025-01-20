@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:38:50 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 16:46:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:16:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ int	unset(char **cmd, char ***env)
 	if (!*(++cmd))
 		return (0);
 	new_env = ft_calloc(1, sizeof(char *));
+	if (!new_env)
+		return (1);
 	num_var = 0;
 	while ((*env)[num_var])
 	{
-		if (is_var_to_unset((*env)[num_var], cmd))
+		if (!is_var_to_unset((*env)[num_var], cmd))
 		{
-			num_var++;
-			continue;
-		}
-		new_env = append_to_tab(new_env, (*env)[num_var]);
-		if (!new_env)
-		{
-			ft_printf_fd(2, "%s: %s", NAME, MALLOC);
-			return (1);
+			new_env = append_to_tab(new_env, (*env)[num_var]);
+			if (!new_env)
+			{
+				ft_printf_fd(2, "%s: %s", NAME, MALLOC);
+				return (1);
+			}
 		}
 		num_var++;
 	}
