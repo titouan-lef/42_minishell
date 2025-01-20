@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 19:48:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:31:08 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	execute_builtin(char **cmd, char ***env)
 	return (result);
 }
 
-static int	execute(char **cmd, char **env)
+static void	execute(char **cmd, char **env)
 {
 	char	*path;
 	int		result;
@@ -57,30 +57,25 @@ static int	execute(char **cmd, char **env)
 	path = NULL;
 	result = get_path(&path, cmd[0], env);
 	if (result)
-		return (result);
+		exit(result); //free data so need the whole data struct
 	execve(path, cmd, env);
-	ft_printf_fd(2, "%s: %s: %s", NAME, path, NO_CMD);
+	ft_printf_fd(2, "%s: %s\n", cmd[0], NO_CMD);
 	free(path);
-	return (127);
+	exit (127); //free data so need the whole data struct
 }
 
 static int	fork_and_execute(char **cmd, char **env)
 {
 	int	pid;
-	int	result;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, FORK);
+		ft_printf_fd(2, "%s: %s\n", NAME, FORK);
 		return (1);
 	}
 	if (pid == 0)
-	{
-		result = execute(cmd, env);
-		if (result)
-			return (result);
-	}
+		execute(cmd, env);
 	waitpid(pid, NULL, 0);
 	return (0);
 }
@@ -97,6 +92,6 @@ int	execute_cmd(t_token token, char ***env, int is_piped)
 	else if (!is_piped)
 		result = fork_and_execute(cmd, *env);
 	else
-		result = execute(cmd, *env);
+		execute(cmd, *env);
 	return (result);
 }

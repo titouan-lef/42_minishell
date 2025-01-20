@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:23:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:16:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	pwd(void)
 		return (1);
 	no_error = getcwd(pwd, PATH_MAX);
 	if (no_error)
-		printf("%s", pwd);
+		printf("%s\n", pwd);
 	else
 		printf("\n");
 	free(pwd);
