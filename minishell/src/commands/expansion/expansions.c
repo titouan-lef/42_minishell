@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 19:19:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:17:32 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	expand(t_token *token, char **env_local)
 {
-	expand_env_var(token, env_local);
+	expand_env_var(token, env_local); //manage errors
 	expand_wildcard(token);
 	remove_quotes(token);
 }

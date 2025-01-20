@@ -6,11 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:24:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:48:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "commands.h"
+#include "execution.h"
 #include "builtins.h"
 
 static int	is_builtin_cmd(char *cmd_name)
@@ -26,14 +26,14 @@ static int	is_builtin_cmd(char *cmd_name)
 	return (0);
 }
 
-static int	execute_builtin(char **cmd, char **env)
+static int	execute_builtin(char **cmd, char ***env)
 {
 	int	result;
 
 	(void)env;
 	result = 0;
 	if (!ft_strcmp(cmd[0], "echo"))
-		echo(++cmd);
+		echo(cmd);
 	// else if (!ft_strcmp(cmd[0], "cd"))
 	// 	result = cd(cmd);
 	else if (!ft_strcmp(cmd[0], "pwd"))
@@ -81,10 +81,11 @@ static int	fork_and_execute(char **cmd, char **env)
 		if (result)
 			return (result);
 	}
+	waitpid(pid, NULL, 0);
 	return (0);
 }
 
-int	execute_cmd(t_token token, char **env, int is_piped)
+int	execute_cmd(t_token token, char ***env, int is_piped)
 {
 	int		result;
 	char	**cmd;
@@ -94,8 +95,8 @@ int	execute_cmd(t_token token, char **env, int is_piped)
 	if (is_builtin_cmd(cmd[0]))
 		result = execute_builtin(cmd, env); // compress 2 functions in 1 ?
 	else if (!is_piped)
-		result = fork_and_execute(cmd, env);
+		result = fork_and_execute(cmd, *env);
 	else
-		result = execute(cmd, env);
+		result = execute(cmd, *env);
 	return (result);
 }

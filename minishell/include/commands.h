@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/20 17:11:31 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:45:48 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ int				compare_lexicographicly(char char1, char char2);
 int				strcmp_lexicographicly(const void *p1, const void *p2);
 
 /*---execute_cmd.c---*/
-int				execute_cmd(t_token token, char **env, int is_piped);
+int				execute_cmd(t_token token, char ***env, int is_piped);
 int				get_path(char **path, char *cmd_name, char **env);
 #endif
