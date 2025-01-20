@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2024/12/28 17:40:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:29:15 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	run_pwd(char **envp, ...)
 		exit(1);
 	}
 	redirect_outputs(&outputs);
-	pwd(split_cmd, envp);
+	pwd();
 	set_normal_outputs(&outputs);
 	free(split_cmd);
 }
