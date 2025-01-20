@@ -27,8 +27,9 @@ type function_name(args){}
 ### Project Managment 📜
 - Respect the [Git Organisation](#git-organisation)
 - Merge on the `main` branch as soon as a feature is done
-- Commit must be formated like `KEY_WORD: commit title` with the followings key_words:
+- Commit title must be formated like `KEY_WORD: commit title` with the followings key_words:
   - **ADD**
+  - **UPDATE**
   - **REMOVE**
   - **FIX**
 ```bash
@@ -49,7 +50,7 @@ project-root/
 │   ├── [project files...]
 ├── README.md
 ├── .gitignore
-├── test
+├── unit_tester
     E --> F(Env);s/
 │   ├── [unit test files...]
 ```
@@ -58,27 +59,22 @@ project-root/
 
 ```mermaid
 graph TB;
-    A(Dislpay) --"char *line
-struct data"--> C(Parsing);
+    A(Display) --"char *line
+struct data"--> C(Lexer);
     A ~~~ Z(Readlines);
     Z --"char *line"--> A;
     C --"struct data
-tab struct(enum && char *type)"--> D(Lexer);
-    D --"struct data"--> E{Redirect};
-    E --"char *word"--> F(Env);
-    F --"char *word"--> E;
-    E --"struct data
-char **cmd1
-char **cmd2" --> G(Pipe);
-    E --"struct data
-char **cmd" --> H(Choise_cmd);
+queue"--> D{AST};
+    D --"struct data
+token_redir"--> E(Redirect);
+    D --"struct data
+token_cmd"--> F(Expansion);
+    F --"struct data
+token_cmd" --> G(Execute_cmd);
     G --"struct data
-char **cmd" --> H;
-
-    H --"struct data
-char **cmd" --> I(Exec_cmd);
-    H --"struct data
-char **cmd" --> J(Builtins);
+char **cmd" --> H(Execve);
+    G --"struct data
+char **cmd" --> I(Builtins);
     
 ```
 
@@ -99,11 +95,18 @@ git checkout <branch_name>
 ### Update your branch with current `main`
 1. Switch to your branch (if you are on another) and push to ensure your branch is up-to-date before merging
 ```bash
+git checkout <branch_name>
 git push
 ```
-2. Fetch and merge (pull) branch `main` on your branch
+2. Switch to the main branch and pull
 ```bash
-git pull origin main
+git checkout main
+git pull
+```
+3. Switch back to your branch and merge with the main branch
+```bash
+git checkout <branch_name>
+git merge main
 ```
 ### Push Workflow
 1. [Update your branch with current main](#update-your-branch-with-current-main)
