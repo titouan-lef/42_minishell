@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 21:43:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:10:43 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 {
 	char	*tmp;
 
-	if (limiter[0] != '\"' && limiter[0] != '\'')
+	if (!ft_strchr(limiter,'\'') && !ft_strchr(limiter,'\"'))
 	{
 		tmp = replace_word_env(line, env, 1);
 		if (!tmp)

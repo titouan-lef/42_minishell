@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 19:40:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:10:16 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,9 +362,7 @@ void	test_redirs(char **env)
 	set_normal_outputs(&out);
 	make_redirs(token, here_docs);
 	token_clear(token);
-	expected = ft_strjoin(getenv("USER"),"\n");
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, expected, 1, &test_number);
-	free(expected);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
