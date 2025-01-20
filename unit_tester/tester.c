@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:28:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 19:40:52 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:28:01 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	test_tokenizer();
 	test_lexer();
 	test_tree();
-	test_get_tree();
+	test_get_tree(envp);
 	test_var_expand(envp);
 	test_pathname_expand();
 	test_quote_removal();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 19:37:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:27:53 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	test_unset(void);
 void	test_tokenizer(void);
 void	test_lexer(void);
 void	test_tree(void);
-void	test_get_tree(void);
+void	test_get_tree(char **env);
 void	test_var_expand(char **envp);
 void	test_pathname_expand(void);
 void	test_quote_removal(void);

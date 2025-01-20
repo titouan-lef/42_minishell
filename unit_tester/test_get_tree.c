@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 17:36:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:28:15 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,14 +175,14 @@ static char **create_token_value(char *value)
 	return (result);
 }
 
-static void write_result(t_queue *queue)
+static void write_result(t_queue *queue, char ***env)
 {
 	t_out	outputs;
 	t_data	data;
 	t_tree *tree;
 
 	redirect_outputs(&outputs);
-	data = get_tree_data(queue);
+	data = get_tree_data(queue, env);
 	tree = data.tree;
 	clear_here_docs(data.lst);
 	breadth_first_search(tree);
@@ -191,7 +191,7 @@ static void write_result(t_queue *queue)
 }
 
 // echo && cat
-static void test_get_tree1(void)
+static void test_get_tree1(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -199,32 +199,32 @@ static void test_get_tree1(void)
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo
-static void test_get_tree2(void)
+static void test_get_tree2(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo &&
-static void test_get_tree3(void)
+static void test_get_tree3(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo && cat | grep
-static void test_get_tree4(void)
+static void test_get_tree4(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -234,11 +234,11 @@ static void test_get_tree4(void)
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1 echo && cat | <redir2 grep || cut
-static void test_get_tree5(void)
+static void test_get_tree5(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -250,11 +250,11 @@ static void test_get_tree5(void)
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1 echo && cat | (<redir2 grep || cut)
-static void test_get_tree6(void)
+static void test_get_tree6(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -270,11 +270,11 @@ static void test_get_tree6(void)
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1 echo && cat | <redir2 grep || cut
-static void test_get_tree7(void)
+static void test_get_tree7(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -288,11 +288,11 @@ static void test_get_tree7(void)
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1 echo && cat | (<redir2 grep (|| cut))
-static void test_get_tree8(void)
+static void test_get_tree8(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -310,11 +310,11 @@ static void test_get_tree8(void)
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1 echo && cat | (<redir2 grep || (cut))
-static void test_get_tree9(void)
+static void test_get_tree9(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -332,22 +332,22 @@ static void test_get_tree9(void)
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // ()
-static void test_get_tree10(void)
+static void test_get_tree10(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // (echo)
-static void test_get_tree11(void)
+static void test_get_tree11(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -355,11 +355,11 @@ static void test_get_tree11(void)
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // (echo ||)
-static void test_get_tree12(void)
+static void test_get_tree12(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -368,11 +368,11 @@ static void test_get_tree12(void)
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // (echo |)
-static void test_get_tree13(void)
+static void test_get_tree13(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -381,11 +381,11 @@ static void test_get_tree13(void)
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // (echo | cat)
-static void test_get_tree14(void)
+static void test_get_tree14(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -395,11 +395,11 @@ static void test_get_tree14(void)
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // (echo || cat)
-static void test_get_tree15(void)
+static void test_get_tree15(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -409,19 +409,19 @@ static void test_get_tree15(void)
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 //
-static void test_get_tree16(void)
+static void test_get_tree16(char ***env)
 {
 	t_queue	queue = queue_create();
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1 && cat | (<redir2 grep || (<redir3))
-static void test_get_tree17(void)
+static void test_get_tree17(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -438,21 +438,21 @@ static void test_get_tree17(void)
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1
-static void test_get_tree18(void)
+static void test_get_tree18(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // <redir1 echo | cat | <redir2 grep | cut
-static void test_get_tree19(void)
+static void test_get_tree19(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -466,22 +466,22 @@ static void test_get_tree19(void)
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo |
-static void test_get_tree20(void)
+static void test_get_tree20(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo | )
-static void test_get_tree21(void)
+static void test_get_tree21(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -489,11 +489,11 @@ static void test_get_tree21(void)
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo | (
-static void test_get_tree22(void)
+static void test_get_tree22(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -501,11 +501,11 @@ static void test_get_tree22(void)
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo | (cat && grep))
-static void test_get_tree23(void)
+static void test_get_tree23(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -518,11 +518,11 @@ static void test_get_tree23(void)
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo | )cat && grep()
-static void test_get_tree24(void)
+static void test_get_tree24(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -535,11 +535,11 @@ static void test_get_tree24(void)
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo | cat (grep)
-static void test_get_tree25(void)
+static void test_get_tree25(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -550,32 +550,32 @@ static void test_get_tree25(void)
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo (
-static void test_get_tree26(void)
+static void test_get_tree26(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // &&
-static void test_get_tree27(void)
+static void test_get_tree27(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // echo (( cat )
-static void test_get_tree28(void)
+static void test_get_tree28(char ***env)
 {
 	t_queue	queue = queue_create();
 
@@ -585,27 +585,27 @@ static void test_get_tree28(void)
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // )
-static void test_get_tree29(void)
+static void test_get_tree29(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 // (
-static void test_get_tree30(void)
+static void test_get_tree30(char ***env)
 {
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 
-	write_result(&queue);
+	write_result(&queue, env);
 }
 
 static char	*add_element_test(char *str, char *add)
@@ -620,16 +620,17 @@ static char	*add_element_test(char *str, char *add)
 	return (new);
 }
 
-void	test_get_tree(void)
+void	test_get_tree(char **envp)
 {
 	size_t	test_number;
 	char	*str;
+	char	**env = strdup_tab(envp);
 
 	start_test("get_tree_data");
 	test_number = 1;
 
 	/*--- test 1 ---*/
-	test_get_tree1();
+	test_get_tree1(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
@@ -640,7 +641,7 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 2 ---*/
-	test_get_tree2();
+	test_get_tree2(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "echo l r");
@@ -648,11 +649,11 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 3 ---*/
-	test_get_tree3();
+	test_get_tree3(&env);
 	assert_equal_err("bash: syntax error near unexpected token `&&'\n", &test_number);
 
 	/*--- test 4 ---*/
-	test_get_tree4();
+	test_get_tree4(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
@@ -666,7 +667,7 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 5 ---*/
-	test_get_tree5();
+	test_get_tree5(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
@@ -683,7 +684,7 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 6 ---*/
-	test_get_tree6();
+	test_get_tree6(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
@@ -703,7 +704,7 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 7 ---*/
-	test_get_tree7();
+	test_get_tree7(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "||");
@@ -723,11 +724,11 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 8 ---*/
-	test_get_tree8();
+	test_get_tree8(&env);
 	assert_equal_err("bash: syntax error near unexpected token `||'\n", &test_number);
 
 	/*--- test 9 ---*/
-	test_get_tree9();
+	test_get_tree9(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
@@ -747,11 +748,11 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 10 ---*/
-	test_get_tree10();
+	test_get_tree10(&env);
 	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 11 ---*/
-	test_get_tree11();
+	test_get_tree11(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "echo l r");
@@ -759,17 +760,17 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 12 ---*/
-	test_get_tree12();
+	test_get_tree12(&env);
 	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
 
 
 	/*--- test 13 ---*/
-	test_get_tree13();
+	test_get_tree13(&env);
 	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
 
 
 	/*--- test 14 ---*/
-	test_get_tree14();
+	test_get_tree14(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "|");
@@ -781,7 +782,7 @@ void	test_get_tree(void)
 
 
 	/*--- test 15 ---*/
-	test_get_tree15();
+	test_get_tree15(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "||");
@@ -792,11 +793,11 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 16 ---*/
-	test_get_tree16();
+	test_get_tree16(&env);
 	assert_equal_out("", &test_number);
 
 	/*--- test 17 ---*/
-	test_get_tree17();
+	test_get_tree17(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
@@ -815,7 +816,7 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 18 ---*/
-	test_get_tree18();
+	test_get_tree18(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "<redir1 l r");
@@ -823,7 +824,7 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 19 ---*/
-	test_get_tree19();
+	test_get_tree19(&env);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "|1");
@@ -843,46 +844,48 @@ void	test_get_tree(void)
 	free(str);
 
 	/*--- test 20 ---*/
-	test_get_tree20();
+	test_get_tree20(&env);
 	assert_equal_err("bash: syntax error near unexpected token `|'\n", &test_number);
 
 	/*--- test 21 ---*/
-	test_get_tree21();
+	test_get_tree21(&env);
 	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 22 ---*/
-	test_get_tree22();
+	test_get_tree22(&env);
 	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
 
 	/*--- test 23 ---*/
-	test_get_tree23();
+	test_get_tree23(&env);
 	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 24 ---*/
-	test_get_tree24();
+	test_get_tree24(&env);
 	assert_equal_err("bash: syntax error near unexpected token `)1'\n", &test_number);
 
 	/*--- test 25 ---*/
-	test_get_tree25();
+	test_get_tree25(&env);
 	assert_equal_err("bash: syntax error near unexpected token `grep'\n", &test_number);
 
 	/*--- test 26 ---*/
-	test_get_tree26();
+	test_get_tree26(&env);
 	assert_equal_err("bash: syntax error near unexpected token `newline'\n", &test_number);
 
 	/*--- test 27 ---*/
-	test_get_tree27();
+	test_get_tree27(&env);
 	assert_equal_err("bash: syntax error near unexpected token `&&'\n", &test_number);
 
 	/*--- test 28 ---*/
-	test_get_tree28();
+	test_get_tree28(&env);
 	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
 
 	/*--- test 29 ---*/
-	test_get_tree29();
+	test_get_tree29(&env);
 	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 30 ---*/
-	test_get_tree30();
+	test_get_tree30(&env);
 	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
+
+	ft_clean_matrix((void **)env);
 }
