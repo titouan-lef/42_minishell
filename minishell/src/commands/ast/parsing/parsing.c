@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 18:06:30 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:09:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 
 	type = queue_first_name(queue);
 	if (type == TOKEN_LOGIC_OPE)
-		tree = state_ope(tree, queue, here_docs);
+		tree = state_logical_ope(tree, queue, here_docs);
 	else
 		tree = common_state(tree, queue, type, here_docs);
 	return (tree);
