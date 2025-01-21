@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 15:29:50 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:43:22 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_queue			queue_create(void);
 t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
-int				valid_parenthesis(char *input);
 t_tree			*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
 t_data			get_tree_data(t_queue *queue, char ***env);
 
