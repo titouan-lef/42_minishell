@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 16:59:10 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:42:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 * Goal: Fill token name and token value.
 *
-* Return: None.
+* Return: 1 ir error, 0 if not.
 *
 * Warning: input, index and buffer must not be null.
 */
@@ -26,10 +26,10 @@ static int	fill_token(t_token *token, char *input, int *index, char *buffer)
 	{
 		free(buffer);
 		free(token->value);
-		return (0);
+		return (1);
 	}
 	token->value[0] = buffer;
-	return (1);
+	return (0);
 }
 
 /*
@@ -54,13 +54,13 @@ t_queue	auto_tokenizer(char *input)
 		token.value = (char **)ft_calloc(2, sizeof(char *));
 		if (!buffer || !token.value)
 		{
-			ft_printf_fd(2, "malloc error");
+			ft_printf_fd(2, "%s: %s\n", NAME, MALLOC);
 			free(buffer);
 			free(token.value);
 			queue_clear(&tokens);
 			return (tokens);
 		}
-		if (fill_token(&token, input, &index, buffer))
+		if (!fill_token(&token, input, &index, buffer))
 			queue_push(&tokens, token);//protect push
 	}
 	return (tokens);

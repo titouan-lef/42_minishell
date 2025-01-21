@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/13 19:39:51 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:48:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@ static t_token_name	get_redir(const char *input, int *index, char *buffer);
 *
 * Warning: input, index must not be null.
 */
-static void	get_quote(const char *input, int *index, char c)
+static int	get_quote(const char *input, int *index, char c)
 {
 	(*index)++;
 	while (input[*index] && input[*index] != c)
 		(*index)++;
+	if (!input[*index])
+	{
+		ft_printf_fd(2, "%s: syntax error near token `%c'\n", NAME, c);
+		return (1);
+	}
 	(*index)++;
+	return (0);
 }
 
 /*
@@ -39,12 +45,13 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 	int	start ;
 
 	start = *index;
-	while (input[*index] && !ft_is_in_charset("&|()<> ", input[*index]))
+	while (input[*index] && !ft_is_in_charset("&|()<> ", input[*index])) //add whitespaces
 	{
-		if (input[*index] == '\'')
-			get_quote(input, index, '\'');
-		else if (input[*index] == '\"')
-			get_quote(input, index, '\"');
+		if (input[*index] == '\'' || input[*index] == '\"')
+		{
+			if (get_quote(input, index, input[*index]))
+				return(TOKEN_NULL);
+		}
 		else
 			(*index)++;
 	}
@@ -146,6 +153,7 @@ t_token_name	get_token(char *input, int *index, char *buffer)
 	if (token_name != TOKEN_NULL)
 		return (token_name);
 	token_name = get_word(input, index, buffer);
+	//
 	if (*buffer == '\0')
 		return (TOKEN_NULL);
 	return (token_name);
