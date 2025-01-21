@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   common_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/20 19:17:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:15:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-// static int	make_cmd(t_token token, int is_piped)// todo : call good function
-// {
-// 	ft_printf("execute command : %s\n", token.value[0]);
-// 	ft_printf("is_piped : %d\n", is_piped);
-// 	return (0);
-// }
 
 int	redir_execution(t_data *data, t_token *token, int is_piped)
 {
