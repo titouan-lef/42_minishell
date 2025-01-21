@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 11:40:53 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:21:49 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	execute(char **cmd, char **env)
 	if (result)
 		exit(result); //free data so need the whole data struct
 	execve(path, cmd, env);
-	ft_printf_fd(2, "%s: %s\n", cmd[0], NO_CMD);
+	ft_printf_fd(2, "%s: %s\n", cmd[0], ERR_NO_CMD);
 	free(path);
 	exit (127); //free data so need the whole data struct
 }
@@ -71,7 +71,7 @@ static int	fork_and_execute(char **cmd, char **env)
 	pid = fork();
 	if (pid == -1)
 	{
-		ft_printf_fd(2, "%s: %s\n", NAME, FORK);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_FORK);
 		return (1);
 	}
 	if (pid == 0)

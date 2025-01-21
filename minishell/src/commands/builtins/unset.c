@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:38:50 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:22:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:20:44 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	unset(char **cmd, char ***env)
 			new_env = append_to_tab(new_env, (*env)[num_var]);
 			if (!new_env)
 			{
-				ft_printf_fd(2, "%s: %s", NAME, MALLOC);
+				ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
 				return (1);
 			}
 		}

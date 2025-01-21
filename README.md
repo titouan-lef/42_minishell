@@ -32,6 +32,7 @@ type function_name(args){}
   - **UPDATE**
   - **REMOVE**
   - **FIX**
+  - **WIP** (Work In Progress)
 ```bash
 git commit -m 'KEY_WORD: commit title' -m 'commit description'
 ```

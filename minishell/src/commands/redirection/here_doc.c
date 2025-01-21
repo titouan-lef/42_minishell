@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 19:47:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:20:44 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	read_here_docs(t_list *here_docs, char **env)
 		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
 		{
-			ft_printf_fd(2, "%s: %s", NAME, HERDOC_ACC);
+			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
 			return (1);
 		}
 		if (get_here_doc_input(fd, here_doc->limiter, env))
@@ -60,13 +60,13 @@ static t_list	*new_here_doc(char *limiter)
 	element = ft_calloc(1, sizeof(t_here_doc));
 	if (!element)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, MALLOC);
+		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
 		return (NULL);
 	}
 	element->limiter = ft_strdup(limiter);
 	if (!element)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, MALLOC);
+		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
 		free(element);
 		return (NULL);
 	}

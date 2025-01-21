@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_for_ast.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 13:13:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:31:03 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	update(t_token *token, t_token *cmd,
 *
 * Warning: token must not be null.
 */
-t_queue	reorganize(t_queue tokens)
+t_queue	reorganize(t_queue *tokens)
 {
 	t_queue	reorganized_tokens;
 	t_token	token;
@@ -83,14 +83,14 @@ t_queue	reorganize(t_queue tokens)
 	cmd = token_create(TOKEN_CMD, NULL);
 	redir = token_create(TOKEN_REDIR, NULL);
 	reorganized_tokens = queue_create();
-	while (!queue_is_empty(&tokens))
+	while (!queue_is_empty(tokens))
 	{
-		token = queue_pop(&tokens);
+		token = queue_pop(tokens);
 		if (update(&token, &cmd, &redir, &reorganized_tokens))
 		{
 			token_clear(cmd);
 			token_clear(redir);
-			queue_clear(&tokens);
+			queue_clear(tokens);
 			queue_clear(&reorganized_tokens);
 			return (reorganized_tokens);
 		}

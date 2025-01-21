@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 10:30:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:21:49 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
 
 # define NAME "minishell"
 /*---Error messages---*/
-# define HERDOC_END "warning: here-document delimited by end-of-file"
-# define HERDOC_ACC "error here_doc access"
-# define MALLOC "malloc error"
-# define FORK "fork failed"
-# define DUP "dup failed"
-# define DUP2 "dup2 failed"
-# define NO_FILE "No such file or directory"
-# define NO_CMD "Command not found"
+# define ERR_HERDOC_END "warning: here-document delimited by end-of-file"
+# define ERR_HERDOC_ACC "error here_doc access"
+# define ERR_MALLOC "malloc error"
+# define ERR_FORK "fork failed"
+# define ERR_DUP "dup failed"
+# define ERR_DUP2 "dup2 failed"
+# define ERR_NO_FILE "No such file or directory"
+# define ERR_NO_CMD "Command not found"
 
 /*---tab_utils.c---*/
 size_t	size_tab(char **tab);
