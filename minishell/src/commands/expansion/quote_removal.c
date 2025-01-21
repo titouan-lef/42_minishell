@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 20:46:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:20:44 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*replace_word_quotes(char *word)
 	updated_word = ft_calloc(sizeof(char), new_word_lenght(word) + 1);
 	if (!updated_word)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, MALLOC);
+		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
 		return (NULL);
 	}
 	while (*word)

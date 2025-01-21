@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:50:44 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 12:17:20 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:22:58 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static int	fork_management(t_data *data, t_tree *sub_tree, t_stack **stack)
 		//{
 		close(data->fd[0]);
 		if (dup2(data->fd[1], STDOUT_FILENO) == -1)
-			ft_printf_fd(2, "%s: %s\n", NAME, DUP2);/* need to do something ??
-				for exemple don't do the command ?*/
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2);/* need to do
+				something ?? for exemple don't do the command ?*/
 		close(data->fd[1]);
 		//}
 		stack_clear(stack);
@@ -48,7 +48,7 @@ static int	fork_management(t_data *data, t_tree *sub_tree, t_stack **stack)
 	// {
 	close(data->fd[1]);
 	if (dup2(data->fd[0], STDIN_FILENO) == -1)
-		ft_printf_fd(2, "%s: %s\n", NAME, DUP2); /* need to do something ??
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2); /* need to do something ??
 			for exemple don't do the command ?*/
 	close(data->fd[0]);
 	// }
