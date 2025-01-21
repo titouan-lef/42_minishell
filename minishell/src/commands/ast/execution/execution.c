@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/20 19:17:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:43:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ static void	clear_data(t_data *data)
 {
 	tree_clear(&data->tree);
 	clear_here_docs(data->lst);
+	close(data->std[0]);
+	close(data->std[1]);
+	close(data->std[2]);
 }
 
 void	exit_exec(t_data *data, int code)
 {
+	close(data->fd[0]);
+	close(data->fd[1]);
 	ft_clean_matrix((void **)*data->env);
 	clear_data(data);
 	exit(code);
@@ -58,6 +63,9 @@ int	make_execution(t_queue *queue, char ***env)
 		return (2);//Good code ???
 	}
 	result = tree_execution(&data, data.tree, 0);
+	dup2(data.std[0], STDIN_FILENO); //protections
+	dup2(data.std[1], STDOUT_FILENO);
+	dup2(data.std[2], STDERR_FILENO);
 	clear_data(&data);
 	return (result);
 }

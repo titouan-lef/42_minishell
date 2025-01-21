@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 17:05:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:30:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define HERDOC_ACC "error here_doc access"
 # define MALLOC "malloc error"
 # define FORK "fork failed"
+# define DUP "dup failed"
+# define DUP2 "dup2 failed"
 # define NO_FILE "No such file or directory"
 # define NO_CMD "Command not found"
 

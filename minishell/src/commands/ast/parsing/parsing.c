@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 17:08:21 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:38:38 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,8 @@ t_data	get_tree_data(t_queue *queue, char ***env)
 	data.tree = tree;
 	data.lst = here_docs;
 	data.env = env;
+	data.std[0] = dup(STDIN_FILENO); // protections
+	data.std[1] = dup(STDOUT_FILENO);
+	data.std[2] = dup(STDERR_FILENO);
 	return (data);
 }

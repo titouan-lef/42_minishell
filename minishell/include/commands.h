@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/20 19:45:48 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:15:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_data
 	t_list	*lst;
 	char	***env;
 	int		fd[2];
+	int		std[3]; //0 -> stdin | 1 -> stdout | 2 -> stderr
 }			t_data;
 
 /*---queue_primitive.c---*/
