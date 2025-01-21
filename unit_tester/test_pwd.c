@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:29:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:57:48 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	test_pwd(char **envp)
 {
 	size_t	test_number;
 	char	*pwd;
+	char	*tmp;
 
 	start_test("pwd");
 	pwd = NULL;
@@ -71,12 +72,16 @@ void	test_pwd(char **envp)
 
 	/*--- test 1 ---*/
 	run_pwd(envp, NULL);
-	assert_equal_out(pwd, &test_number);
+	tmp = ft_strjoin(pwd, "\n");
+	assert_equal_out(tmp, &test_number);
+	free(tmp);
 
 	/*--- test 2 ---*/
 	unsetenv("PWD");
 	run_pwd(envp, NULL);
 	setenv("PWD", pwd, 1);
-	assert_equal_out(pwd, &test_number);
+	tmp = ft_strjoin(pwd, "\n");
+	assert_equal_out(tmp, &test_number);
+	free(tmp);
 
 }
