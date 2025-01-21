@@ -6,12 +6,30 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 16:44:41 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:02:39 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tree.h"
 #include "commands.h"
+
+t_tree	*common_state(t_tree *tree, t_queue *queue,
+		t_token_name type, t_list **here_docs)
+{
+	if (type == TOKEN_REDIR)
+		tree = state_redir(tree, queue, here_docs);
+	else if (type == TOKEN_CMD)
+		tree = state_cmd(tree, queue, here_docs);
+	else if (type == TOKEN_PAR_OPEN)
+		tree = state_par_open(tree, queue, here_docs);
+	else
+	{
+		print_error_token(queue);
+		tree_clear(&tree);
+		return (NULL);
+	}
+	return (tree);
+}
 
 t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 {

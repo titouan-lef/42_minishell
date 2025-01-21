@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/19 19:49:02 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/21 17:45:57 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,10 @@ SRC				=	minishell.c										\
 					commands/ast/execution/operation_execution.c	\
 					commands/ast/execution/pipe_execution.c			\
 					commands/ast/execution/stack/stack_primitive.c	\
+					commands/ast/parsing/control_operator_state.c	\
 					commands/ast/parsing/parsing.c					\
+					commands/ast/parsing/simple_command_state.c		\
 					commands/ast/parsing/token_state_utils.c		\
-					commands/ast/parsing/token_state.c				\
 					commands/ast/tree/tree_primitive.c				\
 					commands/ast/tree/tree_push.c					\
 					commands/builtins/echo.c						\
