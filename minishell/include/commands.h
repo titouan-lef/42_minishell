@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 11:15:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:29:50 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_token_name	get_token(char *input, int *index, char *buffer);
 t_queue			auto_tokenizer(char *input);
 
 /*---format_for_ast.c---*/
-t_queue			reorganize(t_queue tokens);
+t_queue			reorganize(t_queue *tokens);
 t_token			split_command(t_queue tokens);
 
 /*---expansions.c---*/

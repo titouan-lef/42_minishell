@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/12 19:00:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:41:28 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,70 +85,92 @@ void	assert_equal_queue(t_queue result, size_t *i, ...)
 void	test_lexer(void)
 {
 	size_t	test_number;
+	t_queue	queue;
 
 	start_test("full lexer");
 	test_number = 1;
 
 	/*--- test 1 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo test")), &test_number, TOKEN_CMD, "echo", "test", NULL);
+	queue = auto_tokenizer("echo test");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "test", NULL);
 
 	/*--- test 2 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo   test")), &test_number, TOKEN_CMD, "echo", "test", NULL);
+	queue = auto_tokenizer("echo   test");;
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "test", NULL);
 
 	/*--- test 3 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("")), &test_number, NULL);
+	queue = auto_tokenizer("");
+	assert_equal_queue(reorganize(&queue), &test_number, NULL);
 
 	/*--- test 4 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo   test   ")),  &test_number, TOKEN_CMD, "echo", "test", NULL);
+	queue = auto_tokenizer("echo   test   ");
+	assert_equal_queue(reorganize(&queue),  &test_number, TOKEN_CMD, "echo", "test", NULL);
 
 	/*--- test 5 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo oui && cat non")), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "&&", TOKEN_CMD, "cat", "non", NULL);
+	queue = auto_tokenizer("echo oui && cat non");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "&&", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 6 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo oui || cat non")), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "||", TOKEN_CMD, "cat", "non", NULL);
+	queue = auto_tokenizer("echo oui || cat non");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "||", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 7 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo oui | cat non")), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_PIPE, "|", TOKEN_CMD, "cat", "non", NULL);
+	queue = auto_tokenizer("echo oui | cat non");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_PIPE, "|", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 8 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("()")), &test_number, TOKEN_PAR_OPEN, "(", TOKEN_PAR_CLOSE, ")", NULL);
+	queue = auto_tokenizer("()");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_PAR_OPEN, "(", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 9 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo oui && ( 1 || 0 )")), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_CMD, "1", TOKEN_OPE, "||", TOKEN_CMD, "0", TOKEN_PAR_CLOSE, ")", NULL);
+	queue = auto_tokenizer("echo oui && ( 1 || 0 )");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_CMD, "1", TOKEN_OPE, "||", TOKEN_CMD, "0", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 10 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("    ")), &test_number, NULL);
+	queue = auto_tokenizer("    ");
+	assert_equal_queue(reorganize(&queue), &test_number, NULL);
 
 	/*--- test 11 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo 'oui && cat non'")), &test_number, TOKEN_CMD, "echo", "'oui && cat non'", NULL);
+	queue = auto_tokenizer("echo 'oui && cat non'");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "'oui && cat non'", NULL);
 
 	/*--- test 12 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("echo \"oui && cat non\"")), &test_number, TOKEN_CMD, "echo", "\"oui && cat non\"", NULL);
+	queue = auto_tokenizer("echo \"oui && cat non\"");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "\"oui && cat non\"", NULL);
 
 	/*--- test 13 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer(">out")), &test_number, TOKEN_REDIR, ">out", NULL);
+	queue = auto_tokenizer(">out");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_REDIR, ">out", NULL);
 
 	/*--- test 14 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer(">out >>oui")), &test_number, TOKEN_REDIR, ">out", ">>oui", NULL);
+	queue = auto_tokenizer(">out >>oui");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_REDIR, ">out", ">>oui", NULL);
 
 	/*--- test 15 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("ls 2>out")), &test_number, TOKEN_REDIR, "2>out", TOKEN_CMD, "ls", NULL);
+	queue = auto_tokenizer("ls 2>out");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_REDIR, "2>out", TOKEN_CMD, "ls", NULL);
 
 	/*--- test 16 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("ls 2147483648>out")), &test_number, TOKEN_REDIR, ">out", TOKEN_CMD, "ls", "2147483648", NULL);
+	queue = auto_tokenizer("ls 2147483648>out");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_REDIR, ">out", TOKEN_CMD, "ls", "2147483648", NULL);
 
 	/*--- test 17 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("cat <in")), &test_number, TOKEN_REDIR, "<in", TOKEN_CMD, "cat", NULL);
+	queue = auto_tokenizer("cat <in");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_REDIR, "<in", TOKEN_CMD, "cat", NULL);
 
 	/*--- test 18 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("cat <<here_doc")), &test_number, TOKEN_REDIR, "<<here_doc", TOKEN_CMD, "cat", NULL);
+	queue = auto_tokenizer("cat <<here_doc");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_REDIR, "<<here_doc", TOKEN_CMD, "cat", NULL);
 
 	/*--- test 19 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("\"echo\"")), &test_number, TOKEN_CMD, "\"echo\"", NULL);
+	queue = auto_tokenizer("\"echo\"");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "\"echo\"", NULL);
 
 	/*--- test 20 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("\"echo\" >out")), &test_number, TOKEN_REDIR, ">out", TOKEN_CMD, "\"echo\"", NULL);
+	queue = auto_tokenizer("\"echo\" >out");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_REDIR, ">out", TOKEN_CMD, "\"echo\"", NULL);
 
 	/*--- test 21 ---*/
-	assert_equal_queue(reorganize(auto_tokenizer("\"echo >out\"")), &test_number, TOKEN_CMD, "\"echo >out\"", NULL);
+	queue = auto_tokenizer("\"echo >out\"");
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "\"echo >out\"", NULL);
 }

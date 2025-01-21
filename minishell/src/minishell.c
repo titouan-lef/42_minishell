@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 11:32:08 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:28:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	process_cmd(char *input, char ***env)
 		if (!valid_parenthesis(input))
 			return ;
 		tokens = auto_tokenizer(input);
-		reorganized_tokens = reorganize(tokens);
+		reorganized_tokens = reorganize(&tokens);
 		make_execution(&reorganized_tokens, env);
 	}
 }
