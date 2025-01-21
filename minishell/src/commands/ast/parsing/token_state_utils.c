@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 17:02:34 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:43:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_tree	*add_new_token(t_tree *tree, t_queue *queue)
 		return (tmp);
 	token_clear(token);
 	tree_clear(&tree);
-	ft_putendl_error("error malloc");
+	ft_putendl_error(ERR_MALLOC);
 	return (NULL);
 }
 
@@ -38,9 +38,10 @@ void	remove_token(t_queue *queue)
 
 void	print_error_token_value(char *value)
 {
-	ft_putstr_error("bash: syntax error near unexpected token `");
+	ft_putstr_error(NAME);
+	ft_putstr_error(ERR_SYNTAX_START);
 	ft_putstr_error(value);
-	ft_putstr_error("'\n");
+	ft_putendl_error(ERR_SYNTAX_END);
 }
 
 void	print_error_token(t_queue *queue)

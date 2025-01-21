@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:21:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:42:07 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define ERR_DUP2 "dup2 failed"
 # define ERR_NO_FILE "No such file or directory"
 # define ERR_NO_CMD "Command not found"
+# define ERR_SYNTAX_START ": syntax error near unexpected token `"
+# define ERR_SYNTAX_END "'"
 
 /*---tab_utils.c---*/
 size_t	size_tab(char **tab);

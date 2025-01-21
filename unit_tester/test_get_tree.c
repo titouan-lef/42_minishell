@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 18:06:30 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:43:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -650,7 +650,7 @@ void	test_get_tree(char **envp)
 
 	/*--- test 3 ---*/
 	test_get_tree3(&env);
-	assert_equal_err("bash: syntax error near unexpected token `&&'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `&&'\n", &test_number);
 
 	/*--- test 4 ---*/
 	test_get_tree4(&env);
@@ -725,7 +725,7 @@ void	test_get_tree(char **envp)
 
 	/*--- test 8 ---*/
 	test_get_tree8(&env);
-	assert_equal_err("bash: syntax error near unexpected token `||'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `||'\n", &test_number);
 
 	/*--- test 9 ---*/
 	test_get_tree9(&env);
@@ -749,7 +749,7 @@ void	test_get_tree(char **envp)
 
 	/*--- test 10 ---*/
 	test_get_tree10(&env);
-	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 11 ---*/
 	test_get_tree11(&env);
@@ -761,12 +761,12 @@ void	test_get_tree(char **envp)
 
 	/*--- test 12 ---*/
 	test_get_tree12(&env);
-	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `)'\n", &test_number);
 
 
 	/*--- test 13 ---*/
 	test_get_tree13(&env);
-	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `)'\n", &test_number);
 
 
 	/*--- test 14 ---*/
@@ -845,47 +845,47 @@ void	test_get_tree(char **envp)
 
 	/*--- test 20 ---*/
 	test_get_tree20(&env);
-	assert_equal_err("bash: syntax error near unexpected token `|'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `|'\n", &test_number);
 
 	/*--- test 21 ---*/
 	test_get_tree21(&env);
-	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 22 ---*/
 	test_get_tree22(&env);
-	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `('\n", &test_number);
 
 	/*--- test 23 ---*/
 	test_get_tree23(&env);
-	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 24 ---*/
 	test_get_tree24(&env);
-	assert_equal_err("bash: syntax error near unexpected token `)1'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `)1'\n", &test_number);
 
 	/*--- test 25 ---*/
 	test_get_tree25(&env);
-	assert_equal_err("bash: syntax error near unexpected token `grep'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `grep'\n", &test_number);
 
 	/*--- test 26 ---*/
 	test_get_tree26(&env);
-	assert_equal_err("bash: syntax error near unexpected token `newline'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
 
 	/*--- test 27 ---*/
 	test_get_tree27(&env);
-	assert_equal_err("bash: syntax error near unexpected token `&&'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `&&'\n", &test_number);
 
 	/*--- test 28 ---*/
 	test_get_tree28(&env);
-	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `('\n", &test_number);
 
 	/*--- test 29 ---*/
 	test_get_tree29(&env);
-	assert_equal_err("bash: syntax error near unexpected token `)'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `)'\n", &test_number);
 
 	/*--- test 30 ---*/
 	test_get_tree30(&env);
-	assert_equal_err("bash: syntax error near unexpected token `('\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `('\n", &test_number);
 
 	ft_clean_matrix((void **)env);
 }
