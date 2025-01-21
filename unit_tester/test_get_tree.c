@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/20 17:28:15 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:06:30 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ static void test_get_tree1(char ***env)
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 
 	write_result(&queue, env);
@@ -218,7 +218,7 @@ static void test_get_tree3(char ***env)
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 
 	write_result(&queue, env);
 }
@@ -229,7 +229,7 @@ static void test_get_tree4(char ***env)
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
@@ -244,7 +244,7 @@ static void test_get_tree5(char ***env)
 
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
@@ -260,13 +260,13 @@ static void test_get_tree6(char ***env)
 
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
@@ -280,12 +280,12 @@ static void test_get_tree7(char ***env)
 
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
 
 	write_result(&queue, env);
@@ -298,14 +298,14 @@ static void test_get_tree8(char ***env)
 
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
@@ -320,13 +320,13 @@ static void test_get_tree9(char ***env)
 
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
@@ -365,7 +365,7 @@ static void test_get_tree12(char ***env)
 
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
 	write_result(&queue, env);
@@ -405,7 +405,7 @@ static void test_get_tree15(char ***env)
 
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 
@@ -426,13 +426,13 @@ static void test_get_tree17(char ***env)
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir3")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
@@ -513,7 +513,7 @@ static void test_get_tree23(char ***env)
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
@@ -530,7 +530,7 @@ static void test_get_tree24(char ***env)
 	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")1")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
 	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
 	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
@@ -569,7 +569,7 @@ static void test_get_tree27(char ***env)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
 
 	write_result(&queue, env);
 }

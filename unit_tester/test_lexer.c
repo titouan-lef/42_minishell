@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 15:41:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:06:30 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char* enum_to_str(t_token_name token)
 		case TOKEN_PAR_CLOSE: return "TOKEN_PAR_OPEN";
 		case TOKEN_WORD: return "TOKEN_WORD";
 		case TOKEN_REDIR: return "TOKEN_REDIR";
-		case TOKEN_OPE: return "TOKEN_OPE";
+		case TOKEN_LOGIC_OPE: return "TOKEN_LOGIC_OPE";
 		case TOKEN_CMD: return "TOKEN_CMD";
 		case TOKEN_NULL: return "TOKEN_NULL";
 		default: return "Unknown";
@@ -108,11 +108,11 @@ void	test_lexer(void)
 
 	/*--- test 5 ---*/
 	queue = auto_tokenizer("echo oui && cat non");
-	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "&&", TOKEN_CMD, "cat", "non", NULL);
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_LOGIC_OPE, "&&", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 6 ---*/
 	queue = auto_tokenizer("echo oui || cat non");
-	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "||", TOKEN_CMD, "cat", "non", NULL);
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_LOGIC_OPE, "||", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 7 ---*/
 	queue = auto_tokenizer("echo oui | cat non");
@@ -124,7 +124,7 @@ void	test_lexer(void)
 
 	/*--- test 9 ---*/
 	queue = auto_tokenizer("echo oui && ( 1 || 0 )");
-	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_CMD, "1", TOKEN_OPE, "||", TOKEN_CMD, "0", TOKEN_PAR_CLOSE, ")", NULL);
+	assert_equal_queue(reorganize(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_LOGIC_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_CMD, "1", TOKEN_LOGIC_OPE, "||", TOKEN_CMD, "0", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 10 ---*/
 	queue = auto_tokenizer("    ");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:39:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/08 18:46:18 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:07:20 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_token_name
 	TOKEN_PAR_CLOSE,
 	TOKEN_WORD,
 	TOKEN_REDIR,
-	TOKEN_OPE,
+	TOKEN_LOGIC_OPE,
 	TOKEN_CMD,
 }	t_token_name;
 
