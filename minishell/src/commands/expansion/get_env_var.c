@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 13:48:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:50:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*get_value(char *name, char **env_local)
 *
 * Warning: name and env_local must not be null.
 */
-char	*get_quoted_value(char *name, char **env_local)
+static char	*get_quoted_value(char *name, char **env_local)
 {
 	int		i;
 	char	*value;
@@ -68,4 +68,63 @@ char	*get_quoted_value(char *name, char **env_local)
 		value++;
 	}
 	return (quoted_value);
+}
+
+/*
+* Goal: Find the length of the word after replacing the env var by there value.
+*
+* Return: The length of the new word.
+*
+* Warning: word and env_local must not be null.
+*/
+int	new_word_lenght(char *word, char **env_local)
+{
+	int		length;
+	char	*env_var_value;
+
+	length = 0;
+	while (*word)
+	{
+		if (*word == '$')
+		{
+			word++;
+			env_var_value = get_quoted_value(word, env_local);
+			while (ft_isalnum(*word) || *word == '_')
+				word++;
+			if (env_var_value)
+				length += ft_strlen(env_var_value);
+			free(env_var_value);
+		}
+		else
+		{
+			length++;
+			word++;
+		}
+	}
+	return (length);
+}
+
+/*
+* Goal: Add the value of the env var in the buffer "n_word".
+*
+* Return: None.
+*
+* Warning: word, new_word, letter and env_local must not be null.
+*/
+int	update_env_var(char **word, char *new_word, int *letter, char **env)
+{
+	char	*env_var_value;
+
+	(*word)++;
+	env_var_value = get_quoted_value(*word, env);
+	if (env_var_value)
+	{
+		ft_strlcpy(new_word + *letter, env_var_value,
+			ft_strlen(env_var_value) + 1);
+		*letter += ft_strlen(env_var_value);
+	}
+	while (ft_isalnum(**word) || **word == '_')
+		(*word)++;
+	free(env_var_value);
+	return (1);
 }

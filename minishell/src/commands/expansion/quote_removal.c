@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:20:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:51:02 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	skip_quotes_in_counting(char **word, int *length, char c)
 *
 * Warning: word must not be null.
 */
-static int	new_word_lenght(char *word)
+static int	shorter_word_lenght(char *word)
 {
 	int		length;
 
@@ -85,7 +85,7 @@ char	*replace_word_quotes(char *word)
 	char	*updated_word;
 
 	letter = 0;
-	updated_word = ft_calloc(sizeof(char), new_word_lenght(word) + 1);
+	updated_word = ft_calloc(shorter_word_lenght(word) + 1, sizeof(char));
 	if (!updated_word)
 	{
 		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);

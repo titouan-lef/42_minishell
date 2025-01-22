@@ -6,69 +6,24 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 19:48:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:51:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
 /*
-* Goal: Find the length of the word after replacing the env var by there value.
+* Goal: Copy word in updated word untill the next quote '.
 *
-* Return: The length of the new word.
-*
-* Warning: word and env_local must not be null.
+* Warning: word, updated_word and letter must not be null.
 */
-static int	new_word_lenght(char *word, char **env_local)
+static int	update_quote(char **word, char *updated_word, int letter)
 {
-	int		length;
-	char	*env_var_value;
-
-	length = 0;
-	while (*word)
-	{
-		if (*word == '$')
-		{
-			word++;
-			env_var_value = get_quoted_value(word, env_local);
-			while (ft_isalnum(*word) || *word == '_')
-				word++;
-			if (env_var_value)
-				length += ft_strlen(env_var_value);
-			free(env_var_value);
-		}
-		else
-		{
-			length++;
-			word++;
-		}
-	}
-	return (length);
-}
-
-/*
-* Goal: Add the value of the env var in the buffer "n_word".
-*
-* Return: None.
-*
-* Warning: word, new_word, letter and env_local must not be null.
-*/
-static int	update_env_var(char **word, char *new_word, int *letter, char **env)
-{
-	char	*env_var_value;
-
-	(*word)++;
-	env_var_value = get_quoted_value(*word, env);
-	if (env_var_value)
-	{
-		ft_strlcpy(new_word + *letter, env_var_value,
-			ft_strlen(env_var_value) + 1);
-		*letter += ft_strlen(env_var_value);
-	}
-	while (ft_isalnum(**word) || **word == '_')
-		(*word)++;
-	free(env_var_value);
-	return (1);
+	updated_word[letter++] = *(*word)++;
+	while (**word != '\'')
+		updated_word[letter++] = *(*word)++;
+	updated_word[letter++] = *(*word)++;
+	return (letter);
 }
 
 /*
@@ -83,23 +38,24 @@ char	*replace_word_env(char *word, char **env_local, int here_doc)
 {
 	int		letter;
 	char	*updated_word;
+	int		in_double_quotes;
 
 	letter = 0;
-	updated_word = ft_calloc(sizeof(char),
-			new_word_lenght(word, env_local) + 1);
+	updated_word = ft_calloc(new_word_lenght(word, env_local) + 1,
+			sizeof(char));
 	if (!updated_word)
 		return (NULL);
+	in_double_quotes = 0;
 	while (*word)
 	{
+		if (!here_doc && ft_strncmp(word, "<<", 2) == 0)
+			break ;
+		if (*word == '"')
+			in_double_quotes = !in_double_quotes;
 		if (*word == '$')
 			update_env_var(&word, updated_word, &letter, env_local);
-		else if (!here_doc && *word == '\'')
-		{
-			updated_word[letter++] = *word++;
-			while (*word != '\'')
-				updated_word[letter++] = *word++;
-			updated_word[letter++] = *word++;
-		}
+		else if (!here_doc && *word == '\'' && !in_double_quotes)
+			letter = update_quote(&word, updated_word, letter);
 		else
 			updated_word[letter++] = *word++;
 	}
