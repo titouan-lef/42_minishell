@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 01:51:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:00:02 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 	if ((input[*index] == '<' || input[*index] == '>')
 		&& ft_to_positive_int(buffer) != -1)
 	{
-		get_redir(input, index, buffer + *index - start);
+		get_redir(input, index, buffer + *index - start); //token_name
 		return (TOKEN_REDIR);
 	}
 	return (TOKEN_WORD);
@@ -136,6 +136,7 @@ static t_token_name	get_redir(const char *input, int *index, char *buffer)
 			(*index)++;
 			buffer[1] = current;
 			token_name = get_filename(input, index, buffer, 2);
+
 		}
 		else
 			token_name = get_filename(input, index, buffer, 1);
