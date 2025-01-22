@@ -6,31 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 15:42:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:48:35 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
-
-/*
-* Goal: Fill token name and token value.
-*
-* Return: 1 ir error, 0 if not.
-*
-* Warning: input, index and buffer must not be null.
-*/
-static int	fill_token(t_token *token, char *input, int *index, char *buffer)
-{
-	token->name = get_token(input, index, buffer);
-	if (token->name == TOKEN_NULL)
-	{
-		free(buffer);
-		free(token->value);
-		return (1);
-	}
-	token->value[0] = buffer;
-	return (0);
-}
 
 /*
 * Goal: Found all the tokens in the input command.
@@ -50,18 +30,28 @@ t_queue	auto_tokenizer(char *input)
 	index = 0;
 	while (input[index] != '\0')
 	{
-		buffer = (char *)ft_calloc(ft_strlen(input) + 1, sizeof(char));
+		buffer = (char *)ft_calloc(ft_strlen(input) + 1, sizeof(char)); //separate
 		token.value = (char **)ft_calloc(2, sizeof(char *));
 		if (!buffer || !token.value)
 		{
-			ft_printf_fd(2, "%s: %s\n", NAME, MALLOC);
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			free(buffer);
 			free(token.value);
 			queue_clear(&tokens);
 			return (tokens);
+		}																// until here
+		token.value[0] = buffer;
+		token.name = get_token(input, &index, buffer);
+		if (token.name == TOKEN_ERROR)
+		{
+			token_clear(token);
+			queue_clear(&tokens);
+			return (tokens);
 		}
-		if (!fill_token(&token, input, &index, buffer))
+		if (token.name != TOKEN_NULL)
 			queue_push(&tokens, token);//protect push
+		else
+			token_clear(token);
 	}
 	return (tokens);
 }

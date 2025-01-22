@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/12 19:00:49 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:17:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	test_tokenizer(void)
 {
 	size_t	test_number;
+	t_out	outs;
 
 	start_test("tokenizer");
 	test_number = 1;
@@ -82,4 +83,52 @@ void	test_tokenizer(void)
 	/*--- test 21 ---*/
 	assert_equal_queue(auto_tokenizer("\"echo >out\""), &test_number, TOKEN_WORD, "\"echo >out\"", NULL);
 
+	/*--- test 22 && 23---*/
+	redirect_outputs(&outs);
+	t_queue result = auto_tokenizer("echo >'out");
+	set_normal_outputs(&outs);
+	assert_equal_queue(result, &test_number, NULL);
+	assert_equal_err("minishell: syntax error: unclosed quote `''\n", &test_number);
+
+	/*--- test 24 && 25---*/
+	redirect_outputs(&outs);
+	result = auto_tokenizer("echo >");
+	set_normal_outputs(&outs);
+	assert_equal_queue(result, &test_number, NULL);
+	assert_equal_err("minishell: syntax error near expected token `newline'\n", &test_number);
+
+	/*--- test 26 && 27---*/
+	redirect_outputs(&outs);
+	result = auto_tokenizer("echo >>");
+	set_normal_outputs(&outs);
+	assert_equal_queue(result, &test_number, NULL);
+	assert_equal_err("minishell: syntax error near expected token `newline'\n", &test_number);
+
+	/*--- test 28 && 29---*/
+	redirect_outputs(&outs);
+	result = auto_tokenizer("echo <");
+	set_normal_outputs(&outs);
+	assert_equal_queue(result, &test_number, NULL);
+	assert_equal_err("minishell: syntax error near expected token `newline'\n", &test_number);
+
+	/*--- test 30 && 31---*/
+	redirect_outputs(&outs);
+	result = auto_tokenizer("echo <<");
+	set_normal_outputs(&outs);
+	assert_equal_queue(result, &test_number, NULL);
+	assert_equal_err("minishell: syntax error near expected token `newline'\n", &test_number);
+
+	/*--- test 32 && 33---*/
+	redirect_outputs(&outs);
+	result = auto_tokenizer("echo > && echo oui");
+	set_normal_outputs(&outs);
+	assert_equal_queue(result, &test_number, NULL);
+	assert_equal_err("minishell: syntax error near expected token `&&'\n", &test_number);
+
+	/*--- test 34 && 35---*/
+	redirect_outputs(&outs);
+	result = auto_tokenizer("echo >' && echo oui");
+	set_normal_outputs(&outs);
+	assert_equal_queue(result, &test_number, NULL);
+	assert_equal_err("minishell: syntax error: unclosed quote `''\n", &test_number);
 }

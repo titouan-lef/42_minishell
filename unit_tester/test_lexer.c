@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 15:41:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:17:16 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	assert_equal_queue(t_queue result, size_t *i, ...)
 	tokens = result.head;
 	while (nb_args > 0)
 	{
-		expected_name = (t_token_name)va_arg(args, t_token_name);
 		if (!tokens)
 		{
-			print_ko(enum_to_str(expected_name), "", i);
+			print_ko(enum_to_str(expected_name), "(null)", i);
 			va_end(args);
 			return ;
 		}
+		expected_name = (t_token_name)va_arg(args, t_token_name);
 		token = tokens->token;
 		if (expected_name != token.name)
 		{
@@ -78,10 +78,12 @@ void	assert_equal_queue(t_queue result, size_t *i, ...)
 		nb_args -= j + 1;
 	}
 	va_end(args);
-	print_ok(i);
+	if (tokens)
+		print_ko("(null)", enum_to_str(tokens->token.name), i);
+	else
+		print_ok(i);
 	queue_clear(&result);
 }
-
 void	test_lexer(void)
 {
 	size_t	test_number;

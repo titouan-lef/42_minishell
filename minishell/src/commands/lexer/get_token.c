@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 15:48:06 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:51:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	get_quote(const char *input, int *index, char c)
 		(*index)++;
 	if (!input[*index])
 	{
-		ft_printf_fd(2, "%s: syntax error near token `%c'\n", NAME, c);
+		ft_printf_fd(2, "%s: syntax error: unclosed quote `%c'\n", NAME, c);
 		return (1);
 	}
 	(*index)++;
@@ -45,12 +45,13 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 	int	start ;
 
 	start = *index;
-	while (input[*index] && !ft_is_in_charset("&|()<> ", input[*index])) //add whitespaces
+	while (input[*index]
+		&& !ft_is_in_charset("&|()<> \t\n\v\r\f", input[*index]))
 	{
 		if (input[*index] == '\'' || input[*index] == '\"')
 		{
 			if (get_quote(input, index, input[*index]))
-				return(TOKEN_NULL);
+				return (TOKEN_ERROR);
 		}
 		else
 			(*index)++;
@@ -98,6 +99,22 @@ static t_token_name	get_operator(const char *input, int *index, char *buffer)
 	return (TOKEN_NULL);
 }
 
+static t_token_name	get_filename(const char *input, int *index,
+		char *buffer, int offset_buffer)
+{
+	t_token_name	token_name;
+
+	while (ft_isspace(input[*index]) && input[*index] != '\n') //maybe remove \n
+		(*index)++;
+	if (!input[*index] || ft_is_in_charset("&|()<>\n", input[*index]))
+	{
+		ft_printf_fd(2, "%s: syntax error near expected token `%s'\n", NAME, "newline"); // replace new_line with the next token (dont detect file name now but in format for ast)
+		return (TOKEN_ERROR);
+	}
+	token_name = get_word(input, index, buffer + offset_buffer);
+	return (token_name);
+}
+
 /*
 * Goal: Found out if the token is an redirection.
 *
@@ -107,7 +124,8 @@ static t_token_name	get_operator(const char *input, int *index, char *buffer)
 */
 static t_token_name	get_redir(const char *input, int *index, char *buffer)
 {
-	char	current;
+	char			current;
+	t_token_name	token_name;
 
 	current = input[*index];
 	if (current == '<' || current == '>')
@@ -117,18 +135,14 @@ static t_token_name	get_redir(const char *input, int *index, char *buffer)
 		{
 			(*index)++;
 			buffer[1] = current;
-			while (ft_isspace(input[*index]))
-				(*index)++;
-			get_word(input, index, buffer + 2);
+			token_name = get_filename(input, index, buffer, 2);
 		}
 		else
-		{
-			while (ft_isspace(input[*index]))
-				(*index)++;
-			get_word(input, index, buffer + 1);
-		}
+			token_name = get_filename(input, index, buffer, 1);
+		if (token_name == TOKEN_WORD)
+			token_name = TOKEN_REDIR;
 		buffer[0] = current;
-		return (TOKEN_REDIR);
+		return (token_name);
 	}
 	return (TOKEN_NULL);
 }
@@ -153,8 +167,7 @@ t_token_name	get_token(char *input, int *index, char *buffer)
 	if (token_name != TOKEN_NULL)
 		return (token_name);
 	token_name = get_word(input, index, buffer);
-	//
-	if (*buffer == '\0')
+	if (token_name != TOKEN_ERROR && *buffer == '\0')
 		return (TOKEN_NULL);
 	return (token_name);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:21:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:00:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # define NAME "minishell"
 /*---Error messages---*/
 # define ERR_HERDOC_END "warning: here-document delimited by end-of-file"
-# define ERR_HERDOC_ACC "error here_doc access"
-# define ERR_MALLOC "malloc error"
+# define ERR_HERDOC_ACC "error heredoc access"
+# define ERR_MALLOC "malloc failed"
 # define ERR_FORK "fork failed"
 # define ERR_DUP "dup failed"
 # define ERR_DUP2 "dup2 failed"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 15:29:50 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:47:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_tree			*common_state(t_tree *tree, t_queue *queue,
 /*---get_token.c---*/
 int				cmp_and_inc(const char *input, int *index, char c,
 					char *buffer);
-t_token_name	get_token(char *input, int *index, char *buffer);
+t_token_name	get_token( char *input, int *index, char *buffer);
 
 /*---lexer.c---*/
 t_queue			auto_tokenizer(char *input);
@@ -88,8 +88,10 @@ t_token			split_command(t_queue tokens);
 void			expand(t_token *token, char **env_local);
 int				value_length_quoted(char *value);
 void			quote_value(char *value, char *quoted_value, int *i);
-char			*get_quoted_value(char *name, char **env_local);
+int				update_env_var(char **word, char *new_word,
+					int *letter, char **env);
 char			*replace_word_env(char *word, char **env_local, int here_doc);
+int				new_word_lenght(char *word, char **env_local);
 int				expand_env_var(t_token *token, char **env_local);
 t_list			*find_matches(char *patern);
 char			*replace_word_wildcard(char *patern);

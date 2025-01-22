@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 01:51:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 01:55:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*replace_word_env(char *word, char **env_local, int here_doc)
 	in_double_quotes = 0;
 	while (*word)
 	{
-		if (!here_doc && ft_strncmp(word, "<<", 2) == 0)
+		if (!here_doc && ft_strncmp(word, "<<", 2) == 0) // && redir token to not skip in a word
 			break ;
 		if (*word == '"')
 			in_double_quotes = !in_double_quotes;
