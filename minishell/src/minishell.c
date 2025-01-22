@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 16:43:18 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 22:31:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	process_cmd(char *input, char ***env)
 
 	if (*input)
 	{
-		tokens = auto_tokenizer(input);
+		tokens = tokenizer(input);
 		reorganized_tokens = reorganize(&tokens);
 		make_execution(&reorganized_tokens, env);
 	}

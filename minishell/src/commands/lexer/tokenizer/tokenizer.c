@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 01:48:35 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 22:32:21 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 *
 * Warning: input must not be null.
 */
-t_queue	auto_tokenizer(char *input)
+t_queue	tokenizer(char *input)
 {
 	int		index;
 	t_token	token;

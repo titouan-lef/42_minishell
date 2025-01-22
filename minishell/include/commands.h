@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 13:42:41 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 22:32:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int				cmp_and_inc(const char *input, int *index, char c,
 t_token_name	get_token( char *input, int *index, char *buffer);
 
 /*---lexer.c---*/
-t_queue			auto_tokenizer(char *input);
+t_queue			tokenizer(char *input);
 
 /*---format_for_ast.c---*/
 t_queue			reorganize(t_queue *tokens);

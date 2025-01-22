@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 01:55:19 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 22:31:56 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	**update_value(char **updated_value, char *updated_word)
 	t_queue	tmp;
 	t_token	splited;
 
-	tmp = auto_tokenizer(updated_word);
+	tmp = tokenizer(updated_word);
 	free(updated_word);
 	splited = split_command(tmp);
 	if (splited.value)

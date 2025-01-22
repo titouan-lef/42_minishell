@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 11:03:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 23:05:48 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static int	get_quote(const char *input, int *index, char c)
 */
 static t_token_name	get_word(const char *input, int *index, char *buffer)
 {
-	int	start ;
+	t_token_name	token_name;
+	int				start;
 
 	start = *index;
 	while (input[*index]
@@ -60,8 +61,8 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 	if ((input[*index] == '<' || input[*index] == '>')
 		&& ft_to_positive_int(buffer) != -1)
 	{
-		get_redir(input, index, buffer + *index - start); //token_name
-		return (TOKEN_REDIR);
+		token_name = get_redir(input, index, buffer + *index - start);
+		return (token_name);
 	}
 	return (TOKEN_WORD);
 }
@@ -104,13 +105,8 @@ static t_token_name	get_filename(const char *input, int *index,
 {
 	t_token_name	token_name;
 
-	while (ft_isspace(input[*index]) && input[*index] != '\n') //maybe remove \n
+	while (ft_isspace(input[*index]))
 		(*index)++;
-	if (!input[*index] || ft_is_in_charset("&|()<>\n", input[*index]))
-	{
-		ft_printf_fd(2, "%s: syntax error near expected token `%s'\n", NAME, "newline"); // replace new_line with the next token (dont detect file name now but in format for ast)
-		return (TOKEN_ERROR);
-	}
 	token_name = get_word(input, index, buffer + offset_buffer);
 	return (token_name);
 }
