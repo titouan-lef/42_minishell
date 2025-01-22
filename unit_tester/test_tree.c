@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:51:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/10 15:34:18 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:06:30 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ static void	test_tree_clear(void)
 	test_number = 1;
 
 	t_token	token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
-	t_token	token2 = token_create(TOKEN_OPE, calloc(1, sizeof(char *)));
+	t_token	token2 = token_create(TOKEN_LOGIC_OPE, calloc(1, sizeof(char *)));
 	t_token	token3 = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)));
 	t_token	token4 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
 	t_token	token5 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)));
-	t_token	token6 = token_create(TOKEN_OPE, calloc(1, sizeof(char *)));
+	t_token	token6 = token_create(TOKEN_LOGIC_OPE, calloc(1, sizeof(char *)));
 	t_tree	*tree1 = tree_create(token1);
 	t_tree	*tree2 = tree_create(token2);
 	t_tree	*tree3 = tree_create(token3);

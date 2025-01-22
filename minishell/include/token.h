@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:39:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 01:46:55 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:04:38 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_token_name
 	TOKEN_PAR_CLOSE,
 	TOKEN_WORD,
 	TOKEN_REDIR,
-	TOKEN_OPE,
+	TOKEN_LOGIC_OPE,
 	TOKEN_CMD,
 }	t_token_name;
 

@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/17 17:57:19 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:43:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_tree	*add_new_token(t_tree *tree, t_queue *queue)
 		return (tmp);
 	token_clear(token);
 	tree_clear(&tree);
-	ft_putendl_error("error malloc");
+	ft_putendl_error(ERR_MALLOC);
 	return (NULL);
 }
 
@@ -38,9 +38,10 @@ void	remove_token(t_queue *queue)
 
 void	print_error_token_value(char *value)
 {
-	ft_putstr_error("bash: syntax error near unexpected token `");
+	ft_putstr_error(NAME);
+	ft_putstr_error(ERR_SYNTAX_START);
 	ft_putstr_error(value);
-	ft_putstr_error("'\n");
+	ft_putendl_error(ERR_SYNTAX_END);
 }
 
 void	print_error_token(t_queue *queue)
@@ -55,22 +56,4 @@ void	print_error_token(t_queue *queue)
 		print_error_token_value(token.value[0]);
 		token_clear(token);
 	}
-}
-
-t_tree	*common_state(t_tree *tree, t_queue *queue,
-		t_token_name type, t_list **here_docs)
-{
-	if (type == TOKEN_REDIR)
-		tree = state_redir(tree, queue, here_docs);
-	else if (type == TOKEN_CMD)
-		tree = state_cmd(tree, queue, here_docs);
-	else if (type == TOKEN_PAR_OPEN)
-		tree = state_par_open(tree, queue, here_docs);
-	else
-	{
-		print_error_token(queue);
-		tree_clear(&tree);
-		return (NULL);
-	}
-	return (tree);
 }

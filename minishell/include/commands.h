@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 01:47:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:04:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ t_queue			queue_create(void);
 t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
-int				valid_parenthesis(char *input);
 t_tree			*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
 t_data			get_tree_data(t_queue *queue, char ***env);
 
 /*---token_state.c---*/
 t_tree			*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs);
 t_tree			*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs);
-t_tree			*state_pipe(t_tree *tree, t_queue *queue, t_list **here_docs);
-t_tree			*state_ope(t_tree *tree, t_queue *queue, t_list **here_docs);
+t_tree			*state_junction_ope(t_tree *tree, t_queue *queue,
+					t_list **here_docs);
+t_tree			*state_logical_ope(t_tree *tree, t_queue *queue,
+					t_list **here_docs);
 t_tree			*state_par_open(t_tree *tree, t_queue *queue,
 					t_list **here_docs);
 

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 01:17:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:05:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	test_tokenizer(void)
 	assert_equal_queue(auto_tokenizer("echo   test   "), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "test", NULL);
 
 	/*--- test 5 ---*/
-	assert_equal_queue(auto_tokenizer("echo oui && cat non"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_OPE, "&&", TOKEN_WORD, "cat", TOKEN_WORD, "non", NULL);
+	assert_equal_queue(auto_tokenizer("echo oui && cat non"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_LOGIC_OPE, "&&", TOKEN_WORD, "cat", TOKEN_WORD, "non", NULL);
 
 	/*--- test 6 ---*/
-	assert_equal_queue(auto_tokenizer("echo oui || cat non"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_OPE, "||", TOKEN_WORD, "cat", TOKEN_WORD, "non", NULL);
+	assert_equal_queue(auto_tokenizer("echo oui || cat non"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_LOGIC_OPE, "||", TOKEN_WORD, "cat", TOKEN_WORD, "non", NULL);
 
 	/*--- test 7 ---*/
 	assert_equal_queue(auto_tokenizer("echo oui | cat non"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_PIPE, "|", TOKEN_WORD, "cat", TOKEN_WORD, "non", NULL);
@@ -45,7 +45,7 @@ void	test_tokenizer(void)
 	assert_equal_queue(auto_tokenizer("()"), &test_number, TOKEN_PAR_OPEN, "(", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 9 ---*/
-	assert_equal_queue(auto_tokenizer("echo oui && ( 1 || 0 )"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_WORD, "1", TOKEN_OPE, "||", TOKEN_WORD, "0", TOKEN_PAR_CLOSE, ")", NULL);
+	assert_equal_queue(auto_tokenizer("echo oui && ( 1 || 0 )"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_LOGIC_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_WORD, "1", TOKEN_LOGIC_OPE, "||", TOKEN_WORD, "0", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 10 ---*/
 	assert_equal_queue(auto_tokenizer("    "), &test_number, NULL);
