@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_execution.c                                   :+:      :+:    :+:   */
+/*   pipe_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:50:44 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 12:22:58 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:37:00 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static int	fork_management(t_data *data, t_tree *sub_tree, t_stack **stack)
+static int	fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack)
 {
 	int	pid;
 	int	result;
@@ -41,7 +41,7 @@ static int	fork_management(t_data *data, t_tree *sub_tree, t_stack **stack)
 		close(data->fd[1]);
 		//}
 		stack_clear(stack);
-		result = tree_execution(data, sub_tree, 1);
+		result = tree_exec(data, sub_tree, 1);
 		exit_exec(data, result);
 	}
 	// if (!last)
@@ -67,21 +67,21 @@ static int	fork_management(t_data *data, t_tree *sub_tree, t_stack **stack)
 	return (result);
 }
 
-static int	sub_pipe_execution(t_data *data, t_tree *tree, t_stack **stack)
+static int	pipeline_manager(t_data *data, t_tree *tree, t_stack **stack)
 {
 	int	result;
 
 	if (tree->left->token.name == TOKEN_PIPE)
-		result = sub_pipe_execution(data, tree->left, stack);
+		result = pipeline_manager(data, tree->left, stack);
 	else
-		result = fork_management(data, tree->left, stack);
+		result = fork_pipe(data, tree->left, stack);
 	if (result)
 		return (result);
 	if (tree->right->token.name == TOKEN_PIPE)
-		result = sub_pipe_execution(data, tree->right, stack);
+		result = pipeline_manager(data, tree->right, stack);
 	else
 	{
-		result = fork_management(data, tree->right, stack);
+		result = fork_pipe(data, tree->right, stack);
 	}
 	return (result);
 }
@@ -108,13 +108,13 @@ static int	wait_children(t_stack *stack)
 	return (result);
 }
 
-int	pipe_execution(t_data *data, t_tree *tree)
+int	pipe_exec(t_data *data, t_tree *tree)
 {
 	int		result;
 	t_stack	*stack;
 
 	stack_init(&stack);
-	result = sub_pipe_execution(data, tree, &stack);
+	result = pipeline_manager(data, tree, &stack);
 	if (result)
 	{
 		stack_clear(&stack);

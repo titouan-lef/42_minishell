@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.c                                         :+:      :+:    :+:   */
+/*   update_cmd_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:21:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:42:54 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	access_path_cmd(char *cmd_name, char **path)
 	return (127);
 }
 
-int	get_path(char **path, char *cmd_name, char **env)
+int	update_cmd_path(char **path, char *cmd_name, char **env)
 {
 	char	**paths_tab;
 	int		i;

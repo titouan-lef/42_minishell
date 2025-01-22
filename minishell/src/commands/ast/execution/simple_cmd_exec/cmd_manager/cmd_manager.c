@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   cmd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:21:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:42:44 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	is_builtin_cmd(char *cmd_name)
 	return (0);
 }
 
-static int	execute_builtin(char **cmd, char ***env)
+static int	builtin_manager(char **cmd, char ***env)
 {
 	int	result;
 
@@ -49,13 +49,13 @@ static int	execute_builtin(char **cmd, char ***env)
 	return (result);
 }
 
-static void	execute(char **cmd, char **env)
+static void	execve_manager(char **cmd, char **env)
 {
 	char	*path;
 	int		result;
 
 	path = NULL;
-	result = get_path(&path, cmd[0], env);
+	result = update_cmd_path(&path, cmd[0], env);
 	if (result)
 		exit(result); //free data so need the whole data struct
 	execve(path, cmd, env);
@@ -64,7 +64,7 @@ static void	execute(char **cmd, char **env)
 	exit (127); //free data so need the whole data struct
 }
 
-static int	fork_and_execute(char **cmd, char **env)
+static int	fork_cmd(char **cmd, char **env)
 {
 	int	pid;
 
@@ -75,12 +75,12 @@ static int	fork_and_execute(char **cmd, char **env)
 		return (1);
 	}
 	if (pid == 0)
-		execute(cmd, env);
+		execve_manager(cmd, env);
 	waitpid(pid, NULL, 0);
 	return (0);
 }
 
-int	execute_cmd(t_token token, char ***env, int is_piped)
+int	cmd_manager(t_token token, char ***env, int is_piped)
 {
 	int		result;
 	char	**cmd;
@@ -88,10 +88,10 @@ int	execute_cmd(t_token token, char ***env, int is_piped)
 	cmd = token.value;
 	result = 0;
 	if (is_builtin_cmd(cmd[0]))
-		result = execute_builtin(cmd, env); // compress 2 functions in 1 ?
+		result = builtin_manager(cmd, env); // compress 2 functions in 1 ?
 	else if (!is_piped)
-		result = fork_and_execute(cmd, *env);
+		result = fork_cmd(cmd, *env);
 	else
-		execute(cmd, *env);
+		execve_manager(cmd, *env);
 	return (result);
 }

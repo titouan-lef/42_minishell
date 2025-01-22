@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:49:39 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/16 02:05:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:53:39 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	find_fd(char **redir)
 *
 * Warning: token.value must not me null.
 */
-int	make_redirs(t_token token_redir, t_list *here_docs)
+int	redir_manager(t_token token_redir, t_list *here_docs)
 {
 	int		i;
 	int		fd;

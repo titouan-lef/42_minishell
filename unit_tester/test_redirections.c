@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 16:10:16 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:53:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,12 +155,12 @@ void	test_redirs(char **env)
 
 	start_test("redirections");
 	test_number = 1;
-	
+
 	/*--- test 1 ---*/
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab(">out", NULL));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	assert_redir_out(out, &test_number, "out", NULL);
 	token_clear(token);
 	fflush(stdout);
@@ -169,7 +169,7 @@ void	test_redirs(char **env)
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab(">out", ">outfile", NULL));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
 	token_clear(token);
 	fflush(stdout);
@@ -178,7 +178,7 @@ void	test_redirs(char **env)
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
 	token_clear(token);
 	fflush(stdout);
@@ -188,7 +188,7 @@ void	test_redirs(char **env)
 	out.save_err = dup(STDERR_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
 	close(open("out", O_CREAT, 0644));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
 	token_clear(token);
 	fflush(stdout);
@@ -197,7 +197,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
 	open("out", O_CREAT, 000);
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied", &test_number);
 	unlink("out");
@@ -208,7 +208,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	token = token_create(TOKEN_REDIR, built_tab(">out", ">outfile", NULL));
 	open("out", O_CREAT, 000);
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied", &test_number);
 	unlink("out");
@@ -219,7 +219,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	in.save_in = dup(STDIN_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: in: No such file or directory", &test_number);
 	set_normal_input(&in);
@@ -229,7 +229,7 @@ void	test_redirs(char **env)
 	in.save_in = dup(STDIN_FILENO);
 	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
 	close(open("in", O_CREAT, 0644));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	assert_redir_in("in", "test\n", 0, &test_number);
 	set_normal_input(&in);
 	token_clear(token);
@@ -239,7 +239,7 @@ void	test_redirs(char **env)
 	token = token_create(TOKEN_REDIR, built_tab("<in", "<infile", NULL));
 	close(open("in", O_CREAT, 0644));
 	close(open("infile", O_CREAT, 0644));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	assert_redir_in("in", "", 0, &test_number);
 	assert_redir_in("infile", "test\n", 0, &test_number);
 	set_normal_input(&in);
@@ -251,7 +251,7 @@ void	test_redirs(char **env)
 	close(open("in", O_CREAT, 0644));
 	close(open("infile", O_CREAT, 0644));
 	close(open("testin", O_CREAT, 0644));
-	make_redirs(token, NULL);
+	redir_manager(token, NULL);
 	assert_redir_in("in", "", 0, &test_number);
 	assert_redir_in("infile", "", 0, &test_number);
 	assert_redir_in("testin", "test\n", 0, &test_number);
@@ -274,7 +274,7 @@ void	test_redirs(char **env)
 	detect_here_docs(token, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	make_redirs(token, here_docs);
+	redir_manager(token, here_docs);
 	token_clear(token);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
 	clear_here_docs(here_docs);
@@ -295,7 +295,7 @@ void	test_redirs(char **env)
 	detect_here_docs(token, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	make_redirs(token, here_docs);
+	redir_manager(token, here_docs);
 	token_clear(token);
 	char *expected = ft_strjoin(getenv("USER"),"\n");
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, expected, 1, &test_number);
@@ -318,7 +318,7 @@ void	test_redirs(char **env)
 	detect_here_docs(token, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	make_redirs(token, here_docs);
+	redir_manager(token, here_docs);
 	token_clear(token);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
@@ -339,7 +339,7 @@ void	test_redirs(char **env)
 	detect_here_docs(token, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	make_redirs(token, here_docs);
+	redir_manager(token, here_docs);
 	token_clear(token);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
@@ -360,7 +360,7 @@ void	test_redirs(char **env)
 	detect_here_docs(token, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	make_redirs(token, here_docs);
+	redir_manager(token, here_docs);
 	token_clear(token);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);

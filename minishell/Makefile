@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/21 17:45:57 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/22 14:44:46 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,45 +24,45 @@ LIBFT_DIR		=	./libft/
 LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
-SRC				=	minishell.c										\
-					tab_utils.c										\
-					commands/token.c								\
-					commands/compare.c								\
-					commands/ast/execution/common_execution.c		\
-					commands/ast/execution/execution.c				\
-					commands/ast/execution/operation_execution.c	\
-					commands/ast/execution/pipe_execution.c			\
-					commands/ast/execution/stack/stack_primitive.c	\
-					commands/ast/parsing/control_operator_state.c	\
-					commands/ast/parsing/parsing.c					\
-					commands/ast/parsing/simple_command_state.c		\
-					commands/ast/parsing/token_state_utils.c		\
-					commands/ast/tree/tree_primitive.c				\
-					commands/ast/tree/tree_push.c					\
-					commands/builtins/echo.c						\
-					commands/builtins/pwd.c							\
-					commands/builtins/unset.c						\
-					commands/execute_cmd/execute_cmd.c				\
-					commands/execute_cmd/get_path.c					\
-					commands/expansion/expansions.c					\
-					commands/expansion/get_env_var.c				\
-					commands/expansion/get_files.c					\
-					commands/expansion/wildcard_utils.c				\
-					commands/expansion/pathname_expansion.c			\
-					commands/expansion/variable_expansion.c			\
-					commands/expansion/quote_removal.c				\
-					commands/lexer/format_for_ast.c					\
-					commands/lexer/get_token.c						\
-					commands/lexer/lexer.c							\
-					commands/lexer/token_utils.c					\
-					commands/redirection/get_here_doc.c				\
-					commands/redirection/here_doc.c					\
-					commands/redirection/random.c					\
-					commands/redirection/redirect.c					\
-					commands/redirection/redirection.c				\
-					display/display.c								\
-					queue/queue_primitive.c							\
-					queue/queue_utils.c								\
+SRC				=	minishell.c																\
+					tab_utils.c																\
+					commands/compare.c														\
+					commands/token.c														\
+					commands/ast/execution/execution.c										\
+					commands/ast/execution/logic_ope_exec.c									\
+					commands/ast/execution/pipe_exec.c										\
+					commands/ast/execution/simple_cmd_exec/simple_cmd_exec.c				\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/cmd_manager.c		\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/update_cmd_path.c	\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/echo.c		\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/pwd.c		\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/unset.c		\
+					commands/ast/execution/simple_cmd_exec/redir_manager/redir_manager.c	\
+					commands/ast/execution/simple_cmd_exec/redir_manager/redirect.c			\
+					commands/ast/execution/stack/stack_primitive.c							\
+					commands/ast/parsing/control_ope_state.c								\
+					commands/ast/parsing/parsing.c											\
+					commands/ast/parsing/simple_cmd_state.c									\
+					commands/ast/parsing/token_state_utils.c								\
+					commands/ast/tree/tree_primitive.c										\
+					commands/ast/tree/tree_push.c											\
+					commands/expansion/expansions.c											\
+					commands/expansion/get_env_var.c										\
+					commands/expansion/get_files.c											\
+					commands/expansion/wildcard_utils.c										\
+					commands/expansion/pathname_expansion.c									\
+					commands/expansion/variable_expansion.c									\
+					commands/expansion/quote_removal.c										\
+					commands/lexer/format_for_ast.c											\
+					commands/lexer/get_token.c												\
+					commands/lexer/lexer.c													\
+					commands/lexer/token_utils.c											\
+					commands/redirection/get_here_doc.c										\
+					commands/redirection/here_doc.c											\
+					commands/redirection/random.c											\
+					display/display.c														\
+					queue/queue_primitive.c													\
+					queue/queue_utils.c														\
 
 
 

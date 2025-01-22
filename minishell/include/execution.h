@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:33:41 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/20 19:03:23 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:40:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	stack_init(t_stack **stack);
 
 /*---execution.c---*/
 void	exit_exec(t_data *data, int code);
-int		tree_execution(t_data *data, t_tree *tree, int is_piped);
+int		tree_exec(t_data *data, t_tree *tree, int is_piped);
 int		make_execution(t_queue *queue, char ***env);
 
 /*---*_execution.c---*/
-int		redir_execution(t_data *data, t_token *token, int is_piped);
-int		cmd_execution(t_data *data, t_tree *tree, t_token *token, int is_piped);
-int		pipe_execution(t_data *data, t_tree *tree);
-int		ope_execution(t_data *data, t_tree *tree, t_token token, int is_piped);
+int		redir_exec(t_data *data, t_token *token, int is_piped);
+int		cmd_exec(t_data *data, t_tree *tree, t_token *token, int is_piped);
+int		pipe_exec(t_data *data, t_tree *tree);
+int		ope_exec(t_data *data, t_tree *tree, t_token token, int is_piped);
 
 #endif

@@ -6,44 +6,11 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:20:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:02:37 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
-
-/*
-* Goal: Create a file witha random name.
-*
-* Return: 1 if succed, 0 if not.
-*/
-int	read_here_docs(t_list *here_docs, char **env)
-{
-	t_here_doc	*here_doc;
-	int			fd;
-
-	while (here_docs)
-	{
-		here_doc = here_docs->content;
-		here_doc->filename = generate_random_string(10);
-		if (!here_doc->filename)
-			return (1);
-		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
-			return (1);
-		}
-		if (get_here_doc_input(fd, here_doc->limiter, env))
-		{
-			close(fd);
-			return (1);
-		}
-		close(fd);
-		here_docs = here_docs->next;
-	}
-	return (0);
-}
 
 /*
 * Goal: Create a new node of struct here_doc with the given limiter.
@@ -105,6 +72,39 @@ int	detect_here_docs(t_token token, t_list **here_docs)
 		if (!new)
 			return (1);
 		ft_lstadd_back(here_docs, new);
+	}
+	return (0);
+}
+
+/*
+* Goal: Create a file witha random name.
+*
+* Return: 1 if succed, 0 if not.
+*/
+int	read_here_docs(t_list *here_docs, char **env)
+{
+	t_here_doc	*here_doc;
+	int			fd;
+
+	while (here_docs)
+	{
+		here_doc = here_docs->content;
+		here_doc->filename = generate_random_string(10);
+		if (!here_doc->filename)
+			return (1);
+		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
+			return (1);
+		}
+		if (get_here_doc_input(fd, here_doc->limiter, env))
+		{
+			close(fd);
+			return (1);
+		}
+		close(fd);
+		here_docs = here_docs->next;
 	}
 	return (0);
 }
