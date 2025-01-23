@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 12:02:37 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:20:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
+
+
 
 /*
 * Goal: Create a new node of struct here_doc with the given limiter.
@@ -47,33 +49,37 @@ static t_list	*new_here_doc(char *limiter)
 }
 
 /*
-* Goal: Add each here_dc found in the list.
+* Goal: Add each here_dc found in the list and detects errors syntaxes in redirections.
 *
-* Return: 1 if succed, 0 if not.
+* Return: -1 if succed, -2 if malloc error or the index or the element in value that have a syntax error.
 *
-* Warning: limit must not me null.
+* Warning: token.value and here_docs must not me null.
 */
 int	detect_here_docs(t_token token, t_list **here_docs)
 {
-	t_list		*new;
-	char		*redir;
-	int			i;
+	t_list	*new;
+	char	*redir;
+	int		i;
 
 	i = 0;
 	while (token.value[i])
 	{
 		redir = token.value[i++];
-		while (*(redir + 1) && (*redir != '<' || *(redir + 1) != '<'))
+		while (*redir != '<' && *redir != '>')
 			redir++;
 		if (!*(redir + 1))
+			return (i - 1);
+		if ((*redir != '<' || *(redir + 1) != '<'))
 			continue ;
 		redir += 2;
+		if (*redir == '\0')
+			return (i - 1);
 		new = new_here_doc(redir);
 		if (!new)
-			return (1);
+			return (-2);
 		ft_lstadd_back(here_docs, new);
 	}
-	return (0);
+	return (-1);
 }
 
 /*
