@@ -6,39 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 16:52:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:42:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tester.h"
-
-static char	**built_tab(char* first, ...)
-{
-	char	**tab;
-	va_list	args;
-	va_list	args_cpy;
-	int		nb_args;
-	int		j;
-
-	va_start(args, first);
-	nb_args = 0;
-	va_copy(args_cpy, args);
-	while(va_arg(args_cpy, char *))
-		++nb_args;
-	va_end(args_cpy);
-	tab = ft_calloc(nb_args + 2, sizeof(char *));
-	if (!tab)
-	{
-		ft_printf_fd(2, "malloc errro");
-		return (NULL);
-	}
-	j = 0;
-	tab[j++] = ft_strdup(first); //rip protection
-	while (j <= nb_args)
-		tab[j++] = ft_strdup((char *)va_arg(args, char *)); //rip protection
-	va_end(args);
-	return (tab);
-}
 
 static void	assert_equal_tab(char **tab, size_t *i, ...)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_get_tree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 19:43:45 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:59:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -608,6 +608,97 @@ static void test_get_tree30(char ***env)
 	write_result(&queue, env);
 }
 
+//echo <
+static void test_get_tree31(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<")));
+
+	write_result(&queue, env);
+}
+
+//echo <<
+static void test_get_tree32(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<<")));
+
+	write_result(&queue, env);
+}
+
+//echo >
+static void test_get_tree33(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
+
+	write_result(&queue, env);
+}
+
+//echo >>
+static void test_get_tree34(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">>")));
+
+	write_result(&queue, env);
+}
+
+//echo > &&
+static void test_get_tree35(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
+
+	write_result(&queue, env);
+}
+
+//echo > && echo coucou
+static void test_get_tree36(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_CMD, built_tab("echo", "coucou")));
+
+	write_result(&queue, env);
+}
+
+//echo > >out
+static void test_get_tree37(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, built_tab(">", ">out")));
+
+	write_result(&queue, env);
+}
+
+//echo > >>out
+static void test_get_tree38(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, built_tab(">", ">>out")));
+
+	write_result(&queue, env);
+}
+
 static char	*add_element_test(char *str, char *add)
 {
 	char	*new;
@@ -886,6 +977,38 @@ void	test_get_tree(char **envp)
 	/*--- test 30 ---*/
 	test_get_tree30(&env);
 	assert_equal_err("minishell: syntax error near unexpected token `('\n", &test_number);
+
+	/*--- test 31 ---*/
+	test_get_tree31(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
+
+	/*--- test 32 ---*/
+	test_get_tree32(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
+
+	/*--- test 33 ---*/
+	test_get_tree33(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
+
+	/*--- test 34 ---*/
+	test_get_tree34(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
+
+	/*--- test 35 ---*/
+	test_get_tree35(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `&&'\n", &test_number);
+
+	/*--- test 36 ---*/
+	test_get_tree36(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `&&'\n", &test_number);
+
+	/*--- test 37 ---*/
+	test_get_tree37(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `>'\n", &test_number);
+
+	/*--- test 38 ---*/
+	test_get_tree38(&env);
+	assert_equal_err("minishell: syntax error near unexpected token `>>'\n", &test_number);
 
 	ft_clean_matrix((void **)env);
 }

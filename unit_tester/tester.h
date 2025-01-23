@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 17:27:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:41:23 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include "unit_test/unit_test.h"
 
 /*---utils---*/
-char* enum_to_str(t_token_name token);
+char	*enum_to_str(t_token_name token);
+char	**built_tab(char* first, ...);
 
 /*---special_assert---*/
 void	assert_equal_queue(t_queue result, size_t *i, ...);

@@ -6,13 +6,13 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 21:15:28 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:41:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tester.h"
 
-static char	**built_tab(char* first, ...)
+char	**built_tab(char* first, ...)
 {
 	char	**tab;
 	va_list	args;
@@ -29,7 +29,7 @@ static char	**built_tab(char* first, ...)
 	tab = ft_calloc(nb_args + 2, sizeof(char *));
 	if (!tab)
 	{
-		ft_printf_fd(2, "malloc errro");
+		ft_printf_fd(2, "malloc error");
 		return (NULL);
 	}
 	j = 0;
