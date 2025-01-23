@@ -6,11 +6,37 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/23 16:05:45 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:16:52 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
+
+/*
+* Goal: Print errors syntaxes define by the redirections.
+*
+* Warning: If a redir start by a digit, print the number.
+* Else print <, >, << or >>.
+*/
+static void	print_error_redir(char *token_error)
+{
+	size_t	i;
+
+	if (ft_isdigit(token_error[0]))
+	{
+		i = 1;
+		while (ft_isdigit(token_error[i]))
+			++i;
+		token_error[i] = '\0';
+		print_error_token_value(token_error);
+		return ;
+	}
+	if (token_error[0] == token_error[1])
+		token_error[2] = '\0';
+	else
+		token_error[1] = '\0';
+	print_error_token_value(token_error);
+}
 
 /*
 * Goal: Add each here_dc found in the list and print errors syntaxes in
@@ -33,15 +59,9 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 		return (1);
 	token_error = tree->token.value[result + 1];
 	if (!token_error)
-	{
 		print_error_token(queue);
-		return (1);
-	}
-	if (token_error[0] == token_error[1])
-		token_error[2] = '\0';
 	else
-		token_error[1] = '\0';
-	print_error_token_value(token_error);
+		print_error_redir(token_error);
 	return (1);
 }
 
