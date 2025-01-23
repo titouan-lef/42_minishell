@@ -3,14 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_state.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/23 11:32:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:05:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
+
+/*
+* Goal: Add each here_dc found in the list and print errors syntaxes in
+* redirections.
+*
+* Return: 0 if succed, 1 else.
+*
+* Warning: If a syntax error is detected, it's the next redir which is printed
+* or the next token if it was the last redir.
+*/
+static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
+{
+	int		result;
+	char	*token_error;
+
+	result = detect_here_docs(tree->token, here_docs);
+	if (result == -1)
+		return (0);
+	if (result == -2)
+		return (1);
+	token_error = tree->token.value[result + 1];
+	if (!token_error)
+	{
+		print_error_token(queue);
+		return (1);
+	}
+	if (token_error[0] == token_error[1])
+		token_error[2] = '\0';
+	else
+		token_error[1] = '\0';
+	print_error_token_value(token_error);
+	return (1);
+}
 
 /*
 * Goal: Add and manage redirection in tree.
@@ -22,9 +55,15 @@ t_tree	*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs)
 	t_token_name	next_token_name;
 
 	tree = add_new_token(tree, queue);
-	if (tree_is_empty(tree) || queue_is_empty(queue))
+	if (tree_is_empty(tree))
+		return (NULL);
+	if (update_here_docs(tree, queue, here_docs))
+	{
+		tree_clear(&tree);
+		return (NULL);
+	}
+	if (queue_is_empty(queue))
 		return (tree);
-	detect_here_docs(tree->token, here_docs);// tree null protect
 	next_token_name = queue_first_name(queue);
 	if (next_token_name == TOKEN_CMD)
 		tree = state_cmd(tree, queue, here_docs);
