@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 22:32:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/22 23:43:32 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_tree			*common_state(t_tree *tree, t_queue *queue,
 					t_token_name type, t_list **here_docs);
 
 /*---get_token.c---*/
+int				get_quote(const char *input, int *index, char c);
 int				cmp_and_inc(const char *input, int *index, char c,
 					char *buffer);
 t_token_name	get_token( char *input, int *index, char *buffer);
