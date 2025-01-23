@@ -6,13 +6,13 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:18:51 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:38:39 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
 
-static void	fill_str(char *random_string, int fd, int length)
+static void	fill_str(char *random_string, int fd, size_t length)
 {
 	char	random_char;
 	size_t	i;
