@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 12:44:48 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:14:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	test_redirs(char **env)
 	t_out	out;
 	t_in	in;
 	int		fd;
+	int		result;
 
 	start_test("redirections");
 	test_number = 1;
@@ -335,6 +336,330 @@ void	test_redirs(char **env)
 	redir_manager(token, here_docs);
 	token_clear(token);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 19 && 20 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">ok", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 15);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	redir_manager(token, here_docs);
+	assert_redir_out(out, &test_number, "ok", NULL);
+	//set_normal_outputs(&out);
+	token_clear(token);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	unlink("ok");
+	set_normal_input(&in);
+
+	/*--- test 21 && 22 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<<ok", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\ntest2\nok\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	redir_manager(token, here_docs);
+	set_normal_outputs(&out);
+		if (result == -1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	assert_redir_in("ok", "test2\n", 1, &test_number);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 23 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">", "<<ok", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 24 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">>", "<<ok", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 25 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<", "<<ok", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 26 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<<", "<<ok", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 27 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 28 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">>", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 29 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 30 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<<", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 1)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 31 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", ">", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 2)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 32 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", ">>", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 2)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 33 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", "<", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 2)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
+	clear_here_docs(here_docs);
+	unlink("here_doc");
+	set_normal_input(&in);
+
+	/*--- test 34 ---*/
+	in.save_in = dup(STDIN_FILENO);
+	redirect_outputs(&out);
+	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", "<<", NULL));
+	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
+	write(fd, "test\nhere_doc\n", 23);
+	close(fd);
+	fd = open("here_doc", O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	here_docs = NULL;
+	result = detect_here_docs(token, &here_docs);
+	read_here_docs(here_docs, env);
+	set_normal_outputs(&out);
+		if (result == 2)
+		print_ok(&test_number);
+	else
+		print_ko("", "error detected in redir", &test_number);
+	token_clear(token);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
