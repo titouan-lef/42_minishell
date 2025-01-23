@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 12:20:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:23:41 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_list	*new_here_doc(char *limiter)
 /*
 * Goal: Add each here_dc found in the list and detects errors syntaxes in redirections.
 *
-* Return: -1 if succed, -2 if malloc error or the index or the element in value that have a syntax error.
+* Return: -1 if succed, -2 if malloc error or the index of the element in value that have a syntax error.
 *
 * Warning: token.value and here_docs must not me null.
 */
@@ -65,14 +65,14 @@ int	detect_here_docs(t_token token, t_list **here_docs)
 	while (token.value[i])
 	{
 		redir = token.value[i++];
-		while (*redir != '<' && *redir != '>')
+		while (redir[0] != '<' && redir[0] != '>')
 			redir++;
-		if (!*(redir + 1))
+		if (!redir[1] || ((redir[1] == '<' || redir[1] == '>') && !redir[2]))
 			return (i - 1);
-		if ((*redir != '<' || *(redir + 1) != '<'))
+		if (redir[0] != '<' || redir[1] != '<')
 			continue ;
 		redir += 2;
-		if (*redir == '\0')
+		if (redir[0] == '\0')
 			return (i - 1);
 		new = new_here_doc(redir);
 		if (!new)
