@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:29:53 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 18:55:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:23:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	compare_lexicographicly(char char1, char char2)
 	int	is_char2_num;
 	int	is_char1_alnum;
 	int	is_char2_alnum;
+
 	is_char1_num = ft_isdigit(char1);
 	is_char2_num = ft_isdigit(char2);
 	is_char1_alnum = ft_isalnum(char1);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 11:14:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 19:59:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ static t_token_name	get_redir(const char *input, int *index, char *buffer)
 			(*index)++;
 			buffer[1] = current;
 			token_name = get_filename(input, index, buffer, 2);
-
 		}
 		else
 			token_name = get_filename(input, index, buffer, 1);
