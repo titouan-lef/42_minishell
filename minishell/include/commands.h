@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 23:43:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:14:16 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_data			get_tree_data(t_queue *queue, char ***env);
 t_tree			*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs);
 t_tree			*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs);
 t_tree			*state_junction_ope(t_tree *tree, t_queue *queue,
-					t_list **here_docs);
-t_tree			*state_logical_ope(t_tree *tree, t_queue *queue,
 					t_list **here_docs);
 t_tree			*state_par_open(t_tree *tree, t_queue *queue,
 					t_list **here_docs);

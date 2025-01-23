@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:59:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 12:06:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:43:55 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,28 @@ static t_tree	*build_sub_tree(t_queue *queue, t_list **here_docs)
 }
 
 /*
+* Goal: Create a sub tree and add it on the right of the junction operator node.
+*
+* Return: The new tree (or NULL if error).
+*/
+static t_tree	*build_sub_tree_right(t_tree *tree, t_queue *queue,
+					t_list **here_docs)
+{
+	t_token_name	type;
+	t_tree			*sub_tree;
+
+	type = queue_first_name(queue);
+	sub_tree = common_state(NULL, queue, type, here_docs);
+	if (tree_is_empty(sub_tree))
+	{
+		tree_clear(&tree);
+		return (NULL);
+	}
+	tree_push_right(tree, sub_tree);
+	return (tree);
+}
+
+/*
 * Goal: Manage the open parenthesis in tree.
 *
 * Return: The new tree (or NULL if error).
@@ -71,9 +93,11 @@ t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 */
 t_tree	*state_junction_ope(t_tree *tree, t_queue *queue, t_list **here_docs)
 {
-	t_token_name	type;
-	t_tree			*sub_tree;
-
+	if (tree_is_empty(tree))
+	{
+		print_error_token(queue);
+		return (NULL);
+	}
 	tree = add_new_token(tree, queue);
 	if (!tree)
 		return (NULL);
@@ -83,29 +107,6 @@ t_tree	*state_junction_ope(t_tree *tree, t_queue *queue, t_list **here_docs)
 		tree_clear(&tree);
 		return (NULL);
 	}
-	type = queue_first_name(queue);
-	sub_tree = common_state(NULL, queue, type, here_docs);
-	if (tree_is_empty(sub_tree))
-	{
-		tree_clear(&tree);
-		return (NULL);
-	}
-	tree_push_right(tree, sub_tree);
-	return (tree);
-}
-
-/*
-* Goal: Add and manage logical operator (&& and ||) in tree.
-*
-* Return: The new tree (or NULL if error).
-*/
-t_tree	*state_logical_ope(t_tree *tree, t_queue *queue, t_list **here_docs)
-{
-	if (tree_is_empty(tree))
-	{
-		print_error_token(queue);
-		return (NULL);
-	}
-	tree = state_junction_ope(tree, queue, here_docs);
+	tree = build_sub_tree_right(tree, queue, here_docs);
 	return (tree);
 }
