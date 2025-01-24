@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 17:09:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:16:21 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 	return (tree);
 }
 
-t_data	get_tree_data(t_queue *queue, char ***env)
+void	get_tree_data(t_queue *queue, t_data *data)
 {
 	t_tree	*tree;
 	t_list	*here_docs;
-	t_data	data;
 
 	tree = NULL;
 	here_docs = NULL;
@@ -58,11 +57,9 @@ t_data	get_tree_data(t_queue *queue, char ***env)
 			break ;
 	}
 	queue_clear(queue);
-	data.tree = tree;
-	data.lst = here_docs;
-	data.env = env;
-	data.std[0] = dup(STDIN_FILENO); // protections
-	data.std[1] = dup(STDOUT_FILENO);
-	data.std[2] = dup(STDERR_FILENO);
-	return (data);
+	data->tree = tree;
+	data->lst = here_docs;
+	data->std[0] = dup(STDIN_FILENO); // protections
+	data->std[1] = dup(STDOUT_FILENO);
+	data->std[2] = dup(STDERR_FILENO);
 }

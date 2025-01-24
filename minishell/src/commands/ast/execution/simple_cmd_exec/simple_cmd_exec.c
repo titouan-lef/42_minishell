@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_exec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 12:05:36 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:31:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	cmd_exec(t_data *data, t_tree *tree, t_token *token, int is_piped)
 			return (result);
 		}
 	}
-	expand(token, *data->env);
-	result = cmd_manager(*token, data->env, is_piped);
+	expand(token, data->env);
+	result = cmd_manager(*token, &data->env, is_piped);
 	if (is_piped)
 		exit_exec(data, result);
 	return (result);

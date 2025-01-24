@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 11:40:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:30:57 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,24 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 	return (result);
 }
 
-int	make_execution(t_queue *queue, char ***env)
+int	make_execution(t_queue *queue, t_data *data)
 {
 	int		result;
-	t_data	data;
 
 	if (queue_is_empty(queue))
 		return (0);//Good code ???
-	data = get_tree_data(queue, env);
+	get_tree_data(queue, data);
 	queue_clear(queue);
-	read_here_docs(data.lst, *data.env);
-	if (tree_is_empty(data.tree))
+	read_here_docs(data->lst, data->env); //protections
+	if (tree_is_empty(data->tree))
 	{
-		clear_data(&data);
+		clear_data(data);
 		return (2);//Good code ???
 	}
-	result = tree_exec(&data, data.tree, 0);
-	dup2(data.std[0], STDIN_FILENO); //protections
-	dup2(data.std[1], STDOUT_FILENO);
-	dup2(data.std[2], STDERR_FILENO);
-	clear_data(&data);
+	result = tree_exec(data, data->tree, 0);
+	dup2(data->std[0], STDIN_FILENO); //protections
+	dup2(data->std[1], STDOUT_FILENO);
+	dup2(data->std[2], STDERR_FILENO);
+	clear_data(data);
 	return (result);
 }

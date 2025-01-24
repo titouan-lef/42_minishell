@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/24 15:22:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:34:51 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ typedef struct s_here_doc
 
 typedef struct s_data
 {
+	char	**env;
+	int		last_exit;
 	t_tree	*tree;
 	t_list	*lst;
-	char	***env;
 	int		fd[2];
 	int		std[3]; //0 -> stdin | 1 -> stdout | 2 -> stderr
 }			t_data;
@@ -53,7 +54,7 @@ t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
 t_tree			*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
-t_data			get_tree_data(t_queue *queue, char ***env);
+void			get_tree_data(t_queue *queue, t_data *data);
 
 /*---token_state.c---*/
 t_tree			*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs);

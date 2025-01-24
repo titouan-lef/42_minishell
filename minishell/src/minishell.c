@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 14:40:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:34:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "execution.h"
 #include "redir.h"
 
-static void	process_cmd(char *input, char ***env)
+static void	process_cmd(char *input, t_data *data)
 {
 	t_queue	tokens;
 	t_queue	reorganized_tokens;
@@ -23,27 +23,28 @@ static void	process_cmd(char *input, char ***env)
 	{
 		tokens = tokenizer(input);
 		reorganized_tokens = reorganize(&tokens);
-		make_execution(&reorganized_tokens, env);
+		make_execution(&reorganized_tokens, data);
 	}
 }
 
 int	main(int argc, char **argv, char**envp)
 {
 	char	*line_read;
-	char	**env;
+	t_data	data;
 
 	(void)argc;
 	(void)argv;
-	env = strdup_tab(envp);
+	data.last_exit = 0;
+	data.env = strdup_tab(envp);
 	while (1)
 	{
 		line_read = rl_gets();
 		if (!line_read)
 			break ;
-		process_cmd(line_read, &env);
+		process_cmd(line_read, &data);
 		free(line_read);
 	}
-	ft_clean_matrix((void **)env);
+	ft_clean_matrix((void **)data.env);
 	rl_clear_history();
 	printf("exit\n");
 	return (0);
