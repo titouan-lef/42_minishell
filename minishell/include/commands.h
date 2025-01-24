@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/23 17:14:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:45:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int				value_length_quoted(char *value);
 void			quote_value(char *value, char *quoted_value, int *i);
 int				update_env_var(char **word, char *new_word,
 					int *letter, char **env);
-char			*replace_word_env(char *word, char **env_local, int here_doc);
+char			*replace_word_env(char *word, char **env_local, int here_doc, int redir);
 int				new_word_lenght(char *word, char **env_local);
 int				expand_env_var(t_token *token, char **env_local);
 t_list			*find_matches(char *patern);

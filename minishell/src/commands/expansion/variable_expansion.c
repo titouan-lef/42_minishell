@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:20:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:08:39 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	update_quote(char **word, char *updated_word, int letter)
 *
 * Warning: word and env_local must not be null.
 */
-char	*replace_word_env(char *word, char **env_local, int here_doc)
+char	*replace_word_env(char *word, char **env_local, int here_doc, int redir)
 {
 	int		letter;
 	char	*updated_word;
@@ -48,8 +48,11 @@ char	*replace_word_env(char *word, char **env_local, int here_doc)
 	in_double_quotes = 0;
 	while (*word)
 	{
-		if (!here_doc && ft_strncmp(word, "<<", 2) == 0) // && redir token to not skip in a word
+		if (!here_doc && redir && ft_strncmp(word, "<<", 2) == 0)
+		{
+			ft_strlcpy(updated_word + letter, word, ft_strlen(word) + 1);
 			break ;
+		}
 		if (*word == '"')
 			in_double_quotes = !in_double_quotes;
 		if (*word == '$')
@@ -110,7 +113,7 @@ int	expand_env_var(t_token *token, char **env_local)
 		i = 0;
 		while (token->value[i])
 		{
-			updated_word = replace_word_env(token->value[i], env_local, 0);
+			updated_word = replace_word_env(token->value[i], env_local, 0, token->name == TOKEN_REDIR);
 			if (!updated_word)
 			{
 				ft_putendl_error("malloc error");
