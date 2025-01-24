@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:18:13 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:14:01 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <linux/limits.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <signal.h>
 # include "libft.h"
 
 # define NAME "minishell"
@@ -40,5 +41,11 @@ char	**strdup_tab(char **tab);
 char	**tab_join(char **tab1, char **tab2);
 char	**tab_join_and_free(char **tab1, char **tab2);
 char	**append_to_tab(char **tab, const char *str);
+
+/*---signals.c---*/
+int		here_doc_sigaction(void);
+int		cmd_display_sigaction(void);
+int		default_sigaction(void);
+int		interactive_mode_sigaction(void);
 
 #endif

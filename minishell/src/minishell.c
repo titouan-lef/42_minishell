@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:23:28 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:15:34 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ int	main(int argc, char **argv, char**envp)
 	(void)argc;
 	(void)argv;
 	env = strdup_tab(envp);
+	interactive_mode_sigaction();//protect
 	while (1)
 	{
 		line_read = rl_gets();
 		if (!line_read)
 			break ;
 		process_cmd(line_read, &env);
+		interactive_mode_sigaction();//protect + add boucle signal to go in command ?
 		free(line_read);
 		//break ;//one command
 	}

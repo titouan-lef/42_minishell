@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 11:40:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:18:51 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	make_execution(t_queue *queue, char ***env)
 	data = get_tree_data(queue, env);
 	queue_clear(queue);
 	read_here_docs(data.lst, *data.env);
+	cmd_display_sigaction();//protect + here ?
 	if (tree_is_empty(data.tree))
 	{
 		clear_data(&data);
