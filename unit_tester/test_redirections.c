@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 17:14:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:17:22 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	test_redirs(char **env)
 	open("out", O_CREAT, 000);
 	redir_manager(token, NULL);
 	set_normal_outputs(&out);
-	assert_equal_err("minishell: out: Permission denied", &test_number);
+	assert_equal_err("minishell: out: Permission denied\n", &test_number);
 	unlink("out");
 	token_clear(token);
 	fflush(stdout);
@@ -183,7 +183,7 @@ void	test_redirs(char **env)
 	open("out", O_CREAT, 000);
 	redir_manager(token, NULL);
 	set_normal_outputs(&out);
-	assert_equal_err("minishell: out: Permission denied", &test_number);
+	assert_equal_err("minishell: out: Permission denied\n", &test_number);
 	unlink("out");
 	token_clear(token);
 	fflush(stdout);
@@ -194,7 +194,7 @@ void	test_redirs(char **env)
 	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
 	redir_manager(token, NULL);
 	set_normal_outputs(&out);
-	assert_equal_err("minishell: in: No such file or directory", &test_number);
+	assert_equal_err("minishell: in: No such file or directory\n", &test_number);
 	set_normal_input(&in);
 	token_clear(token);
 

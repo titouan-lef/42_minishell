@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 12:00:01 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:17:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,25 @@ int	redirect_input(int fd, char *file_name)
 {
 	int	fd_file;
 
-	fd = (fd * (fd != -1) || STDIN_FILENO);
+	if (fd == -1)
+		fd = STDIN_FILENO;
 	if (access(file_name, F_OK) == 0)
 	{
 		if (access(file_name, R_OK) == -1)
 		{
-			ft_printf_fd(2, "%s: %s: Permission denied", NAME, file_name);
+			ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
 			return (1);
 		}
 	}
 	fd_file = open(file_name, O_RDONLY);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: %s", NAME, file_name, ERR_NO_FILE);
+		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_FILE);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
 	{
-		ft_putendl_error(ERR_DUP2);
+		ft_printf_fd(2, "%s: %s", NAME, ERR_DUP2);
 		close(fd_file);
 		return (1);
 	}
@@ -59,16 +60,17 @@ int	redirect_output(int fd, char *file_name)
 {
 	int	fd_file;
 
-	fd = (fd * (fd != -1) || STDOUT_FILENO);
+	if (fd == -1)
+		fd = STDOUT_FILENO;
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: Permission denied", NAME, file_name);
+		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
 	{
-		ft_putendl_error(ERR_DUP2);
+		ft_printf_fd(2, "%s: %s", NAME, ERR_DUP2);
 		close(fd_file);
 		return (1);
 	}
@@ -83,28 +85,21 @@ int	redirect_output(int fd, char *file_name)
 *
 * Warning: file_name (fn) must not me null.
 */
-int	redirect_output_append_mode(int fd, char *fn)
+int	redirect_output_append_mode(int fd, char *file_name)
 {
 	int	fd_file;
 
-	fd = (fd * (fd != -1) || STDOUT_FILENO);
-	if (access(fn, F_OK) == 0)
-	{
-		if (access(fn, W_OK) == -1)
-		{
-			ft_printf_fd(2, "%s: %s: Permission denied", NAME, fn);
-			return (1);
-		}
-	}
-	fd_file = open(fn, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+		fd = STDOUT_FILENO;
+	fd_file = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: %s", NAME, fn, ERR_NO_FILE);
+		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
 	{
-		ft_putendl_error(ERR_DUP2);
+		ft_printf_fd(2, "%s: %s", NAME, ERR_DUP2);
 		close(fd_file);
 		return (1);
 	}
