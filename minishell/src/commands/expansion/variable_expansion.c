@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 22:31:56 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:20:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static char	**update_value(char **updated_value, char *updated_word)
 		updated_value = tab_join_and_free(updated_value, splited.value);
 		if (!updated_value)
 		{
-			ft_putendl_error("malloc error");
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			return (NULL);
 		}
 	}

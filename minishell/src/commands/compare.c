@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:29:53 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 13:48:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:23:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ int	compare_lexicographicly(char char1, char char2)
 		return (-1);
 	if (is_char1_alnum && !is_char2_alnum)
 		return (1);
-	if (char1 < char2)
-		return (-1);
-	if (char1 > char2)
-		return (1);
-	else
-		return (0);
+	if (ft_isupper(char1) && ft_islower(char2))
+		return (char1 - char2 + 32);
+	if (ft_islower(char1) && ft_isupper(char2))
+		return (char1 - char2 - 32);
+	return (char1 - char2);
 }
 
 int	strcmp_lexicographicly(const void *p1, const void *p2)
@@ -56,10 +55,6 @@ int	strcmp_lexicographicly(const void *p1, const void *p2)
 			return (result);
 		i++;
 	}
-	if (str1[i] == '\0' && str2[i] == '\0')
-		return (0);
-	else if (str1[i] == '\0')
-		return (-1);
-	else
-		return (1);
+	result = ft_strcmp(str1, str2);
+	return (-result);
 }

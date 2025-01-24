@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 11:04:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:18:13 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define ERR_NO_CMD "Command not found"
 # define ERR_SYNTAX_START ": syntax error near unexpected token `"
 # define ERR_SYNTAX_END "'"
+# define ERR_RND "Impossible to geneate a here_doc name"
 
 /*---tab_utils.c---*/
 size_t	size_tab(char **tab);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_cmd_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 13:42:54 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/23 19:28:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	update_cmd_path(char **path, char *cmd_name, char **env)
 		}
 	}
 	ft_printf_fd(2, "%s: %s\n", cmd_name, ERR_NO_CMD);
-	if (paths_tab)
-		ft_clean_matrix((void **)paths_tab);
+	ft_clean_matrix((void **)paths_tab);
 	return (127);
 }

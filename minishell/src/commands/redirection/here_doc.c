@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 15:23:41 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:04:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
-
-
 
 /*
 * Goal: Create a new node of struct here_doc with the given limiter.
@@ -49,9 +47,11 @@ static t_list	*new_here_doc(char *limiter)
 }
 
 /*
-* Goal: Add each here_dc found in the list and detects errors syntaxes in redirections.
+* Goal: Add each here_dc found in the list
+*		and detects errors syntaxes in redirections.
 *
-* Return: -1 if succed, -2 if malloc error or the index of the element in value that have a syntax error.
+* Return: -1 if succed, -2 if malloc error or the index of
+*			the element in value that have a syntax error.
 *
 * Warning: token.value and here_docs must not me null.
 */
