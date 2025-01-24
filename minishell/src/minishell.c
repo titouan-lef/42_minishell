@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:23:28 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:40:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	main(int argc, char **argv, char**envp)
 			break ;
 		process_cmd(line_read, &env);
 		free(line_read);
-		//break ;//one command
 	}
 	ft_clean_matrix((void **)env);
 	rl_clear_history();

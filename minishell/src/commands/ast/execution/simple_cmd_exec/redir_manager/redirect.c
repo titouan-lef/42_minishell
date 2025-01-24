@@ -6,11 +6,24 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 14:17:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:38:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
+
+static int	check_perm(char *file_name)
+{
+	if (access(file_name, F_OK) == 0)
+	{
+		if (access(file_name, R_OK) == -1)
+		{
+			ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
+			return (1);
+		}
+	}
+	return (0);
+}
 
 /*
 * Goal: Redirect the fd input in a file (STDIN if fd=-1).
@@ -25,14 +38,8 @@ int	redirect_input(int fd, char *file_name)
 
 	if (fd == -1)
 		fd = STDIN_FILENO;
-	if (access(file_name, F_OK) == 0)
-	{
-		if (access(file_name, R_OK) == -1)
-		{
-			ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
-			return (1);
-		}
-	}
+	if (check_perm(file_name))
+		return (1);
 	fd_file = open(file_name, O_RDONLY);
 	if (fd_file == -1)
 	{
