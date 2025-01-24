@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_get_tree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/23 12:59:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:15:29 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -699,6 +699,72 @@ static void test_get_tree38(char ***env)
 	write_result(&queue, env);
 }
 
+// echo |1 (cat && grep) |2 sort || (cut |3 wc)
+static void test_get_tree39(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue, env);
+}
+
+// echo |1 cat |2 sort || (cut |3 wc)
+static void test_get_tree40(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue, env);
+}
+
+// echo |1 (cat) |2 sort || (cut |3 wc)
+static void test_get_tree41(char ***env)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+
+	write_result(&queue, env);
+}
+
 static char	*add_element_test(char *str, char *add)
 {
 	char	*new;
@@ -1009,6 +1075,66 @@ void	test_get_tree(char **envp)
 	/*--- test 38 ---*/
 	test_get_tree38(&env);
 	assert_equal_err("minishell: syntax error near unexpected token `>>'\n", &test_number);
+
+	/*--- test 39 ---*/
+	test_get_tree39(&env);
+	str = calloc(1, sizeof(char));
+	str = add_element_test(str, "0");
+	str = add_element_test(str, "||");
+	str = add_element_test(str, "1");
+	str = add_element_test(str, "|1");
+	str = add_element_test(str, "|3");
+	str = add_element_test(str, "2");
+	str = add_element_test(str, "echo l r");
+	str = add_element_test(str, "|2");
+	str = add_element_test(str, "cut l r");
+	str = add_element_test(str, "wc l r");
+	str = add_element_test(str, "3");
+	str = add_element_test(str, "&&");
+	str = add_element_test(str, "sort l r");
+	str = add_element_test(str, "4");
+	str = add_element_test(str, "cat l r");
+	str = add_element_test(str, "grep l r");
+	assert_equal_out(str, &test_number);
+	free(str);
+
+	/*--- test 40 ---*/
+	test_get_tree40(&env);
+	str = calloc(1, sizeof(char));
+	str = add_element_test(str, "0");
+	str = add_element_test(str, "||");
+	str = add_element_test(str, "1");
+	str = add_element_test(str, "|1");
+	str = add_element_test(str, "|3");
+	str = add_element_test(str, "2");
+	str = add_element_test(str, "echo l r");
+	str = add_element_test(str, "|2");
+	str = add_element_test(str, "cut l r");
+	str = add_element_test(str, "wc l r");
+	str = add_element_test(str, "3");
+	str = add_element_test(str, "cat l r");
+	str = add_element_test(str, "sort l r");
+	assert_equal_out(str, &test_number);
+	free(str);
+
+	/*--- test 41 ---*/
+	test_get_tree41(&env);
+	str = calloc(1, sizeof(char));
+	str = add_element_test(str, "0");
+	str = add_element_test(str, "||");
+	str = add_element_test(str, "1");
+	str = add_element_test(str, "|1");
+	str = add_element_test(str, "|3");
+	str = add_element_test(str, "2");
+	str = add_element_test(str, "echo l r");
+	str = add_element_test(str, "|2");
+	str = add_element_test(str, "cut l r");
+	str = add_element_test(str, "wc l r");
+	str = add_element_test(str, "3");
+	str = add_element_test(str, "cat l r");
+	str = add_element_test(str, "sort l r");
+	assert_equal_out(str, &test_number);
+	free(str);
 
 	ft_clean_matrix((void **)env);
 }

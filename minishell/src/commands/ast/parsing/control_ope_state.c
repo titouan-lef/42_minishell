@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:59:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/23 17:43:55 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:07:54 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,10 @@ t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 	}
 	remove_token(queue);
 	sub_tree = build_sub_tree(queue, here_docs);
+	if (!sub_tree || queue_is_empty(queue))
+		return (sub_tree);
+	if (queue_first_name(queue) == TOKEN_PIPE)
+		sub_tree = state_junction_ope(sub_tree, queue, here_docs);
 	return (sub_tree);
 }
 
