@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 15:08:39 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:25:51 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ static int	update_quote(char **word, char *updated_word, int letter)
 		updated_word[letter++] = *(*word)++;
 	updated_word[letter++] = *(*word)++;
 	return (letter);
+}
+
+static int	do_not_replace(char *updated_word, char *word,
+	int letter, int condition)
+{
+	if (condition && ft_strncmp(word, "<<", 2) == 0)
+	{
+		ft_strlcpy(updated_word + letter, word, ft_strlen(word) + 1);
+		return (1);
+	}
+	return (0);
 }
 
 /*
@@ -48,11 +59,8 @@ char	*replace_word_env(char *word, char **env_local, int here_doc, int redir)
 	in_double_quotes = 0;
 	while (*word)
 	{
-		if (!here_doc && redir && ft_strncmp(word, "<<", 2) == 0)
-		{
-			ft_strlcpy(updated_word + letter, word, ft_strlen(word) + 1);
+		if (do_not_replace(updated_word, word, letter, !here_doc && redir))
 			break ;
-		}
 		if (*word == '"')
 			in_double_quotes = !in_double_quotes;
 		if (*word == '$')
@@ -101,7 +109,7 @@ static char	**update_value(char **updated_value, char *updated_word)
 *
 * Warning: token and env_local must not be null.
 */
-int	expand_env_var(t_token *token, char **env_local)
+int	expand_env_var(t_token *token, char **env)
 {
 	int		i;
 	char	*updated_word;
@@ -113,7 +121,8 @@ int	expand_env_var(t_token *token, char **env_local)
 		i = 0;
 		while (token->value[i])
 		{
-			updated_word = replace_word_env(token->value[i], env_local, 0, token->name == TOKEN_REDIR);
+			updated_word = replace_word_env(token->value[i++], env,
+					0, token->name == TOKEN_REDIR);
 			if (!updated_word)
 			{
 				ft_putendl_error("malloc error");
@@ -122,7 +131,6 @@ int	expand_env_var(t_token *token, char **env_local)
 			updated_value = update_value(updated_value, updated_word);
 			if (!updated_value)
 				return (0);
-			i++;
 		}
 		ft_clean_matrix((void **)token->value);
 		token->value = updated_value;
