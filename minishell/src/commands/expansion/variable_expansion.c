@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 15:25:51 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:39:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	expand_env_var(t_token *token, char **env)
 					0, token->name == TOKEN_REDIR);
 			if (!updated_word)
 			{
-				ft_putendl_error("malloc error");
+				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 				return (0);
 			}
 			updated_value = update_value(updated_value, updated_word);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/24 20:34:51 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/25 22:21:22 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,14 @@ t_queue			reorganize(t_queue *tokens);
 t_token			split_command(t_queue tokens);
 
 /*---expansions.c---*/
-void			expand(t_token *token, char **env_local);
+void			expand(t_token *token, t_data *data);
+int				expand_exit_status(t_token *token, int last_exit);
 int				value_length_quoted(char *value);
 void			quote_value(char *value, char *quoted_value, int *i);
 int				update_env_var(char **word, char *new_word,
 					int *letter, char **env);
-char			*replace_word_env(char *word, char **env_local, int here_doc, int redir);
+char			*replace_word_env(char *word, char **env_local,
+					int here_doc, int redir);
 int				new_word_lenght(char *word, char **env_local);
 int				expand_env_var(t_token *token, char **env);
 t_list			*find_matches(char *patern);
@@ -105,6 +107,6 @@ int				compare_lexicographicly(char char1, char char2);
 int				strcmp_lexicographicly(const void *p1, const void *p2);
 
 /*---cmd_manager.c---*/
-int				cmd_manager(t_token token, char ***env, int is_piped);
+int				cmd_manager(t_token token, t_data *data, int is_piped);
 int				update_cmd_path(char **path, char *cmd_name, char **env);
 #endif

@@ -6,13 +6,13 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/24 20:30:57 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:17:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static void	clear_data(t_data *data)
+void	clear_data(t_data *data)
 {
 	tree_clear(&data->tree);
 	clear_here_docs(data->lst);

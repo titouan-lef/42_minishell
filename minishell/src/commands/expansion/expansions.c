@@ -6,15 +6,16 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:19:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/25 20:46:13 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
-void	expand(t_token *token, char **env_local)
+void	expand(t_token *token, t_data *data)
 {
-	expand_env_var(token, env_local); //manage errors
+	expand_env_var(token, data->env); //manage errors
+	expand_exit_status(token, data->last_exit);
 	expand_wildcard(token);
 	remove_quotes(token);
 }
