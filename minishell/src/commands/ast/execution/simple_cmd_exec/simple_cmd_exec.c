@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/24 20:31:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:18:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	redir_exec(t_data *data, t_token *token, int is_piped)
 {
 	int	result;
 
-	//expand
+	expand(token, data->env);
 	result = redir_manager(*token, data->lst);
 	if (is_piped)
 		exit_exec(data, result);
