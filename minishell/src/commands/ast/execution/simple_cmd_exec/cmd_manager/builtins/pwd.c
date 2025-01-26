@@ -6,11 +6,29 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/20 20:16:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:24:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+char	*get_cdw(void)
+{
+	char	*pwd;
+
+	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
+	if (!pwd)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		return (NULL);
+	}
+	if (getcwd(pwd, PATH_MAX) == NULL)
+	{
+		free(pwd);
+		return (NULL);
+	}
+	return (pwd);
+}
 
 /*
 * Goal: Equivalent of the pwd command.
@@ -22,13 +40,9 @@
 int	pwd(void)
 {
 	char	*pwd;
-	char	*no_error;
-
-	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
-	if (!pwd)
-		return (1);
-	no_error = getcwd(pwd, PATH_MAX);
-	if (no_error)
+	
+	pwd = get_cdw();
+	if (pwd)
 		printf("%s\n", pwd);
 	else
 		printf("\n");

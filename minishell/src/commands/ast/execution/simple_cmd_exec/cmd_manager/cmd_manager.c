@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/26 17:38:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:23:39 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static int	builtin_manager(char **cmd, t_data *data, int is_piped)
 	result = 0;
 	if (!ft_strcmp(cmd[0], "echo"))
 		echo(cmd);
-	// else if (!ft_strcmp(cmd[0], "cd"))
-	// 	result = cd(cmd);
+	else if (!ft_strcmp(cmd[0], "cd"))
+		result = cd(cmd, data->env);
 	else if (!ft_strcmp(cmd[0], "pwd"))
 		result = pwd();
 	// else if (!ft_strcmp(cmd[0], "export"))

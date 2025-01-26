@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/25 20:38:09 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/26 22:25:48 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC				=	minishell.c																\
 					commands/ast/execution/simple_cmd_exec/simple_cmd_exec.c				\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/cmd_manager.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/update_cmd_path.c	\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/cd.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/echo.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/pwd.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/unset.c		\
