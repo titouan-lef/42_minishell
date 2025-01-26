@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 12:43:57 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 18:41:38 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,18 @@ void	test_var_expand(char **envp)
 	token = token_create(TOKEN_REDIR, built_tab("<$test\"\'\"", NULL));
 	expand_env_var(&token, env);
 	assert_equal_token(token, &test_number, TOKEN_REDIR, "<oui", "non\"\'\"", NULL);
+	token_clear(token);
+
+	/*--- test 17 ---*/
+	token = token_create(TOKEN_REDIR, built_tab("$\"\"", NULL));
+	expand_env_var(&token, env);
+	assert_equal_token(token, &test_number, TOKEN_REDIR, "\"\"", NULL);
+	token_clear(token);
+
+	/*--- test 18 ---*/
+	token = token_create(TOKEN_REDIR, built_tab("$\"fe    ok\"", NULL));
+	expand_env_var(&token, env);
+	assert_equal_token(token, &test_number, TOKEN_REDIR, "\"fe    ok\"", NULL);
 	token_clear(token);
 
 	ft_clean_matrix((void **)env);

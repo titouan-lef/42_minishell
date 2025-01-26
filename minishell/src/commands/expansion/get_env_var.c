@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:23:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 18:33:20 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static char	*get_value(char *name, char **env_local)
 	name_length = 0;
 	while (ft_isalnum(*(name + name_length)) || *(name + name_length) == '_')
 		name_length++;
+	if (!name_length && (*name == '\"' || *name == '\''))
+		return ("");
 	if (!name_length)
 		return ("$");
 	while (*env_local && name_length)
