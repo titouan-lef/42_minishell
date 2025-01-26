@@ -6,12 +6,19 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 19:28:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:03:50 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+* Goal: Find all the possible paths where to execute the dommand.
+*
+* Return: a tab with all the paths, NULL if error.
+*
+* Warning: env must not be null.
+*/
 static char	**find_paths_in_env(char **env)
 {
 	int		i;
@@ -37,6 +44,14 @@ static char	**find_paths_in_env(char **env)
 	return (paths_tab);
 }
 
+/*
+* Goal: Try to acces to the command .
+*
+* Return: 1 if error, 0 if not
+*		(path is set to null if can't access to the command).
+*
+* Warning: dir, cmd and path must not be null.
+*/
 static int	add_path_and_access(char *dir, char *cmd, char **path)
 {
 	char	*temp;
@@ -62,6 +77,13 @@ static int	add_path_and_access(char *dir, char *cmd, char **path)
 	return (0);
 }
 
+/*
+* Goal: Try to access the command.
+*
+* Return: 0 if the command is accesible, or the error code if error.
+*
+* Warning: cmd_name and path must not be null.
+*/
 static int	access_path_cmd(char *cmd_name, char **path)
 {
 	if (access(cmd_name, F_OK | X_OK) == 0)
@@ -76,6 +98,13 @@ static int	access_path_cmd(char *cmd_name, char **path)
 	return (127);
 }
 
+/*
+* Goal: Find were to execute the command.
+*
+* Return: 0 if the command is accesible, or the error code if error.
+*
+* Warning: path, cmd_name and env must not be null.
+*/
 int	update_cmd_path(char **path, char *cmd_name, char **env)
 {
 	char	**paths_tab;

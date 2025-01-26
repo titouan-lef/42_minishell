@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/25 16:17:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:34:13 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exit_exec(t_data *data, int code)
 {
 	close(data->fd[0]);
 	close(data->fd[1]);
-	ft_clean_matrix((void **)*data->env);
+	ft_clean_matrix((void **)data->env);
 	clear_data(data);
 	exit(code);
 }

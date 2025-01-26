@@ -6,18 +6,34 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/25 20:46:13 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:36:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
-void	expand(t_token *token, t_data *data)
+/*
+* Goal: Expand all the element in the value of the token.
+*
+* Return: O if no error, or the error code corresponding.
+*
+* Warning: token and data must not be null.
+*/
+int	expand(t_token *token, t_data *data)
 {
-	expand_env_var(token, data->env); //manage errors
-	expand_exit_status(token, data->last_exit);
-	expand_wildcard(token);
-	remove_quotes(token);
+	int	result;
+
+	result = expand_env_var(token, data->env);
+	if (result)
+		return (result);
+	result = expand_exit_status(token, data->last_exit);
+	if (result)
+		return (result);
+	result = expand_wildcard(token);
+	if (result)
+		return (result);
+	result = remove_quotes(token);
+	return (result);
 }
 
 /*

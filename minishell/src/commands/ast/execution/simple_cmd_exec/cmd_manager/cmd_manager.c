@@ -6,13 +6,20 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/25 22:09:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:38:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "builtins.h"
 
+/*
+* Goal: Detect a builtin function.
+*
+* Return: 1 if true, 0 if not.
+*
+* Warning: cmd_name must not be null.
+*/
 static int	is_builtin_cmd(char *cmd_name)
 {
 	if (ft_strcmp(cmd_name, "echo") == 0
@@ -26,11 +33,17 @@ static int	is_builtin_cmd(char *cmd_name)
 	return (0);
 }
 
-static int	builtin_manager(char **cmd, t_data *data)
+/*
+* Goal: Launch the corresponding builtins command.
+*
+* Return: O if no error, or the error code corresponding.
+*
+* Warning: cmd and data must not be null.
+*/
+static int	builtin_manager(char **cmd, t_data *data, int is_piped)
 {
 	int	result;
 
-	(void)data;
 	result = 0;
 	if (!ft_strcmp(cmd[0], "echo"))
 		echo(cmd);
@@ -40,16 +53,27 @@ static int	builtin_manager(char **cmd, t_data *data)
 		result = pwd();
 	// else if (!ft_strcmp(cmd[0], "export"))
 	// 	result = export(cmd);
-	// else if (!ft_strcmp(cmd[0], "unset"))
-	// 	result = unset(cmd);
+	else if (!ft_strcmp(cmd[0], "unset"))
+		result = unset(cmd, &data->env);
 	// else if (!ft_strcmp(cmd[0], "env"))
 	// 	result = enc(cmd);
 	else
-		return (1);
+	{
+		clear_data(data);
+		ft_clean_matrix((void **)data->env);
+		if (!is_piped)
+			ft_printf_fd(2, "exit\n");
+		exit(0);
+	}
 	data->last_exit = result;
 	return (result);
 }
 
+/*
+* Goal: Launch any command that is not a builtin.
+*
+* Warning: cmd and data must not be null.
+*/
 static void	execve_manager(char **cmd, t_data *data)
 {
 	char	*path;
@@ -61,16 +85,23 @@ static void	execve_manager(char **cmd, t_data *data)
 	{
 		clear_data(data);
 		ft_clean_matrix((void **)data->env);
-		exit(result); //free data so need the whole data struct
+		exit(result);
 	}
 	execve(path, cmd, data->env);
 	ft_printf_fd(2, "%s: %s\n", cmd[0], ERR_NO_CMD);
 	free(path);
 	clear_data(data);
 	ft_clean_matrix((void **)data->env);
-	exit (127); //free data so need the whole data struct
+	exit (127);
 }
 
+/*
+* Goal: Create a child process and execute the given command.
+*
+* Return: O if no error, 1 if the fork failed.
+*
+* Warning: cmd and data must not be null.
+*/
 static int	fork_cmd(char **cmd, t_data *data)
 {
 	int	pid;
@@ -89,6 +120,13 @@ static int	fork_cmd(char **cmd, t_data *data)
 	return (0);
 }
 
+/*
+* Goal: Execute the command int the given token.
+*
+* Return: O if no error, 1 if the fork failed.
+*
+* Warning: token.value and data must not be null.
+*/
 int	cmd_manager(t_token token, t_data *data, int is_piped)
 {
 	int		result;
@@ -97,7 +135,7 @@ int	cmd_manager(t_token token, t_data *data, int is_piped)
 	cmd = token.value;
 	result = 0;
 	if (is_builtin_cmd(cmd[0]))
-		result = builtin_manager(cmd, data); // compress 2 functions in 1 ?
+		result = builtin_manager(cmd, data, is_piped); // compress 2 functions in 1 ?
 	else if (!is_piped)
 		result = fork_cmd(cmd, data);
 	else

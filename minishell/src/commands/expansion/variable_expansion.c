@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/25 21:39:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:21:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static char	**update_value(char **updated_value, char *updated_word)
 * Goal: Replace all the environement variables in all the TOKEN_CMD tokens
 *		from there value in env_local.
 *
-* Return: 0 if errror, 1 if not.
+* Return: 1 if errror, 0 if not.
 *
 * Warning: token and env_local must not be null.
 */
@@ -126,14 +126,14 @@ int	expand_env_var(t_token *token, char **env)
 			if (!updated_word)
 			{
 				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-				return (0);
+				return (1);
 			}
 			updated_value = update_value(updated_value, updated_word);
 			if (!updated_value)
-				return (0);
+				return (1);
 		}
 		ft_clean_matrix((void **)token->value);
 		token->value = updated_value;
 	}
-	return (1);
+	return (0);
 }
