@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:04:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:51:36 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	detect_here_docs(t_token token, t_list **here_docs)
 /*
 * Goal: Create a file witha random name.
 *
-* Return: 1 if succed, 0 if not.
+* Return: 0 if succed, 1 if not.
 */
 int	read_here_docs(t_list *here_docs, char **env)
 {

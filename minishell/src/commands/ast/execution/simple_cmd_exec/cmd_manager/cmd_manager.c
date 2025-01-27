@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 15:35:12 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:54:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	execve_manager(char **cmd, t_data *data)
 	char	*path;
 	int		result;
 
+	close_data_std(data);
 	path = NULL;
 	result = update_cmd_path(&path, cmd[0], data->env);
 	if (result)
@@ -116,7 +117,7 @@ static int	fork_cmd(char **cmd, t_data *data)
 	if (pid == 0)
 	{
 		if (default_sigaction(&data->act))
-			exit(1);// exit ?
+			exit(1);// exit ? free // debrouille toi
 		execve_manager(cmd, data);
 	}
 	waitpid(pid, &exit_satus, 0);

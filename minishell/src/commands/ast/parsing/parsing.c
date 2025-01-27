@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 20:16:21 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:58:11 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,29 @@ t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 	return (tree);
 }
 
-void	get_tree_data(t_queue *queue, t_data *data)
+int	get_tree_data(t_queue *queue, t_data *data)
 {
-	t_tree	*tree;
-	t_list	*here_docs;
+	//int		result;
 
-	tree = NULL;
-	here_docs = NULL;
+	data->tree = NULL;
+	data->lst = NULL;
+	data->std[0] = -1;
+	data->std[1] = -1;
+	data->std[2] = -1;
+	/*result = dup_data_std(data);
+	if (result)
+	{
+		queue_clear(queue);
+		return (result);
+	}*/
 	while (!queue_is_empty(queue))
 	{
-		tree = next_state(tree, queue, &here_docs);
-		if (tree == NULL)
-			break ;
+		data->tree = next_state(data->tree, queue, &data->lst);
+		if (data->tree == NULL)
+		{
+			queue_clear(queue);
+			return (2);
+		}
 	}
-	queue_clear(queue);
-	data->tree = tree;
-	data->lst = here_docs;
-	data->std[0] = dup(STDIN_FILENO); // protections
-	data->std[1] = dup(STDOUT_FILENO);
-	data->std[2] = dup(STDERR_FILENO);
+	return (0);
 }

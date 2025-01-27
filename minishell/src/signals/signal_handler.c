@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 16:13:30 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:19:08 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	interactive_mode_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putstr("\n");
+		ft_putstr("\n");//canal error ?
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

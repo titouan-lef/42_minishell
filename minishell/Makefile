@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/27 16:12:58 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/27 17:22:53 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
 SRC				=	minishell.c																\
+					dup_utils.c																\
 					tab_utils.c																\
 					commands/compare.c														\
 					commands/token.c														\

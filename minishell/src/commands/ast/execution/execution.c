@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 16:12:12 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:02:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,13 @@ void	clear_data(t_data *data)
 {
 	tree_clear(&data->tree);
 	clear_here_docs(data->lst);
-	close(data->std[0]);
-	close(data->std[1]);
-	close(data->std[2]);
 }
 
 void	exit_exec(t_data *data, int code)
 {
-	close(data->fd[0]);
-	close(data->fd[1]);
 	ft_clean_matrix((void **)data->env);
 	clear_data(data);
+	close_data_std(data);
 	exit(code);
 }
 
@@ -49,24 +45,29 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 
 int	make_execution(t_queue *queue, t_data *data)
 {
-	int		result;
+	int	result;
+	int	result2;
 
 	if (queue_is_empty(queue))
-		return (0);//Good code ???
-	get_tree_data(queue, data);
-	queue_clear(queue);
-	read_here_docs(data->lst, data->env); //protections
-	if (modify_sigaction(&data->act, cmd_display_handler))
-		return (1);//here ?
-	if (tree_is_empty(data->tree))
+		return (0);
+	result = get_tree_data(queue, data);
+	result2 = read_here_docs(data->lst, data->env);
+	if (result || result2)
 	{
 		clear_data(data);
-		return (2);//Good code ???
+		if (result == 0)
+			return (result2);
+		return (result);
+	}
+	if (modify_sigaction(&data->act, cmd_display_handler))//here ?
+	{
+		clear_data(data);
+		return (1);
 	}
 	result = tree_exec(data, data->tree, 0);
-	dup2(data->std[0], STDIN_FILENO); //protections
-	dup2(data->std[1], STDOUT_FILENO);
-	dup2(data->std[2], STDERR_FILENO);
+	//result2 = dup2_data_std(data);//pas bon
 	clear_data(data);
+	if (result == 0 && result2)
+		return (result2);
 	return (result);
 }
