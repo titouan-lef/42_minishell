@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_here_doc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:20:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:46:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 
 	if (!ft_strchr(limiter, '\'') && !ft_strchr(limiter, '\"'))
 	{
-		tmp = replace_word_env(line, env, 1);
+		tmp = replace_word_env(line, env, 1, 1);
 		if (!tmp)
 		{
 			ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);

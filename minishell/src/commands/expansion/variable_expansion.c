@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:20:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:21:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ static int	update_quote(char **word, char *updated_word, int letter)
 	return (letter);
 }
 
+static int	do_not_replace(char *updated_word, char *word,
+	int letter, int condition)
+{
+	if (condition && ft_strncmp(word, "<<", 2) == 0)
+	{
+		ft_strlcpy(updated_word + letter, word, ft_strlen(word) + 1);
+		return (1);
+	}
+	return (0);
+}
+
 /*
 * Goal: Make a new word with all the environement variables
 *		in the given word from there value in env_local.
@@ -34,7 +45,7 @@ static int	update_quote(char **word, char *updated_word, int letter)
 *
 * Warning: word and env_local must not be null.
 */
-char	*replace_word_env(char *word, char **env_local, int here_doc)
+char	*replace_word_env(char *word, char **env_local, int here_doc, int redir)
 {
 	int		letter;
 	char	*updated_word;
@@ -48,7 +59,7 @@ char	*replace_word_env(char *word, char **env_local, int here_doc)
 	in_double_quotes = 0;
 	while (*word)
 	{
-		if (!here_doc && ft_strncmp(word, "<<", 2) == 0) // && redir token to not skip in a word
+		if (do_not_replace(updated_word, word, letter, !here_doc && redir))
 			break ;
 		if (*word == '"')
 			in_double_quotes = !in_double_quotes;
@@ -94,11 +105,11 @@ static char	**update_value(char **updated_value, char *updated_word)
 * Goal: Replace all the environement variables in all the TOKEN_CMD tokens
 *		from there value in env_local.
 *
-* Return: 0 if errror, 1 if not.
+* Return: 1 if errror, 0 if not.
 *
 * Warning: token and env_local must not be null.
 */
-int	expand_env_var(t_token *token, char **env_local)
+int	expand_env_var(t_token *token, char **env)
 {
 	int		i;
 	char	*updated_word;
@@ -110,19 +121,19 @@ int	expand_env_var(t_token *token, char **env_local)
 		i = 0;
 		while (token->value[i])
 		{
-			updated_word = replace_word_env(token->value[i], env_local, 0);
+			updated_word = replace_word_env(token->value[i++], env,
+					0, token->name == TOKEN_REDIR);
 			if (!updated_word)
 			{
-				ft_putendl_error("malloc error");
-				return (0);
+				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+				return (1);
 			}
 			updated_value = update_value(updated_value, updated_word);
 			if (!updated_value)
-				return (0);
-			i++;
+				return (1);
 		}
 		ft_clean_matrix((void **)token->value);
 		token->value = updated_value;
 	}
-	return (1);
+	return (0);
 }

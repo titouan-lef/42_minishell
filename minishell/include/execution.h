@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:33:41 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 11:40:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:12:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	stack_clear(t_stack **stack);
 void	stack_init(t_stack **stack);
 
 /*---execution.c---*/
+void	clear_data(t_data *data);
 void	exit_exec(t_data *data, int code);
 int		tree_exec(t_data *data, t_tree *tree, int is_piped);
-int		make_execution(t_queue *queue, char ***env);
+int		make_execution(t_queue *queue, t_data *data);
 
 /*---*_execution.c---*/
 int		redir_exec(t_data *data, t_token *token, int is_piped);

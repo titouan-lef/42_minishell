@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 12:41:23 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:24:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	**built_tab(char* first, ...);
 void	assert_equal_queue(t_queue result, size_t *i, ...);
 
 /*---tests---*/
+void	test_cd(char **envp);
 void	test_echo(char **envp);
 void	test_pwd(char **envp);
 void	test_unset(void);

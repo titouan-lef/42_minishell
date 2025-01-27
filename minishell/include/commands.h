@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/23 17:14:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:42:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ typedef struct s_here_doc
 
 typedef struct s_data
 {
+	char	**env;
+	int		last_exit;
 	t_tree	*tree;
 	t_list	*lst;
-	char	***env;
 	int		fd[2];
 	int		std[3]; //0 -> stdin | 1 -> stdout | 2 -> stderr
 }			t_data;
@@ -53,7 +54,7 @@ t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
 t_tree			*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
-t_data			get_tree_data(t_queue *queue, char ***env);
+void			get_tree_data(t_queue *queue, t_data *data);
 
 /*---token_state.c---*/
 t_tree			*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs);
@@ -85,14 +86,16 @@ t_queue			reorganize(t_queue *tokens);
 t_token			split_command(t_queue tokens);
 
 /*---expansions.c---*/
-void			expand(t_token *token, char **env_local);
+int				expand(t_token *token, t_data *data);
+int				expand_exit_status(t_token *token, int last_exit);
 int				value_length_quoted(char *value);
 void			quote_value(char *value, char *quoted_value, int *i);
 int				update_env_var(char **word, char *new_word,
 					int *letter, char **env);
-char			*replace_word_env(char *word, char **env_local, int here_doc);
+char			*replace_word_env(char *word, char **env_local,
+					int here_doc, int redir);
 int				new_word_lenght(char *word, char **env_local);
-int				expand_env_var(t_token *token, char **env_local);
+int				expand_env_var(t_token *token, char **env);
 t_list			*find_matches(char *patern);
 char			*replace_word_wildcard(char *patern);
 int				expand_wildcard(t_token *token);
@@ -104,6 +107,6 @@ int				compare_lexicographicly(char char1, char char2);
 int				strcmp_lexicographicly(const void *p1, const void *p2);
 
 /*---cmd_manager.c---*/
-int				cmd_manager(t_token token, char ***env, int is_piped);
+int				cmd_manager(t_token token, t_data *data, int is_piped);
 int				update_cmd_path(char **path, char *cmd_name, char **env);
 #endif

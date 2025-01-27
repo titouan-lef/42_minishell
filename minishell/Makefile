@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/24 19:01:50 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/27 15:07:53 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC				=	minishell.c																\
 					commands/ast/execution/simple_cmd_exec/simple_cmd_exec.c				\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/cmd_manager.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/update_cmd_path.c	\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/cd.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/echo.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/pwd.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/unset.c		\
@@ -46,6 +47,7 @@ SRC				=	minishell.c																\
 					commands/ast/parsing/token_state_utils.c								\
 					commands/ast/tree/tree_primitive.c										\
 					commands/ast/tree/tree_push.c											\
+					commands/expansion/exit_status.c										\
 					commands/expansion/expansions.c											\
 					commands/expansion/get_env_var.c										\
 					commands/expansion/get_files.c											\
@@ -117,7 +119,7 @@ display			:
 
 $(LIBFT)		:
 				echo "$(BLUE)Making libft👷👷$(INIT)"
-				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+				$(MAKE) -C $(LIBFT_DIR) --no-print-directory -j
 
 $(NAME)			:	$(DISPLAY_TRACKER) $(LIBFT) $(OBJ)
 				$(CC) -lreadline -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)

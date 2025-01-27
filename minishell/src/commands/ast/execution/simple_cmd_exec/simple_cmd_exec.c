@@ -3,26 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_exec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 12:05:36 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:31:49 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+/*
+* Goal: Execute all the redirection of the given token.
+*
+* Return: O if no error, or the error code corresponding.
+*
+* Warning: token and data must not be null.
+*/
 int	redir_exec(t_data *data, t_token *token, int is_piped)
 {
 	int	result;
 
-	//expand
+	result = expand(token, data);
+	if (result)
+		return (result);
 	result = redir_manager(*token, data->lst);
 	if (is_piped)
 		exit_exec(data, result);
 	return (result);
 }
 
+/*
+* Goal: Execute the command of the given token.
+*
+* Return: O if no error, or the error code corresponding.
+*
+* Warning: token, tree and data must not be null.
+*/
 int	cmd_exec(t_data *data, t_tree *tree, t_token *token, int is_piped)
 {
 	int	result;
@@ -37,8 +53,10 @@ int	cmd_exec(t_data *data, t_tree *tree, t_token *token, int is_piped)
 			return (result);
 		}
 	}
-	expand(token, *data->env);
-	result = cmd_manager(*token, data->env, is_piped);
+	result = expand(token, data);
+	if (result)
+		return (result);
+	result = cmd_manager(*token, data, is_piped);
 	if (is_piped)
 		exit_exec(data, result);
 	return (result);

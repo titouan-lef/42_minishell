@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 20:15:34 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:06:43 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,43 @@
 #include "execution.h"
 #include "redir.h"
 
-static void	process_cmd(char *input, char ***env)
+static void	process_cmd(char *input, t_data *data)
 {
 	t_queue	tokens;
 	t_queue	reorganized_tokens;
+	int		result;
 
 	if (*input)
 	{
 		tokens = tokenizer(input);
 		reorganized_tokens = reorganize(&tokens);
-		make_execution(&reorganized_tokens, env);
+		result = make_execution(&reorganized_tokens, data);
+		if (result)
+			data->last_exit = result;
 	}
 }
 
 int	main(int argc, char **argv, char**envp)
 {
 	char	*line_read;
-	char	**env;
+	t_data	data;
 
 	(void)argc;
 	(void)argv;
-	env = strdup_tab(envp);
+	data.last_exit = 0;
+	data.env = strdup_tab(envp);
 	interactive_mode_sigaction();//protect
 	while (1)
 	{
 		line_read = rl_gets();
 		if (!line_read)
 			break ;
-		process_cmd(line_read, &env);
+		process_cmd(line_read, &data);
 		interactive_mode_sigaction();//protect + add boucle signal to go in command ?
 		free(line_read);
-		//break ;//one command
 	}
-	ft_clean_matrix((void **)env);
+	ft_clean_matrix((void **)data.env);
 	rl_clear_history();
-	printf("exit\n");
+	ft_printf_fd(2, "exit\n");
 	return (0);
 }
