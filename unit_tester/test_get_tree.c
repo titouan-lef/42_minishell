@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_get_tree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/25 15:41:35 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:25:01 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,16 @@ static char **create_token_value(char *value)
 	return (result);
 }
 
+static char **create_token_value2(char *value, char *value2)
+{
+	char **result;
+
+	result = calloc(3, sizeof(char *));
+	result[0] = ft_strdup(value);
+	result[1] = ft_strdup(value2);
+	return (result);
+}
+
 static void write_result(t_queue *queue, t_data *data)
 {
 	t_out	outputs;
@@ -192,7 +202,7 @@ static void write_result(t_queue *queue, t_data *data)
 // echo && cat
 static void test_get_tree1(t_data *data)
 {
-	
+
 	t_queue	queue = queue_create();
 
 	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
@@ -765,6 +775,51 @@ static void test_get_tree41(t_data *data)
 	write_result(&queue, data);
 }
 
+// echo oui (
+static void test_get_tree42(t_data *data)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+
+	write_result(&queue, data);
+}
+
+// echo redir (
+static void test_get_tree43(t_data *data)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+
+	write_result(&queue, data);
+}
+
+// echo oui >
+static void test_get_tree44(t_data *data)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui")));
+
+	write_result(&queue, data);
+}
+
+// echo oui >>
+static void test_get_tree45(t_data *data)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">>")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui")));
+
+	write_result(&queue, data);
+}
+
 static char	*add_element_test(char *str, char *add)
 {
 	char	*new;
@@ -884,7 +939,7 @@ void	test_get_tree(char **envp)
 
 	/*--- test 8 ---*/
 	test_get_tree8(&data);
-	assert_equal_err("minishell: syntax error near unexpected token `||'\n", &test_number);
+	assert_equal_err("minishell: syntax error near unexpected token `('\n", &test_number);
 
 	/*--- test 9 ---*/
 	test_get_tree9(&data);
@@ -1137,6 +1192,22 @@ void	test_get_tree(char **envp)
 	str = add_element_test(str, "sort l r");
 	assert_equal_out(str, &test_number);
 	free(str);
+
+	/*--- test 42 ---*/
+	test_get_tree42(&data);
+	assert_equal_err("minishell: syntax error near unexpected token `('\n", &test_number);
+
+	/*--- test 43 ---*/
+	test_get_tree43(&data);
+	assert_equal_err("minishell: syntax error near unexpected token `('\n", &test_number);
+
+	/*--- test 44 ---*/
+	test_get_tree44(&data);
+	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
+
+	/*--- test 45 ---*/
+	test_get_tree45(&data);
+	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
 
 	ft_clean_matrix((void **)data.env);
 }
