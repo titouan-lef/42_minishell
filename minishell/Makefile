@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/26 22:25:48 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/27 13:25:08 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,7 +118,7 @@ display			:
 
 $(LIBFT)		:
 				echo "$(BLUE)Making libft👷👷$(INIT)"
-				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+				$(MAKE) -C $(LIBFT_DIR) --no-print-directory -j
 
 $(NAME)			:	$(DISPLAY_TRACKER) $(LIBFT) $(OBJ)
 				$(CC) -lreadline -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
