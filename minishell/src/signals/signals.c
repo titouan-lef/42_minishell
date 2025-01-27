@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:33:12 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/24 20:20:41 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:37:27 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,75 @@ static void	here_doc_handler(int sig)
 	g_sig_receive = sig;
 }
 
-int	here_doc_sigaction(void)
+static int	updata_sigaction(struct sigaction *act)
+{
+	int	is_error;
+
+	is_error = sigaction(SIGQUIT, act, NULL);
+	if (is_error)
+	{
+		ft_putendl_error("error sigation SIGQUIT");
+		return (is_error);
+	}
+	is_error = sigaction(SIGINT, act, NULL);
+	if (is_error)
+	{
+		ft_putendl_error("error sigation SIGINT");
+		return (is_error);
+	}
+	return (0);
+}
+
+int	here_doc_sigaction(struct sigaction *act)
+{
+	int	is_error;
+
+	act->sa_handler = here_doc_handler;
+	is_error = updata_sigaction(act);
+	return (is_error);
+}
+
+int	cmd_display_sigaction(struct sigaction *act)
+{
+	int	is_error;
+
+	act->sa_handler = cmd_display_handler;
+	is_error = updata_sigaction(act);
+	return (is_error);
+}
+
+int	default_sigaction(struct sigaction *act)
+{
+	int	is_error;
+
+	act->sa_handler = SIG_DFL;
+	is_error = updata_sigaction(act);
+	return (is_error);
+}
+
+int	interactive_mode_sigaction(struct sigaction *act)
+{
+	int	is_error;
+
+	act->sa_handler = interactive_mode_handler;
+	is_error = updata_sigaction(act);
+	return (is_error);
+}
+
+/*static void	spread_handler(int sig)
+{
+	sleep(1);
+	printf("spread signal...\n");
+	kill(0, sig);//protect
+}
+
+int	spread_sigaction(void)
 {
 	struct sigaction	act;
 	int					is_error;
 
 	ft_bzero(&act, sizeof(struct sigaction));
-	act.sa_handler = here_doc_handler;
+	act.sa_handler = spread_handler;
 	is_error = sigaction(SIGQUIT, &act, NULL);
 	if (is_error)
 		return (is_error);
@@ -79,52 +141,4 @@ int	here_doc_sigaction(void)
 	if (is_error)
 		return (is_error);
 	return (0);
-}
-
-int	cmd_display_sigaction(void)
-{
-	struct sigaction	act;
-	int					is_error;
-
-	ft_bzero(&act, sizeof(struct sigaction));
-	act.sa_handler = cmd_display_handler;
-	is_error = sigaction(SIGQUIT, &act, NULL);
-	if (is_error)
-		return (is_error);
-	is_error = sigaction(SIGINT, &act, NULL);
-	if (is_error)
-		return (is_error);
-	return (0);
-}
-
-int	default_sigaction(void)
-{
-	struct sigaction	act;
-	int					is_error;
-
-	ft_bzero(&act, sizeof(struct sigaction));
-	act.sa_handler = SIG_DFL;
-	is_error = sigaction(SIGQUIT, &act, NULL);
-	if (is_error)
-		return (is_error);
-	is_error = sigaction(SIGINT, &act, NULL);
-	if (is_error)
-		return (is_error);
-	return (0);
-}
-
-int	interactive_mode_sigaction(void)
-{
-	struct sigaction	act;
-	int					is_error;
-
-	ft_bzero(&act, sizeof(struct sigaction));
-	act.sa_handler = interactive_mode_handler;
-	is_error = sigaction(SIGQUIT, &act, NULL);
-	if (is_error)
-		return (is_error);
-	is_error = sigaction(SIGINT, &act, NULL);
-	if (is_error)
-		return (is_error);
-	return (0);
-}
+}*/

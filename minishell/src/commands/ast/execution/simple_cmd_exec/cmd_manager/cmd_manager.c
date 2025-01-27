@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 15:09:00 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:35:12 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ static int	fork_cmd(char **cmd, t_data *data)
 	}
 	if (pid == 0)
 	{
-		default_sigaction();//protect
+		if (default_sigaction(&data->act))
+			exit(1);// exit ?
 		execve_manager(cmd, data);
 	}
 	waitpid(pid, &exit_satus, 0);

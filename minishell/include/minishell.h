@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 15:08:09 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:37:48 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ char	**tab_join_and_free(char **tab1, char **tab2);
 char	**append_to_tab(char **tab, const char *str);
 
 /*---signals.c---*/
-int		here_doc_sigaction(void);
-int		cmd_display_sigaction(void);
-int		default_sigaction(void);
-int		interactive_mode_sigaction(void);
+int		here_doc_sigaction(struct sigaction *act);
+int		cmd_display_sigaction(struct sigaction *act);
+int		default_sigaction(struct sigaction *act);
+int		interactive_mode_sigaction(struct sigaction *act);
 
 #endif

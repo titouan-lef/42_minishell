@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/26 16:42:06 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:19:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ typedef struct s_here_doc
 
 typedef struct s_data
 {
-	char	**env;
-	int		last_exit;
-	t_tree	*tree;
-	t_list	*lst;
-	int		fd[2];
-	int		std[3]; //0 -> stdin | 1 -> stdout | 2 -> stderr
+	char				**env;
+	int					last_exit;
+	t_tree				*tree;
+	t_list				*lst;
+	int					fd[2];
+	int					std[3]; //0 -> stdin | 1 -> stdout | 2 -> stderr
+	struct sigaction	act;
 }			t_data;
 
 /*---queue_primitive.c---*/
