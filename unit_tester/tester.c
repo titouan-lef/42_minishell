@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:28:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 17:14:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:24:20 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	test_echo(envp);
 	test_pwd(envp);
+	test_cd(envp);
 	test_unset();
 	test_tokenizer();
 	test_lexer();

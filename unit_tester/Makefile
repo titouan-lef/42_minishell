@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/19 15:44:59 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/27 10:24:41 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ NAME			:=	minishell_unit_tester
 SRC_DIR			=	#src/
 SRC				=	unit_test/unit_test.c		\
 					tester.c					\
+					test_cd.c					\
 					test_echo.c					\
 					test_pwd.c					\
 					test_unset.c				\

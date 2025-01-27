@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/26 22:24:18 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:48:35 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*get_cdw(void)
 {
 	char	*pwd;
 
-	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
+	pwd = (char *)ft_calloc(sizeof(char), PATH_MAX);
 	if (!pwd)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
