@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 16:36:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:34:08 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,9 @@ static int	builtin_manager(char **cmd, t_data *data, int is_piped)
 	else if (!ft_strcmp(cmd[0], "unset"))
 		result = unset(cmd, &data->env);
 	// else if (!ft_strcmp(cmd[0], "env"))
-	// 	result = enc(cmd);
+	// 	result = env(cmd);
 	else
-	{
-		clear_data(data);
-		ft_clean_matrix((void **)data->env);
-		if (!is_piped)
-			ft_printf_fd(2, "exit\n");
-		exit(0);
-	}
+		my_exit(cmd, data, is_piped);
 	data->last_exit = result;
 	return (result);
 }

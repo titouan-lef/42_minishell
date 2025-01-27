@@ -103,7 +103,7 @@ static int	wait_children(t_stack *stack)
 		stack_pop(&stack);
 		pid = waitpid(-1, &status, 0);
 		if (pid == last_pid)
-			result = status;
+			result = WEXITSTATUS(status);
 	}
 	return (result);
 }
