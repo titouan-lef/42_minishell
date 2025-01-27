@@ -6,7 +6,7 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/27 15:07:53 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/01/27 16:12:58 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC				=	minishell.c																\
 					display/display.c														\
 					queue/queue_primitive.c													\
 					queue/queue_utils.c														\
+					signals/signal_handler.c												\
 					signals/signals.c
 
 

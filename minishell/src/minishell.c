@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 15:36:54 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:57:22 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char**envp)
 	(void)argc;
 	(void)argv;
 	ft_bzero(&data.act, sizeof(struct sigaction));
-	if (interactive_mode_sigaction(&data.act))
+	if (modify_sigaction(&data.act, interactive_mode_handler))
 		return (1);//last exit update ?
 	data.last_exit = 0;
 	data.env = strdup_tab(envp);//protect ?
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char**envp)
 		if (!line_read)
 			break ;
 		process_cmd(line_read, &data);
-		if (interactive_mode_sigaction(&data.act))
+		if (modify_sigaction(&data.act, interactive_mode_handler))
 			return (1);//last exit update ? add boucle signal to go in command ?
 		free(line_read);
 	}
