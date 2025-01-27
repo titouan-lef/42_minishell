@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 11:29:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:20:55 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static int set_oldpwd(char **env, char *pwd)
 	while (env[i])
 		if (ft_strncmp("OLDPWD=", env[i++], 7) == 0)
 			break ;
-	i--;
 	if (env[i] == NULL)
 		return (0);
+	i--;
 	oldpwd = ft_strjoin("OLDPWD=", pwd);
 	if (!oldpwd)
 	{
@@ -45,9 +45,9 @@ static int set_pwd(char **env)
 	while (env[i])
 		if (ft_strncmp("PWD=", env[i++], 4) == 0)
 			break ;
-	i--;
 	if (env[i] == NULL)
 		return (0);
+	i--;
 	pwd = get_cdw();
 	if (!pwd)
 		return (1);
@@ -94,12 +94,12 @@ static int goto_home(char **env)
 	while (env[i])
 		if (ft_strncmp("HOME=", env[i++], 5) == 0)
 			break ;
-	--i;
 	if (env[i] == NULL)
 	{
 		ft_printf_fd(2, "%s: cd: HOME not set\n", NAME);
 		return (1);
 	}
+	--i;
 	home = ft_strdup(env[i] + 5);
 	if (!home)
 	{
@@ -134,6 +134,8 @@ static int	goback(char **env)
 		return (1);
 	}
 	result = goto_dir(oldpwd, env);
+	if (result == 0)
+		printf("%s\n", oldpwd);
 	free(oldpwd);
 	return (result);
 }
@@ -150,7 +152,7 @@ int	cd(char **cmd, char **env)
 	int			result;
 	struct stat	infos;
 
-	if (cmd[1] == NULL)
+	if (cmd[1] == NULL || ft_strncmp("~", cmd[1], 2) == 0)
 		result = goto_home(env);
 	else if (cmd[2] != NULL)
 	{
