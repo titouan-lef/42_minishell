@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 15:35:12 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:36:41 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	builtin_manager(char **cmd, t_data *data, int is_piped)
 	else if (!ft_strcmp(cmd[0], "cd"))
 		result = cd(cmd, data->env);
 	else if (!ft_strcmp(cmd[0], "pwd"))
-		result = pwd();
+		result = pwd(data->env);
 	// else if (!ft_strcmp(cmd[0], "export"))
 	// 	result = export(cmd);
 	else if (!ft_strcmp(cmd[0], "unset"))

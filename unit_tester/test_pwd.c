@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 11:57:48 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:39:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	run_pwd(char **envp, ...)
 		exit(1);
 	}
 	redirect_outputs(&outputs);
-	pwd();
+	pwd(envp);
 	set_normal_outputs(&outputs);
 	free(split_cmd);
 }
