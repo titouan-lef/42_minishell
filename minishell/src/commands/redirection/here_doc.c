@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 18:26:15 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:08:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ static t_list	*new_here_doc(char *limiter)
 *
 * Warning: token.redir and here_docs must not me null.
 */
-int	detect_here_docs(t_token token, t_list **here_docs)
+int	detect_here_docs(char **redirs, t_list **here_docs)
 {
 	t_list	*new;
 	char	*redir;
 	int		i;
 
-	if (!token.redir)
+	if (!redirs)
 		return (-1);
 	i = 0;
-	while (token.redir[i])
+	while (redirs[i])
 	{
-		redir = token.redir[i++];
+		redir = redirs[i++];
 		while (redir[0] != '<' && redir[0] != '>')
 			redir++;
 		if (!redir[1] || ((redir[1] == '<' || redir[1] == '>') && !redir[2]))

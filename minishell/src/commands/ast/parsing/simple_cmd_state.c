@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_state.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 18:28:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:54:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 	int		result;
 	char	*token_error;
 
-	result = detect_here_docs(tree->token, here_docs);
+	result = detect_here_docs(tree->token.redir, here_docs);
 	if (result == -1)
 		return (0);
 	if (result == -2)
