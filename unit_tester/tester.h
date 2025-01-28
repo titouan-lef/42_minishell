@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 10:24:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:58:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*enum_to_str(t_token_name token);
 char	**built_tab(char* first, ...);
 
 /*---special_assert---*/
-void	assert_equal_queue(t_queue result, size_t *i, ...);
+void	assert_equal_queue_value(t_queue result, size_t *i, ...);
+void	assert_equal_queue_redir(t_queue result, size_t *i, ...);
 
 /*---tests---*/
 void	test_cd(char **envp);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 14:17:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:56:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	test_redirs(char **env)
 {
 	t_list	*here_docs;
 	size_t	test_number;
-	t_token	token;
+	char	**redir;
 	t_out	out;
 	t_in	in;
 	int		fd;
@@ -132,111 +132,111 @@ void	test_redirs(char **env)
 	/*--- test 1 ---*/
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab(">out", NULL));
-	redir_manager(token, NULL);
+	redir = built_tab(">out", NULL);
+	redir_manager(redir, NULL);
 	assert_redir_out(out, &test_number, "out", NULL);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	fflush(stdout);
 
 	/*--- test 2 ---*/
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab(">out", ">outfile", NULL));
-	redir_manager(token, NULL);
+	redir = built_tab(">out", ">outfile", NULL);
+	redir_manager(redir, NULL);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	fflush(stdout);
 
 	/*--- test 3 ---*/
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
-	redir_manager(token, NULL);
+	redir = built_tab(">>out", ">outfile", NULL);
+	redir_manager(redir, NULL);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	fflush(stdout);
 
 	/*--- test 4 ---*/
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
+	redir = built_tab(">>out", ">outfile", NULL);
 	close(open("out", O_CREAT, 0644));
-	redir_manager(token, NULL);
+	redir_manager(redir, NULL);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	fflush(stdout);
 
 	/*--- test 5 ---*/
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab(">>out", ">outfile", NULL));
+	redir = built_tab(">>out", ">outfile", NULL);
 	open("out", O_CREAT, 000);
-	redir_manager(token, NULL);
+	redir_manager(redir, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied\n", &test_number);
 	unlink("out");
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	fflush(stdout);
 
 	/*--- test 6 ---*/
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab(">out", ">outfile", NULL));
+	redir = built_tab(">out", ">outfile", NULL);
 	open("out", O_CREAT, 000);
-	redir_manager(token, NULL);
+	redir_manager(redir, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied\n", &test_number);
 	unlink("out");
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	fflush(stdout);
 
 	/*--- test 7 ---*/
 	redirect_outputs(&out);
 	in.save_in = dup(STDIN_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
-	redir_manager(token, NULL);
+	redir = built_tab("<in", NULL);
+	redir_manager(redir, NULL);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: in: No such file or directory\n", &test_number);
 	set_normal_input(&in);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 
 	/*--- test 8 ---*/
 	in.save_in = dup(STDIN_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab("<in", NULL));
+	redir = built_tab("<in", NULL);
 	close(open("in", O_CREAT, 0644));
-	redir_manager(token, NULL);
+	redir_manager(redir, NULL);
 	assert_redir_in("in", "test\n", 0, &test_number);
 	set_normal_input(&in);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 
 	/*--- test 9 & 10 ---*/
 	in.save_in = dup(STDIN_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab("<in", "<infile", NULL));
+	redir = built_tab("<in", "<infile", NULL);
 	close(open("in", O_CREAT, 0644));
 	close(open("infile", O_CREAT, 0644));
-	redir_manager(token, NULL);
+	redir_manager(redir, NULL);
 	assert_redir_in("in", "", 0, &test_number);
 	assert_redir_in("infile", "test\n", 0, &test_number);
 	set_normal_input(&in);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 
 	/*--- test 11 & 12 & 13 ---*/
 	in.save_in = dup(STDIN_FILENO);
-	token = token_create(TOKEN_REDIR, built_tab("<in", "<infile", "<testin", NULL));
+	redir = built_tab("<in", "<infile", "<testin", NULL);
 	close(open("in", O_CREAT, 0644));
 	close(open("infile", O_CREAT, 0644));
 	close(open("testin", O_CREAT, 0644));
-	redir_manager(token, NULL);
+	redir_manager(redir, NULL);
 	assert_redir_in("in", "", 0, &test_number);
 	assert_redir_in("infile", "", 0, &test_number);
 	assert_redir_in("testin", "test\n", 0, &test_number);
 	set_normal_input(&in);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 
 	fflush(stdout);
 
 	/*--- test 14 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", NULL));
+	redir = built_tab("<<here_doc", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 15);
 	close(fd);
@@ -244,11 +244,11 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(token, &here_docs);
+	detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	redir_manager(token, here_docs);
-	token_clear(token);
+	redir_manager(redir, here_docs);
+	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
@@ -257,7 +257,7 @@ void	test_redirs(char **env)
 	/*--- test 15 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", NULL));
+	redir = built_tab("<<here_doc", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "$USER\nhere_doc\n", 16);
 	close(fd);
@@ -265,11 +265,11 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(token, &here_docs);
+	detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	redir_manager(token, here_docs);
-	token_clear(token);
+	redir_manager(redir, here_docs);
+	ft_clean_matrix((void **)redir);
 	char *expected = ft_strjoin(getenv("USER"),"\n");
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, expected, 1, &test_number);
 	free(expected);
@@ -280,7 +280,7 @@ void	test_redirs(char **env)
 	/*--- test 16 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<\"here_doc\"", NULL));
+	redir = built_tab("<<\"here_doc\"", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "$USER\nhere_doc\n", 18);
 	close(fd);
@@ -288,11 +288,11 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(token, &here_docs);
+	detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	redir_manager(token, here_docs);
-	token_clear(token);
+	redir_manager(redir, here_docs);
+	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
@@ -301,7 +301,7 @@ void	test_redirs(char **env)
 	/*--- test 17 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<\'\"\'here_doc", NULL));
+	redir = built_tab("<<\'\"\'here_doc", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "$USER\n\"here_doc\n", 18);
 	close(fd);
@@ -309,11 +309,11 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(token, &here_docs);
+	detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	redir_manager(token, here_docs);
-	token_clear(token);
+	redir_manager(redir, here_docs);
+	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
@@ -322,7 +322,7 @@ void	test_redirs(char **env)
 	/*--- test 18 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_\'doc\'", NULL));
+	redir = built_tab("<<here_\'doc\'", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "$USER\nhere_doc\n", 18);
 	close(fd);
@@ -330,11 +330,11 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(token, &here_docs);
+	detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
-	redir_manager(token, here_docs);
-	token_clear(token);
+	redir_manager(redir, here_docs);
+	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
@@ -343,7 +343,7 @@ void	test_redirs(char **env)
 	/*--- test 19 && 20 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">ok", NULL));
+	redir = built_tab("<<here_doc", ">ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 15);
 	close(fd);
@@ -351,12 +351,12 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(token, &here_docs);
+	detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
-	redir_manager(token, here_docs);
+	redir_manager(redir, here_docs);
 	assert_redir_out(out, &test_number, "ok", NULL);
 	//set_normal_outputs(&out);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
@@ -366,7 +366,7 @@ void	test_redirs(char **env)
 	/*--- test 21 && 22 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<<ok", NULL));
+	redir = built_tab("<<here_doc", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\ntest2\nok\n", 23);
 	close(fd);
@@ -374,15 +374,15 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
-	redir_manager(token, here_docs);
+	redir_manager(redir, here_docs);
 	set_normal_outputs(&out);
 		if (result == -1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	assert_redir_in("ok", "test2\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
@@ -391,7 +391,7 @@ void	test_redirs(char **env)
 	/*--- test 23 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">", "<<ok", NULL));
+	redir = built_tab("<<here_doc", ">", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -399,14 +399,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -414,7 +414,7 @@ void	test_redirs(char **env)
 	/*--- test 24 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">>", "<<ok", NULL));
+	redir = built_tab("<<here_doc", ">>", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -422,14 +422,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -437,7 +437,7 @@ void	test_redirs(char **env)
 	/*--- test 25 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<", "<<ok", NULL));
+	redir = built_tab("<<here_doc", "<", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -445,14 +445,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -460,7 +460,7 @@ void	test_redirs(char **env)
 	/*--- test 26 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<<", "<<ok", NULL));
+	redir = built_tab("<<here_doc", "<<", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -468,14 +468,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -483,7 +483,7 @@ void	test_redirs(char **env)
 	/*--- test 27 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">", NULL));
+	redir = built_tab("<<here_doc", ">", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -491,14 +491,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -506,7 +506,7 @@ void	test_redirs(char **env)
 	/*--- test 28 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">>", NULL));
+	redir = built_tab("<<here_doc", ">>", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -514,14 +514,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -529,7 +529,7 @@ void	test_redirs(char **env)
 	/*--- test 29 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<", NULL));
+	redir = built_tab("<<here_doc", "<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -537,14 +537,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -552,7 +552,7 @@ void	test_redirs(char **env)
 	/*--- test 30 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", "<<", NULL));
+	redir = built_tab("<<here_doc", "<<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -560,14 +560,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -575,7 +575,7 @@ void	test_redirs(char **env)
 	/*--- test 31 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", ">", NULL));
+	redir = built_tab("<<here_doc", ">out", ">", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -583,14 +583,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -598,7 +598,7 @@ void	test_redirs(char **env)
 	/*--- test 32 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", ">>", NULL));
+	redir = built_tab("<<here_doc", ">out", ">>", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -606,14 +606,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -621,7 +621,7 @@ void	test_redirs(char **env)
 	/*--- test 33 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", "<", NULL));
+	redir = built_tab("<<here_doc", ">out", "<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -629,14 +629,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -644,7 +644,7 @@ void	test_redirs(char **env)
 	/*--- test 34 ---*/
 	in.save_in = dup(STDIN_FILENO);
 	redirect_outputs(&out);
-	token = token_create(TOKEN_REDIR, built_tab("<<here_doc", ">out", "<<", NULL));
+	redir = built_tab("<<here_doc", ">out", "<<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
 	write(fd, "test\nhere_doc\n", 23);
 	close(fd);
@@ -652,14 +652,14 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(token, &here_docs);
+	result = detect_here_docs(redir, &here_docs);
 	read_here_docs(here_docs, env);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
-	token_clear(token);
+	ft_clean_matrix((void **)redir);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);

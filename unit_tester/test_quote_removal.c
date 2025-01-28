@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 12:44:18 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:43:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,74 +75,74 @@ void	test_quote_removal(void)
 	test_number = 1;
 
 	/*--- test 1 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\'echo\'", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\'echo\'", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", NULL);
 	token_clear(token);
 
 	/*--- test 2 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\"echo\"", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\"echo\"", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", NULL);
 	token_clear(token);
 
 	/*--- test 3 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\"\"echo\'\'", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\"\"echo\'\'", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", NULL);
 	token_clear(token);
 
 	/*--- test 4 ---*/
-	token = token_create(TOKEN_CMD, built_tab("", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "", NULL);
 	token_clear(token);
 
 	/*--- test 5 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\"\"", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\"\"", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "", NULL);
 	token_clear(token);
 
 	/*--- test 6 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\'\'", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\'\'", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "", NULL);
 	token_clear(token);
 
 	/*--- test 7 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\"\'\"", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\"\'\"", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "\'", NULL);
 	token_clear(token);
 
 	/*--- test 8 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\'\"\'", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\'\"\'", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "\"", NULL);
 	token_clear(token);
 
 	/*--- test 9 ---*/
-	token = token_create(TOKEN_CMD, built_tab("test\"test\"test", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("test\"test\"test", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "testtesttest", NULL);
 	token_clear(token);
 
 	/*--- test 10 ---*/
-	token = token_create(TOKEN_CMD, built_tab("this is a $test", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("this is a $test", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "this is a $test", NULL);
 	token_clear(token);
 
 	/*--- test 11 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\"\"\"\"this is a \'$test\'\"\"\"\"", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\"\"\"\"this is a \'$test\'\"\"\"\"", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "this is a $test", NULL);
 	token_clear(token);
 
 	/*--- test 12 ---*/
-	token = token_create(TOKEN_CMD, built_tab("\"\"\"\"\"this is a \'$test\'\"\"\"\"\"", NULL));
-	remove_quotes(&token);
+	token = token_create(TOKEN_CMD, built_tab("\"\"\"\"\"this is a \'$test\'\"\"\"\"\"", NULL), NULL);
+	remove_quotes(&token.value);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "this is a \'$test\'", NULL);
 	token_clear(token);
 
