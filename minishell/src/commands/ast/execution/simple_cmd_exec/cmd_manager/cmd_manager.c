@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 16:56:11 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:50:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,12 @@ static int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 	int	result;
 	int	result2;
 
-	result = dup_data_std(data);
-	if (result)
-		return (result);
+	if (!is_piped)
+	{
+		result = dup_data_std(data);
+		if (result)
+			return (result);
+	}
 	redir_manager(redir, data->lst);
 	result = 0;
 	if (!ft_strcmp(cmd[0], "echo"))
@@ -68,9 +71,10 @@ static int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 		my_exit(cmd, data, is_piped);
 	}
 	data->last_exit = result;
-	result2 = dup2_data_std(data);
+	if (!is_piped)
+		result2 = dup2_data_std(data);
 	close_data_std(data);
-	if (result2)
+	if (!is_piped && result2)
 		return (result2);
 	return (result);
 }
@@ -158,6 +162,9 @@ int	cmd_manager(t_token token, t_data *data, int is_piped)
 	else if (!is_piped)
 		result = fork_cmd(cmd, redir, data);
 	else
+	{
+		close_data_std(data);
 		execve_manager(cmd, redir, data);
+	}
 	return (result);
 }
