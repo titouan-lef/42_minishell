@@ -32,37 +32,36 @@ static int	fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack, int is_las
 	}
 	if (pid == 0)
 	{
+		close(data->fd[0]);
 		if (!is_last)
 		{
-			close(data->fd[0]);
-			if (dup2(data->fd[1], STDOUT_FILENO) == -1)
-				ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2);/* need to do
-					something ?? for exemple don't do the command ?*/
+			result = dup2(data->fd[1], STDOUT_FILENO);
 			close(data->fd[1]);
+			if (result < 0)
+			{
+				ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2);
+				exit_exec(data, result);
+			}
 		}
+		else
+			close(data->fd[1]);
 		stack_clear(stack);
 		result = tree_exec(data, sub_tree, 1);
 		exit_exec(data, result);
 	}
-	 if (!is_last)
+	close(data->fd[1]);
+	if (!is_last)
 	{
-		close(data->fd[1]);
-		if (dup2(data->fd[0], STDIN_FILENO) == -1)
-			ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2); /* need to do something ??
-				for exemple don't do the command ?*/
+		result = dup2(data->fd[0], STDIN_FILENO);
 		close(data->fd[0]);
+		if (result < 0)
+		{
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2);
+			return (result);
+		}
 	}
 	else
-	{
-		close(data->fd[1]);
 		close(data->fd[0]);
-		dup2(data->std[0], STDIN_FILENO); //protections
-		dup2(data->std[1], STDOUT_FILENO);
-		dup2(data->std[2], STDERR_FILENO);
-		close(data->std[0]);
-		close(data->std[1]);
-		close(data->std[2]);
-	}
 	result = stack_push(stack, pid);
 	return (result);
 }
@@ -111,13 +110,21 @@ static int	wait_children(t_stack *stack)
 int	pipe_exec(t_data *data, t_tree *tree)
 {
 	int		result;
+	int		result2;
 	t_stack	*stack;
 
 	stack_init(&stack);
-	result = pipeline_manager(data, tree, &stack);
+	result = dup_data_std(data);
 	if (result)
+		return (result);
+	result = pipeline_manager(data, tree, &stack);
+	result2 = dup2_data_std(data);
+	close_data_std(data);
+	if (result || result2)
 	{
 		stack_clear(&stack);
+		if (result2)
+			return (result2);
 		return (result);
 	}
 	result = wait_children(stack);
