@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/26 17:00:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:18:14 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,23 +111,20 @@ char	*replace_word_quotes(char *word)
 *
 * Warning: token and env_local must not be null.
 */
-int	remove_quotes(t_token *token)
+int	remove_quotes(char ***value)
 {
 	int			num_word;
 	char		*updated_word;
 
-	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
+	num_word = 0;
+	while ((*value)[num_word])
 	{
-		num_word = 0;
-		while (token->value[num_word])
-		{
-			updated_word = replace_word_quotes(token->value[num_word]);
-			if (!updated_word)
-				return (1);
-			free(token->value[num_word]);
-			token->value[num_word] = updated_word;
-			num_word++;
-		}
+		updated_word = replace_word_quotes((*value)[num_word]);
+		if (!updated_word)
+			return (1);
+		free((*value)[num_word]);
+		(*value)[num_word] = updated_word;
+		num_word++;
 	}
 	return (0);
 }

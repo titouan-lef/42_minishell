@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:33:41 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/25 16:12:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:12:53 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ int		tree_exec(t_data *data, t_tree *tree, int is_piped);
 int		make_execution(t_queue *queue, t_data *data);
 
 /*---*_execution.c---*/
-int		redir_exec(t_data *data, t_token *token, int is_piped);
-int		cmd_exec(t_data *data, t_tree *tree, t_token *token, int is_piped);
+int		cmd_exec(t_data *data, t_token *token, int is_piped);
 int		pipe_exec(t_data *data, t_tree *tree);
 int		ope_exec(t_data *data, t_tree *tree, t_token token, int is_piped);
 

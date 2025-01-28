@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/26 17:21:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:17:53 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,31 +109,27 @@ static char	**update_value(char **updated_value, char *updated_word)
 *
 * Warning: token and env_local must not be null.
 */
-int	expand_env_var(t_token *token, char **env)
+int	expand_env_var(char ***value, char **env, int is_redir)
 {
 	int		i;
 	char	*updated_word;
 	char	**updated_value;
 
-	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
+	updated_value = NULL;
+	i = 0;
+	while ((*value)[i])
 	{
-		updated_value = NULL;
-		i = 0;
-		while (token->value[i])
+		updated_word = replace_word_env((*value)[i++], env, 0, is_redir);
+		if (!updated_word)
 		{
-			updated_word = replace_word_env(token->value[i++], env,
-					0, token->name == TOKEN_REDIR);
-			if (!updated_word)
-			{
-				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-				return (1);
-			}
-			updated_value = update_value(updated_value, updated_word);
-			if (!updated_value)
-				return (1);
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+			return (1);
 		}
-		ft_clean_matrix((void **)token->value);
-		token->value = updated_value;
+		updated_value = update_value(updated_value, updated_word);
+		if (!updated_value)
+			return (1);
 	}
+	ft_clean_matrix((void **)*value);
+	*value = updated_value;
 	return (0);
 }

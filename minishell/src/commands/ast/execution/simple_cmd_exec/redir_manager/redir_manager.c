@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   redir_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:49:39 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 11:53:39 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:00:41 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,17 @@ static int	find_fd(char **redir)
 *
 * Warning: token.value must not me null.
 */
-int	redir_manager(t_token token_redir, t_list *here_docs)
+int	redir_manager(char **redirs, t_list *here_docs)
 {
 	int		i;
 	int		fd;
 	int		code_error;
 	char	*redir;
 
+	if (!redirs)
+		return (0);
 	i = 0;
-	redir = token_redir.value[i];
+	redir = redirs[i];
 	while (redir)
 	{
 		fd = find_fd(&redir);
@@ -80,7 +82,7 @@ int	redir_manager(t_token token_redir, t_list *here_docs)
 			code_error = redirect_output_append_mode(fd, redir + 2);
 		if (code_error)
 			return (code_error);
-		redir = token_redir.value[++i];
+		redir = redirs[++i];
 	}
 	return (0);
 }

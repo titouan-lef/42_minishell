@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 21:02:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:12:07 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exit_exec(t_data *data, int code)
 {
 	ft_clean_matrix((void **)data->env);
 	clear_data(data);
-	close_data_std(data);
+	//close_data_std(data);
 	exit(code);
 }
 
@@ -32,10 +32,8 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 	int		result;
 
 	token = &tree->token;
-	if (token->name == TOKEN_REDIR)
-		result = redir_exec(data, token, is_piped);
-	else if (token->name == TOKEN_CMD)
-		result = cmd_exec(data, tree, token, is_piped);
+	if (token->name == TOKEN_CMD)
+		result = cmd_exec(data, token, is_piped);
 	else if (token->name == TOKEN_PIPE)
 		result = pipe_exec(data, tree);
 	else
@@ -65,9 +63,6 @@ int	make_execution(t_queue *queue, t_data *data)
 		return (1);
 	}
 	result = tree_exec(data, data->tree, 0);
-	//result2 = dup2_data_std(data);//pas bon
 	clear_data(data);
-	if (result == 0 && result2)
-		return (result2);
 	return (result);
 }

@@ -33,7 +33,9 @@ static int	fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack, int is_las
 	if (pid == 0)
 	{
 		close(data->fd[0]);
-		if (!is_last)
+		if (is_last)
+			close(data->fd[1]);
+		else
 		{
 			result = dup2(data->fd[1], STDOUT_FILENO);
 			close(data->fd[1]);
@@ -43,14 +45,14 @@ static int	fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack, int is_las
 				exit_exec(data, result);
 			}
 		}
-		else
-			close(data->fd[1]);
 		stack_clear(stack);
 		result = tree_exec(data, sub_tree, 1);
 		exit_exec(data, result);
 	}
 	close(data->fd[1]);
-	if (!is_last)
+	if (is_last)
+		close(data->fd[0]);
+	else
 	{
 		result = dup2(data->fd[0], STDIN_FILENO);
 		close(data->fd[0]);
@@ -60,8 +62,6 @@ static int	fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack, int is_las
 			return (result);
 		}
 	}
-	else
-		close(data->fd[0]);
 	result = stack_push(stack, pid);
 	return (result);
 }
@@ -130,3 +130,22 @@ int	pipe_exec(t_data *data, t_tree *tree)
 	result = wait_children(stack);
 	return (result);
 }
+
+
+/*
+int	pipe_exec(t_data *data, t_tree *tree)
+{
+	int		result;
+	t_stack	*stack;
+
+	stack_init(&stack);
+	result = pipeline_manager(data, tree, &stack);
+	if (result)
+	{
+		stack_clear(&stack);
+		return (result);
+	}
+	result = wait_children(stack);
+	return (result);
+}
+*/

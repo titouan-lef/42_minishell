@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 19:43:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:23:03 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,11 @@ void	print_error_token(t_queue *queue)
 	else
 	{
 		token = queue_pop(queue);
-		print_error_token_value(token.value[0]);
+		// a revoir
+		if (token.value)
+			print_error_token_value(token.value[0]);
+		else
+			print_error_token_value(token.redir[0]);
 		token_clear(token);
 	}
 }

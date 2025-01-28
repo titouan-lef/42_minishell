@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/26 18:27:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:17:30 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,22 @@
 *
 * Warning: token and data must not be null.
 */
-int	expand(t_token *token, t_data *data)
+int	expand(char ***value, t_data *data, int is_redir)
 {
 	int	result;
 
-	result = expand_env_var(token, data->env);
+	if (!*value)
+		return (0);
+	result = expand_env_var(value, data->env, is_redir);
 	if (result)
 		return (result);
-	result = expand_exit_status(token, data->last_exit);
+	result = expand_exit_status(value, data->last_exit);
 	if (result)
 		return (result);
-	result = expand_wildcard(token);
+	result = expand_wildcard(value);
 	if (result)
 		return (result);
-	result = remove_quotes(token);
+	result = remove_quotes(value);
 	return (result);
 }
 

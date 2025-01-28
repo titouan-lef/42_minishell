@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathname_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/26 17:09:43 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:18:07 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,29 +90,25 @@ static int	process_wildcard(char ***updated_value, char *str)
 *
 * Warning: token must not be null.
 */
-int	expand_wildcard(t_token *token) //check speed file creation
+int	expand_wildcard(char ***value) //check speed file creation
 {
 	int		num_word;
 	char	**updated_value;
 
-	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
+	num_word = 0;
+	updated_value = NULL;
+	while ((*value)[num_word])
 	{
-		num_word = 0;
-		updated_value = NULL;
-		while (token->value[num_word])
+		if (ft_strchr((*value)[num_word], '*'))
 		{
-			if (ft_strchr(token->value[num_word], '*'))
-			{
-				if (process_wildcard(&updated_value, token->value[num_word]))
-					return (1);
-			}
-			else
-				if (do_not_replace_word(&updated_value, token->value[num_word]))
-					return (1);
-			num_word++;
+			if (process_wildcard(&updated_value, (*value)[num_word]))
+				return (1);
 		}
-		ft_clean_matrix((void **)token->value);
-		token->value = updated_value;
+		else if (do_not_replace_word(&updated_value, (*value)[num_word]))
+			return (1);
+		num_word++;
 	}
+	ft_clean_matrix((void **)*value);
+	*value = updated_value;
 	return (0);
 }

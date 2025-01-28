@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 13:31:27 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/08 17:32:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:09:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@
 *
 * Return: The created token.
 */
-t_token	token_create(t_token_name name, char **value)
+t_token	token_create(t_token_name name, char **value, char **redir)
 {
 	t_token	token;
 
 	token.name = name;
 	token.value = value;
+	token.redir = redir;
 	return (token);
 }
 
@@ -33,4 +34,6 @@ void	token_clear(t_token token)
 {
 	if (token.value)
 		ft_clean_matrix((void **)token.value);
+	if (token.redir)
+		ft_clean_matrix((void **)token.redir);
 }

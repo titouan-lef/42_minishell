@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:39:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/22 11:04:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:03:57 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ typedef struct s_token
 {
 	t_token_name	name;
 	char			**value;
+	char			**redir;
 }	t_token;
 
 /*---token.c---*/
-t_token	token_create(t_token_name name, char **value);
+t_token	token_create(t_token_name name, char **value, char **redir);
 void	token_clear(t_token token);
 
 #endif

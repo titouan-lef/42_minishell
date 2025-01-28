@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 19:41:21 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:49:50 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ t_queue			reorganize(t_queue *tokens);
 t_token			split_command(t_queue tokens);
 
 /*---expansions.c---*/
-int				expand(t_token *token, t_data *data);
-int				expand_exit_status(t_token *token, int last_exit);
+int				expand(char ***value, t_data *data, int is_redir);
+int				expand_exit_status(char ***value, int last_exit);
 int				value_length_quoted(char *value);
 void			quote_value(char *value, char *quoted_value, int *i);
 int				update_env_var(char **word, char *new_word,
@@ -96,12 +96,12 @@ int				update_env_var(char **word, char *new_word,
 char			*replace_word_env(char *word, char **env_local,
 					int here_doc, int redir);
 int				new_word_lenght(char *word, char **env_local);
-int				expand_env_var(t_token *token, char **env);
+int				expand_env_var(char ***value, char **env, int is_redir);
 t_list			*find_matches(char *patern);
 char			*replace_word_wildcard(char *patern);
-int				expand_wildcard(t_token *token);
+int				expand_wildcard(char ***value);
 char			*replace_word_quotes(char *word);
-int				remove_quotes(t_token *token);
+int				remove_quotes(char ***value);
 
 /*---compare.c---*/
 int				compare_lexicographicly(char char1, char char2);

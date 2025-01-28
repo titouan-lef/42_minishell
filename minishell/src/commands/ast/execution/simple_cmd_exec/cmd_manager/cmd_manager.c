@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 10:03:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:56:11 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,15 @@ static int	is_builtin_cmd(char *cmd_name)
 *
 * Warning: cmd and data must not be null.
 */
-static int	builtin_manager(char **cmd, t_data *data, int is_piped)
+static int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 {
 	int	result;
+	int	result2;
 
+	result = dup_data_std(data);
+	if (result)
+		return (result);
+	redir_manager(redir, data->lst);
 	result = 0;
 	if (!ft_strcmp(cmd[0], "echo"))
 		echo(cmd);
@@ -58,8 +63,15 @@ static int	builtin_manager(char **cmd, t_data *data, int is_piped)
 	// else if (!ft_strcmp(cmd[0], "env"))
 	// 	result = env(cmd);
 	else
+	{
+		close_data_std(data);
 		my_exit(cmd, data, is_piped);
+	}
 	data->last_exit = result;
+	result2 = dup2_data_std(data);
+	close_data_std(data);
+	if (result2)
+		return (result2);
 	return (result);
 }
 
@@ -68,12 +80,18 @@ static int	builtin_manager(char **cmd, t_data *data, int is_piped)
 *
 * Warning: cmd and data must not be null.
 */
-static void	execve_manager(char **cmd, t_data *data)
+static void	execve_manager(char **cmd, char **redir, t_data *data)
 {
 	char	*path;
 	int		result;
 
-	close_data_std(data);
+	result = redir_manager(redir, data->lst);
+	if (result || !cmd)
+	{
+		clear_data(data);
+		ft_clean_matrix((void **)data->env);
+		exit(result);
+	}
 	path = NULL;
 	result = update_cmd_path(&path, cmd[0], data->env);
 	if (result)
@@ -97,7 +115,7 @@ static void	execve_manager(char **cmd, t_data *data)
 *
 * Warning: cmd and data must not be null.
 */
-static int	fork_cmd(char **cmd, t_data *data)
+static int	fork_cmd(char **cmd, char **redir, t_data *data)
 {
 	int	pid;
 	int	exit_satus;
@@ -112,7 +130,7 @@ static int	fork_cmd(char **cmd, t_data *data)
 	{
 		if (default_sigaction(&data->act))
 			exit(1);// exit ? free // debrouille toi
-		execve_manager(cmd, data);
+		execve_manager(cmd, redir, data);
 	}
 	waitpid(pid, &exit_satus, 0);
 	data->last_exit = WEXITSTATUS(exit_satus);
@@ -130,14 +148,16 @@ int	cmd_manager(t_token token, t_data *data, int is_piped)
 {
 	int		result;
 	char	**cmd;
+	char	**redir;
 
 	cmd = token.value;
+	redir = token.redir;
 	result = 0;
-	if (is_builtin_cmd(cmd[0]))
-		result = builtin_manager(cmd, data, is_piped); // compress 2 functions in 1 ?
+	if (cmd && is_builtin_cmd(cmd[0]))
+		result = builtin_manager(cmd, redir, data, is_piped); // compress 2 functions in 1 ?
 	else if (!is_piped)
-		result = fork_cmd(cmd, data);
+		result = fork_cmd(cmd, redir, data);
 	else
-		execve_manager(cmd, data);
+		execve_manager(cmd, redir, data);
 	return (result);
 }

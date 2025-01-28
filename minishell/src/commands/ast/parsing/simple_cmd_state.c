@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 19:29:15 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:29:00 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 */
 static void	print_error_redir(char *token_error)
 {
+	// a revoir
 	size_t	i;
 
 	if (ft_isdigit(token_error[0]))
@@ -57,7 +58,7 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 		return (0);
 	if (result == -2)
 		return (1);
-	token_error = tree->token.value[result + 1];
+	token_error = tree->token.value[result + 1];//a revoir
 	if (!token_error)
 		print_error_token(queue);
 	else
@@ -66,11 +67,11 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 }
 
 /*
-* Goal: Add and manage redirection in tree.
+* Goal: Add and manage command in tree.
 *
 * Return: The new tree (or NULL if error).
 */
-t_tree	*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs)
+t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs)
 {
 	t_token_name	next_token_name;
 
@@ -85,38 +86,13 @@ t_tree	*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs)
 	if (queue_is_empty(queue))
 		return (tree);
 	next_token_name = queue_first_name(queue);
-	if (next_token_name == TOKEN_CMD)
-		tree = state_cmd(tree, queue, here_docs);
-	else if (next_token_name == TOKEN_PIPE)
-		tree = state_junction_ope(tree, queue, here_docs);
-	else if (next_token_name == TOKEN_PAR_OPEN)
-	{
-		print_error_token(queue);
-		tree_clear(&tree);
-		return (NULL);
-	}
-	return (tree);
-}
-
-/*
-* Goal: Add and manage command in tree.
-*
-* Return: The new tree (or NULL if error).
-*/
-t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs)
-{
-	t_token_name	next_token_name;
-
-	tree = add_new_token(tree, queue);
-	if (tree_is_empty(tree) || queue_is_empty(queue))
-		return (tree);
-	next_token_name = queue_first_name(queue);
 	if (next_token_name == TOKEN_PIPE)
 		tree = state_junction_ope(tree, queue, here_docs);
 	else if (next_token_name == TOKEN_PAR_OPEN)
 	{
-		if (tree->token.value[1] == NULL && tree->left == NULL)
-			remove_token(queue);
+		// a revoir
+		/*if (tree->token.value[1] == NULL)// && tree->left == NULL)
+			remove_token(queue);*/
 		print_error_token(queue);
 		tree_clear(&tree);
 		return (NULL);

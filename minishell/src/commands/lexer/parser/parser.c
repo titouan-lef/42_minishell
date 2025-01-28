@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/22 22:37:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:33:37 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,24 @@
 *
 * Warning: token, redir and cmd must not be null.
 */
-static int	push_redir_cmd(t_queue *tokens, t_token *redir, t_token *cmd)
+static int	push_redir_cmd(t_queue *tokens, t_token *cmd)
 {
 	int	malloc_error;
 
 	malloc_error = 0;
-	if (redir->value)
-	{
-		malloc_error = queue_push(tokens, *redir);
-		if (!malloc_error)
-			redir->value = NULL;
-	}
-	if (cmd->value)
+	if (cmd->value || cmd->redir)
 	{
 		malloc_error = queue_push(tokens, *cmd);
 		if (!malloc_error)
+		{
 			cmd->value = NULL;
+			cmd->redir = NULL;
+		}
 	}
 	return (malloc_error);
 }
 
-static int	update(t_token *token, t_token *cmd,
-		t_token *redir, t_queue *reorganized_tokens)
+static int	update(t_token *token, t_token *cmd, t_queue *reorganized_tokens)
 {
 	int	malloc_error;
 
@@ -51,14 +47,14 @@ static int	update(t_token *token, t_token *cmd,
 	}
 	else if (token->name == TOKEN_REDIR)
 	{
-		redir->value = tab_join_and_free(redir->value, token->value);
-		malloc_error = (redir->value == NULL);
+		cmd->redir = tab_join_and_free(cmd->redir, token->value);
+		malloc_error = (cmd->redir == NULL);
 	}
 	if (malloc_error)
 		ft_putendl_error("malloc error");
 	if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
 	{
-		if (push_redir_cmd(reorganized_tokens, redir, cmd))
+		if (push_redir_cmd(reorganized_tokens, cmd))
 			malloc_error = 1;
 		if (queue_push(reorganized_tokens, *token))
 			malloc_error = 1;
@@ -78,38 +74,34 @@ t_queue	reorganize(t_queue *tokens)
 	t_queue	reorganized_tokens;
 	t_token	token;
 	t_token	cmd;
-	t_token	redir;
 
-	cmd = token_create(TOKEN_CMD, NULL);
-	redir = token_create(TOKEN_REDIR, NULL);
+	cmd = token_create(TOKEN_CMD, NULL, NULL);
 	reorganized_tokens = queue_create();
 	while (!queue_is_empty(tokens))
 	{
 		token = queue_pop(tokens);
-		if (update(&token, &cmd, &redir, &reorganized_tokens))
+		if (update(&token, &cmd, &reorganized_tokens))
 		{
 			token_clear(cmd);
-			token_clear(redir);
 			queue_clear(tokens);
 			queue_clear(&reorganized_tokens);
 			return (reorganized_tokens);
 		}
 	}
-	if (push_redir_cmd(&reorganized_tokens, &redir, &cmd))
+	if (push_redir_cmd(&reorganized_tokens, &cmd))
 		queue_clear(&reorganized_tokens);
 	return (reorganized_tokens);
 }
 
-t_token	split_command(t_queue tokens)
+t_token	split_command(t_queue tokens)//up
 {
 	t_token	token;
 	t_token	new_token;
 
-	new_token = token_create(TOKEN_CMD, NULL);
+	new_token = token_create(TOKEN_CMD, NULL, NULL);
 	while (!queue_is_empty(&tokens))
 	{
 		token = queue_pop(&tokens);
-		new_token.name = token.name;
 		new_token.value = tab_join_and_free(new_token.value, token.value);
 		if (new_token.value == NULL)
 		{

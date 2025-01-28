@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/25 22:21:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:18:01 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,26 @@ static char	*replace_word_exit(char *word, int last_exit)
 *
 * Warning: token and env_local must not be null.
 */
-int	expand_exit_status(t_token *token, int last_exit)
+int	expand_exit_status(char ***value, int last_exit)
 {
 	int		i;
 	char	*updated_word;
 
-	if (token->name == TOKEN_CMD || token->name == TOKEN_REDIR)
+	i = 0;
+	while ((*value)[i])
 	{
-		i = 0;
-		while (token->value[i])
+		if (ft_strnstr((*value)[i], "$?", ft_strlen((*value)[i])))
 		{
-			if (ft_strnstr(token->value[i], "$?", ft_strlen(token->value[i])))
+			updated_word = replace_word_exit((*value)[i], last_exit);
+			if (!updated_word)
 			{
-				updated_word = replace_word_exit(token->value[i], last_exit);
-				if (!updated_word)
-				{
-					ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-					return (1);
-				}
-				free(token->value[i]);
-				token->value[i] = updated_word;
+				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+				return (1);
 			}
-			i++;
+			free((*value)[i]);
+			(*value)[i] = updated_word;
 		}
+		i++;
 	}
 	return (0);
 }
