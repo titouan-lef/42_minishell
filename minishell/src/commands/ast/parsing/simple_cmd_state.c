@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 15:29:00 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:28:27 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 */
 static void	print_error_redir(char *token_error)
 {
-	// a revoir
 	size_t	i;
 
 	if (ft_isdigit(token_error[0]))
@@ -58,7 +57,7 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 		return (0);
 	if (result == -2)
 		return (1);
-	token_error = tree->token.value[result + 1];//a revoir
+	token_error = tree->token.redir[result + 1];
 	if (!token_error)
 		print_error_token(queue);
 	else
@@ -90,9 +89,8 @@ t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs)
 		tree = state_junction_ope(tree, queue, here_docs);
 	else if (next_token_name == TOKEN_PAR_OPEN)
 	{
-		// a revoir
-		/*if (tree->token.value[1] == NULL)// && tree->left == NULL)
-			remove_token(queue);*/
+		if (!tree->token.redir && tree->token.value && !tree->token.value[1])
+			remove_token(queue);
 		print_error_token(queue);
 		tree_clear(&tree);
 		return (NULL);

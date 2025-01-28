@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 15:30:50 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:26:15 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ static t_list	*new_here_doc(char *limiter)
 *		and detects errors syntaxes in redirections.
 *
 * Return: -1 if succed, -2 if malloc error or the index of
-*			the element in value that have a syntax error.
+*			the element in redir that have a syntax error.
 *
-* Warning: token.value and here_docs must not me null.
+* Warning: token.redir and here_docs must not me null.
 */
 int	detect_here_docs(t_token token, t_list **here_docs)
 {

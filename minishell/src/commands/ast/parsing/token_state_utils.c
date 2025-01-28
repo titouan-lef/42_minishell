@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 15:23:03 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:34:16 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	print_error_token(t_queue *queue)
 	else
 	{
 		token = queue_pop(queue);
-		// a revoir
 		if (token.value)
 			print_error_token_value(token.value[0]);
 		else
