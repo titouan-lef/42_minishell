@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:51:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/21 18:06:30 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:40:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	test_tree_is_empty(void)
 	t_tree	*tree = NULL;
 	assert_true(tree_is_empty(tree), &test_number);
 
-	t_token	token = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)));
+	t_token	token = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	tree = tree_create(token);
 	assert_false(tree_is_empty(tree), &test_number);
 
@@ -35,8 +35,8 @@ static void	test_tree_add_parent(void)
 	test_number = 1;
 
 	t_tree	*tree = NULL;
-	t_token	token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
-	t_token	token2 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)));
+	t_token	token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	token2 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	tree = tree_add_parent(tree, token1);
 	assert_equal_i(TOKEN_CMD, tree->token.name, &test_number);
 	assert_null(tree->left, &test_number);
@@ -58,12 +58,12 @@ static void	test_tree_clear(void)
 	start_test("tree_clear");
 	test_number = 1;
 
-	t_token	token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
-	t_token	token2 = token_create(TOKEN_LOGIC_OPE, calloc(1, sizeof(char *)));
-	t_token	token3 = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)));
-	t_token	token4 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
-	t_token	token5 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)));
-	t_token	token6 = token_create(TOKEN_LOGIC_OPE, calloc(1, sizeof(char *)));
+	t_token	token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	token2 = token_create(TOKEN_LOGIC_OPE, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	token3 = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	token4 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	token5 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	token6 = token_create(TOKEN_LOGIC_OPE, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	t_tree	*tree1 = tree_create(token1);
 	t_tree	*tree2 = tree_create(token2);
 	t_tree	*tree3 = tree_create(token3);
@@ -94,7 +94,7 @@ static void	test_tree_create(void)
 	start_test("tree_create");
 	test_number = 1;
 
-	t_token	token = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
+	t_token	token = token_create(TOKEN_CMD, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	t_tree	*tree = tree_create(token);
 	assert_equal_i(TOKEN_CMD, tree->token.name, &test_number);
 	assert_null(tree->left, &test_number);
@@ -110,13 +110,13 @@ static void	test_tree_push_left(void)
 	test_number = 1;
 
 	t_tree	*sub_tree;
-	t_token	sub_token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
-	t_token	sub_token2 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)));
+	t_token	sub_token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	sub_token2 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	sub_tree = tree_create(sub_token1);
 	sub_tree = tree_add_parent(sub_tree, sub_token2);
 	t_tree	*tree = NULL;
 	t_tree	*aux;
-	t_token token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)));
+	t_token token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	t_out	outputs;
 
 	redirect_outputs(&outputs);
@@ -158,13 +158,13 @@ static void	test_tree_push_right(void)
 	test_number = 1;
 
 	t_tree	*sub_tree;
-	t_token	sub_token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)));
-	t_token	sub_token2 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)));
+	t_token	sub_token1 = token_create(TOKEN_CMD, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
+	t_token	sub_token2 = token_create(TOKEN_PIPE, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	sub_tree = tree_create(sub_token1);
 	sub_tree = tree_add_parent(sub_tree, sub_token2);
 	t_tree	*tree = NULL;
 	t_tree	*aux;
-	t_token	token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)));
+	t_token	token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	t_out	outputs;
 
 	redirect_outputs(&outputs);

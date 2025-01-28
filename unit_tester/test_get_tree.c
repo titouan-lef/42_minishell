@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 19:25:01 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:03:01 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@ typedef struct s_queue_node4
 	t_node	*head;
 	t_node	*tail;
 }	t_queue_node;
-
-/*static void	tree_traversal_in_order(t_tree *tree)
-{
-	if (tree != NULL)
-	{
-		tree_traversal_in_order(tree->left);
-		ft_printf("node : %d, value : %s\n", tree->tree.name, tree->tree.value[0]);
-		tree_traversal_in_order(tree->right);
-	}
-}*/
 
 static int	queue_node_is_empty(t_queue_node *queue)
 {
@@ -153,7 +143,16 @@ static void	breadth_first_search(t_tree *tree)
 			++i;
 			ft_printf("%d\n",i);
 		}
-		ft_printf("%s", aux->token.value[0]);
+		if (aux->token.redir != NULL && aux->token.redir[0])
+		{
+			ft_printf("%s", aux->token.redir[0]);
+			for (int j = 1; aux->token.redir[j] != NULL; ++j)
+				ft_printf(" %s", aux->token.redir[j]);
+			if (aux->token.value != NULL)
+				ft_printf("\n");
+		}
+		if (aux->token.value != NULL)
+			ft_printf("%s", aux->token.value[0]);
 		if (aux->left != NULL)
 			queue_node_push(&queue, aux->left, i + 1);
 		else
@@ -205,9 +204,9 @@ static void test_get_tree1(t_data *data)
 
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
 
 	write_result(&queue, data);
 }
@@ -217,7 +216,7 @@ static void test_get_tree2(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
 
 	write_result(&queue, data);
 }
@@ -227,8 +226,8 @@ static void test_get_tree3(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
 
 	write_result(&queue, data);
 }
@@ -238,11 +237,11 @@ static void test_get_tree4(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), NULL));
 
 	write_result(&queue, data);
 }
@@ -252,13 +251,11 @@ static void test_get_tree5(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), create_token_value("<redir2")));
 
 	write_result(&queue, data);
 }
@@ -268,17 +265,15 @@ static void test_get_tree6(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), create_token_value("<redir2")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -288,15 +283,13 @@ static void test_get_tree7(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), create_token_value("<redir2")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
 
 	write_result(&queue, data);
 }
@@ -306,19 +299,17 @@ static void test_get_tree8(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), create_token_value("<redir2")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -328,19 +319,17 @@ static void test_get_tree9(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), create_token_value("<redir2")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -350,8 +339,8 @@ static void test_get_tree10(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -361,9 +350,9 @@ static void test_get_tree11(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -373,10 +362,10 @@ static void test_get_tree12(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -386,10 +375,10 @@ static void test_get_tree13(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -399,11 +388,11 @@ static void test_get_tree14(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -413,11 +402,11 @@ static void test_get_tree15(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -435,18 +424,17 @@ static void test_get_tree17(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir3")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, NULL, create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), create_token_value("<redir2")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, NULL, create_token_value("<redir3")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -456,7 +444,7 @@ static void test_get_tree18(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_CMD, NULL, create_token_value("<redir1")));
 
 	write_result(&queue, data);
 }
@@ -466,15 +454,13 @@ static void test_get_tree19(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), create_token_value("<redir2")));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
 
 	write_result(&queue, data);
 }
@@ -484,8 +470,8 @@ static void test_get_tree20(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
 
 	write_result(&queue, data);
 }
@@ -495,9 +481,9 @@ static void test_get_tree21(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -507,9 +493,9 @@ static void test_get_tree22(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
 
 	write_result(&queue, data);
 }
@@ -519,14 +505,14 @@ static void test_get_tree23(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -536,14 +522,14 @@ static void test_get_tree24(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")1"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -553,12 +539,12 @@ static void test_get_tree25(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -568,8 +554,8 @@ static void test_get_tree26(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
 
 	write_result(&queue, data);
 }
@@ -579,7 +565,7 @@ static void test_get_tree27(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
 
 	write_result(&queue, data);
 }
@@ -589,11 +575,11 @@ static void test_get_tree28(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -603,7 +589,7 @@ static void test_get_tree29(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -613,7 +599,7 @@ static void test_get_tree30(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
 
 	write_result(&queue, data);
 }
@@ -623,8 +609,7 @@ static void test_get_tree31(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<")));
 
 	write_result(&queue, data);
 }
@@ -634,8 +619,7 @@ static void test_get_tree32(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<<")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<<")));
 
 	write_result(&queue, data);
 }
@@ -645,8 +629,7 @@ static void test_get_tree33(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value(">")));
 
 	write_result(&queue, data);
 }
@@ -656,8 +639,7 @@ static void test_get_tree34(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">>")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value(">>")));
 
 	write_result(&queue, data);
 }
@@ -667,9 +649,8 @@ static void test_get_tree35(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value(">")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
 
 	write_result(&queue, data);
 }
@@ -679,10 +660,9 @@ static void test_get_tree36(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, built_tab("echo", "coucou")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value(">")));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "coucou"), NULL));
 
 	write_result(&queue, data);
 }
@@ -692,8 +672,7 @@ static void test_get_tree37(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, built_tab(">", ">out")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value2(">", ">out")));
 
 	write_result(&queue, data);
 }
@@ -703,8 +682,7 @@ static void test_get_tree38(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, built_tab(">", ">>out")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value2(">", ">>out")));
 
 	write_result(&queue, data);
 }
@@ -714,21 +692,21 @@ static void test_get_tree39(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("grep"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -738,17 +716,17 @@ static void test_get_tree40(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -758,19 +736,19 @@ static void test_get_tree41(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort")));
-	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut")));
-	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc")));
-	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|1"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cat"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|2"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("sort"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("||"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("cut"), NULL));
+	queue_push(&queue, token_create(TOKEN_PIPE, create_token_value("|3"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("wc"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
 
 	write_result(&queue, data);
 }
@@ -780,8 +758,8 @@ static void test_get_tree42(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
 
 	write_result(&queue, data);
 }
@@ -791,9 +769,8 @@ static void test_get_tree43(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo")));
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value("<redir1")));
-	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("(")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value("echo"), create_token_value("<redir1")));
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
 
 	write_result(&queue, data);
 }
@@ -803,8 +780,7 @@ static void test_get_tree44(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui"), create_token_value(">")));
 
 	write_result(&queue, data);
 }
@@ -814,8 +790,7 @@ static void test_get_tree45(t_data *data)
 {
 	t_queue	queue = queue_create();
 
-	queue_push(&queue, token_create(TOKEN_REDIR, create_token_value(">>")));
-	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui")));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo", "oui"), create_token_value(">>")));
 
 	write_result(&queue, data);
 }
@@ -886,14 +861,13 @@ void	test_get_tree(char **envp)
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
 	str = add_element_test(str, "1");
-	str = add_element_test(str, "echo r");
+	str = add_element_test(str, "<redir1");
+	str = add_element_test(str, "echo l r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
-	str = add_element_test(str, "grep r");
-	str = add_element_test(str, "3");
-	str = add_element_test(str, "<redir2 l r");
+	str = add_element_test(str, "<redir2");
+	str = add_element_test(str, "grep l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -903,17 +877,16 @@ void	test_get_tree(char **envp)
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
 	str = add_element_test(str, "1");
-	str = add_element_test(str, "echo r");
+	str = add_element_test(str, "<redir1");
+	str = add_element_test(str, "echo l r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "||");
 	str = add_element_test(str, "3");
-	str = add_element_test(str, "grep r");
+	str = add_element_test(str, "<redir2");
+	str = add_element_test(str, "grep l r");
 	str = add_element_test(str, "cut l r");
-	str = add_element_test(str, "4");
-	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -926,14 +899,13 @@ void	test_get_tree(char **envp)
 	str = add_element_test(str, "&&");
 	str = add_element_test(str, "cut l r");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "echo r");
+	str = add_element_test(str, "<redir1");
+	str = add_element_test(str, "echo l r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "3");
-	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
-	str = add_element_test(str, "grep r");
-	str = add_element_test(str, "4");
-	str = add_element_test(str, "<redir2 l r");
+	str = add_element_test(str, "<redir2");
+	str = add_element_test(str, "grep l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -947,17 +919,16 @@ void	test_get_tree(char **envp)
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "&&");
 	str = add_element_test(str, "1");
-	str = add_element_test(str, "echo r");
+	str = add_element_test(str, "<redir1");
+	str = add_element_test(str, "echo l r");
 	str = add_element_test(str, "|");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "||");
 	str = add_element_test(str, "3");
-	str = add_element_test(str, "grep r");
+	str = add_element_test(str, "<redir2");
+	str = add_element_test(str, "grep l r");
 	str = add_element_test(str, "cut l r");
-	str = add_element_test(str, "4");
-	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -1010,7 +981,7 @@ void	test_get_tree(char **envp)
 	test_get_tree16(&data);
 	assert_equal_out("", &test_number);
 
-	/*--- test 17 ---*/
+	/*--- test 17 ---*/// <redir1 && cat | (<redir2 grep || (<redir3))
 	test_get_tree17(&data);
 	str = calloc(1, sizeof(char));
 	str = add_element_test(str, "0");
@@ -1022,10 +993,9 @@ void	test_get_tree(char **envp)
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "||");
 	str = add_element_test(str, "3");
-	str = add_element_test(str, "grep r");
+	str = add_element_test(str, "<redir2");
+	str = add_element_test(str, "grep l r");
 	str = add_element_test(str, "<redir3 l r");
-	str = add_element_test(str, "4");
-	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
@@ -1043,17 +1013,16 @@ void	test_get_tree(char **envp)
 	str = add_element_test(str, "0");
 	str = add_element_test(str, "|1");
 	str = add_element_test(str, "1");
-	str = add_element_test(str, "echo r");
+	str = add_element_test(str, "<redir1");
+	str = add_element_test(str, "echo l r");
 	str = add_element_test(str, "|2");
 	str = add_element_test(str, "2");
-	str = add_element_test(str, "<redir1 l r");
 	str = add_element_test(str, "cat l r");
 	str = add_element_test(str, "|3");
 	str = add_element_test(str, "3");
-	str = add_element_test(str, "grep r");
+	str = add_element_test(str, "<redir2");
+	str = add_element_test(str, "grep l r");
 	str = add_element_test(str, "cut l r");
-	str = add_element_test(str, "4");
-	str = add_element_test(str, "<redir2 l r");
 	assert_equal_out(str, &test_number);
 	free(str);
 
