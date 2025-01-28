@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:19:57 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 18:34:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:45:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 # include "execution.h"
 
 /*---funtions---*/
-void	echo(char **cmd);
-char	*get_cdw(char **env);
+int		echo(char **cmd);
+int		env(char **cmd, char **env);
+char	*get_cwd(char **env);
 int		pwd(char **env);
 int		cd(char **cmd, char **env);
 int		unset(char **cmd, char ***env);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 16:41:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:47:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_pwd_from_env(char **env)
 	return (pwd);
 }
 
-char	*get_cdw(char **env)
+char	*get_cwd(char **env)
 {
 	char	*pwd;
 
@@ -65,7 +65,7 @@ int	pwd(char **env)
 {
 	char	*pwd;
 	
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	if (pwd == NULL)
 		return (1);
 	printf("%s\n", pwd);

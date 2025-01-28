@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:06:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/19 14:47:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:03:07 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *
 * Warning: str must not be null.
 */
-void	echo(char **cmd)
+int	echo(char **cmd)
 {
 	int	i;
 	int	is_new_line;
@@ -43,4 +43,5 @@ void	echo(char **cmd)
 	}
 	if (is_new_line)
 		printf("\n");
+	return (0);
 }

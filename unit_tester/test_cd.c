@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 19:45:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:43:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ void	test_cd(char **envp)
 	start_test("cd");
 	test_number = 1;
 
-	save_pwd = get_cdw(env);
+	save_pwd = get_cwd(env);
 
 	/*--- test 1 ---*/
 	cmd = built_tab("cd", "unit_test", NULL);
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	cd(cmd, env);
 	ft_clean_matrix((void **)cmd);
 	tmp = ft_strjoin(pwd, "/unit_test");
 	free(pwd);
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	assert_equal_s(tmp, pwd, &test_number);
 	free(tmp);
 	free(pwd);
@@ -44,12 +44,12 @@ void	test_cd(char **envp)
 	cmd = built_tab("cd", "..", NULL);
 	cd(cmd, env);
 	ft_clean_matrix((void **)cmd);
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	assert_equal_s(save_pwd, pwd, &test_number);
 	free(pwd);
 
 	free(save_pwd);
-	save_pwd = get_cdw(env);
+	save_pwd = get_cwd(env);
 
 	int i = 0;
 	while (env[i])
@@ -62,7 +62,7 @@ void	test_cd(char **envp)
 	cmd = built_tab("cd", NULL);
 	cd(cmd, env);
 	ft_clean_matrix((void **)cmd);
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	assert_equal_s(home, pwd, &test_number);
 	free(pwd);
 
@@ -80,7 +80,7 @@ void	test_cd(char **envp)
 	dup2(save, STDOUT_FILENO);
 	close(save);
 	ft_clean_matrix((void **)cmd);
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	ft_clean_matrix((void **)env_tmp);
 	assert_equal_s(save_pwd, pwd, &test_number);
 	chdir(save_pwd);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 19:16:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:47:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int set_pwd(char **env)
 	if (env[i] == NULL)
 		return (0);
 	i--;
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	if (!pwd)
 		return (1);
 	new_pwd = ft_strjoin("PWD=", pwd);
@@ -68,7 +68,7 @@ static int	goto_dir(char *dir, char **env)
 	int		result;
 	char	*pwd;
 
-	pwd = get_cdw(env);
+	pwd = get_cwd(env);
 	if (!pwd)
 		return (1);
 	result = chdir(dir);

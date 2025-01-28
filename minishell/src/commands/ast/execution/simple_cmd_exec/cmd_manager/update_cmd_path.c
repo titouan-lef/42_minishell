@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/26 15:03:50 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:30:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static char	**find_paths_in_env(char **env)
 	}
 	if (!path)
 	{
-		ft_printf_fd(2, "%s: no PATH in the current environement", NAME);
-		return (NULL);
+		ft_printf_fd(2, "%s: no PATH in the current environement/n", NAME);
+		return (NULL); // need to try the command in the current directory
 	}
 	paths_tab = ft_split(path, ':');
 	if (!paths_tab)

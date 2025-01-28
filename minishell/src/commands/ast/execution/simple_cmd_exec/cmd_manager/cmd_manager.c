@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 20:50:18 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:06:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ static int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 			return (result);
 	}
 	redir_manager(redir, data->lst);
-	result = 0;
 	if (!ft_strcmp(cmd[0], "echo"))
-		echo(cmd);
+		result = echo(cmd);
 	else if (!ft_strcmp(cmd[0], "cd"))
 		result = cd(cmd, data->env);
 	else if (!ft_strcmp(cmd[0], "pwd"))
@@ -63,8 +62,8 @@ static int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 	// 	result = export(cmd);
 	else if (!ft_strcmp(cmd[0], "unset"))
 		result = unset(cmd, &data->env);
-	// else if (!ft_strcmp(cmd[0], "env"))
-	// 	result = env(cmd);
+	else if (!ft_strcmp(cmd[0], "env"))
+		result = env(cmd, data->env);
 	else
 	{
 		close_data_std(data);
