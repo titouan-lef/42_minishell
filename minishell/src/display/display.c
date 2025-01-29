@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 22:46:08 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:08:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,19 @@ static char	*rebase_pwd(char *pwd, char **env)
 
 static char	*color_pwd(char *pwd)
 {
-	static unsigned	char	color = 0; //static autorized ?
+	static unsigned char	color = 0;
 	char					*new_pwd;
 	char					*tmp;
 
 	tmp = ft_itoa(color);
-	new_pwd = ft_strjoin("\e[38;5;", tmp);
+	new_pwd = ft_strjoin("\1\e[38;5;", tmp);
 	free(tmp);
-	tmp = ft_strjoin(new_pwd, "m");
+	tmp = ft_strjoin(new_pwd, "m\2");
 	free (new_pwd);
 	new_pwd = ft_strjoin(tmp, pwd);
 	free(tmp);
 	free(pwd);
-	tmp = ft_strjoin(new_pwd, "\e[0m");
+	tmp = ft_strjoin(new_pwd, "\1\e[0m\2");
 	free(new_pwd);
 	color += 3;
 	return (tmp);
