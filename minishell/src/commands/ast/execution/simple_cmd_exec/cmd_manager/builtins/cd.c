@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 21:47:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:07:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static int set_pwd(char **env)
 
 static int	goto_dir(char *dir, char **env)
 {
-	int		result;
-	char	*pwd;
+	int			result;
+	char		*pwd;
 
 	pwd = get_cwd(env);
 	if (!pwd)
@@ -75,7 +75,10 @@ static int	goto_dir(char *dir, char **env)
 	if (result)
 	{
 		free(pwd);
-		ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_FILE);
+		if (access(dir, R_OK | X_OK))
+			ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_PERM);
+		else
+			ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_PERM);
 		return (1);
 	}
 	set_oldpwd(env, pwd);

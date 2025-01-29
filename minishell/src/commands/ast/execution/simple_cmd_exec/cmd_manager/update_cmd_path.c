@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 21:30:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:39:23 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	update_cmd_path(char **path, char *cmd_name, char **env)
 			return (result);
 		}
 	}
-	ft_printf_fd(2, "%s: %s\n", cmd_name, ERR_NO_CMD);
+	ft_printf_fd(2, "%s: %s: %s\n", NAME, cmd_name, ERR_NO_CMD);
 	ft_clean_matrix((void **)paths_tab);
 	return (127);
 }

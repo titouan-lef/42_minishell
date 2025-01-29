@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 16:32:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:45:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,16 @@ static char	*rebase_pwd(char *pwd, char **env)
 		{
 			result = ft_strjoin("~", pwd + ft_strlen(env[i] + 5));
 			free(pwd);
+			return (result);
 		}
-		return (result);
+		return (pwd);
 	}
 	return (pwd);
 }
 
 static char	*color_pwd(char *pwd)
 {
-	static unsigned char	color = 0;
+	static unsigned char	color = 28;
 	char					*new_pwd;
 	char					*tmp;
 
@@ -83,7 +84,7 @@ static char	*color_pwd(char *pwd)
 	free(pwd);
 	tmp = ft_strjoin(new_pwd, "\1\e[0m\2");
 	free(new_pwd);
-	color += 3;
+	color++;
 	return (tmp);
 }
 

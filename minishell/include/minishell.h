@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 18:31:19 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:56:54 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define ERR_DUP2 "dup2 failed"
 # define ERR_CLOSE "close failed"
 # define ERR_NO_FILE "No such file or directory"
+# define ERR_NO_PERM "Permission denied"
 # define ERR_NO_CMD "Command not found"
 # define ERR_SYNTAX_START ": syntax error near unexpected token `"
 # define ERR_SYNTAX_END "'"
