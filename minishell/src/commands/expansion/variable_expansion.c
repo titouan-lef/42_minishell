@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 16:17:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:39:21 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,32 @@ static int	do_not_replace(char *updated_word, char *word,
 
 /*
 * Goal: Make a new word with all the environement variables
-*		in the given word from there value in env_local.
+*		in the given word from there value in env.
 *
 * Return: The updated word.
 *
-* Warning: word and env_local must not be null.
+* Warning: word and env must not be null.
 */
-char	*replace_word_env(char *word, char **env_local, int here_doc, int redir)
+char	*replace_word_env(char *word, char **env, int here_doc, int redir)
 {
 	int		letter;
 	char	*updated_word;
 	int		in_double_quotes;
 
 	letter = 0;
-	updated_word = ft_calloc(new_word_lenght(word, env_local) + 1,
-			sizeof(char));
-	if (!updated_word)
-		return (NULL);
 	in_double_quotes = 0;
-	while (*word)
+	updated_word = ft_calloc(new_word_lenght(word, env) + 1, sizeof(char));
+	while (updated_word && *word)
 	{
 		if (do_not_replace(updated_word, word, letter, !here_doc && redir))
 			break ;
 		if (*word == '"')
 			in_double_quotes = !in_double_quotes;
-		if (*word == '$')
-			update_env_var(&word, updated_word, &letter, env_local);
+		if (*word == '$' && (*(word + 1) == '\'' || *(word + 1) == '\"')
+			&& !in_double_quotes)
+			word++;
+		else if (*word == '$')
+			update_env_var(&word, updated_word, &letter, env);
 		else if (!here_doc && *word == '\'' && !in_double_quotes)
 			letter = update_quote(&word, updated_word, letter);
 		else
