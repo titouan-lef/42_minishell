@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 21:06:45 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:32:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,15 @@ static void	execve_manager(char **cmd, char **redir, t_data *data)
 
 	result = redir_manager(redir, data->lst);
 	if (result || !cmd)
-	{
-		clear_data(data);
-		ft_clean_matrix((void **)data->env);
-		exit(result);
-	}
+		exit_exec(data, result);
 	path = NULL;
 	result = update_cmd_path(&path, cmd[0], data->env);
 	if (result)
-	{
-		clear_data(data);
-		ft_clean_matrix((void **)data->env);
-		exit(result);
-	}
+		exit_exec(data, result);
 	execve(path, cmd, data->env);
 	ft_printf_fd(2, "%s: %s\n", cmd[0], ERR_NO_CMD);
 	free(path);
-	clear_data(data);
-	ft_clean_matrix((void **)data->env);
-	exit (127);
+	exit_exec(data, 127);
 }
 
 /*

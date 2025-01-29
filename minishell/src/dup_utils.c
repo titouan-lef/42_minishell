@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:14:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 20:45:25 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:25:29 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	dup2_data_std(t_data *data)
 	return (is_error);
 }
 
-void	close_data_std(t_data *data)//manage error close ?
+void	close_data_std(t_data *data)
 {
 	if (data->std[0] != -1)
 		close(data->std[0]);

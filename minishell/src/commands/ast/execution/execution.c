@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 16:12:07 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:26:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "display.h"
 
 void	clear_data(t_data *data)
 {
@@ -22,7 +23,7 @@ void	exit_exec(t_data *data, int code)
 {
 	ft_clean_matrix((void **)data->env);
 	clear_data(data);
-	//close_data_std(data);
+	rl_clear_history();
 	exit(code);
 }
 
