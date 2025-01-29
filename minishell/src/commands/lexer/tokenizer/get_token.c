@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 19:59:06 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:51:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 
 	start = *index;
 	while (input[*index]
-		&& !ft_is_in_charset("&|()<> \t\n\v\r\f", input[*index]))
+		&& (!ft_is_in_charset("&|()<> \t\n\v\r\f", input[*index])
+		|| (input[*index] == '&' && input[*index + 1] != '&')))
 	{
 		if (input[*index] == '\'' || input[*index] == '\"')
 		{
@@ -76,8 +77,11 @@ static t_token_name	get_operator(const char *input, int *index, char *buffer)
 		return (TOKEN_PAR_CLOSE);
 	}
 	if (cmp_and_inc(input, index, '&', buffer))
+	{
 		if (cmp_and_inc(input, index, '&', buffer))
 			return (TOKEN_LOGIC_OPE);
+		(*index)--;
+	}
 	return (TOKEN_NULL);
 }
 
