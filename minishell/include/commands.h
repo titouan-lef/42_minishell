@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 15:49:50 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:39:43 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ int				strcmp_lexicographicly(const void *p1, const void *p2);
 /*---cmd_manager.c---*/
 int				cmd_manager(t_token token, t_data *data, int is_piped);
 int				update_cmd_path(char **path, char *cmd_name, char **env);
+
+/*---builtin.c---*/
+int				builtin_manager(char **cmd, char **redir, t_data *data,
+					int is_piped);
 
 /*---dup_utils.c---*/
 int				dup_data_std(t_data *data);

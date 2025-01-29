@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 18:07:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:28:44 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static int set_oldpwd(char **env, char *pwd)
+static int	set_oldpwd(char **env, char *pwd)
 {
 	int		i;
 	char	*oldpwd;
@@ -35,7 +35,7 @@ static int set_oldpwd(char **env, char *pwd)
 	return (0);
 }
 
-static int set_pwd(char **env)
+static int	set_pwd(char **env)
 {
 	int		i;
 	char	*new_pwd;
@@ -87,7 +87,7 @@ static int	goto_dir(char *dir, char **env)
 	return (0);
 }
 
-static int goto_home(char **env)
+static int	goto_home(char **env)
 {
 	int		i;
 	int		result;

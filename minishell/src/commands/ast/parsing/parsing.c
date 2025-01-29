@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 15:32:07 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:25:52 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,8 @@ t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 
 int	get_tree_data(t_queue *queue, t_data *data)
 {
-	//int		result;
-
 	data->tree = NULL;
 	data->lst = NULL;
-	/*result = dup_data_std(data);
-	if (result)
-	{
-		queue_clear(queue);
-		return (result);
-	}*/
 	while (!queue_is_empty(queue))
 	{
 		data->tree = next_state(data->tree, queue, &data->lst);
