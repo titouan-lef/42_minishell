@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/29 16:26:53 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:30:53 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	make_execution(t_queue *queue, t_data *data)
 			return (result2);
 		return (result);
 	}
-	if (modify_sigaction(&data->act, cmd_display_handler))//here ?
+	if (modify_sigaction(&data->act, cmd_display_handler)) //here ?
 	{
 		clear_data(data);
 		return (1);

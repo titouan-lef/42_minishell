@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/28 21:05:36 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/29 19:12:21 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,12 @@ SRC				=	minishell.c																\
 					commands/token.c														\
 					commands/ast/execution/execution.c										\
 					commands/ast/execution/logic_ope_exec.c									\
-					commands/ast/execution/pipe_exec.c										\
+					commands/ast/execution/pipe_exec/pipe_exec.c							\
+					commands/ast/execution/pipe_exec/fork_pipe.c							\
 					commands/ast/execution/simple_cmd_exec/simple_cmd_exec.c				\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/cmd_manager.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/update_cmd_path.c	\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/builtin.c	\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/cd.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/echo.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/env.c		\

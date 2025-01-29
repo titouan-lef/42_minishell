@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 17:07:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:22:30 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,51 +31,6 @@ static int	is_builtin_cmd(char *cmd_name)
 		|| ft_strcmp(cmd_name, "exit") == 0)
 		return (1);
 	return (0);
-}
-
-/*
-* Goal: Launch the corresponding builtins command.
-*
-* Return: O if no error, or the error code corresponding.
-*
-* Warning: cmd and data must not be null.
-*/
-static int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
-{
-	int	result;
-	int	result2;
-
-	if (!is_piped)
-	{
-		result = dup_data_std(data);
-		if (result)
-			return (result);
-	}
-	redir_manager(redir, data->lst);
-	if (!ft_strcmp(cmd[0], "echo"))
-		result = echo(cmd);
-	else if (!ft_strcmp(cmd[0], "cd"))
-		result = cd(cmd, data->env);
-	else if (!ft_strcmp(cmd[0], "pwd"))
-		result = pwd(data->env);
-	// else if (!ft_strcmp(cmd[0], "export"))
-	// 	result = export(cmd);
-	else if (!ft_strcmp(cmd[0], "unset"))
-		result = unset(cmd, &data->env);
-	else if (!ft_strcmp(cmd[0], "env"))
-		result = env(cmd, data->env);
-	else
-	{
-		close_data_std(data);
-		my_exit(cmd, data, is_piped);
-	}
-	data->last_exit = result;
-	if (!is_piped)
-		result2 = dup2_data_std(data);
-	close_data_std(data);
-	if (!is_piped && result2)
-		return (result2);
-	return (result);
 }
 
 /*
@@ -122,7 +77,7 @@ static int	fork_cmd(char **cmd, char **redir, t_data *data)
 	if (pid == 0)
 	{
 		if (default_sigaction(&data->act))
-			exit(1);// exit ? free // debrouille toi
+			exit_exec(data, 1);
 		execve_manager(cmd, redir, data);
 	}
 	waitpid(pid, &exit_satus, 0);
@@ -147,7 +102,7 @@ int	cmd_manager(t_token token, t_data *data, int is_piped)
 	redir = token.redir;
 	result = 0;
 	if (cmd && is_builtin_cmd(cmd[0]))
-		result = builtin_manager(cmd, redir, data, is_piped); // compress 2 functions in 1 ?
+		result = builtin_manager(cmd, redir, data, is_piped);
 	else if (!is_piped)
 		result = fork_cmd(cmd, redir, data);
 	else

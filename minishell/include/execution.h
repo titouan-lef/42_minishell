@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:33:41 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 16:12:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:35:40 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,12 @@ void	exit_exec(t_data *data, int code);
 int		tree_exec(t_data *data, t_tree *tree, int is_piped);
 int		make_execution(t_queue *queue, t_data *data);
 
-/*---*_execution.c---*/
+/*---*_exec.c---*/
 int		cmd_exec(t_data *data, t_token *token, int is_piped);
 int		pipe_exec(t_data *data, t_tree *tree);
 int		ope_exec(t_data *data, t_tree *tree, t_token token, int is_piped);
+
+/*fork_pipe.c*/
+int		fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack, int is_last);
 
 #endif

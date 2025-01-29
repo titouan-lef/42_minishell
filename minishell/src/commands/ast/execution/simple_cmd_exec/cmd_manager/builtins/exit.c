@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/27 18:34:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:26:22 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "execution.h"
 #include "display.h"
 
-static void clean(t_data *data)
+static void	clean(t_data *data)
 {
 	clear_data(data);
 	ft_clean_matrix((void **)data->env);
@@ -23,7 +23,7 @@ static void clean(t_data *data)
 
 void	my_exit(char **cmd, t_data *data, int is_piped)
 {
-	char exit_status;
+	char	exit_status;
 
 	if (!is_piped)
 		ft_printf_fd(2, "exit\n");
