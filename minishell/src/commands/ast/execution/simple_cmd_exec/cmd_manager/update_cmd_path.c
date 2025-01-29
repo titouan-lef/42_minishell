@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 17:39:23 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:25:55 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /*
 * Goal: Find all the possible paths where to execute the dommand.
 *
-* Return: a tab with all the paths, NULL if error.
+* Return: A tab with all the paths, NULL if PATH is not set
+*			NULL in case of malloc error, it may print 2 error msg in the end.
 *
 * Warning: env must not be null.
 */
@@ -34,13 +35,10 @@ static char	**find_paths_in_env(char **env)
 		i++;
 	}
 	if (!path)
-	{
-		ft_printf_fd(2, "%s: no PATH in the current environement/n", NAME);
-		return (NULL); // need to try the command in the current directory
-	}
+		return (NULL);
 	paths_tab = ft_split(path, ':');
 	if (!paths_tab)
-		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 	return (paths_tab);
 }
 
@@ -59,14 +57,14 @@ static int	add_path_and_access(char *dir, char *cmd, char **path)
 	temp = ft_strjoin(dir, "/");
 	if (!temp)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
 	}
 	*path = ft_strjoin(temp, cmd);
 	free(temp);
 	if (!*path)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
 	}
 	if (access(*path, F_OK | X_OK) != 0)
@@ -91,10 +89,10 @@ static int	access_path_cmd(char *cmd_name, char **path)
 		*path = ft_strdup(cmd_name);
 		if (*path)
 			return (0);
-		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
 	}
-	ft_printf_fd(2, "%s: %s: %s", NAME, cmd_name, ERR_NO_FILE);
+	ft_printf_fd(2, "%s: %s: %s\n", NAME, cmd_name, ERR_NO_FILE);
 	return (127);
 }
 
@@ -111,14 +109,12 @@ int	update_cmd_path(char **path, char *cmd_name, char **env)
 	int		i;
 	int		result;
 
-	if (ft_strchr(cmd_name, '/'))
+	paths_tab = find_paths_in_env(env);
+	if (ft_strchr(cmd_name, '/') || !paths_tab)
 	{
 		result = access_path_cmd(cmd_name, path);
 		return (result);
 	}
-	paths_tab = find_paths_in_env(env);
-	if (!paths_tab)
-		return (1);
 	i = 0;
 	while (paths_tab[i])
 	{
