@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 20:07:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/29 13:49:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,19 @@ void	test_tokenizer(void)
 	set_normal_outputs(&outs);
 	assert_equal_queue_value(result, &test_number, NULL);
 	assert_equal_err("minishell: syntax error: unclosed quote `''\n", &test_number);
+
+	/*--- test 31 ---*/
+	assert_equal_queue_value(tokenizer("echo >>&&"), &test_number, TOKEN_WORD, "echo", TOKEN_REDIR, ">>", TOKEN_LOGIC_OPE, "&&", NULL);
+
+	/*--- test 32 ---*/
+	assert_equal_queue_value(tokenizer("echo oui&"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui&", NULL);
+
+	/*--- test 33 ---*/
+	assert_equal_queue_value(tokenizer("echo &oui"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "&oui", NULL);
+
+	/*--- test 34 ---*/
+	assert_equal_queue_value(tokenizer("echo oui &"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "oui", TOKEN_WORD, "&", NULL);
+
+	/*--- test 35 ---*/
+	assert_equal_queue_value(tokenizer("echo & oui"), &test_number, TOKEN_WORD, "echo", TOKEN_WORD, "&", TOKEN_WORD, "oui", NULL);
 }
