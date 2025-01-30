@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/29 19:30:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:19:42 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ int	make_execution(t_queue *queue, t_data *data)
 		if (result == 0)
 			return (result2);
 		return (result);
-	}
-	if (modify_sigaction(&data->act, cmd_display_handler)) //here ?
-	{
-		clear_data(data);
-		return (1);
 	}
 	result = tree_exec(data, data->tree, 0);
 	clear_data(data);

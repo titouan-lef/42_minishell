@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 19:08:06 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:07:44 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_list	*new_here_doc(char *limiter)
 * Return: -1 if succed, -2 if malloc error or the index of
 *			the element in redir that have a syntax error.
 *
-* Warning: token.redir and here_docs must not me null.
+* Warning: redirs and here_docs must not me null.
 */
 int	detect_here_docs(char **redirs, t_list **here_docs)
 {
@@ -85,7 +85,7 @@ int	detect_here_docs(char **redirs, t_list **here_docs)
 }
 
 /*
-* Goal: Create a file witha random name.
+* Goal: Create a file with a random name.
 *
 * Return: 0 if succed, 1 if not.
 */

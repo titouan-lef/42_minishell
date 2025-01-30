@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/27 18:19:08 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:52:25 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,33 @@ void	interactive_mode_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_sig_receive = 128 + SIGINT;
 		ft_putstr("\n");//canal error ?
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		return ;
 	}
-	rl_on_new_line();
-	rl_redisplay();
-	ft_putstr("  \b\b");
+	else if (sig == SIGQUIT)
+	{
+		g_sig_receive = 128 + SIGQUIT;
+		rl_on_new_line();
+		rl_redisplay();
+		ft_putstr("  \b\b");
+	}
 }
 
 void	cmd_display_handler(int sig)
 {
 	if (sig == SIGINT)
+	{
+		g_sig_receive = 128 + SIGINT;
 		ft_putstr("\n");
+	}
 	else if (sig == SIGQUIT)
+	{
+		g_sig_receive = 128 + SIGQUIT;
 		ft_putstr("Quit\n");
-	else
-		ft_putstr("\b\b");//work only ctrl D ?
+	}
 }
 
 void	here_doc_handler(int sig)
