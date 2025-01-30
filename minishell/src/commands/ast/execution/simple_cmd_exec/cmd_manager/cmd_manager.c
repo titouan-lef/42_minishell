@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 19:22:30 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:06:28 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	execve_manager(char **cmd, char **redir, t_data *data)
 	char	*path;
 	int		result;
 
+	if (default_sigaction(&data->act))
+		exit_exec(data, 1);
 	result = redir_manager(redir, data->lst);
 	if (result || !cmd)
 		exit_exec(data, result);
@@ -75,13 +77,13 @@ static int	fork_cmd(char **cmd, char **redir, t_data *data)
 		return (1);
 	}
 	if (pid == 0)
-	{
-		if (default_sigaction(&data->act))
-			exit_exec(data, 1);
 		execve_manager(cmd, redir, data);
-	}
+	if (modify_sigaction(&data->act, cmd_display_handler))
+		return (1);
 	waitpid(pid, &exit_satus, 0);
-	data->last_exit = WEXITSTATUS(exit_satus);
+	if (modify_sigaction(&data->act, interactive_mode_handler))
+		return (1);
+	data->last_exit = WEXITSTATUS(exit_satus);// autorise ?
 	return (0);
 }
 
@@ -102,7 +104,7 @@ int	cmd_manager(t_token token, t_data *data, int is_piped)
 	redir = token.redir;
 	result = 0;
 	if (cmd && is_builtin_cmd(cmd[0]))
-		result = builtin_manager(cmd, redir, data, is_piped);
+		result = builtin_manager(cmd, redir, data, is_piped);//manage signal
 	else if (!is_piped)
 		result = fork_cmd(cmd, redir, data);
 	else

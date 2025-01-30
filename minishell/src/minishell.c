@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 16:32:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:59:59 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ int	main(int argc, char **argv, char **envp)
 		if (!line_read)
 			break ;
 		process_cmd(line_read, &data);
-		if (modify_sigaction(&data.act, interactive_mode_handler))
-			exit_minishell(1, &data);
 		free(line_read);
 	}
 	exit_minishell(0, &data);

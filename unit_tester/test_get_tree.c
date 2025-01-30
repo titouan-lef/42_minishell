@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 18:03:01 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:33:33 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -795,6 +795,21 @@ static void test_get_tree45(t_data *data)
 	write_result(&queue, data);
 }
 
+// (echo1 oui && echo2 non) echo3 test
+static void test_get_tree46(t_data *data)
+{
+	t_queue	queue = queue_create();
+
+	queue_push(&queue, token_create(TOKEN_PAR_OPEN, create_token_value("("), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo1", "oui"), NULL));
+	queue_push(&queue, token_create(TOKEN_LOGIC_OPE, create_token_value("&&"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo2", "non"), NULL));
+	queue_push(&queue, token_create(TOKEN_PAR_CLOSE, create_token_value(")"), NULL));
+	queue_push(&queue, token_create(TOKEN_CMD, create_token_value2("echo3", "test"), NULL));
+
+	write_result(&queue, data);
+}
+
 static char	*add_element_test(char *str, char *add)
 {
 	char	*new;
@@ -1177,6 +1192,10 @@ void	test_get_tree(char **envp)
 	/*--- test 45 ---*/
 	test_get_tree45(&data);
 	assert_equal_err("minishell: syntax error near unexpected token `newline'\n", &test_number);
+
+	/*--- test 46 ---*/
+	test_get_tree46(&data);
+	assert_equal_err("minishell: syntax error near unexpected token `echo3'\n", &test_number);
 
 	ft_clean_matrix((void **)data.env);
 }
