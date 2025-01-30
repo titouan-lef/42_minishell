@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:59:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/24 15:07:54 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:32:40 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static t_tree	*build_sub_tree_right(t_tree *tree, t_queue *queue,
 */
 t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 {
+	t_token_name	type;
+
 	if (!tree_is_empty(sub_tree) || queue_is_empty(queue))
 	{
 		print_error_token(queue);
@@ -85,7 +87,14 @@ t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 	sub_tree = build_sub_tree(queue, here_docs);
 	if (!sub_tree || queue_is_empty(queue))
 		return (sub_tree);
-	if (queue_first_name(queue) == TOKEN_PIPE)
+	type = queue_first_name(queue);
+	if (type == TOKEN_CMD)
+	{
+		print_error_token(queue);
+		tree_clear(&sub_tree);
+		return (NULL);
+	}
+	if (type == TOKEN_PIPE)
 		sub_tree = state_junction_ope(sub_tree, queue, here_docs);
 	return (sub_tree);
 }
