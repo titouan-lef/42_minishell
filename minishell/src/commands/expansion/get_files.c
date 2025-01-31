@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/17 20:44:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:56:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ t_list	*find_matches(char *patern)
 	file = readdir(dir);
 	while (file != NULL)
 	{
-		if (file->d_name[0] != '.' && match(patern, file->d_name))
+		if ((file->d_name[0] != '.' || patern[0] == '.')
+			&& match(patern, file->d_name))
 		{
 			if (create_and_addback(&matches, file->d_name))
 			{
