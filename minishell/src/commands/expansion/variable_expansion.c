@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 10:58:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:46:21 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	update_quote(char **word, char *updated_word, int letter)
 static int	do_not_replace(char *updated_word, char *word,
 	int letter, int condition)
 {
-	if (condition && ft_strncmp(word, "<<", 2) == 0) //strchr
+	if (condition && ft_strncmp(word, "<<", 2) == 0)
 	{
 		ft_strlcpy(updated_word + letter, word, ft_strlen(word) + 1);
 		return (1);

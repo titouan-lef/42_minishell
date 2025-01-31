@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 19:28:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:53:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	set_oldpwd(char **env, char *pwd)
 	while (env[i])
 		if (ft_strncmp("OLDPWD=", env[i++], 7) == 0)
 			break ;
-	if (env[i] == NULL)
+	if (env[i] == NULL) //new env with new OLDPWD
 		return (0);
 	i--;
 	oldpwd = ft_strjoin("OLDPWD=", pwd);
@@ -124,12 +124,12 @@ static int	goback(char **env)
 	while (env[i])
 		if (ft_strncmp("OLDPWD=", env[i++], 7) == 0)
 			break ;
-	i--;
 	if (env[i] == NULL)
 	{
 		ft_printf_fd(2, "%s: cd: OLDPWD not set\n", NAME);
 		return (1);
 	}
+	i--;
 	oldpwd = ft_strdup(env[i] + 7);
 	if (!oldpwd)
 	{
