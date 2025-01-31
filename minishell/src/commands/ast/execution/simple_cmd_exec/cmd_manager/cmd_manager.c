@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 12:06:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:45:15 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	fork_cmd(char **cmd, char **redir, t_data *data)
 	if (modify_sigaction(&data->act, interactive_mode_handler))
 		return (1);
 	data->last_exit = WEXITSTATUS(exit_satus);// autorise ?
-	return (0);
+	return (data->last_exit);
 }
 
 /*
