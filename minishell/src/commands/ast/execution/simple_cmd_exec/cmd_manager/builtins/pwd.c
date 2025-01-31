@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 19:26:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:31:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ static char	*get_pwd_from_env(char **env)
 		if (ft_strncmp("PWD=", env[i++], 4) == 0)
 			break ;
 	if (env[i] == NULL)
-	{
-		ft_printf_fd(2, "%s: %s\n", NAME, "Cannot find current directory");
 		return (NULL);
-	}
 	i--;
 	pwd = ft_strdup(env[i] + 4);
 	if (!pwd)
