@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 14:46:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:23:41 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	process_line(int file, char *limiter,
 	line = get_next_line(0);
 	if (!line)
 	{
-		ft_printf_fd(2, "%s: %s (wanted '%s')",
+		ft_printf_fd(2, "%s: %s (wanted '%s')\n",
 			NAME, ERR_HERDOC_END, unquoted_limiter);
 		free(unquoted_limiter);
 		return (1);
