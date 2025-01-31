@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathname_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 16:18:07 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 09:37:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 *
 * Warning: updated_value and updated_word must not be null.
 */
-static int	update_value(char ***updated_value, char *updated_word)
+static int	update_value(char ***updated_value, char *updated_word, char *patern, int is_redir)
 {
 	t_queue	tmp;
 	t_token	splited;
@@ -27,59 +27,76 @@ static int	update_value(char ***updated_value, char *updated_word)
 	tmp = tokenizer(updated_word);
 	free(updated_word);
 	splited = split_command(tmp);
-	if (splited.value)
+	if (is_redir && splited.value && splited.value[0] && splited.value[1])
+	{
+		token_clear(splited);
+		ft_printf_fd(2, "%s: %s: ambiguous redirect\n", NAME, patern);
+		*updated_value = append_to_tab(*updated_value, "");
+	}
+	else if (splited.value)
 	{
 		ft_insertion_qsort(splited.value, size_tab(splited.value),
 			sizeof(char *), strcmp_lexicographicly);
 		*updated_value = tab_join_and_free(*updated_value, splited.value);
-		if (!*updated_value)
-		{
-			ft_putendl_error("malloc error");
-			return (0);
-		}
+	}
+	if (!*updated_value)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		return (0);
 	}
 	return (1);
 }
 
 /*
-* Goal: Add to the updated_vlaue the given str.
+* Goal: Add to the updated_vlaue the given patern.
 *
 * Return: 1 if errror, 0 if not.
 *
-* Warning: updated_value and str must not be null.
+* Warning: updated_value and patern must not be null.
 */
-static int	do_not_replace_word(char ***updated_value, const char *str)
+static int	do_not_replace_word(char ***updated_value, const char *patern)
 {
-	*updated_value = append_to_tab(*updated_value, str);
+	*updated_value = append_to_tab(*updated_value, patern);
 	if (!updated_value)
 	{
-		ft_putendl_error("malloc error");
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
 	}
 	return (0);
 }
 
 /*
-* Goal: Add to the updated_vlaue all the find filenames or str if no match.
+* Goal: Add to the updated_value all the find filenames or patern if no match.
 *
 * Return: 1 if errror, 0 if not.
 *
-* Warning: updated_value and str must not be null.
+* Warning: updated_value and patern must not be null.
 */
-static int	process_wildcard(char ***updated_value, char *str)
+static int	process_wildcard(char ***updated_value, char *patern, int is_redir)
 {
 	char	*updated_word;
-
-	updated_word = replace_word_wildcard(str);
-	if (updated_word)
+	char	*name;
+	int		result;
+	
+	name = patern;
+	if (is_redir)
 	{
-		if (!update_value(updated_value, updated_word))
-			return (1);
+		while (*name != '>' && *name != '<')
+			name++;
+		if (ft_strncmp(name, "<<", 2) == 0)
+		{
+			result = do_not_replace_word(updated_value, patern);
+			return (result);
+		}
+		while (*name == '>' || *name == '<')
+			name++;
 	}
+	updated_word = replace_word_wildcard(name);
+	if (updated_word)
+		result = !update_value(updated_value, updated_word, name, is_redir);
 	else
-		if (do_not_replace_word(updated_value, str))
-			return (1);
-	return (0);
+		result = do_not_replace_word(updated_value, patern);
+	return (result);
 }
 
 /*
@@ -90,7 +107,7 @@ static int	process_wildcard(char ***updated_value, char *str)
 *
 * Warning: token must not be null.
 */
-int	expand_wildcard(char ***value) //check speed file creation
+int	expand_wildcard(char ***value, int is_redir) //check speed file creation
 {
 	int		num_word;
 	char	**updated_value;
@@ -101,7 +118,7 @@ int	expand_wildcard(char ***value) //check speed file creation
 	{
 		if (ft_strchr((*value)[num_word], '*'))
 		{
-			if (process_wildcard(&updated_value, (*value)[num_word]))
+			if (process_wildcard(&updated_value, (*value)[num_word], is_redir))
 				return (1);
 		}
 		else if (do_not_replace_word(&updated_value, (*value)[num_word]))

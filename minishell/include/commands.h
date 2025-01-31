@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/29 19:39:43 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:02:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int				new_word_lenght(char *word, char **env_local);
 int				expand_env_var(char ***value, char **env, int is_redir);
 t_list			*find_matches(char *patern);
 char			*replace_word_wildcard(char *patern);
-int				expand_wildcard(char ***value);
+int				expand_wildcard(char ***value, int is_redir);
 char			*replace_word_quotes(char *word);
 int				remove_quotes(char ***value);
 

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 20:15:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 09:51:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ static char **add_env_var(char **envp,const char *value)
 void	test_var_expand(char **envp)
 {
 	size_t	test_number;
-	t_token token;
+	t_token	token;
+	t_out	out;
 
 	start_test("environement variable expansion");
 	test_number = 1;
@@ -223,39 +224,45 @@ void	test_var_expand(char **envp)
 	assert_equal_token_redir(token, &test_number, TOKEN_CMD, "<oui", NULL);
 	token_clear(token);
 	
-	/*--- test 13 ---*/
+	/*--- test 13 && 14 ---*/
 	token = token_create(TOKEN_CMD, NULL, built_tab("<$test", NULL));
+	redirect_outputs(&out);
 	expand_env_var(&token.redir, env, 1);
-	assert_equal_token_redir(token, &test_number, TOKEN_CMD, "<oui", "non", NULL);
+	set_normal_outputs(&out);
+	assert_equal_token_redir(token, &test_number, TOKEN_CMD, "", NULL);
+	assert_equal_err("minishell: <$test: ambiguous redirect\n", &test_number);
 	token_clear(token);
 
-	/*--- test 14 ---*/
+	/*--- test 15 ---*/
 	token = token_create(TOKEN_CMD, NULL, built_tab("<<\'$test\'", NULL));
 	expand_env_var(&token.redir, env, 1);
 	assert_equal_token_redir(token, &test_number, TOKEN_CMD, "<<\'$test\'", NULL);
 	token_clear(token);
 
-	/*--- test 15 ---*/
+	/*--- test 16 ---*/
 	token = token_create(TOKEN_CMD, NULL, built_tab("<<$test", NULL));
 	expand_env_var(&token.redir, env, 1);
 	assert_equal_token_redir(token, &test_number, TOKEN_CMD, "<<$test", NULL);
 	token_clear(token);
 
-	/*--- test 16 ---*/
+	/*--- test 17 && 18 ---*/
 	token = token_create(TOKEN_CMD, NULL, built_tab("<$test\"\'\"", NULL));
+	redirect_outputs(&out);
 	expand_env_var(&token.redir, env, 1);
-	assert_equal_token_redir(token, &test_number, TOKEN_CMD, "<oui", "non\"\'\"", NULL);
+	set_normal_outputs(&out);
+	assert_equal_token_redir(token, &test_number, TOKEN_CMD, "", NULL);
+	assert_equal_err("minishell: <$test\"\'\": ambiguous redirect\n", &test_number);
 	token_clear(token);
 
-	/*--- test 17 ---*/
+	/*--- test 19 ---*/
 	token = token_create(TOKEN_CMD, built_tab("$\"\"", NULL), NULL);
-	expand_env_var(&token.value, env, 1);
+	expand_env_var(&token.value, env, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "\"\"", NULL);
 	token_clear(token);
 
-	/*--- test 18 ---*/
+	/*--- test 20 ---*/
 	token = token_create(TOKEN_CMD, built_tab("$\"fe    ok\"", NULL), NULL);
-	expand_env_var(&token.value, env, 1);
+	expand_env_var(&token.value, env, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "\"fe    ok\"", NULL);
 	token_clear(token);
 

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 19:03:19 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:09:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,25 +105,25 @@ void	test_pathname_expand(void)
 
 	/*--- test 1 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "*", NULL);
 	token_clear(token);
 
 	/*--- test 2 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*.c", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "*.c", NULL);
 	token_clear(token);
 
 	/*--- test 3 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "blabla*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "blabla*", NULL);
 	token_clear(token);
 
 	/*--- test 4 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "**test**", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "**test**", NULL);
 	token_clear(token);
 
@@ -132,7 +132,7 @@ void	test_pathname_expand(void)
 
 	/*--- test 5 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "test*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test2.c", "test.c", NULL);
 	token_clear(token);
 
@@ -140,7 +140,7 @@ void	test_pathname_expand(void)
 
 	/*--- test 6 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "test*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test2.c", "test.c", "test.h", NULL);
 	token_clear(token);
 
@@ -149,19 +149,19 @@ void	test_pathname_expand(void)
 
 	/*--- test 7 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*s*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "test2.c", "test.c", "test.h", NULL);
 	token_clear(token);
 
 	/*--- test 8 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*i", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "oui", NULL);
 	token_clear(token);
 
 	/*--- test 9 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "i*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "i*", NULL);
 	token_clear(token);
 
@@ -170,7 +170,7 @@ void	test_pathname_expand(void)
 
 	/*--- test 10 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "bonjour", "Makefile", "maman", "oui" , "test2.c", "test.c", "test.h", NULL);
 	token_clear(token);
 
@@ -187,7 +187,7 @@ void	test_pathname_expand(void)
 
 	/*--- test 11 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "makefile", "Makefile", NULL);
 	token_clear(token);
 
@@ -196,7 +196,7 @@ void	test_pathname_expand(void)
 
 	/*--- test 12 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*", NULL), NULL);
-	expand_wildcard(&token.value);
+	expand_wildcard(&token.value, 0);
 	assert_equal_token(token, &test_number, TOKEN_CMD, "echo", "makefile", "makeFile", NULL);
 	token_clear(token);
 

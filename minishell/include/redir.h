@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:40:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 20:25:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:28:02 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef enum e_redir_name
 	HERE_DOC,
 	OUTPUT,
 	OUTPUT_APPEND,
+	ERROR,
 }			t_redir_name;
 
 /*---random.c---*/

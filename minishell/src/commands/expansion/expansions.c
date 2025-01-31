@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 16:17:30 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:02:35 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	expand(char ***value, t_data *data, int is_redir)
 	result = expand_exit_status(value, data->last_exit);
 	if (result)
 		return (result);
-	result = expand_wildcard(value);
+	result = expand_wildcard(value, is_redir);
 	if (result)
 		return (result);
 	result = remove_quotes(value);

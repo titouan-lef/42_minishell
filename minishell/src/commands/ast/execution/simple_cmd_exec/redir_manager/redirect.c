@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/24 14:38:45 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:19:33 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	check_perm(char *file_name)
 	{
 		if (access(file_name, R_OK) == -1)
 		{
-			ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
+			ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name); //is a directory // no such file or directory
 			return (1);
 		}
 	}
@@ -43,7 +43,7 @@ int	redirect_input(int fd, char *file_name)
 	fd_file = open(file_name, O_RDONLY);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_FILE);
+		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_FILE); //is a directory // no such file or directory
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
@@ -72,7 +72,7 @@ int	redirect_output(int fd, char *file_name)
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
+		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name); //is a directory // no such file or directory
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
@@ -101,7 +101,7 @@ int	redirect_output_append_mode(int fd, char *file_name)
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name);
+		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name); //is a directory // no such file or directory
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
