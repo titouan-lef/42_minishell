@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 19:29:39 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:59:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	env(char **cmd, char **env)
 
 	(void)cmd;
 	i = 0;
-	//ft_insertion_qsort(env, size_tab(env), sizeof(char *), strcmp_lexicographicly);
 	while (env[i])
 	{
 		printf("%s\n", env[i]);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 09:37:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:58:31 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 *
 * Warning: updated_value and updated_word must not be null.
 */
-static int	update_value(char ***updated_value, char *updated_word, char *patern, int is_redir)
+static int	update_value(char ***updated_value, char *updated_word,
+	char *patern, int is_redir)
 {
 	t_queue	tmp;
 	t_token	splited;
@@ -77,7 +78,7 @@ static int	process_wildcard(char ***updated_value, char *patern, int is_redir)
 	char	*updated_word;
 	char	*name;
 	int		result;
-	
+
 	name = patern;
 	if (is_redir)
 	{

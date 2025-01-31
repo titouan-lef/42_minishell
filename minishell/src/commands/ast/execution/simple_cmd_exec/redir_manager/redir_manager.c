@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:49:39 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 15:20:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:21:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,24 @@ int	redir_manager(char **redirs, t_list *here_docs)
 	int		i;
 	int		fd;
 	int		result;
-	char	*redir;
 
 	if (!redirs)
 		return (0);
 	i = 0;
-	redir = redirs[i];
 	result = 0;
-	while (redir && !result)
+	while (redirs[i] && !result)
 	{
-		fd = find_fd(&redir);
-		if (choose_redir(redir) == INPUT)
-			result = redirect_input(fd, redir + 1);
-		else if (choose_redir(redir) == HERE_DOC)
-			result = redirect_here_doc(fd, redir + 2, here_docs);
-		else if (choose_redir(redir) == OUTPUT)
-			result = redirect_output(fd, redir + 1);
-		else if (choose_redir(redir) == OUTPUT_APPEND)
-			result = redirect_output_append_mode(fd, redir + 2);
+		fd = find_fd(&redirs[i]);
+		if (choose_redir(redirs[i++]) == INPUT)
+			result = redirect_input(fd, redirs[i] + 1);
+		else if (choose_redir(redirs[i++]) == HERE_DOC)
+			result = redirect_here_doc(fd, redirs[i] + 2, here_docs);
+		else if (choose_redir(redirs[i++]) == OUTPUT)
+			result = redirect_output(fd, redirs[i] + 1);
+		else if (choose_redir(redirs[i++]) == OUTPUT_APPEND)
+			result = redirect_output_append_mode(fd, redirs[i] + 2);
 		else
 			return (1);
-		redir = redirs[++i];
 	}
 	return (result);
 }
