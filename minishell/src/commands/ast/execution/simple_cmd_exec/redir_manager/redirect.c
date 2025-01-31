@@ -6,24 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 16:19:33 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:14:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
-
-static int	check_perm(char *file_name)
-{
-	if (access(file_name, F_OK) == 0)
-	{
-		if (access(file_name, R_OK) == -1)
-		{
-			ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name); //is a directory // no such file or directory
-			return (1);
-		}
-	}
-	return (0);
-}
 
 /*
 * Goal: Redirect the fd input in a file (STDIN if fd=-1).
@@ -38,8 +25,11 @@ int	redirect_input(int fd, char *file_name)
 
 	if (fd == -1)
 		fd = STDIN_FILENO;
-	if (check_perm(file_name))
+	if (access(file_name, F_OK) == 0 && access(file_name, R_OK) == -1)
+	{
+		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_PERM);
 		return (1);
+	}
 	fd_file = open(file_name, O_RDONLY);
 	if (fd_file == -1)
 	{
@@ -65,14 +55,20 @@ int	redirect_input(int fd, char *file_name)
 */
 int	redirect_output(int fd, char *file_name)
 {
-	int	fd_file;
+	int			fd_file;
+	struct stat	infos;
 
 	if (fd == -1)
 		fd = STDOUT_FILENO;
+	if (stat(file_name, &infos) == 0 && S_ISDIR(infos.st_mode))
+	{
+		ft_printf_fd(2, "%s: %s: Is a directory\n", NAME, file_name);
+		return (1);
+	}
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name); //is a directory // no such file or directory
+		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_PERM);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
@@ -94,14 +90,20 @@ int	redirect_output(int fd, char *file_name)
 */
 int	redirect_output_append_mode(int fd, char *file_name)
 {
-	int	fd_file;
+	int			fd_file;
+	struct stat	infos;
 
 	if (fd == -1)
 		fd = STDOUT_FILENO;
+	if (stat(file_name, &infos) == 0 && S_ISDIR(infos.st_mode))
+	{
+		ft_printf_fd(2, "%s: %s: Is a directory\n", NAME, file_name);
+		return (1);
+	}
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: Permission denied\n", NAME, file_name); //is a directory // no such file or directory
+		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_PERM);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)

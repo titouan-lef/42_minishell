@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 19:53:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:18:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ static int	set_oldpwd(char **env, char *pwd)
 	int		i;
 	char	*oldpwd;
 
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 		if (ft_strncmp("OLDPWD=", env[i++], 7) == 0)
 			break ;
-	if (env[i] == NULL) //new env with new OLDPWD
+	if (env[i] == NULL) //bien comprendre ce aue bash fait avec ses variables d'environements la...
 		return (0);
-	i--;
 	oldpwd = ft_strjoin("OLDPWD=", pwd);
 	if (!oldpwd)
 	{
@@ -41,13 +40,12 @@ static int	set_pwd(char **env)
 	char	*new_pwd;
 	char	*pwd;
 
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 		if (ft_strncmp("PWD=", env[i++], 4) == 0)
 			break ;
 	if (env[i] == NULL)
 		return (0);
-	i--;
 	pwd = get_cwd(env);
 	if (!pwd)
 		return (1);
@@ -75,10 +73,10 @@ static int	goto_dir(char *dir, char **env)
 	if (result)
 	{
 		free(pwd);
-		if (access(dir, R_OK | X_OK))
+		if (access(dir, F_OK) == 0 && access(dir, R_OK | X_OK))
 			ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_PERM);
 		else
-			ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_PERM);
+			ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_FILE);
 		return (1);
 	}
 	set_oldpwd(env, pwd);
@@ -93,16 +91,15 @@ static int	goto_home(char **env)
 	int		result;
 	char	*home;
 
-	i = 0;
-	while (env[i])
-		if (ft_strncmp("HOME=", env[i++], 5) == 0)
+	i = -1;
+	while (env[++i])
+		if (ft_strncmp("HOME=", env[i], 5) == 0)
 			break ;
 	if (env[i] == NULL)
 	{
 		ft_printf_fd(2, "%s: cd: HOME not set\n", NAME);
 		return (1);
 	}
-	--i;
 	home = ft_strdup(env[i] + 5);
 	if (!home)
 	{
@@ -120,16 +117,15 @@ static int	goback(char **env)
 	int		i;
 	char	*oldpwd;
 
-	i = 0;
-	while (env[i])
-		if (ft_strncmp("OLDPWD=", env[i++], 7) == 0)
+	i = -1;
+	while (env[++i])
+		if (ft_strncmp("OLDPWD=", env[i], 7) == 0)
 			break ;
 	if (env[i] == NULL)
 	{
 		ft_printf_fd(2, "%s: cd: OLDPWD not set\n", NAME);
 		return (1);
 	}
-	i--;
 	oldpwd = ft_strdup(env[i] + 7);
 	if (!oldpwd)
 	{
