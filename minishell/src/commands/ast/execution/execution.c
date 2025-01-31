@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/30 12:19:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:45:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,17 @@ int	make_execution(t_queue *queue, t_data *data)
 	if (queue_is_empty(queue))
 		return (0);
 	result = get_tree_data(queue, data);
+	if (modify_sigaction(&data->act, here_doc_handler))
+	{
+		clear_data(data);
+		return (1);
+	}
 	result2 = read_here_docs(data->lst, data->env);
+	if (modify_sigaction(&data->act, interactive_mode_handler))
+	{
+		clear_data(data);
+		return (1);
+	}
 	if (result || result2)
 	{
 		clear_data(data);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 12:26:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:33:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ int		modify_sigaction(struct sigaction *act, void (*f)(int));
 void	interactive_mode_handler(int sig);
 void	cmd_display_handler(int sig);
 void	here_doc_handler(int sig);
+int		get_signal_receive(void);
 #endif

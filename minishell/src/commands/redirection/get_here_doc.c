@@ -6,10 +6,11 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 12:25:08 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:45:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "display.h"
 #include "redir.h"
 
 /*
@@ -58,19 +59,24 @@ static int	process_line(int file, char *limiter,
 	char				*line;
 	int					limiter_length;
 	static unsigned int	nb_line = 1;
+	int					code;
 
 	limiter_length = ft_strlen(unquoted_limiter);
-	ft_putstr("> ");
-	line = get_next_line(0);
+	line = readline("> ");
+	code = get_signal_receive();
 	if (!line)
 	{
 		ft_printf_fd(2, "%s: %s %d %s (wanted '%s')\n",
 			NAME, ERR_HERDOC_WAR, nb_line, ERR_HERDOC_END, unquoted_limiter);
 		return (1);
 	}
+	if (code)
+	{
+		free(line);
+		return (code);
+	}
 	nb_line++;
-	if (!ft_strncmp(unquoted_limiter, line, limiter_length)
-		&& line[limiter_length] == '\n')
+	if (!ft_strcmp(unquoted_limiter, line))
 	{
 		free(line);
 		return (-1);
@@ -103,7 +109,7 @@ int	get_here_doc_input(int file, char *limiter, char **env)
 		if (result)
 		{
 			free(unquoted_limiter);
-			return (1);
+			return (result);
 		}
 	}
 	free(unquoted_limiter);

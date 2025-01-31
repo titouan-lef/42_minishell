@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/28 20:11:17 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/01/31 16:30:48 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ all				:	display
 				$(MAKE) $(NAME)
 				if [ -f $(NAME) ];\
 				then chmod +x $(NAME);\
-				valgrind --leak-check=full --show-leak-kinds=all ./$(NAME);\
+				valgrind --leak-check=full --show-leak-kinds=all --suppressions=vsupp ./$(NAME);\
 				fi;
 
 display			:
@@ -86,7 +86,7 @@ display			:
 				echo "$(INIT)"
 
 $(NAME)			: $(OBJ)
-				$(CC) $(CFLAGS) -I$(HEADERS) -I$(LIBFT_DIR) $(OBJ) minishell.a -o $(NAME);\
+				$(CC) -lreadline $(CFLAGS) -I$(HEADERS) -I$(LIBFT_DIR) $(OBJ) minishell.a -o $(NAME);\
 				#echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)";\
 
 $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 12:07:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:11:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	read_here_docs(t_list *here_docs, char **env)
 {
 	t_here_doc	*here_doc;
 	int			fd;
+	int			result;
 
 	while (here_docs)
 	{
@@ -106,12 +107,10 @@ int	read_here_docs(t_list *here_docs, char **env)
 			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
 			return (1);
 		}
-		if (get_here_doc_input(fd, here_doc->limiter, env))
-		{
-			close(fd);
-			return (1);
-		}
+		result = get_here_doc_input(fd, here_doc->limiter, env);
 		close(fd);
+		if (result)
+			return (result);
 		here_docs = here_docs->next;
 	}
 	return (0);
