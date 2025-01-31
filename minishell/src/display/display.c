@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 17:45:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:00:59 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*rl_gets(char **env)
 	char	*prompt;
 
 	prompt = get_prompt(env);
+	if (!prompt)
+		return (NULL);
 	line_read = readline(prompt);
 	free(prompt);
 	if (line_read && *line_read)
@@ -104,6 +106,11 @@ char	*get_prompt(char **env)
 	prompt = ft_strjoin(tmp, "$ ");
 	free(tmp);
 	if (!prompt)
-		return ("minishell$ ");
+	{
+		prompt = ft_strdup("minishell$ ");
+		if (!prompt)
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		return (prompt);
+	}
 	return (prompt);
 }

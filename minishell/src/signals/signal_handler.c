@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/31 16:14:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:39:51 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ void	here_doc_handler(int sig)
 		ioctl(0, TIOCSTI, "\r");
 		// ft_putstr("\n");//canal error ?
 		// rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		// rl_replace_line("", 0);
+		// rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
 	{
 		rl_on_new_line();
 		rl_redisplay();
 		ft_putstr("  \b\b");
-	}	g_sig_receive = 0;
+	}
 }

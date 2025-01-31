@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 11:59:59 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:45:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	process_cmd(char *input, t_data *data)
 		if (result)
 			data->last_exit = result;
 	}
+	else
+		data->last_exit = 0;
 }
 
 static void	init_minishell(t_data *data, char **envp)
@@ -56,6 +58,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line_read;
 	t_data	data;
+	int		code;
 
 	(void)argc;
 	(void)argv;
@@ -63,6 +66,9 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line_read = rl_gets(data.env);
+		code = get_signal_receive();
+		if (code)
+			data.last_exit = code;
 		if (!line_read)
 			break ;
 		process_cmd(line_read, &data);
