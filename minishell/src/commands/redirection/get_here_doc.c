@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 10:23:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:25:08 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 
 	if (!ft_strchr(limiter, '\'') && !ft_strchr(limiter, '\"'))
 	{
-		tmp = replace_word_env(line, env, 1, 1);
+		tmp = replace_word_env(line, env, 1, 0);
 		if (!tmp)
 		{
 			ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
@@ -55,19 +55,20 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 static int	process_line(int file, char *limiter,
 			char *unquoted_limiter, char **env)
 {
-	char	*line;
-	int		limiter_length;
+	char				*line;
+	int					limiter_length;
+	static unsigned int	nb_line = 1;
 
 	limiter_length = ft_strlen(unquoted_limiter);
 	ft_putstr("> ");
 	line = get_next_line(0);
 	if (!line)
 	{
-		ft_printf_fd(2, "%s: %s (wanted '%s')\n",
-			NAME, ERR_HERDOC_END, unquoted_limiter);
-		free(unquoted_limiter);
+		ft_printf_fd(2, "%s: %s %d %s (wanted '%s')\n",
+			NAME, ERR_HERDOC_WAR, nb_line, ERR_HERDOC_END, unquoted_limiter);
 		return (1);
 	}
+	nb_line++;
 	if (!ft_strncmp(unquoted_limiter, line, limiter_length)
 		&& line[limiter_length] == '\n')
 	{

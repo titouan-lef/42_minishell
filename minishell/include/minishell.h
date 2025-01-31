@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 17:56:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:26:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 
 # define NAME "minishell"
 /*---Error messages---*/
-# define ERR_HERDOC_END "warning: here-document delimited by end-of-file"
+# define ERR_HERDOC_WAR "warning: here-document at line"
+# define ERR_HERDOC_END "delimited by end-of-file"
 # define ERR_HERDOC_ACC "error heredoc access"
 # define ERR_MALLOC "malloc failed"
 # define ERR_FORK "fork failed"
