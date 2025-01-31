@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 16:45:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:00:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,22 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 static int	process_line(int file, char *limiter,
 			char *unquoted_limiter, char **env)
 {
-	char				*line;
-	int					limiter_length;
-	static unsigned int	nb_line = 1;
-	int					code;
+	char	*line;
+	int		limiter_length;
+	int		code;
 
 	limiter_length = ft_strlen(unquoted_limiter);
 	line = readline("> ");
 	code = get_signal_receive();
-	if (!line)
-	{
-		ft_printf_fd(2, "%s: %s %d %s (wanted '%s')\n",
-			NAME, ERR_HERDOC_WAR, nb_line, ERR_HERDOC_END, unquoted_limiter);
-		return (1);
-	}
-	if (code)
+	if (!line || code)
 	{
 		free(line);
-		return (code);
+		if (code)
+			return (code);
+		ft_printf_fd(2, "%s: %s (wanted '%s')\n",
+			NAME, ERR_HERDOC_END, unquoted_limiter);
+		return (1);
 	}
-	nb_line++;
 	if (!ft_strcmp(unquoted_limiter, line))
 	{
 		free(line);
