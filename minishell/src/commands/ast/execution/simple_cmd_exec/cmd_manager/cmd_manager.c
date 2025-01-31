@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 16:31:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:33:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	execve_manager(char **cmd, char **redir, t_data *data)
 static int	fork_cmd(char **cmd, char **redir, t_data *data)
 {
 	int	pid;
-	int	exit_satus;
+	int	exit_status;
 
 	pid = fork();
 	if (pid == -1)
@@ -80,13 +80,13 @@ static int	fork_cmd(char **cmd, char **redir, t_data *data)
 		execve_manager(cmd, redir, data);
 	if (modify_sigaction(&data->act, cmd_display_handler))
 		return (1);
-	waitpid(pid, &exit_satus, 0);
+	waitpid(pid, &exit_status, 0);
 	if (modify_sigaction(&data->act, interactive_mode_handler))
 		return (1);
-	data->last_exit = WEXITSTATUS(exit_satus);
-	exit_satus = get_signal_receive();
-	if (exit_satus)
-		return (exit_satus);
+	data->last_exit = WEXITSTATUS(exit_status);
+	exit_status = get_signal_receive();
+	if (exit_status)
+		return (exit_status);
 	return (data->last_exit);
 }
 
