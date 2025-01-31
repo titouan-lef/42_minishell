@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 12:10:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:31:41 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ static int	fork_cmd(char **cmd, char **redir, t_data *data)
 	if (modify_sigaction(&data->act, interactive_mode_handler))
 		return (1);
 	data->last_exit = WEXITSTATUS(exit_satus);
+	exit_satus = get_signal_receive();
+	if (exit_satus)
+		return (exit_satus);
 	return (data->last_exit);
 }
 
