@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 16:19:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:58:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ char	*replace_word_env(char *word, char **env, int here_doc, int redir)
 *
 * Warning: word and env_local must not be null.
 */
-static char	**update_value(char **updated_value, char *updated_word, char *name, int is_redir)
+static char	**update_value(char **updated_value, char *updated_word
+	, char *name, int is_redir)
 {
 	t_queue	tmp;
 	t_token	splited;
@@ -126,7 +127,8 @@ int	expand_env_var(char ***value, char **env, int is_redir)
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			return (1);
 		}
-		updated_value = update_value(updated_value, updated_word, (*value)[i++], is_redir);
+		updated_value = update_value(updated_value, updated_word,
+				(*value)[i++], is_redir);
 		if (!updated_value)
 			return (1);
 	}

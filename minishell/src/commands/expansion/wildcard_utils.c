@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/18 13:40:16 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:26:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*replace_word_wildcard(char *patern)
 	updated_word = ft_calloc(sizeof(char), new_word_length(matches));
 	if (!updated_word)
 	{
-		ft_putendl_error("malloc error");
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		ft_lstclear(&matches, free);
 		return (NULL);
 	}
