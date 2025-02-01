@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 16:20:46 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:17:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *
 * Warning: word, updated_word and letter must not be null.
 */
-static int	update_quote(char **word, char *updated_word, int letter)
+int	update_quote(char **word, char *updated_word, int letter)
 {
 	updated_word[letter++] = *(*word)++;
 	while (**word != '\'')
@@ -81,7 +81,7 @@ char	*replace_word_env(char *word, char **env, int here_doc, int redir)
 *
 * Warning: word and env_local must not be null.
 */
-static char	**update_value(char **updated_value, char *updated_word
+static int	update_value(char ***updated_value, char *updated_word
 	, char *name, int is_redir)
 {
 	t_queue	tmp;
@@ -91,18 +91,20 @@ static char	**update_value(char **updated_value, char *updated_word
 	free(updated_word);
 	splited = split_command(tmp);
 	if (!splited.value)
-		return (updated_value);
+		return (0);
 	else if (is_redir && splited.value && splited.value[0] && splited.value[1])
 	{
 		token_clear(splited);
 		ft_printf_fd(2, "%s: %s: ambiguous redirect\n", NAME, name);
-		updated_value = append_to_tab(updated_value, "");
+		*updated_value = append_to_tab(*updated_value, "");
 	}
-	else if (splited.value)
-		updated_value = tab_join_and_free(updated_value, splited.value);
-	if (!updated_value)
+	*updated_value = tab_join_and_free(*updated_value, splited.value);
+	if (!*updated_value)
+	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-	return (updated_value);
+		return (1);
+	}
+	return (0);
 }
 
 /*
@@ -129,11 +131,9 @@ int	expand_env_var(char ***value, char **env, int is_redir)
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			return (1);
 		}
-		updated_value = update_value(updated_value, updated_word,
-				(*value)[i++], is_redir);
+		if (update_value(&updated_value, updated_word, (*value)[i++], is_redir))
+			return (1);
 	}
-	if (!updated_value)
-		return (1);
 	ft_clean_matrix((void **)*value);
 	*value = updated_value;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 13:06:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:18:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*get_quoted_value(char *name, char **env_local)
 	quoted_value = ft_calloc(value_length_quoted(value) + 1, sizeof(char));
 	if (!quoted_value)
 	{
-		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
 	}
 	i = 0;

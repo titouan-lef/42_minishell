@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 15:02:35 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:58:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	expand(char ***value, t_data *data, int is_redir)
 	if (!*value)
 		return (0);
 	result = expand_env_var(value, data->env, is_redir);
-	if (result)
+	if (!*value || result)
 		return (result);
 	result = expand_exit_status(value, data->last_exit);
-	if (result)
+	if (!*value || result)
 		return (result);
 	result = expand_wildcard(value, is_redir);
-	if (result)
+	if (!*value || result)
 		return (result);
 	result = remove_quotes(value);
 	return (result);
