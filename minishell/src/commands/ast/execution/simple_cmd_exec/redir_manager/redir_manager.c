@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:49:39 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 11:52:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:07:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	choose_redir(char *redir)
 */
 static int	find_fd(char **redir)
 {
-	int	fd;
+	int		fd;
 
 	fd = -1;
 	if (ft_isdigit(**redir))
@@ -65,6 +65,7 @@ int	redir_manager(char **redirs, t_list *here_docs)
 	int		i;
 	int		fd;
 	int		result;
+	char	*redir;
 
 	if (!redirs)
 		return (0);
@@ -72,18 +73,18 @@ int	redir_manager(char **redirs, t_list *here_docs)
 	result = 0;
 	while (redirs[i] && !result)
 	{
-		fd = find_fd(&redirs[i]);
-		if (choose_redir(redirs[i]) == INPUT)
-			result = redirect_input(fd, redirs[i] + 1);
-		else if (choose_redir(redirs[i]) == HERE_DOC)
-			result = redirect_here_doc(fd, redirs[i] + 2, here_docs);
-		else if (choose_redir(redirs[i]) == OUTPUT)
-			result = redirect_output(fd, redirs[i] + 1);
-		else if (choose_redir(redirs[i]) == OUTPUT_APPEND)
-			result = redirect_output_append_mode(fd, redirs[i] + 2);
+		redir = redirs[i++];
+		fd = find_fd(&redir);
+		if (choose_redir(redir) == INPUT)
+			result = redirect_input(fd, redir + 1);
+		else if (choose_redir(redir) == HERE_DOC)
+			result = redirect_here_doc(fd, redir + 2, here_docs);
+		else if (choose_redir(redir) == OUTPUT)
+			result = redirect_output(fd, redir + 1);
+		else if (choose_redir(redir) == OUTPUT_APPEND)
+			result = redirect_output_append_mode(fd, redir + 2);
 		else
 			return (1);
-		i++;
 	}
 	return (result);
 }
