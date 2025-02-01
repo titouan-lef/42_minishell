@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 22:18:06 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:40:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	set_oldpwd(char **env, char *pwd)
 
 	i = -1;
 	while (env[++i])
-		if (ft_strncmp("OLDPWD=", env[i++], 7) == 0)
+		if (ft_strncmp("OLDPWD=", env[i], 7) == 0)
 			break ;
 	if (env[i] == NULL) //bien comprendre ce aue bash fait avec ses variables d'environements la...
 		return (0);
@@ -42,7 +42,7 @@ static int	set_pwd(char **env)
 
 	i = -1;
 	while (env[++i])
-		if (ft_strncmp("PWD=", env[i++], 4) == 0)
+		if (ft_strncmp("PWD=", env[i], 4) == 0)
 			break ;
 	if (env[i] == NULL)
 		return (0);
