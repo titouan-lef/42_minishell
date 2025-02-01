@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 18:45:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 11:21:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	process_cmd(char *input, t_data *data)
 static void	init_minishell(t_data *data, char **envp)
 {
 	ft_bzero(&data->act, sizeof(struct sigaction));
-	if (modify_sigaction(&data->act, interactive_mode_handler))
+	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
 		exit(1);
 	data->env = strdup_tab(envp);
 	if (!data->env)

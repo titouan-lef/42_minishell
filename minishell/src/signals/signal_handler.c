@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/31 17:39:51 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 11:26:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,20 @@ void	interactive_mode_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_sig_receive = 128 + SIGINT;
-		ft_putstr("\n");//canal error ?
+		ft_putendl_error("");//canal error ? i thnik so, is solve the space probleme
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		g_sig_receive = 128 + SIGQUIT;
-		rl_on_new_line();
-		rl_redisplay();
-		ft_putstr("  \b\b");
 	}
 }
 
 void	cmd_display_handler(int sig)
 {
+	g_sig_receive = 128 + sig;
 	if (sig == SIGINT)
-	{
-		g_sig_receive = 128 + SIGINT;
 		ft_putstr("\n");
-	}
 	else if (sig == SIGQUIT)
-	{
-		g_sig_receive = 128 + SIGQUIT;
 		ft_putstr("Quit\n");
-	}
 }
 
 void	here_doc_handler(int sig)
@@ -75,15 +63,5 @@ void	here_doc_handler(int sig)
 	{
 		g_sig_receive = 128 + sig;
 		ioctl(0, TIOCSTI, "\r");
-		// ft_putstr("\n");//canal error ?
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
-		// rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		ft_putstr("  \b\b");
 	}
 }

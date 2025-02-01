@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 16:57:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 11:21:04 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**append_to_tab(char **tab, const char *str);
 
 /*---signals.c---*/
 int		default_sigaction(struct sigaction *act);
-int		modify_sigaction(struct sigaction *act, void (*f)(int));
+int		modify_sigaction(struct sigaction *act, void (*f)(int), int ignore_sigquit);
 void	interactive_mode_handler(int sig);
 void	cmd_display_handler(int sig);
 void	here_doc_handler(int sig);
