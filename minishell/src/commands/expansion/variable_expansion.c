@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 17:17:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:04:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ static int	update_value(char ***updated_value, char *updated_word
 		ft_printf_fd(2, "%s: %s: ambiguous redirect\n", NAME, name);
 		*updated_value = append_to_tab(*updated_value, "");
 	}
-	*updated_value = tab_join_and_free(*updated_value, splited.value);
+	else
+		*updated_value = tab_join_and_free(*updated_value, splited.value);
 	if (!*updated_value)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
