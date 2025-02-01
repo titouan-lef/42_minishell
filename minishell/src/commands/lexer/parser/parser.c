@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 18:00:40 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 13:05:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:07:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	update(t_token *token, t_token *cmd, t_queue *reorganized_tokens)
 		malloc_error = (cmd->redir == NULL);
 	}
 	if (malloc_error)
-		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 	if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
 	{
 		if (push_redir_cmd(reorganized_tokens, cmd))
@@ -105,7 +105,7 @@ t_token	split_command(t_queue tokens)//up
 		new_token.value = tab_join_and_free(new_token.value, token.value);
 		if (new_token.value == NULL)
 		{
-			ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			token_clear(token);
 			token_clear(new_token);
 			queue_clear(&tokens);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:30:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/01 12:59:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:08:04 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack, int is_last)
 
 	if (pipe(data->fd) == -1)
 	{
-		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_FORK);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_FORK);
 		return (1);
 	}
 	pid = fork();
@@ -70,7 +70,7 @@ int	fork_pipe(t_data *data, t_tree *sub_tree, t_stack **stack, int is_last)
 	{
 		close(data->fd[0]);
 		close(data->fd[1]);
-		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_FORK);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_FORK);
 		return (1);
 	}
 	if (pid == 0)

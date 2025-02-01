@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 13:43:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:08:54 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	my_exit(char **cmd, t_data *data, int is_piped)
 {
 	char	exit_status;
 
-	if (!is_piped)
+	if (!is_piped) 
 		ft_printf_fd(2, "exit\n");
 	if (cmd == NULL || cmd[1] == NULL)
 	{
@@ -36,10 +36,9 @@ int	my_exit(char **cmd, t_data *data, int is_piped)
 	if (cmd[2] != NULL)
 	{
 		ft_printf_fd(2, "%s: exit: too many arguments\n", NAME);
-		//clean(data);
 		return (1);
 	}
-	exit_status = ft_atoi(cmd[1]);
+	exit_status = ft_atoi(cmd[1]); //parse input
 	clean(data);
 	exit(exit_status);
 }

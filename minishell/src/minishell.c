@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 15:45:06 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:06:59 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	init_minishell(t_data *data, char **envp)
 	data->env = strdup_tab(envp);
 	if (!data->env)
 	{
-		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		exit(1);
 	}
 	data->last_exit = 0;
