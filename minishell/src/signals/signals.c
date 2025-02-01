@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:33:12 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/01 11:25:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:33:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	default_sigaction(struct sigaction *act)
 	is_error = sigaction(SIGQUIT, act, NULL);
 	if (is_error)
 		return (is_error);
+	is_error = sigaction(SIGTSTP, act, NULL);
+	if (is_error)
+		return (is_error);
 	return (is_error);
 }
 
@@ -37,6 +40,10 @@ int	modify_sigaction(struct sigaction *act, void (*f)(int), int ignore_sigquit)
 	if (ignore_sigquit)
 		act->sa_handler = SIG_IGN;
 	is_error = sigaction(SIGQUIT, act, NULL);
+	if (is_error)
+		return (is_error);
+	act->sa_handler = SIG_IGN;
+	is_error = sigaction(SIGTSTP, act, NULL);
 	if (is_error)
 		return (is_error);
 	return (is_error);
