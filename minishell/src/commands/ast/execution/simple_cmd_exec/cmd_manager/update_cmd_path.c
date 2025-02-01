@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 20:02:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:23:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ static int	access_path_cmd(char *cmd_name, char **path)
 			return (0);
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
+	}
+	if (access(cmd_name, F_OK) == 0 && access(cmd_name, X_OK))
+	{
+		ft_printf_fd(2, "%s: %s: %s\n", NAME, cmd_name, ERR_NO_PERM);
+		return (126);
 	}
 	ft_printf_fd(2, "%s: %s: %s\n", NAME, cmd_name, ERR_NO_FILE);
 	return (127);
