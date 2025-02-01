@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:06:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 21:03:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:46:59 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	echo(char **cmd)
 	}
 	while (cmd[0])
 	{
-		printf("%s", cmd[0]);
+		ft_printf("%s", cmd[0]);
 		++cmd;
 		if (cmd[0])
-			printf(" ");
+			ft_printf(" ");
 	}
 	if (is_new_line)
-		printf("\n");
+		ft_printf("\n");
 	return (0);
 }

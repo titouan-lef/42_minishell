@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 19:00:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:46:57 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	print_tokens(t_queue *tokens) //remove at the end, only needed for debug
 	list = tokens->head;
 	while (list)
 	{
-		printf("%d | ", list->token.name);
+		ft_printf("%d | ", list->token.name);
 		i = 0;
 		while (list->token.value[i])
-			printf("'%s' ", list->token.value[i++]);
-		printf("\n");
+			ft_printf("'%s' ", list->token.value[i++]);
+		ft_printf("\n");
 		list = list->next;
 	}
 }

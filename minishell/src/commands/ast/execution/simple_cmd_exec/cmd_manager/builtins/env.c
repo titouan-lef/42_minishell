@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 10:59:18 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:46:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	env(char **cmd, char **env)
 	i = 0;
 	while (env[i])
 	{
-		printf("%s\n", env[i]);
+		ft_printf("%s\n", env[i]);
 		i++;
 	}
 	return (0);

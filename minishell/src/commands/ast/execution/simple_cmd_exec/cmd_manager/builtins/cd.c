@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 12:40:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:47:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static int	goback(char **env)
 	}
 	result = goto_dir(oldpwd, env);
 	if (result == 0)
-		printf("%s\n", oldpwd);
+		ft_printf("%s\n", oldpwd);
 	free(oldpwd);
 	return (result);
 }
