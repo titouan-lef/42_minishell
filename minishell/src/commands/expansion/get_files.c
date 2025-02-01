@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 10:56:53 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:06:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static DIR	*get_dir(void)
 	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
 	if (!pwd)
 	{
-		ft_putendl_error("malloc error");
+		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
 		return (NULL);
 	}
 	if (!getcwd(pwd, PATH_MAX))
 	{
-		ft_putendl_error("malloc error");
+		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
 		free(pwd);
 		return (NULL);
 	}
@@ -66,7 +66,7 @@ static DIR	*get_dir(void)
 	free(pwd);
 	if (!dir)
 	{
-		ft_putendl_error("opendir error");
+		ft_printf_fd(2, "%s: %s\n" , NAME, "opendir failed");
 		return (NULL);
 	}
 	return (dir);
@@ -87,14 +87,14 @@ static int	create_and_addback(t_list **lst, char *filename)
 	filename_malloc = ft_strdup(filename);
 	if (!filename_malloc)
 	{
-		ft_putendl_error("malloc error");
+		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
 		return (1);
 	}
 	new = ft_lstnew(filename_malloc);
 	if (!new)
 	{
 		free(filename_malloc);
-		ft_putendl_error("malloc error");
+		ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
 		return (1);
 	}
 	ft_lstadd_back(lst, new);

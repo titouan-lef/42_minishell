@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_state_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 18:34:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:58:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_tree	*add_new_token(t_tree *tree, t_queue *queue)
 		return (tmp);
 	token_clear(token);
 	tree_clear(&tree);
-	ft_putendl_error(ERR_MALLOC);
+	ft_printf_fd(2, "%s: %s\n" , NAME, ERR_MALLOC);
 	return (NULL);
 }
 
