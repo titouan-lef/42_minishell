@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 19:46:21 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:20:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ static char	**update_value(char **updated_value, char *updated_word
 	tmp = tokenizer(updated_word);
 	free(updated_word);
 	splited = split_command(tmp);
-	if (is_redir && splited.value && splited.value[0] && splited.value[1])
+	if (!splited.value)
+		return (updated_value);
+	else if (is_redir && splited.value && splited.value[0] && splited.value[1])
 	{
 		token_clear(splited);
 		ft_printf_fd(2, "%s: %s: ambiguous redirect\n", NAME, name);
@@ -129,9 +131,9 @@ int	expand_env_var(char ***value, char **env, int is_redir)
 		}
 		updated_value = update_value(updated_value, updated_word,
 				(*value)[i++], is_redir);
-		if (!updated_value)
-			return (1);
 	}
+	if (!updated_value)
+		return (1);
 	ft_clean_matrix((void **)*value);
 	*value = updated_value;
 	return (0);
