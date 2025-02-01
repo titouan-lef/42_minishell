@@ -31,7 +31,7 @@ static int	pipeline_manager(t_data *data, t_tree *tree, t_stack **stack)
 	return (result);
 }
 
-static int	wait_children(t_stack *stack)
+static int	wait_children(t_stack *stack, t_data *data)
 {
 	int	result;
 	int	pid;
@@ -40,9 +40,11 @@ static int	wait_children(t_stack *stack)
 
 	result = -1;
 	last_pid = stack_pop(&stack);
+	if (modify_sigaction(&data->act, cmd_display_handler, 0))
+		return (1);
 	pid = waitpid(-1, &status, 0);
 	if (pid == last_pid)
-		result = status;
+		result = WEXITSTATUS(status);
 	while (!stack_is_empty(stack))
 	{
 		stack_pop(&stack);
@@ -50,6 +52,8 @@ static int	wait_children(t_stack *stack)
 		if (pid == last_pid)
 			result = WEXITSTATUS(status);
 	}
+	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
+		return (1);
 	return (result);
 }
 
@@ -73,6 +77,6 @@ int	pipe_exec(t_data *data, t_tree *tree)
 			return (result2);
 		return (result);
 	}
-	result = wait_children(stack);
+	result = wait_children(stack, data);
 	return (result);
 }

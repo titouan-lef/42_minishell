@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/01 11:26:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:26:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	cmd_display_handler(int sig)
 {
 	g_sig_receive = 128 + sig;
 	if (sig == SIGINT)
-		ft_putstr("\n");
+		ft_putendl_error("");
 	else if (sig == SIGQUIT)
-		ft_putstr("Quit\n");
+		ft_putendl_error("Quit");
 }
 
 void	here_doc_handler(int sig)
