@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 19:26:22 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:43:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 static void	clean(t_data *data)
 {
 	clear_data(data);
+	close_data_std(data);
 	ft_clean_matrix((void **)data->env);
 	rl_clear_history();
 }
 
-void	my_exit(char **cmd, t_data *data, int is_piped)
+int	my_exit(char **cmd, t_data *data, int is_piped)
 {
 	char	exit_status;
 
@@ -35,8 +36,8 @@ void	my_exit(char **cmd, t_data *data, int is_piped)
 	if (cmd[2] != NULL)
 	{
 		ft_printf_fd(2, "%s: exit: too many arguments\n", NAME);
-		clean(data);
-		return ;
+		//clean(data);
+		return (1);
 	}
 	exit_status = ft_atoi(cmd[1]);
 	clean(data);

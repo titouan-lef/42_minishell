@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:19:57 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 21:45:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:42:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ char	*get_cwd(char **env);
 int		pwd(char **env);
 int		cd(char **cmd, char **env);
 int		unset(char **cmd, char ***env);
-void	my_exit(char **cmd, t_data *data, int is_piped);
+int		my_exit(char **cmd, t_data *data, int is_piped);
 
 #endif
