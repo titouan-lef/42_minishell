@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 13:36:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:45:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	process_cmd(char *input, t_data *data)
 
 static void	init_minishell(t_data *data, char **envp)
 {
+	rl_outstream = stderr;
 	ft_bzero(&data->act, sizeof(struct sigaction));
 	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
 		exit(1);
