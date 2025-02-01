@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 16:18:01 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:59:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,17 @@
 *
 * Warning: word and env_local must not be null.
 */
-static char	*replace_word_exit(char *word, int last_exit)
+static char	*replace_word_exit(char *word, int last_exit, int letter)
 {
-	int		letter;
 	char	*updated_word;
 	char	*exit_status;
 	int		length;
 
 	exit_status = ft_itoa(last_exit);
-	length = ft_strlen(exit_status);
 	if (!exit_status)
 		return (NULL);
-	updated_word = ft_calloc(length + ft_strlen(word) + 1, sizeof(char));
-	letter = 0;
+	length = ft_strlen(exit_status);
+	updated_word = ft_calloc(length + ft_strlen(word) + 1, sizeof(char)); //protection
 	while (updated_word && *word)
 	{
 		if (*(word + 1) && *word == '$' && *(word + 1) == '?')
@@ -41,6 +39,8 @@ static char	*replace_word_exit(char *word, int last_exit)
 			letter += length;
 			word += 2;
 		}
+		else if (*word == '\'')
+			letter = update_quote(&word, updated_word, letter);
 		else
 			updated_word[letter++] = *word++;
 	}
@@ -66,7 +66,7 @@ int	expand_exit_status(char ***value, int last_exit)
 	{
 		if (ft_strnstr((*value)[i], "$?", ft_strlen((*value)[i])))
 		{
-			updated_word = replace_word_exit((*value)[i], last_exit);
+			updated_word = replace_word_exit((*value)[i], last_exit, 0);
 			if (!updated_word)
 			{
 				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
