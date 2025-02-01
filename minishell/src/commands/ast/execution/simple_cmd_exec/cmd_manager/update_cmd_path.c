@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 15:23:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:25:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,13 @@ static int	add_path_and_access(char *dir, char *cmd, char **path)
 */
 static int	access_path_cmd(char *cmd_name, char **path)
 {
+	struct stat	infos;
+
+	if (stat(cmd_name, &infos) == 0 && S_ISDIR(infos.st_mode))
+	{
+		ft_printf_fd(2, "%s: %s: Is a directory\n", NAME, cmd_name);
+		return (126);
+	}
 	if (access(cmd_name, F_OK | X_OK) == 0)
 	{
 		*path = ft_strdup(cmd_name);
