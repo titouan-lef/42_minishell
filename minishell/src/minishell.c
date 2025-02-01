@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 13:05:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:36:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ static void	init_minishell(t_data *data, char **envp)
 	data->last_exit = 0;
 }
 
-static void	exit_minishell(int code, t_data *data)
+static void	exit_minishell(t_data *data)
 {
 	ft_clean_matrix((void **)data->env);
 	rl_clear_history();
 	ft_putendl_error("exit");
-	exit(code);
+	exit(data->last_exit);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -74,5 +74,5 @@ int	main(int argc, char **argv, char **envp)
 		process_cmd(line_read, &data);
 		free(line_read);
 	}
-	exit_minishell(0, &data);
+	exit_minishell(&data);
 }
