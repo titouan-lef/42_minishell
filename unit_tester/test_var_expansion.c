@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 09:51:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 09:54:54 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,24 @@ void	test_var_expand(char **envp)
 	token = token_create(TOKEN_CMD, built_tab("$\"fe    ok\"", NULL), NULL);
 	expand_env_var(&token.value, env, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "\"fe    ok\"", NULL);
+	token_clear(token);
+
+	/*--- test 21 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "$?", NULL), NULL);
+	expand_env_var(&token.value, envp, 0);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", "$?", NULL);
+	token_clear(token);
+
+	/*--- test 22 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "\"$?\"", NULL), NULL);
+	expand_env_var(&token.value, envp, 0);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", "\"$?\"", NULL);
+	token_clear(token);
+
+	/*--- test 23 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "\'$?\'", NULL), NULL);
+	expand_env_var(&token.value, envp, 0);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", "\'$?\'", NULL);
 	token_clear(token);
 
 	ft_clean_matrix((void **)env);
