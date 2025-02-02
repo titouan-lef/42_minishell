@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 21:42:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 17:21:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,7 @@ void	test_cd(char **envp)
 	free(save_pwd);
 	save_pwd = get_cwd(env);
 
-	int i = 0;
-	while (env[i])
-		if (ft_strncmp("HOME=", env[i++], 5) == 0)
-			break ;
-	--i;
-	home = ft_strdup(env[i] + 5);
+	home = get_from_env(env, "HOME");
 
 	/*--- test 3 ---*/
 	cmd = built_tab("cd", NULL);

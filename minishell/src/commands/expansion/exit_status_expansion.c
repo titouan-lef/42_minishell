@@ -6,11 +6,40 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 16:08:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:37:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
+
+static int	count_replacement(char *word)
+{
+	int	nb_replace;
+	int	in_double_quotes;
+
+	nb_replace = 0;
+	in_double_quotes = 0;
+	while (*word)
+	{
+		if (*word == '\"')
+			in_double_quotes = !in_double_quotes;
+		if (*(word + 1) && *word == '$' && *(word + 1) == '?')
+		{
+			nb_replace++;
+			word += 2;
+		}
+		else if (*word == '\'' && !in_double_quotes)
+		{
+			word++;
+			while (*word != '\'')
+				word++;
+			word++;
+		}
+		else
+			word++;
+	}
+	return (nb_replace);
+}
 
 static void	find_and_replace(char *updated_word, char *word,
 		char *exit_status, int length)
@@ -21,7 +50,7 @@ static void	find_and_replace(char *updated_word, char *word,
 	letter = 0;
 	in_double_quotes = 0;
 	length = ft_strlen(exit_status);
-	while (updated_word && *word)
+	while (*word)
 	{
 		if (*word == '\"')
 			in_double_quotes = !in_double_quotes;
@@ -51,6 +80,7 @@ static char	*replace_word_exit(char *word, int last_exit)
 	char	*updated_word;
 	char	*exit_status;
 	int		length;
+	int		nb_replace;
 
 	exit_status = ft_itoa(last_exit);
 	if (!exit_status)
@@ -59,7 +89,9 @@ static char	*replace_word_exit(char *word, int last_exit)
 		return (NULL);
 	}
 	length = ft_strlen(exit_status);
-	updated_word = ft_calloc(length + ft_strlen(word) + 1, sizeof(char));
+	nb_replace = count_replacement(word);
+	updated_word = ft_calloc(length * nb_replace + ft_strlen(word)
+			- 2 * nb_replace + 1, sizeof(char));
 	if (!updated_word)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);

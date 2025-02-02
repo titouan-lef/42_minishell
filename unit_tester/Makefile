@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/02 09:47:12 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/02 18:42:24 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC				=	unit_test/unit_test.c		\
 					test_get_tree.c				\
 					test_var_expansion.c		\
 					test_exit_expansion.c		\
+					test_tilde_expansion.c		\
 					test_pathname_expansion.c	\
 					test_quote_removal.c		\
 					test_redirections.c

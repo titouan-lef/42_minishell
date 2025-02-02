@@ -6,12 +6,38 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 17:12:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:51:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 #include "builtins.h"
+
+static void	find_and_replace(char *updated_word, char *word, char *home, int is_redir)
+{
+	int		letter;
+	int		done;
+	int		length;
+
+	length = ft_strlen(home);
+	done = 0;
+	letter = 0;
+	while (*word)
+	{
+		if (!done && *word == '~' && (!*(word + 1) || *(word + 1) == '/'))
+		{
+			letter += ft_strlcpy(updated_word + letter, home, length + 1); // serait plus simpe avec un strcpy ??
+			word++;
+		}
+		else if (*word == '\'' || *word == '\"')
+			letter = update_quote(&word, updated_word, letter);
+		else
+			updated_word[letter++] = *word++;
+		done = 1;
+		if (is_redir && (*(word - 1) == '<' || *(word - 1) == '>'))
+			done = 0;
+	}
+}
 
 /*
 * Goal: Make a new word with all the environement variables
@@ -21,31 +47,19 @@
 *
 * Warning: word and env_local must not be null.
 */
-static char	*replace_word_tilde(char *word, char *home, int length)
+static char	*replace_word_tilde(char *word, char *home, int is_redir)
 {
 	char	*updated_word;
-	int		letter;
+	int		length;
 
-	letter = 0;
+	length = ft_strlen(home);
 	updated_word = ft_calloc(length + ft_strlen(word) + 1, sizeof(char));
 	if (!updated_word)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
 	}
-	while (updated_word && *word)
-	{
-		if (*word == '~')
-		{
-			ft_strlcpy(updated_word + letter, home, length + 1);
-			letter += length;
-			word++;
-		}
-		else if (*word == '\'' || *word == '\"' )
-			letter = update_quote(&word, updated_word, letter);
-		else
-			updated_word[letter++] = *word++;
-	}
+	find_and_replace(updated_word, word, home, is_redir);
 	return (updated_word);
 }
 
@@ -57,10 +71,9 @@ static char	*replace_word_tilde(char *word, char *home, int length)
 *
 * Warning: token and env_local must not be null.
 */
-int	expand_tilde(char ***value, char **env)
+int	expand_tilde(char ***value, char **env, int is_redir)
 {
 	int		i;
-	int		length;
 	char	*updated_word;
 	char	*home;
 
@@ -72,8 +85,7 @@ int	expand_tilde(char ***value, char **env)
 			home = get_from_env(env, "HOME");
 			if (home)
 			{
-				length = ft_strlen(home);
-				updated_word = replace_word_tilde((*value)[i], home, length);
+				updated_word = replace_word_tilde((*value)[i], home, is_redir);
 				free(home);
 				if (!updated_word)
 					return (1);

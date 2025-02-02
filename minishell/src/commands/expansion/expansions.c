@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 16:39:13 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:13:02 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	expand(char ***value, t_data *data, int is_redir)
 	result = expand_exit_status(value, data->last_exit);
 	if (!*value || result)
 		return (result);
-	result = expand_tilde(value, data->env);
+	result = expand_tilde(value, data->env, is_redir);
 	if (!*value || result)
 		return (result);
 	result = expand_wildcard(value, is_redir);

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 15:38:53 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 17:49:55 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,5 +208,17 @@ void	test_exit_expand(void)
 	token = token_create(TOKEN_CMD, built_tab("'\"$?\"'", NULL), NULL);
 	expand_exit_status(&token.value, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "'\"$?\"'", NULL);
+	token_clear(token);
+
+	/*--- test 15 ---*/
+	token = token_create(TOKEN_CMD, built_tab("$?$?$?\"$?$?$?\"$?$?$?\'$?$?$?\'$?$?$?\'$?$?$?$?\"$?$?$?$?\"$?$?$?\'$?$?$?\"$?$?$?$?\'$?$?$?$?\'$?$?$?$?\"$?$?$?", NULL), NULL);
+	expand_exit_status(&token.value, 0);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "000\"000\"000\'$?$?$?\'000\'$?$?$?$?\"$?$?$?$?\"$?$?$?\'000\"0000\'0000\'0000\"000", NULL);
+	token_clear(token);
+
+	/*--- test 16 ---*/
+	token = token_create(TOKEN_CMD, built_tab("$?$?$?\"$?$?$?\"$?$?$?\'$?$?$?\'$?$?$?\'$?$?$?$?\"$?$?$?$?\"$?$?$?\'$?$?$?\"$?$?$?$?\'$?$?$?$?\'$?$?$?$?\"$?$?$?", NULL), NULL);
+	expand_exit_status(&token.value, 127);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "127127127\"127127127\"127127127\'$?$?$?\'127127127\'$?$?$?$?\"$?$?$?$?\"$?$?$?\'127127127\"127127127127\'127127127127\'127127127127\"127127127", NULL);
 	token_clear(token);
 }

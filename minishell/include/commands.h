@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/02 16:11:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:13:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_token			split_command(t_queue tokens);
 /*---expansions.c---*/
 int				expand(char ***value, t_data *data, int is_redir);
 int				expand_exit_status(char ***value, int last_exit);
-int				expand_tilde(char ***value, char **env);
+int				expand_tilde(char ***value, char **env, int is_redir);
 int				value_length_quoted(char *value);
 void			quote_value(char *value, char *quoted_value, int *i);
 int				update_env_var(char **word, char *new_word,

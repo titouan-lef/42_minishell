@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 09:44:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:44:22 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	test_get_tree(char **env);
 void	test_var_expand(char **envp);
 void	test_exit_expand(void);
 void	test_pathname_expand(void);
+void	test_tilde_expand(char **envp);
 void	test_quote_removal(void);
 void	test_redirs(char **envp);
 
