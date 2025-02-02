@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 17:18:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 11:51:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,29 @@ static char	*get_quoted_value(char *name, char **env_local)
 }
 
 /*
+* Goal: Find the length of the word until next quote.
+*
+* Return: The length of the new word.
+*
+* Warning: word and env_local must not be null.
+*/
+static int	get_next_quote_length(char **word)
+{
+	int	length;
+
+	length = 1;
+	(*word)++;
+	while (**word != '\'')
+	{
+		length++;
+		(*word)++;
+	}
+	length++;
+	(*word)++;
+	return (length);
+}
+
+/*
 * Goal: Find the length of the word after replacing the env var by there value.
 *
 * Return: The length of the new word.
@@ -95,6 +118,8 @@ int	new_word_lenght(char *word, char **env_local)
 				length += ft_strlen(env_var_value);
 			free(env_var_value);
 		}
+		else if (*word == '\'')
+			length += get_next_quote_length(&word);
 		else
 		{
 			length++;
