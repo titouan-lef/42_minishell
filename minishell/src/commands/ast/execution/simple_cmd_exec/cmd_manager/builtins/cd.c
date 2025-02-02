@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 14:12:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:35:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,18 @@ static int	goto_dir(char *dir, char **env)
 	pwd = get_cwd(env);
 	if (!pwd)
 		return (1);
-	result = chdir(dir);
-	if (result)
+	if (*dir)
 	{
-		free(pwd);
-		if (access(dir, F_OK) == 0 && access(dir, R_OK | X_OK))
-			ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_PERM);
-		else
-			ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_FILE);
-		return (1);
+		result = chdir(dir);
+		if (result)
+		{
+			free(pwd);
+			if (access(dir, F_OK) == 0 && access(dir, R_OK | X_OK))
+				ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_PERM);
+			else
+				ft_printf_fd(2, "%s: cd: %s: %s\n", NAME, dir, ERR_NO_FILE);
+			return (1);
+		}
 	}
 	set_oldpwd(env, pwd);
 	free(pwd);
@@ -152,7 +155,7 @@ int	cd(char **cmd, char **env)
 	struct stat	infos;
 
 	if (cmd[1] == NULL || ft_strncmp("~", cmd[1], 2) == 0
-			|| ft_strncmp("--", cmd[1], 3) == 0)
+		|| ft_strncmp("--", cmd[1], 3) == 0)
 		result = goto_home(env);
 	else if (cmd[2] != NULL)
 	{
