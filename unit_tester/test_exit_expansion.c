@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 09:59:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:38:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,5 +184,29 @@ void	test_exit_expand(void)
 	token = token_create(TOKEN_REDIR, NULL, built_tab(">$?", NULL));
 	expand_exit_status(&token.redir, 1);
 	assert_equal_token_redir(token, &test_number, TOKEN_REDIR, ">1", NULL);
+	token_clear(token);
+
+	/*--- test 11 ---*/
+	token = token_create(TOKEN_REDIR, NULL, built_tab(">\"'$?'\"", NULL));
+	expand_exit_status(&token.redir, 0);
+	assert_equal_token_redir(token, &test_number, TOKEN_REDIR, ">\"'0'\"", NULL);
+	token_clear(token);
+
+	/*--- test 12 ---*/
+	token = token_create(TOKEN_REDIR, NULL, built_tab(">'\"$?\"'", NULL));
+	expand_exit_status(&token.redir, 0);
+	assert_equal_token_redir(token, &test_number, TOKEN_REDIR, ">'\"$?\"'", NULL);
+	token_clear(token);
+
+	/*--- test 13 ---*/
+	token = token_create(TOKEN_CMD, built_tab("\"'$?'\"", NULL), NULL);
+	expand_exit_status(&token.value, 0);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "\"'0'\"", NULL);
+	token_clear(token);
+
+	/*--- test 14 ---*/
+	token = token_create(TOKEN_CMD, built_tab("'\"$?\"'", NULL), NULL);
+	expand_exit_status(&token.value, 0);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "'\"$?\"'", NULL);
 	token_clear(token);
 }

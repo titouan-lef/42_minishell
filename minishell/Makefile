@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
+#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/01/29 19:12:21 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/02/02 15:31:13 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,14 +52,14 @@ SRC				=	minishell.c																\
 					commands/ast/parsing/token_state_utils.c								\
 					commands/ast/tree/tree_primitive.c										\
 					commands/ast/tree/tree_push.c											\
-					commands/expansion/exit_status.c										\
+					commands/expansion/exit_status_expansion.c								\
 					commands/expansion/expansions.c											\
 					commands/expansion/get_env_var.c										\
 					commands/expansion/get_files.c											\
-					commands/expansion/wildcard_utils.c										\
 					commands/expansion/pathname_expansion.c									\
-					commands/expansion/variable_expansion.c									\
 					commands/expansion/quote_removal.c										\
+					commands/expansion/variable_expansion.c									\
+					commands/expansion/wildcard_utils.c										\
 					commands/lexer/parser/parser.c											\
 					commands/lexer/tokenizer/get_token.c									\
 					commands/lexer/tokenizer/token_utils.c									\
@@ -125,7 +125,7 @@ display			:
 
 $(LIBFT)		:
 				echo "$(BLUE)Making libft👷👷$(INIT)"
-				$(MAKE) -C $(LIBFT_DIR) --no-print-directory -j
+				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
 $(NAME)			:	$(DISPLAY_TRACKER) $(LIBFT) $(OBJ)
 				$(CC) -lreadline -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)

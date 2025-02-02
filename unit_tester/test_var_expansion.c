@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 09:54:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:51:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	test_var_expand(char **envp)
 	size_t	test_number;
 	t_token	token;
 	t_out	out;
+	char	*tmp;
 
 	start_test("environement variable expansion");
 	test_number = 1;
@@ -282,6 +283,22 @@ void	test_var_expand(char **envp)
 	token = token_create(TOKEN_CMD, built_tab("echo", "\'$?\'", NULL), NULL);
 	expand_env_var(&token.value, envp, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", "\'$?\'", NULL);
+	token_clear(token);
+
+	/*--- test 24 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "\"\'$USER\'\"", NULL), NULL);
+	expand_env_var(&token.value, envp, 0);
+	tmp = ft_strjoin("\"\'", getenv("USER"));
+	char *expected = ft_strjoin(tmp, "\'\"");
+	free(tmp);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", expected, NULL);
+	free(expected);
+	token_clear(token);
+
+	/*--- test 25 ---*/
+	token = token_create(TOKEN_CMD, built_tab("echo", "\'\"$PWD\"\'", NULL), NULL);
+	expand_env_var(&token.value, envp, 0);
+	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", "\'\"$PWD\"\'", NULL);
 	token_clear(token);
 
 	ft_clean_matrix((void **)env);
