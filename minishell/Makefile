@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/02 15:31:13 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/02 16:11:16 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRC				=	minishell.c																\
 					commands/expansion/get_files.c											\
 					commands/expansion/pathname_expansion.c									\
 					commands/expansion/quote_removal.c										\
+					commands/expansion/tilde_expansion.c									\
 					commands/expansion/variable_expansion.c									\
 					commands/expansion/wildcard_utils.c										\
 					commands/lexer/parser/parser.c											\

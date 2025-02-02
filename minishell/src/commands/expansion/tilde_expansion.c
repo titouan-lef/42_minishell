@@ -1,42 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status_expansion.c                            :+:      :+:    :+:   */
+/*   tilde_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 16:08:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 17:12:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
-
-static void	find_and_replace(char *updated_word, char *word,
-		char *exit_status, int length)
-{
-	int	letter;
-	int	in_double_quotes;
-
-	letter = 0;
-	in_double_quotes = 0;
-	length = ft_strlen(exit_status);
-	while (updated_word && *word)
-	{
-		if (*word == '\"')
-			in_double_quotes = !in_double_quotes;
-		if (*(word + 1) && *word == '$' && *(word + 1) == '?')
-		{
-			ft_strlcpy(updated_word + letter, exit_status, length + 1);
-			letter += length;
-			word += 2;
-		}
-		else if (*word == '\'' && !in_double_quotes)
-			letter = update_quote(&word, updated_word, letter);
-		else
-			updated_word[letter++] = *word++;
-	}
-}
+#include "builtins.h"
 
 /*
 * Goal: Make a new word with all the environement variables
@@ -46,27 +21,31 @@ static void	find_and_replace(char *updated_word, char *word,
 *
 * Warning: word and env_local must not be null.
 */
-static char	*replace_word_exit(char *word, int last_exit)
+static char	*replace_word_tilde(char *word, char *home, int length)
 {
 	char	*updated_word;
-	char	*exit_status;
-	int		length;
+	int		letter;
 
-	exit_status = ft_itoa(last_exit);
-	if (!exit_status)
-	{
-		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-		return (NULL);
-	}
-	length = ft_strlen(exit_status);
+	letter = 0;
 	updated_word = ft_calloc(length + ft_strlen(word) + 1, sizeof(char));
 	if (!updated_word)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
 	}
-	find_and_replace(updated_word, word, exit_status, length);
-	free(exit_status);
+	while (updated_word && *word)
+	{
+		if (*word == '~')
+		{
+			ft_strlcpy(updated_word + letter, home, length + 1);
+			letter += length;
+			word++;
+		}
+		else if (*word == '\'' || *word == '\"' )
+			letter = update_quote(&word, updated_word, letter);
+		else
+			updated_word[letter++] = *word++;
+	}
 	return (updated_word);
 }
 
@@ -78,21 +57,29 @@ static char	*replace_word_exit(char *word, int last_exit)
 *
 * Warning: token and env_local must not be null.
 */
-int	expand_exit_status(char ***value, int last_exit)
+int	expand_tilde(char ***value, char **env)
 {
 	int		i;
+	int		length;
 	char	*updated_word;
+	char	*home;
 
 	i = 0;
 	while ((*value)[i])
 	{
-		if (ft_strnstr((*value)[i], "$?", ft_strlen((*value)[i])))
+		if (ft_strnstr((*value)[i], "~", ft_strlen((*value)[i])))
 		{
-			updated_word = replace_word_exit((*value)[i], last_exit);
-			if (!updated_word)
-				return (1);
-			free((*value)[i]);
-			(*value)[i] = updated_word;
+			home = get_from_env(env, "HOME");
+			if (home)
+			{
+				length = ft_strlen(home);
+				updated_word = replace_word_tilde((*value)[i], home, length);
+				free(home);
+				if (!updated_word)
+					return (1);
+				free((*value)[i]);
+				(*value)[i] = updated_word;
+			}
 		}
 		i++;
 	}

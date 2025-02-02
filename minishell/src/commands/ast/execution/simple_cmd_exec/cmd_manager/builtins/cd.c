@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 14:35:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 17:07:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,7 @@ int	cd(char **cmd, char **env)
 	int			result;
 	struct stat	infos;
 
-	if (cmd[1] == NULL || ft_strncmp("~", cmd[1], 2) == 0
-		|| ft_strncmp("--", cmd[1], 3) == 0)
+	if (cmd[1] == NULL || ft_strncmp("--", cmd[1], 3) == 0)
 		result = goto_home(env);
 	else if (cmd[2] != NULL)
 	{

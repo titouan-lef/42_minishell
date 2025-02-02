@@ -6,25 +6,29 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 17:46:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 17:09:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static char	*get_pwd_from_env(char **env)
+char	*get_from_env(char **env, char *name)
 {
 	char	*pwd;
 	int		i;
+	int		length;
 
+	length = ft_strlen(name);
 	i = 0;
 	while (env[i])
-		if (ft_strncmp("PWD=", env[i++], 4) == 0)
+	{
+		if (ft_strncmp(name, env[i], length) == 0 && env[i][length] == '=')
 			break ;
+		i++;
+	}
 	if (env[i] == NULL)
 		return (NULL);
-	i--;
-	pwd = ft_strdup(env[i] + 4);
+	pwd = ft_strdup(env[i] + length + 1);
 	if (!pwd)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
@@ -46,7 +50,7 @@ char	*get_cwd(char **env)
 	if (getcwd(pwd, PATH_MAX) == NULL)
 	{
 		free(pwd);
-		pwd = get_pwd_from_env(env);
+		pwd = get_from_env(env, "PWD");
 	}
 	return (pwd);
 }
