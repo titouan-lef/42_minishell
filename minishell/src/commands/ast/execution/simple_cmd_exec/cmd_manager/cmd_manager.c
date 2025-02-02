@@ -6,11 +6,12 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 11:32:39 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 13:11:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "display.h"
 #include "builtins.h"
 
 /*
@@ -52,6 +53,7 @@ static void	execve_manager(char **cmd, char **redir, t_data *data)
 	result = update_cmd_path(&path, cmd[0], data->env);
 	if (result)
 		exit_exec(data, result);
+	rl_clear_history();
 	execve(path, cmd, data->env);
 	ft_printf_fd(2, "%s: %s: %s\n", NAME, cmd[0], ERR_NO_CMD);
 	free(path);
