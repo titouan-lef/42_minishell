@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 11:51:17 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:00:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,32 @@ static char	*get_quoted_value(char *name, char **env_local)
 *
 * Warning: word and env_local must not be null.
 */
-static int	get_next_quote_length(char **word)
+static int	mesure_length(char **word, char **env, int in_double_quote)
 {
-	int	length;
+	char	*env_var_value;
+	int		length;
 
-	length = 1;
-	(*word)++;
-	while (**word != '\'')
+	if (in_double_quote)
 	{
+		length = 1;
+		(*word)++;
+		while (**word != '\'')
+		{
+			length++;
+			(*word)++;
+		}
 		length++;
 		(*word)++;
+		return (length);
 	}
-	length++;
-	(*word)++;
-	return (length);
+	env_var_value = get_quoted_value(*word, env);
+	if (env_var_value)
+	{
+		length = ft_strlen(env_var_value);
+		free(env_var_value);
+		return (length);
+	}
+	return (0);
 }
 
 /*
@@ -103,23 +115,23 @@ static int	get_next_quote_length(char **word)
 int	new_word_lenght(char *word, char **env_local)
 {
 	int		length;
-	char	*env_var_value;
+	int		in_double_quotes;
 
 	length = 0;
+	in_double_quotes = 0;
 	while (*word)
 	{
+		if (*word == '\"')
+			in_double_quotes = !in_double_quotes;
 		if (*word == '$')
 		{
 			word++;
-			env_var_value = get_quoted_value(word, env_local);
+			length += mesure_length(&word, env_local, 0);
 			while (ft_isalnum(*word) || *word == '_')
 				word++;
-			if (env_var_value)
-				length += ft_strlen(env_var_value);
-			free(env_var_value);
 		}
-		else if (*word == '\'')
-			length += get_next_quote_length(&word);
+		else if (*word == '\'' && !in_double_quotes)
+			length += mesure_length(&word, NULL, 1);
 		else
 		{
 			length++;
