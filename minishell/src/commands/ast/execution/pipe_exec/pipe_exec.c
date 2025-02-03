@@ -12,21 +12,29 @@
 
 #include "execution.h"
 
-static int	pipeline_manager(t_data *data, t_tree *tree, t_stack **stack)
+static int	pipeline_manager(t_data *data, t_tree *tree, t_stack **stack, int is_first, int is_last)
 {
 	int	result;
 
 	if (tree->left->token.name == TOKEN_PIPE)
-		result = pipeline_manager(data, tree->left, stack);
+		result = pipeline_manager(data, tree->left, stack, is_first, 0);
 	else
-		result = fork_pipe(data, tree->left, stack, 0);
+	{
+		if (is_first)
+			result = first_cmd(data, tree->left, stack);
+		else
+			result = midle_cmd(data, tree->left, stack);
+	}
 	if (result)
 		return (result);
 	if (tree->right->token.name == TOKEN_PIPE)
-		result = pipeline_manager(data, tree->right, stack);
+		result = pipeline_manager(data, tree->right, stack, 0, is_last);
 	else
 	{
-		result = fork_pipe(data, tree->right, stack, 1);
+		if (is_last)
+			result = last_cmd(data, tree->right, stack);
+		else
+			result = midle_cmd(data, tree->right, stack);
 	}
 	return (result);
 }
@@ -60,21 +68,13 @@ static int	wait_children(t_stack *stack, t_data *data)
 int	pipe_exec(t_data *data, t_tree *tree)
 {
 	int		result;
-	int		result2;
 	t_stack	*stack;
 
 	stack_init(&stack);
-	result = dup_data_std(data);
+	result = pipeline_manager(data, tree, &stack, 1, 1);
 	if (result)
-		return (result);
-	result = pipeline_manager(data, tree, &stack);
-	result2 = dup2_data_std(data);
-	close_data_std(data);
-	if (result || result2)
 	{
 		stack_clear(&stack);
-		if (result2)
-			return (result2);
 		return (result);
 	}
 	result = wait_children(stack, data);
