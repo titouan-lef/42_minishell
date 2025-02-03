@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 13:11:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:59:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int	cmd_manager(t_token token, t_data *data, int is_piped)
 
 	cmd = token.value;
 	redir = token.redir;
+	if (!cmd && !redir)
+		return (0);
 	result = 0;
 	if (cmd && is_builtin_cmd(cmd[0]))
 		result = builtin_manager(cmd, redir, data, is_piped);//manage signal

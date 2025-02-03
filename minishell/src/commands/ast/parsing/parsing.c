@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 18:25:52 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:34:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,8 @@ int	get_tree_data(t_queue *queue, t_data *data)
 			return (2);
 		}
 	}
+	data->std[0] = -1;
+	data->std[1] = -1;
+	data->std[2] = -1;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:14:40 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/29 16:25:29 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:41:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,7 @@ void	close_data_std(t_data *data)
 		close(data->std[1]);
 	if (data->std[2] != -1)
 		close(data->std[2]);
+	data->std[0] = -1;
+	data->std[1] = -1;
+	data->std[2] = -1;
 }
