@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/03 17:29:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:48:13 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_data
 	t_tree				*tree;
 	t_list				*lst;
 	int					fd[2];
-	int					last_pipe; 
+	int					last_pipe;
 	int					std[3]; //0 -> stdin | 1 -> stdout | 2 -> stderr
 	struct sigaction	act;
 }			t_data;
