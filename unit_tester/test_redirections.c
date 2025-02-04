@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 16:31:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:09:03 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ void	test_redirs(char **env)
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test", 1, &test_number);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -270,7 +270,9 @@ void	test_redirs(char **env)
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, getenv("USER"), 1, &test_number);
+	char *expected = ft_strjoin(getenv("USER"),"\n");
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, expected, 1, &test_number);
+	free(expected);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -291,7 +293,7 @@ void	test_redirs(char **env)
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER", 1, &test_number);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -312,7 +314,7 @@ void	test_redirs(char **env)
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER", 1, &test_number);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -333,7 +335,7 @@ void	test_redirs(char **env)
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER", 1, &test_number);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -355,7 +357,7 @@ void	test_redirs(char **env)
 	assert_redir_out(out, &test_number, "ok", NULL);
 	//set_normal_outputs(&out);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test", 1, &test_number);
+	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	unlink("ok");
@@ -381,7 +383,7 @@ void	test_redirs(char **env)
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in("ok", "test2", 1, &test_number);
+	assert_redir_in("ok", "test2\n", 1, &test_number);
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
