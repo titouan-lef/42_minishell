@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/04 11:29:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:37:10 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,15 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 
 	token = &tree->token;
 	if (token->name == TOKEN_CMD)
+	{
 		result = cmd_exec(data, token, is_piped);
+		data->last_exit = result;
+	}
 	else if (token->name == TOKEN_PIPE)
+	{
 		result = pipe_exec(data, tree);
+		data->last_exit = result;
+	}
 	else
 		result = ope_exec(data, tree, *token, is_piped);
 	return (result);

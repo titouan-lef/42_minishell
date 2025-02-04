@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 14:33:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:12:20 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,12 @@ static void	process_cmd(char *input, t_data *data)
 {
 	t_queue	tokens;
 	t_queue	reorganized_tokens;
-	int		result;
 
 	if (*input)
 	{
 		tokens = tokenizer(input);
 		reorganized_tokens = reorganize(&tokens);
-		result = make_execution(&reorganized_tokens, data);
-		if (result)
-			data->last_exit = result;
+		data->last_exit = make_execution(&reorganized_tokens, data);
 	}
 	else
 		data->last_exit = 0;
@@ -81,7 +78,15 @@ int	main(int argc, char **argv, char **envp)
 		if (!line_read)
 			break ;
 		process_cmd(line_read, &data);
+		//char **split = ft_split(line_read, '\n');//protect
 		free(line_read);
+		/*int i = 0;
+		while (split[i])
+		{
+			process_cmd(split[i], &data);
+			++i;
+		}
+		ft_clean_matrix((void **)split);*/
 	}
 	exit_minishell(&data);
 }
