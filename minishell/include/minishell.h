@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:23:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 18:09:44 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:31:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define ERR_SYNTAX_START ": syntax error near unexpected token `"
 # define ERR_SYNTAX_END "'"
 # define ERR_RND "Impossible to geneate a here_doc name"
+# define ERR_EXP "not a valid identifier"
 
 /*---tab_utils.c---*/
 size_t	size_tab(char **tab);

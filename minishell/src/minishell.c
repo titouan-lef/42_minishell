@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 18:06:59 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:33:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,20 @@ static void	init_minishell(t_data *data, char **envp)
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		exit(1);
 	}
+	data->env_export = strdup_tab(envp);
+	if (!data->env)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		ft_clean_matrix((void **)data->env);
+		exit(1);
+	}
 	data->last_exit = 0;
 }
 
 static void	exit_minishell(t_data *data)
 {
 	ft_clean_matrix((void **)data->env);
+	ft_clean_matrix((void **)data->env_export);
 	rl_clear_history();
 	ft_putendl_error("exit");
 	exit(data->last_exit);

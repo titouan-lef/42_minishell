@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 17:15:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:31:51 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	clean(t_data *data)
 	clear_data(data);
 	close_data_std(data);
 	ft_clean_matrix((void **)data->env);
+	ft_clean_matrix((void **)data->env_export);
 	rl_clear_history();
 }
 
