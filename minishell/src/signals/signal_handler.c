@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/01 17:32:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:45:01 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ void	here_doc_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_sig_receive = 128 + sig;
-		ioctl(0, TIOCSTI, "\r");
+		rl_done = 1;
+		/*ioctl(0, TIOCSTI, "\n");
+		ft_printf("\033[A");
+		rl_replace_line("",0);
+		rl_redisplay();*/
 	}
 }

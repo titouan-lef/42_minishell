@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_here_doc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 10:50:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:53:31 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 		free(line);
 		line = tmp;
 	}
-	if (write(file, line, ft_strlen(line)) == -1)
+	if (ft_putendl_fd(line, file) == -1)
 	{
 		ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
 		free(line);
@@ -44,6 +44,11 @@ static int	write_and_free(int file, char *limiter, char *line, char **env)
 	}
 	free(line);
 	return (0);
+}
+
+static int event(void)
+{
+	return 0;// pas sure qu'on garde.
 }
 
 /*
@@ -61,14 +66,16 @@ static int	process_line(int file, char *limiter,
 	int		code;
 
 	limiter_length = ft_strlen(unquoted_limiter);
+	rl_event_hook = event;
 	line = readline("> ");
+	rl_event_hook = 0;
 	code = get_signal_receive();
 	if (!line || code)
 	{
 		free(line);
 		if (code)
 			return (code);
-		ft_printf_fd(2, "%s: %s (wanted '%s')\n",
+		ft_printf_fd(2, "%s: %s (wanted `%s')\n",
 			NAME, ERR_HERDOC_END, unquoted_limiter);
 		return (-1);
 	}
