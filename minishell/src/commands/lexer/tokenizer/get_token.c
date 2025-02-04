@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:39:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/29 16:07:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:14:24 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 {
 	t_token_name	token_name;
 	int				start;
+	int				status;
 
 	start = *index;
 	while (input[*index]
@@ -40,8 +41,11 @@ static t_token_name	get_word(const char *input, int *index, char *buffer)
 			(*index)++;
 	}
 	ft_strlcpy(buffer, input + start, *index - start + 1);
-	if ((input[*index] == '<' || input[*index] == '>')
-		&& ft_to_positive_int(buffer) != -1)
+	if (ft_isdigit(*buffer))
+		ft_to_number(buffer, &status, INT_MAX);
+	else
+		status = 1;
+	if ((input[*index] == '<' || input[*index] == '>') && status == 0)
 	{
 		token_name = get_redir(input, index, buffer + *index - start);
 		return (token_name);
