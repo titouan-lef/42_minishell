@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 17:00:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:15:40 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	import_var(char *var, int size, char ***env, int local)
 		j++;
 	}
 	if (!(*env)[j])
-		*env = append_to_tab(*env, var);
+		*env = append_to_tab(*env, var);//protect
 	else if (local)
 	{
 		tmp = ft_strdup(var);
@@ -45,12 +45,17 @@ static int	length_valid_name(char *var)
 {
 	int	size;
 
+	if (ft_isdigit(var[0]) || var[0] == '=')
+	{
+		ft_printf_fd(2, "%s: export: `%s': %s\n", NAME, var, ERR_EXP);
+		return (-1);
+	}
 	size = 0;
 	while (var[size] && var[size] != '=')
 	{
 		if (!ft_isalnum(var[size]) && var[size] != '_')
 		{
-			ft_printf_fd(2, "%s: export: %s: %s\n", NAME, var, ERR_EXP);
+			ft_printf_fd(2, "%s: export: `%s': %s\n", NAME, var, ERR_EXP);
 			return (-1);
 		}
 		size++;
@@ -58,7 +63,7 @@ static int	length_valid_name(char *var)
 	return (size);
 }
 
-int	print_export(char **env)
+static void	print_export(char **env)
 {
 	int	i;
 	int	j;
@@ -76,7 +81,6 @@ int	print_export(char **env)
 			ft_putchar('\n');
 		i++;
 	}
-	return (0);
 }
 
 int	export(char **cmd, char ***env_local, char ***env_export)
@@ -85,6 +89,7 @@ int	export(char **cmd, char ***env_local, char ***env_export)
 	int	size;
 	int	result;
 
+	result = 0;
 	i = 1;
 	while (cmd[i])
 	{
@@ -93,15 +98,19 @@ int	export(char **cmd, char ***env_local, char ***env_export)
 		{
 			if (cmd[i][size])
 			{
-				result = import_var(cmd[i], size, env_local, 1);
-				result = import_var(cmd[i], size, env_export, 1);
+				if (import_var(cmd[i], size, env_local, 1))
+					return (1);
+				if (import_var(cmd[i], size, env_export, 1))
+					return (1);
 			}
-			else
-				result = import_var(cmd[i], size, env_export, 0);
+			else if (import_var(cmd[i], size, env_export, 0))
+				return (1);
 		}
+		else
+			result = 1;
 		i++;
 	}
 	if (i == 1)
-		result = print_export(*env_export);
+		print_export(*env_export);
 	return (result);
 }
