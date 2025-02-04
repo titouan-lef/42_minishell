@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/02 16:11:16 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/04 11:30:56 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,16 +31,20 @@ SRC				=	minishell.c																\
 					commands/token.c														\
 					commands/ast/execution/execution.c										\
 					commands/ast/execution/logic_ope_exec.c									\
+					commands/ast/execution/pipe_exec/first_cmd.c							\
+					commands/ast/execution/pipe_exec/midle_cmd.c							\
+					commands/ast/execution/pipe_exec/last_cmd.c								\
 					commands/ast/execution/pipe_exec/pipe_exec.c							\
-					commands/ast/execution/pipe_exec/fork_pipe.c							\
 					commands/ast/execution/simple_cmd_exec/simple_cmd_exec.c				\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/cmd_manager.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/update_cmd_path.c	\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/builtin.c	\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/cd.c		\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/goto_dir.c	\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/echo.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/env.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/exit.c		\
+					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/export.c	\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/pwd.c		\
 					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/unset.c		\
 					commands/ast/execution/simple_cmd_exec/redir_manager/redir_manager.c	\

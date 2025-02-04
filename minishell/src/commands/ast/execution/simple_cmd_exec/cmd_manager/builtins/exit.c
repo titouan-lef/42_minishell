@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 11:46:24 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:06:10 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	clean(t_data *data)
 	clear_data(data);
 	close_data_std(data);
 	ft_clean_matrix((void **)data->env);
+	ft_clean_matrix((void **)data->env_export);
 	rl_clear_history();
 }
 
@@ -34,16 +35,17 @@ int	my_exit(char **cmd, t_data *data, int is_piped)
 		clean(data);
 		exit(0);
 	}
-	if (cmd[2] != NULL)
-	{
-		ft_printf_fd(2, "%s: exit: too many arguments\n", NAME);
-		return (1);
-	}
 	exit_status = (char)ft_to_number(cmd[1], &status, LLONG_MAX);
 	if (status)
 	{
 		ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", NAME, cmd[1]);
-		exit_status = 2;
+		clean(data);
+		exit(2);
+	}
+	if (cmd[2] != NULL)
+	{
+		ft_printf_fd(2, "%s: exit: too many arguments\n", NAME);
+		return (1);
 	}
 	clean(data);
 	exit(exit_status);

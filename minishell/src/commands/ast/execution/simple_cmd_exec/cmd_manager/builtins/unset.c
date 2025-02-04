@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:38:50 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/21 12:20:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:43:20 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,24 @@
 static int	is_var_to_unset(char *var_name, char **list)
 {
 	int	length;
+	int	i;
 
-	while (list && *list)
+	while (*list)
 	{
-		length = ft_strlen(*list);
-		if (!ft_strncmp(var_name, *list, length) && var_name[length] == '=')
-			return (1);
+		i = 0;
+		while ((*list)[i])
+		{
+			if (!ft_isalnum((*list)[i]) && (*list)[i] != '_')
+				break ;
+			++i;
+		}
+		if ((*list)[i] == '\0')
+		{
+			length = ft_strlen(*list);
+			if (!ft_strncmp(var_name, *list, length)
+				&& (!var_name[length] || var_name[length] == '='))
+				return (1);
+		}
 		list++;
 	}
 	return (0);
