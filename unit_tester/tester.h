@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 18:44:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:04:06 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	test_var_expand(char **envp);
 void	test_exit_expand(void);
 void	test_pathname_expand(void);
 void	test_tilde_expand(char **envp);
+void	test_to_number(void);
 void	test_quote_removal(void);
 void	test_redirs(char **envp);
 

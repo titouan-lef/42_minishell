@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/02 18:42:24 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/04 12:03:13 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC				=	unit_test/unit_test.c		\
 					test_var_expansion.c		\
 					test_exit_expansion.c		\
 					test_tilde_expansion.c		\
+					test_to_number.c			\
 					test_pathname_expansion.c	\
 					test_quote_removal.c		\
 					test_redirections.c

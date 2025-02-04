@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_convert_int.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:34:13 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/13 19:20:57 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:09:20 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,79 @@
 
 /*
 * Goal: Add digit 'c' at the end of 'nb'.
-* nb > INT_MAX / 10 allows to test :
-* 	nb * 10 > INT_MAX.
-* digit > INT_MAX - nb allows to test :
-* 	nb + digit > INT_MAX.
+* 'is_neg' is equal to 0 or 1.
+* nb > max / 10 allows to test :
+* 	nb * 10 > max.
+* digit - is_neg > max - nb allows to test :
+* 	nb + digit > max + is_neg.
 *
-* Return: The new number after add the digit 'c' or -1 if error.
+* Return: The new number after add the digit 'c' or 1 if error.
 *
 * Warning: Overflow is an error.
 */
-static int	ft_update_number(int nb, char c)
+static int	ft_update_number(long long *nb, char c, int is_neg, long long max)
 {
-	int	digit;
+	long long	digit;
 
-	if (nb > INT_MAX / 10)
-		return (-1);
-	nb *= 10;
+	if (*nb > max / 10)
+		return (1);
+	*nb *= 10;
 	digit = ft_toint(c);
-	if (digit > INT_MAX - nb)
-		return (-1);
-	return (nb + digit);
+	if (digit - is_neg > max - *nb)
+		return (1);
+	*nb += digit;
+	return (0);
 }
 
 /*
-* Goal: Convert 'nptr' to a int.
+* Goal: Add digit 'c' at the end of 'nb'.
 *
-* Return: A positive int or -1 if error.
-*
-* Warning: Overflow and no digit are errors.
+* Return: 0 if success, 2 if not number and 3 if overflow.
 */
-int	ft_to_positive_int(const char *nptr)
+static int	ft_char_to_number(long long *nb, const char *nptr, int is_neg,
+				long long max)
 {
-	int	nb;
-
-	if (*nptr == '\0')
-		return (-1);
-	nb = 0;
-	while (*nptr && nb >= 0)
+	while (*nptr)
 	{
 		if (!ft_isdigit(*nptr))
-			return (-1);
-		nb = ft_update_number(nb, *nptr);
+			return (2);
+		if (ft_update_number(nb, *nptr, is_neg, max))
+			return (3);
 		++nptr;
 	}
+	return (0);
+}
+
+/*
+* Goal: Convert 'nptr' to a long long.
+*
+* Return: A long long and set status to :
+* 	0 if success.
+* 	1 if not number.
+* 	2 if there is a not digit character.
+* 	3 if overflow.
+*/
+long long	ft_to_number(const char *nptr, int *status, long long max)
+{
+	int			is_neg;
+	long long	nb;
+
+	is_neg = 0;
+	if (*nptr == '+' || *nptr == '-')
+	{
+		if (*nptr == '-')
+			is_neg = 1;
+		++nptr;
+	}
+	nb = 0;
+	if (*nptr == '\0')
+	{
+		*status = 1;
+		return (nb);
+	}
+	*status = ft_char_to_number(&nb, nptr, is_neg, max);
+	if (is_neg)
+		nb = -nb;
 	return (nb);
 }
 
