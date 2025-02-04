@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcopy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:20:03 by tle-floc          #+#    #+#             */
-/*   Updated: 2024/12/15 20:00:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:08:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/*
+* Goal: Copy every characters from 'src' to 'dest'.
+*
+* Return: 'dest' pointer.
+*
+* Warning: size of 'dest' are not verified.
+* 'dest' and 'src' must not overlap.
+* 'dest' and 'src' must not be null.
+*/
+char	*ft_strcpy(char *dest, const char *src)
+{
+	size_t	i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		++i;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
 
 /*
 * Goal: Copy the first 'size'-1 characters of 'src' to 'dst' and finish with \0.

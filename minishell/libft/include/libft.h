@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:04:11 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/03 20:20:29 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:02:14 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char		*ft_itoa(int n);
 void		*ft_memcpy(void *dest, const void *src, size_t n);
 void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memdup(const void *src, size_t n);
+char		*ft_strcpy(char *dest, const char *src);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 char		*ft_strndup(const char *s, size_t n);
 char		*ft_strdup(const char *s);
