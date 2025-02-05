@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 18:09:03 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:33:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ static void	assert_redir_in(char *file, char *expected, int here_doc, size_t *i)
 
 void	test_redirs(char **env)
 {
+	t_data	data;
 	t_list	*here_docs;
 	size_t	test_number;
 	char	**redir;
@@ -127,6 +128,8 @@ void	test_redirs(char **env)
 	int		result;
 
 	start_test("redirections");
+	data.env = env;
+	data.read_lines = NULL;
 	test_number = 1;
 
 	/*--- test 1 ---*/
@@ -245,7 +248,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
@@ -266,7 +270,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
@@ -289,7 +294,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
@@ -310,7 +316,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
@@ -331,7 +338,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
@@ -352,7 +360,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	redir_manager(redir, here_docs);
 	assert_redir_out(out, &test_number, "ok", NULL);
 	//set_normal_outputs(&out);
@@ -375,7 +384,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	redir_manager(redir, here_docs);
 	set_normal_outputs(&out);
 		if (result == -1)
@@ -400,7 +410,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -423,7 +434,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -446,7 +458,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -469,7 +482,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -492,7 +506,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -515,7 +530,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -538,7 +554,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -561,7 +578,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 1)
 		print_ok(&test_number);
@@ -584,7 +602,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
@@ -607,7 +626,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
@@ -630,7 +650,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
@@ -653,7 +674,8 @@ void	test_redirs(char **env)
 	close(fd);
 	here_docs = NULL;
 	result = detect_here_docs(redir, &here_docs);
-	read_here_docs(here_docs, env);
+	data.lst = here_docs;
+	read_here_docs(&data);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
@@ -663,4 +685,7 @@ void	test_redirs(char **env)
 	clear_here_docs(here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
+
+	if (data.read_lines)
+		ft_clean_matrix((void **)data.read_lines);
 }
