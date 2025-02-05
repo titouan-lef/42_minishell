@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/05 12:55:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:55:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int				remove_quotes(char ***value);
 /*---compare.c---*/
 int				compare_lexicographicly(char char1, char char2);
 int				strcmp_lexicographicly(const void *p1, const void *p2);
+int				ft_void_strcmp(const void *s1, const void *s2);
 
 /*---cmd_manager.c---*/
 int				cmd_manager(t_token token, t_data *data, int is_piped);

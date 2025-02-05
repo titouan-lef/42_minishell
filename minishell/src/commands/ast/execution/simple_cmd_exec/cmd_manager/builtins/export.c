@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 20:15:40 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:22:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	print_export(char **env)
 	int	j;
 
 	i = 0;
+	ft_insertion_qsort(env, size_tab(env), sizeof(char *), ft_void_strcmp);
 	while (env[i])
 	{
 		j = 0;

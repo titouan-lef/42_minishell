@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:29:53 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/23 20:23:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:27:51 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,16 @@ int	strcmp_lexicographicly(const void *p1, const void *p2)
 	}
 	result = ft_strcmp(str1, str2);
 	return (-result);
+}
+
+int	ft_void_strcmp(const void *s1, const void *s2)
+{
+	char	*str1;
+	char	*str2;
+	int		result;
+
+	str1 = *(char **)s1;
+	str2 = *(char **)s2;
+	result = ft_strcmp(str1, str2);
+	return (result);
 }
