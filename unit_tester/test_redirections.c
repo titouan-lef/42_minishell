@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 11:33:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:26:00 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	test_redirs(char **env)
 	start_test("redirections");
 	data.env = env;
 	data.read_lines = NULL;
+	data.last_exit = 0;
 	test_number = 1;
 
 	/*--- test 1 ---*/
@@ -251,6 +252,7 @@ void	test_redirs(char **env)
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
+	remove_quotes(&redir);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
@@ -268,17 +270,17 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	detect_here_docs(redir, &here_docs);
-	data.lst = here_docs;
+	data.lst = NULL;
+	detect_here_docs(redir, &data.lst);
 	read_here_docs(&data);
 	set_normal_outputs(&out);
-	redir_manager(redir, here_docs);
+	remove_quotes(&redir);
+	redir_manager(redir, data.lst);
 	ft_clean_matrix((void **)redir);
 	char *expected = ft_strjoin(getenv("USER"),"\n");
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, expected, 1, &test_number);
+	assert_redir_in(((t_here_doc *)data.lst->content)->filename, expected, 1, &test_number);
 	free(expected);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.lst);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -292,15 +294,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	detect_here_docs(redir, &here_docs);
-	data.lst = here_docs;
+	data.lst = NULL;
+	detect_here_docs(redir, &data.lst);
 	read_here_docs(&data);
 	set_normal_outputs(&out);
-	redir_manager(redir, here_docs);
+	remove_quotes(&redir);
+	redir_manager(redir, data.lst);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
-	clear_here_docs(here_docs);
+	assert_redir_in(((t_here_doc *)data.lst->content)->filename, "$USER\n", 1, &test_number);
+	clear_here_docs(data.lst);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -318,7 +320,9 @@ void	test_redirs(char **env)
 	detect_here_docs(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
+	here_docs = data.lst;
 	set_normal_outputs(&out);
+	remove_quotes(&redir);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
@@ -340,7 +344,9 @@ void	test_redirs(char **env)
 	detect_here_docs(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
+	here_docs = data.lst;
 	set_normal_outputs(&out);
+	remove_quotes(&redir);
 	redir_manager(redir, here_docs);
 	ft_clean_matrix((void **)redir);
 	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
@@ -362,6 +368,8 @@ void	test_redirs(char **env)
 	detect_here_docs(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
+	here_docs = data.lst;
+	remove_quotes(&redir);
 	redir_manager(redir, here_docs);
 	assert_redir_out(out, &test_number, "ok", NULL);
 	//set_normal_outputs(&out);
@@ -386,7 +394,7 @@ void	test_redirs(char **env)
 	result = detect_here_docs(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
-	redir_manager(redir, here_docs);
+	redir_manager(redir, data.lst);
 	set_normal_outputs(&out);
 		if (result == -1)
 		print_ok(&test_number);
