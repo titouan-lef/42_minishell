@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/04 11:30:56 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/05 11:22:24 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
 SRC				=	minishell.c																\
+					read_lines.c															\
 					dup_utils.c																\
 					tab_utils.c																\
 					commands/compare.c														\

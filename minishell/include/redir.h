@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:40:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/30 14:28:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 10:32:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int			redirect_here_doc(int fd, char *limit, t_list *here_docs);
 int			redir_manager(char **redirs, t_list *here_docs);
 
 /*---here_doc---*/
-int			get_here_doc_input(int file, char *limiter, char **env);
+int			get_here_doc_input(int file, char *limiter, t_data *data);
 int			detect_here_docs(char **redirs, t_list **here_docs);
-int			read_here_docs(t_list *here_docs, char **env);
+int			read_here_docs(t_data *data);
 void		clear_here_docs(t_list *here_docs);
 
 #endif

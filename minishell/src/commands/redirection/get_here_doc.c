@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_here_doc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 17:53:31 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:43:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,30 @@
 static int	write_and_free(int file, char *limiter, char *line, char **env)
 {
 	char	*tmp;
+	int		result;
 
+	tmp = NULL;
 	if (!ft_strchr(limiter, '\'') && !ft_strchr(limiter, '\"'))
 	{
 		tmp = replace_word_env(line, env, 1, 0);
 		if (!tmp)
 		{
 			ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
-			free(line);
 			return (1);
 		}
-		free(line);
 		line = tmp;
 	}
-	if (ft_putendl_fd(line, file) == -1)
+	result = ft_putendl_fd(line, file);
+	free(tmp);
+	if (result == -1)
 	{
 		ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
-		free(line);
 		return (1);
 	}
-	free(line);
 	return (0);
 }
 
-static int event(void)
+static int	event(void)
 {
 	return 0;// pas sure qu'on garde.
 }
@@ -59,7 +59,7 @@ static int event(void)
 * Warning: limiters and env must not me null.
 */
 static int	process_line(int file, char *limiter,
-			char *unquoted_limiter, char **env)
+			char *unquoted_limiter, t_data *data)
 {
 	char	*line;
 	int		limiter_length;
@@ -67,12 +67,11 @@ static int	process_line(int file, char *limiter,
 
 	limiter_length = ft_strlen(unquoted_limiter);
 	rl_event_hook = event;
-	line = readline("> ");
+	line = read_lines(data, 1);
 	rl_event_hook = 0;
 	code = get_signal_receive();
 	if (!line || code)
 	{
-		free(line);
 		if (code)
 			return (code);
 		ft_printf_fd(2, "%s: %s (wanted `%s')\n",
@@ -80,11 +79,8 @@ static int	process_line(int file, char *limiter,
 		return (-1);
 	}
 	if (!ft_strcmp(unquoted_limiter, line))
-	{
-		free(line);
 		return (-1);
-	}
-	if (write_and_free(file, limiter, line, env))
+	if (write_and_free(file, limiter, line, data->env))
 		return (1);
 	return (0);
 }
@@ -96,7 +92,7 @@ static int	process_line(int file, char *limiter,
 *
 * Warning: limit and env must not me null.
 */
-int	get_here_doc_input(int file, char *limiter, char **env)
+int	get_here_doc_input(int file, char *limiter, t_data *data)
 {
 	char	*unquoted_limiter;
 	int		result;
@@ -106,7 +102,7 @@ int	get_here_doc_input(int file, char *limiter, char **env)
 		return (1);
 	while (1)
 	{
-		result = process_line(file, limiter, unquoted_limiter, env);
+		result = process_line(file, limiter, unquoted_limiter, data);
 		if (result == -1)
 			break ;
 		if (result)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 20:12:20 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:23:43 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,14 @@ static void	init_minishell(t_data *data, char **envp)
 		ft_clean_matrix((void **)data->env);
 		exit(1);
 	}
+	data->read_lines = NULL;
 	data->last_exit = 0;
 }
 
 static void	exit_minishell(t_data *data)
 {
+	if (data->read_lines)
+		ft_clean_matrix((void **)data->read_lines);
 	ft_clean_matrix((void **)data->env);
 	ft_clean_matrix((void **)data->env_export);
 	rl_clear_history();
@@ -71,22 +74,13 @@ int	main(int argc, char **argv, char **envp)
 	init_minishell(&data, envp);
 	while (1)
 	{
-		line_read = rl_gets(data.env);
+		line_read = read_lines(&data, 0);
 		code = get_signal_receive();
 		if (code)
 			data.last_exit = code;
 		if (!line_read)
 			break ;
 		process_cmd(line_read, &data);
-		//char **split = ft_split(line_read, '\n');//protect
-		free(line_read);
-		/*int i = 0;
-		while (split[i])
-		{
-			process_cmd(split[i], &data);
-			++i;
-		}
-		ft_clean_matrix((void **)split);*/
 	}
 	exit_minishell(&data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/04 19:37:10 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 10:57:55 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	clear_data(t_data *data)
 
 void	exit_exec(t_data *data, int code)
 {
+	if (data->read_lines)
+		ft_clean_matrix((void **)data->read_lines);
 	ft_clean_matrix((void **)data->env);
 	ft_clean_matrix((void **)data->env_export);
 	clear_data(data);
@@ -59,7 +61,7 @@ int	make_execution(t_queue *queue, t_data *data)
 		return (0);
 	result = get_tree_data(queue, data);
 	result3 = modify_sigaction(&data->act, here_doc_handler, 1);
-	result2 = read_here_docs(data->lst, data->env);
+	result2 = read_here_docs(data);
 	if (result3 || modify_sigaction(&data->act, interactive_mode_handler, 1))
 	{
 		clear_data(data);

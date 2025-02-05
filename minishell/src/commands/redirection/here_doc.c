@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 15:11:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 10:52:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,14 @@ int	detect_here_docs(char **redirs, t_list **here_docs)
 *
 * Return: 0 if succed, 1 if not.
 */
-int	read_here_docs(t_list *here_docs, char **env)
+int	read_here_docs(t_data *data)
 {
+	t_list		*here_docs;
 	t_here_doc	*here_doc;
 	int			fd;
 	int			result;
 
+	here_docs = data->lst;
 	while (here_docs)
 	{
 		here_doc = here_docs->content;
@@ -107,7 +109,7 @@ int	read_here_docs(t_list *here_docs, char **env)
 			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
 			return (1);
 		}
-		result = get_here_doc_input(fd, here_doc->limiter, env);
+		result = get_here_doc_input(fd, here_doc->limiter, data);
 		close(fd);
 		if (result)
 			return (result);

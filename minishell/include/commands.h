@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/04 11:22:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:11:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_here_doc
 
 typedef struct s_data
 {
+	char				**read_lines;
 	char				**env;
 	char				**env_export;
 	int					last_exit;
@@ -46,6 +47,8 @@ typedef struct s_data
 	int					std[3];
 	struct sigaction	act;
 }			t_data;
+
+char			*read_lines(t_data *data, int here_doc);
 
 /*---queue_primitive.c---*/
 int				queue_is_empty(t_queue *queue);
