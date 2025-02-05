@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 14:26:00 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:40:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(redir, &here_docs);
+	fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -271,7 +271,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	data.lst = NULL;
-	detect_here_docs(redir, &data.lst);
+	fill_here_doc_lst(redir, &data.lst);
 	read_here_docs(&data);
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
@@ -295,7 +295,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	data.lst = NULL;
-	detect_here_docs(redir, &data.lst);
+	fill_here_doc_lst(redir, &data.lst);
 	read_here_docs(&data);
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
@@ -317,7 +317,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(redir, &here_docs);
+	fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	here_docs = data.lst;
@@ -341,7 +341,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(redir, &here_docs);
+	fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	here_docs = data.lst;
@@ -365,7 +365,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	detect_here_docs(redir, &here_docs);
+	fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	here_docs = data.lst;
@@ -391,7 +391,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	redir_manager(redir, data.lst);
@@ -417,7 +417,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -441,7 +441,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -465,7 +465,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -489,7 +489,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -513,7 +513,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -537,7 +537,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -561,7 +561,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -585,7 +585,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -609,7 +609,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -633,7 +633,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -657,7 +657,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);
@@ -681,7 +681,7 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	here_docs = NULL;
-	result = detect_here_docs(redir, &here_docs);
+	result = fill_here_doc_lst(redir, &here_docs);
 	data.lst = here_docs;
 	read_here_docs(&data);
 	set_normal_outputs(&out);

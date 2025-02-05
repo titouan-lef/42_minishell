@@ -1,16 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   lexer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:54:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/28 15:15:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:13:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
+
+/*
+* Goal: Put the token found in buffer.
+*
+* Return: The enum of the token type.
+*
+* Warning: input, index and buffer must not be null.
+*/
+static t_token_name	get_token(char *input, int *index, char *buffer)
+{
+	t_token_name	token_name;
+
+	while (ft_isspace(input[*index]))
+		(*index)++;
+	token_name = get_operator(input, index, buffer);
+	if (token_name != TOKEN_NULL)
+		return (token_name);
+	token_name = get_redir(input, index, buffer);
+	if (token_name != TOKEN_NULL)
+		return (token_name);
+	token_name = get_word(input, index, buffer);
+	if (token_name != TOKEN_ERROR && *buffer == '\0')
+		return (TOKEN_NULL);
+	return (token_name);
+}
 
 static int	init_token(t_token *token, char *input, int *index)
 {
@@ -47,33 +72,32 @@ static int	push_or_free(t_queue *tokens, t_token *token)
 /*
 * Goal: Found all the tokens in the input command.
 *
-* Return: A queue of tokens.
+* Return: 0 if success, 1 else.
 *
-* Warning: input must not be null.
+* Warning: input and tokens must not be null.
 */
-t_queue	tokenizer(char *input)
+int	lexer(char *input, t_queue *tokens)
 {
 	int		index;
 	t_token	token;
-	t_queue	tokens;
 
-	tokens = queue_create();
+	*tokens = queue_create();
 	index = 0;
 	while (input[index] != '\0')
 	{
 		if (init_token(&token, input, &index))
 		{
-			queue_clear(&tokens);
-			return (tokens);
+			queue_clear(tokens);
+			return (1);
 		}
 		if (token.name == TOKEN_ERROR)
 		{
 			token_clear(token);
-			queue_clear(&tokens);
-			return (tokens);
+			queue_clear(tokens);
+			return (2);
 		}
-		if (push_or_free(&tokens, &token))
-			return (tokens);
+		if (push_or_free(tokens, &token))
+			return (1);
 	}
-	return (tokens);
+	return (0);
 }

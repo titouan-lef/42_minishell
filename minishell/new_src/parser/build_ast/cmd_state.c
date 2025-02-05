@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simple_cmd_state.c                                 :+:      :+:    :+:   */
+/*   cmd_state.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 18:54:19 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:29:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static void	print_error_redir(char *token_error)
 }
 
 /*
-* Goal: Add each here_dc found in the list and print errors syntaxes in
+* Goal: Add each here_doc found in the list and print errors syntaxes in
 * redirections.
 *
-* Return: 0 if succed, 1 else.
+* Return: 0 if success, 1 else.
 *
 * Warning: If a syntax error is detected, it's the next redir which is printed
 * or the next token if it was the last redir.
@@ -52,7 +52,7 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 	int		result;
 	char	*token_error;
 
-	result = detect_here_docs(tree->token.redir, here_docs);
+	result = fill_here_doc_lst(tree->token.redir, here_docs);
 	if (result == -1)
 		return (0);
 	if (result == -2)

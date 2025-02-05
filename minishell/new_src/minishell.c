@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 11:23:43 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:22:22 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,23 @@
 static void	process_cmd(char *input, t_data *data)
 {
 	t_queue	tokens;
-	t_queue	reorganized_tokens;
+	int		result;
 
-	if (*input)
+	result = lexer(input, &tokens);
+	if (result)
 	{
-		tokens = tokenizer(input);
-		reorganized_tokens = reorganize(&tokens);
-		data->last_exit = make_execution(&reorganized_tokens, data);
+		data->last_exit = result;
+		return ;
 	}
-	else
-		data->last_exit = 0;
+	if (queue_is_empty(&tokens))
+		return ;
+	result = parser(&tokens, data);
+	if (result)
+	{
+		data->last_exit = result;
+		return ;
+	}
+	data->last_exit = make_execution(&tokens, data);
 }
 
 static void	init_minishell(t_data *data, char **envp)

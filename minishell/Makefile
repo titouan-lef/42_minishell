@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/05 11:22:24 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/05 18:19:22 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,9 +67,9 @@ SRC				=	minishell.c																\
 					commands/expansion/variable_expansion.c									\
 					commands/expansion/wildcard_utils.c										\
 					commands/lexer/parser/parser.c											\
-					commands/lexer/tokenizer/get_token.c									\
-					commands/lexer/tokenizer/token_utils.c									\
-					commands/lexer/tokenizer/tokenizer.c									\
+					commands/lexer/lexer/get_token.c									\
+					commands/lexer/lexer/token_utils.c									\
+					commands/lexer/lexer/lexer.c									\
 					commands/redirection/get_here_doc.c										\
 					commands/redirection/here_doc.c											\
 					commands/redirection/random.c											\

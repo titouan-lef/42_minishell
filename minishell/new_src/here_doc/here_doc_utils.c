@@ -1,16 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 12:49:33 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:42:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
+
+static void	fill_str(char *random_string, int fd, size_t length)//if norm problem --> rand_str.c
+{
+	char	random_char;
+	size_t	i;
+
+	i = 0;
+	while (i < length)
+	{
+		if (read(fd, &random_char, 1) != 1)
+		{
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_RND);
+			free(random_string);
+			random_string = NULL;
+			break ;
+		}
+		if (ft_isalnum(random_char))
+			random_string[i++] = random_char;
+	}
+}
 
 /*
 * Goal: Create a new node of struct here_doc with the given limiter.
@@ -47,7 +67,48 @@ static t_list	*new_here_doc(char *limiter)
 }
 
 /*
-* Goal: Add each here_dc found in the list
+* Goal: Generate a random string of alpha numeric characters.
+*
+* Return: The generated string.
+*/
+char	*generate_random_string(size_t length)//if norm problem --> rand_str.c
+{
+	int		fd;
+	char	*random_string;
+
+	random_string = (char *)ft_calloc((length + 1), sizeof(char));
+	if (!random_string)
+		return (NULL);
+	fd = open("/dev/random", O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_RND);
+		free(random_string);
+		return (NULL);
+	}
+	fill_str(random_string, fd, length);
+	close(fd);
+	return (random_string);
+}
+
+/*
+* Goal: Clear the list of here_doc struct.
+*
+* Warning: here_docs must not me null.
+*/
+void	clear_here_docs(t_list *here_docs)
+{
+	while (here_docs)
+	{
+		unlink(((t_here_doc *)here_docs->content)->filename);
+		free(((t_here_doc *)here_docs->content)->filename);
+		free(((t_here_doc *)here_docs->content)->limiter);
+		here_docs = ft_lstremove_front(here_docs, free);
+	}
+}
+
+/*
+* Goal: Add each here_doc found in the list
 *		and detects errors syntaxes in redirections.
 *
 * Return: -1 if succed, -2 if malloc error or the index of
@@ -55,7 +116,7 @@ static t_list	*new_here_doc(char *limiter)
 *
 * Warning: redirs and here_docs must not me null.
 */
-int	detect_here_docs(char **redirs, t_list **here_docs)
+int	fill_here_doc_lst(char **redirs, t_list **here_docs)
 {
 	t_list	*new;
 	char	*redir;
@@ -82,54 +143,4 @@ int	detect_here_docs(char **redirs, t_list **here_docs)
 		ft_lstadd_back(here_docs, new);
 	}
 	return (-1);
-}
-
-/*
-* Goal: Create a file with a random name.
-*
-* Return: 0 if succed, 1 if not.
-*/
-int	read_here_docs(t_data *data)
-{
-	t_list		*here_docs;
-	t_here_doc	*here_doc;
-	int			fd;
-	int			result;
-
-	here_docs = data->lst;
-	while (here_docs)
-	{
-		here_doc = here_docs->content;
-		here_doc->filename = generate_random_string(10);
-		if (!here_doc->filename)
-			return (1);
-		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
-			return (1);
-		}
-		result = get_here_doc_input(fd, &here_doc->limiter, data);
-		close(fd);
-		if (result)
-			return (result);
-		here_docs = here_docs->next;
-	}
-	return (0);
-}
-
-/*
-* Goal: Clear the list of here_doc struct.
-*
-* Warning: here_docs must not me null.
-*/
-void	clear_here_docs(t_list *here_docs)
-{
-	while (here_docs)
-	{
-		unlink(((t_here_doc *)here_docs->content)->filename);
-		free(((t_here_doc *)here_docs->content)->filename);
-		free(((t_here_doc *)here_docs->content)->limiter);
-		here_docs = ft_lstremove_front(here_docs, free);
-	}
 }

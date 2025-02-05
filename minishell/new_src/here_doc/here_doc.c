@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_here_doc.c                                     :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 13:25:32 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:37:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static int	process_line(int file, char *limiter,
 *
 * Warning: limit and env must not me null.
 */
-int	get_here_doc_input(int file, char **limiter, t_data *data)
+static int	get_here_doc_input(int file, char **limiter, t_data *data)
 {
 	char	*unquoted_limiter;
 	int		result;
@@ -121,5 +121,39 @@ int	get_here_doc_input(int file, char **limiter, t_data *data)
 	}
 	free(*limiter);
 	*limiter = unquoted_limiter;
+	return (0);
+}
+
+/*
+* Goal: Create a file with a random name.
+*
+* Return: 0 if succed, 1 if not.
+*/
+int	read_here_docs(t_data *data)
+{
+	t_list		*here_docs;
+	t_here_doc	*here_doc;
+	int			fd;
+	int			result;
+
+	here_docs = data->lst;
+	while (here_docs)
+	{
+		here_doc = here_docs->content;
+		here_doc->filename = generate_random_string(10);
+		if (!here_doc->filename)
+			return (1);
+		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
+			return (1);
+		}
+		result = get_here_doc_input(fd, &here_doc->limiter, data);
+		close(fd);
+		if (result)
+			return (result);
+		here_docs = here_docs->next;
+	}
 	return (0);
 }

@@ -3,15 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 12:17:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:22:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 
+static char	*rl_gets(char **env)
+{
+	char	*line_read ;
+	char	*prompt;
+
+	prompt = get_prompt(env);
+	if (!prompt)
+		return (NULL);
+	line_read = readline(prompt);
+	free(prompt);
+	if (line_read && *line_read)
+		add_history(line_read);
+	return (line_read);
+}
+
+/*
+* Goal: Read from stdin whith readline or from last readline.
+*
+* Return: The line read with readline or from last read.
+*
+* Warning: data must not be null.
+*/
 char	*read_lines(t_data *data, int here_doc)
 {
 	char		*line_read;

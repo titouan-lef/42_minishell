@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_get_tree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/30 11:33:33 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:10:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ static void write_result(t_queue *queue, t_data *data)
 	t_tree *tree;
 
 	redirect_outputs(&outputs);
-	get_tree_data(queue, data);
+	parser(queue, data);
 	tree = data->tree;
 	clear_here_docs(data->lst);
 	breadth_first_search(tree);
@@ -830,7 +830,7 @@ void	test_get_tree(char **envp)
 
 	data.env = strdup_tab(envp);
 
-	start_test("get_tree_data");
+	start_test("parser");
 	test_number = 1;
 
 	/*--- test 1 ---*/

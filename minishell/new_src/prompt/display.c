@@ -6,44 +6,12 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 17:46:57 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:19:16 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 #include "builtins.h"
-
-char	*rl_gets(char **env)
-{
-	char	*line_read ;
-	char	*prompt;
-
-	prompt = get_prompt(env);
-	if (!prompt)
-		return (NULL);
-	line_read = readline(prompt);
-	free(prompt);
-	if (line_read && *line_read)
-		add_history(line_read);
-	return (line_read);
-}
-
-void	print_tokens(t_queue *tokens) //remove at the end, only needed for debug
-{
-	t_element	*list;
-	int			i;
-
-	list = tokens->head;
-	while (list)
-	{
-		ft_printf("%d | ", list->token.name);
-		i = 0;
-		while (list->token.value[i])
-			ft_printf("'%s' ", list->token.value[i++]);
-		ft_printf("\n");
-		list = list->next;
-	}
-}
 
 static char	*rebase_pwd(char *pwd, char **env)
 {
@@ -90,6 +58,13 @@ static char	*color_pwd(char *pwd)
 	return (tmp);
 }
 
+/*
+* Goal: Generate the prompt with the current directory.
+*
+* Return: The prompt, NULL is error malloc
+*
+* Warning: env must not be null.
+*/
 char	*get_prompt(char **env)
 {
 	char	*pwd;

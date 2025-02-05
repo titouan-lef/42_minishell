@@ -6,11 +6,34 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 19:13:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:25:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
+
+t_token	split_command(t_queue tokens)//call je sais pas ou
+{
+	t_token	token;
+	t_token	new_token;
+
+	new_token = token_create(TOKEN_CMD, NULL, NULL);
+	while (!queue_is_empty(&tokens))
+	{
+		token = queue_pop(&tokens);
+		new_token.value = tab_join_and_free(new_token.value, token.value);
+		if (new_token.value == NULL)
+		{
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+			token_clear(token);
+			token_clear(new_token);
+			queue_clear(&tokens);
+			return (new_token);
+		}
+	}
+	queue_clear(&tokens);
+	return (new_token);
+}
 
 /*
 * Goal: Expand all the element in the value of the token.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:40:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 12:49:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:40:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int			redirect_here_doc(int fd, char *limit, t_list *here_docs);
 int			redir_manager(char **redirs, t_list *here_docs);
 
 /*---here_doc---*/
-int			get_here_doc_input(int file, char **limiter, t_data *data);
-int			detect_here_docs(char **redirs, t_list **here_docs);
+int			fill_here_doc_lst(char **redirs, t_list **here_docs);
 int			read_here_docs(t_data *data);
 void		clear_here_docs(t_list *here_docs);
 

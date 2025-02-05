@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/03 10:34:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:37:18 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 	return (tree);
 }
 
-int	get_tree_data(t_queue *queue, t_data *data)
+int	parser(t_queue *queue, t_data *data)
 {
+	*queue = form_cmd(queue);
+	if (queue_is_empty(queue))
+		return (1);
 	data->tree = NULL;
 	data->lst = NULL;
 	while (!queue_is_empty(queue))

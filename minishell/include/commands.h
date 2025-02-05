@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/05 15:55:53 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:10:47 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_token_name	queue_first_name(t_queue *queue);
 
 /*---parsing.c---*/
 t_tree			*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
-int				get_tree_data(t_queue *queue, t_data *data);
+int				parser(t_queue *queue, t_data *data);
 
 /*---token_state.c---*/
 t_tree			*state_redir(t_tree *tree, t_queue *queue, t_list **here_docs);
@@ -78,17 +78,16 @@ void			print_error_token(t_queue *queue);
 t_tree			*common_state(t_tree *tree, t_queue *queue,
 					t_token_name type, t_list **here_docs);
 
-/*---get_token.c---*/
-int				get_quote(const char *input, int *index, char c);
-int				cmp_and_inc(const char *input, int *index, char c,
-					char *buffer);
-t_token_name	get_token( char *input, int *index, char *buffer);
+/*---get_token---*/
+t_token_name	get_operator(const char *input, int *index, char *buffer);
+t_token_name	get_word(const char *input, int *index, char *buffer);
+t_token_name	get_redir(const char *input, int *index, char *buffer);
 
 /*---lexer.c---*/
-t_queue			tokenizer(char *input);
+int				lexer(char *input, t_queue *tokens);
 
 /*---format_for_ast.c---*/
-t_queue			reorganize(t_queue *tokens);
+t_queue			form_cmd(t_queue *tokens);
 t_token			split_command(t_queue tokens);
 
 /*---expansions.c---*/
