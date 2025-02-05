@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_here_doc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 11:43:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:25:32 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,32 @@
 *
 * Warning: limit, line and env must not me null.
 */
-static int	write_and_free(int file, char *limiter, char *line, char **env)
+static int	write_and_free(int file, char *limiter, char *line, t_data *data)
 {
-	char	*tmp;
+	char	*old;
 	int		result;
 
-	tmp = NULL;
 	if (!ft_strchr(limiter, '\'') && !ft_strchr(limiter, '\"'))
 	{
-		tmp = replace_word_env(line, env, 1, 0);
-		if (!tmp)
+		line = replace_word_env(line, data->env, 1, 0);
+		if (!line)
 		{
 			ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
 			return (1);
 		}
-		line = tmp;
+		old = line;
+		line = replace_word_exit(line, data->last_exit);
+		free(old);
+		if (!line)
+		{
+			ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+			return (1);
+		}
+		result = ft_putendl_fd(line, file);
+		free(line);
 	}
-	result = ft_putendl_fd(line, file);
-	free(tmp);
+	else
+		result = ft_putendl_fd(line, file);
 	if (result == -1)
 	{
 		ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
@@ -80,7 +88,7 @@ static int	process_line(int file, char *limiter,
 	}
 	if (!ft_strcmp(unquoted_limiter, line))
 		return (-1);
-	if (write_and_free(file, limiter, line, data->env))
+	if (write_and_free(file, limiter, line, data))
 		return (1);
 	return (0);
 }
@@ -92,17 +100,17 @@ static int	process_line(int file, char *limiter,
 *
 * Warning: limit and env must not me null.
 */
-int	get_here_doc_input(int file, char *limiter, t_data *data)
+int	get_here_doc_input(int file, char **limiter, t_data *data)
 {
 	char	*unquoted_limiter;
 	int		result;
 
-	unquoted_limiter = replace_word_quotes(limiter);
+	unquoted_limiter = replace_word_quotes(*limiter);
 	if (!unquoted_limiter)
 		return (1);
 	while (1)
 	{
-		result = process_line(file, limiter, unquoted_limiter, data);
+		result = process_line(file, *limiter, unquoted_limiter, data);
 		if (result == -1)
 			break ;
 		if (result)
@@ -111,6 +119,7 @@ int	get_here_doc_input(int file, char *limiter, t_data *data)
 			return (result);
 		}
 	}
-	free(unquoted_limiter);
+	free(*limiter);
+	*limiter = unquoted_limiter;
 	return (0);
 }

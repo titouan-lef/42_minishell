@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status_expansion.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 18:37:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:54:42 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	find_and_replace(char *updated_word, char *word,
 *
 * Warning: word and env_local must not be null.
 */
-static char	*replace_word_exit(char *word, int last_exit)
+char	*replace_word_exit(char *word, int last_exit)
 {
 	char	*updated_word;
 	char	*exit_status;

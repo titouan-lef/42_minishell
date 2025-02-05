@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/05 11:11:19 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:55:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_token			split_command(t_queue tokens);
 
 /*---expansions.c---*/
 int				expand(char ***value, t_data *data, int is_redir);
+char			*replace_word_exit(char *word, int last_exit);
 int				expand_exit_status(char ***value, int last_exit);
 int				expand_tilde(char ***value, char **env, int is_redir);
 int				value_length_quoted(char *value);
