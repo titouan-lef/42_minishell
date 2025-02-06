@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 18:35:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:17:10 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,74 @@ void	assert_equal_queue_value(t_queue result, size_t *i, ...)
 	queue_clear(&result);
 }
 
+static int	push_redir_cmd(t_queue *tokens, t_token *cmd)
+{
+	int	malloc_error;
+
+	malloc_error = 0;
+	if (cmd->value || cmd->redir)
+	{
+		malloc_error = queue_push(tokens, *cmd);
+		if (!malloc_error)
+		{
+			cmd->value = NULL;
+			cmd->redir = NULL;
+		}
+	}
+	return (malloc_error);
+}
+
+static int	update(t_token *token, t_token *cmd, t_queue *reorganized_tokens)
+{
+	int	malloc_error;
+
+	malloc_error = 0;
+	if (token->name == TOKEN_WORD)
+	{
+		cmd->value = tab_join_and_free(cmd->value, token->value);
+		malloc_error = (cmd->value == NULL);
+	}
+	else if (token->name == TOKEN_REDIR)
+	{
+		cmd->redir = tab_join_and_free(cmd->redir, token->value);
+		malloc_error = (cmd->redir == NULL);
+	}
+	if (malloc_error)
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+	if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
+	{
+		if (push_redir_cmd(reorganized_tokens, cmd))
+			malloc_error = 1;
+		if (queue_push(reorganized_tokens, *token))
+			malloc_error = 1;
+	}
+	return (malloc_error);
+}
+
+static t_queue	form_cmd(t_queue *tokens)
+{
+	t_queue	reorganized_tokens;
+	t_token	token;
+	t_token	cmd;
+
+	cmd = token_create(TOKEN_CMD, NULL, NULL);
+	reorganized_tokens = queue_create();
+	while (!queue_is_empty(tokens))
+	{
+		token = queue_pop(tokens);
+		if (update(&token, &cmd, &reorganized_tokens))
+		{
+			token_clear(cmd);
+			queue_clear(tokens);
+			queue_clear(&reorganized_tokens);
+			return (reorganized_tokens);
+		}
+	}
+	if (push_redir_cmd(&reorganized_tokens, &cmd))
+		queue_clear(&reorganized_tokens);
+	return (reorganized_tokens);
+}
+
 void	assert_equal_queue_redir(t_queue result, size_t *i, ...)
 {
 	t_element		*tokens;
@@ -157,96 +225,96 @@ void	test_lexer(void)
 	test_number = 1;
 
 	/*--- test 1 ---*/
-	queue = lexer("echo test");
+	lexer("echo test", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "test", NULL);
 
 	/*--- test 2 ---*/
-	queue = lexer("echo   test");;
+	lexer("echo   test", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "test", NULL);
 
 	/*--- test 3 ---*/
-	queue = lexer("");
+	lexer("", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, NULL);
 
 	/*--- test 4 ---*/
-	queue = lexer("echo   test   ");
+	lexer("echo   test   ", &queue);
 	assert_equal_queue_value(form_cmd(&queue),  &test_number, TOKEN_CMD, "echo", "test", NULL);
 
 	/*--- test 5 ---*/
-	queue = lexer("echo oui && cat non");
+	lexer("echo oui && cat non", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_LOGIC_OPE, "&&", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 6 ---*/
-	queue = lexer("echo oui || cat non");
+	lexer("echo oui || cat non", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_LOGIC_OPE, "||", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 7 ---*/
-	queue = lexer("echo oui | cat non");
+	lexer("echo oui | cat non", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_PIPE, "|", TOKEN_CMD, "cat", "non", NULL);
 
 	/*--- test 8 ---*/
-	queue = lexer("()");
+	lexer("()", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_PAR_OPEN, "(", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 9 ---*/
-	queue = lexer("echo oui && ( 1 || 0 )");
+	lexer("echo oui && ( 1 || 0 )", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "oui", TOKEN_LOGIC_OPE, "&&", TOKEN_PAR_OPEN, "(", TOKEN_CMD, "1", TOKEN_LOGIC_OPE, "||", TOKEN_CMD, "0", TOKEN_PAR_CLOSE, ")", NULL);
 
 	/*--- test 10 ---*/
-	queue = lexer("    ");
+	lexer("    ", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, NULL);
 
 	/*--- test 11 ---*/
-	queue = lexer("echo 'oui && cat non'");
+	lexer("echo 'oui && cat non'", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "'oui && cat non'", NULL);
 
 	/*--- test 12 ---*/
-	queue = lexer("echo \"oui && cat non\"");
+	lexer("echo \"oui && cat non\"", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "echo", "\"oui && cat non\"", NULL);
 
 	/*--- test 13 ---*/
-	queue = lexer(">out");
+	lexer(">out", &queue);
 	assert_equal_queue_redir(form_cmd(&queue), &test_number, TOKEN_CMD, ">out", NULL);
 
 	/*--- test 14 ---*/
-	queue = lexer(">out >>oui");
+	lexer(">out >>oui", &queue);
 	assert_equal_queue_redir(form_cmd(&queue), &test_number, TOKEN_CMD, ">out", ">>oui", NULL);
 
 	/*--- test 15 ---*/
-	queue = lexer("ls 2>out");
+	lexer("ls 2>out", &queue);
 	assert_equal_queue_redir(form_cmd(&queue), &test_number, TOKEN_CMD, "2>out",NULL);
-	queue = lexer("ls 2>out");
+	lexer("ls 2>out", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "ls", NULL);
 
 	/*--- test 16 ---*/
-	queue = lexer("ls 2147483648>out");
+	lexer("ls 2147483648>out", &queue);
 	assert_equal_queue_redir(form_cmd(&queue), &test_number, TOKEN_CMD, ">out", NULL);
-	queue = lexer("ls 2147483648>out");
+	lexer("ls 2147483648>out", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "ls", "2147483648", NULL);
 
 	/*--- test 17 ---*/
-	queue = lexer("cat <in");
+	lexer("cat <in", &queue);
 	assert_equal_queue_redir(form_cmd(&queue), &test_number, TOKEN_CMD, "<in", NULL);
-	queue = lexer("cat <in");
+	lexer("cat <in", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "cat", NULL);
 
 	/*--- test 18 ---*/
-	queue = lexer("cat <<here_doc");
+	lexer("cat <<here_doc", &queue);
 	assert_equal_queue_redir(form_cmd(&queue), &test_number, TOKEN_CMD, "<<here_doc", NULL);
-	queue = lexer("cat <<here_doc");
+	lexer("cat <<here_doc", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "cat", NULL);
 
 	/*--- test 19 ---*/
-	queue = lexer("\"echo\"");
+	lexer("\"echo\"", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "\"echo\"", NULL);
 
 	/*--- test 20 ---*/
-	queue = lexer("\"echo\" >out");
+	lexer("\"echo\" >out", &queue);
 	assert_equal_queue_redir(form_cmd(&queue), &test_number, TOKEN_CMD, ">out", NULL);
-	queue = lexer("\"echo\" >out");
+	lexer("\"echo\" >out", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "\"echo\"", NULL);
 
 	/*--- test 21 ---*/
-	queue = lexer("\"echo >out\"");
+	lexer("\"echo >out\"", &queue);
 	assert_equal_queue_value(form_cmd(&queue), &test_number, TOKEN_CMD, "\"echo >out\"", NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_get_tree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/05 19:10:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:32:41 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,15 +187,13 @@ static char **create_token_value2(char *value, char *value2)
 static void write_result(t_queue *queue, t_data *data)
 {
 	t_out	outputs;
-	t_tree *tree;
 
 	redirect_outputs(&outputs);
 	parser(queue, data);
-	tree = data->tree;
 	clear_here_docs(data->lst);
-	breadth_first_search(tree);
+	breadth_first_search(data->tree);
 	set_normal_outputs(&outputs);
-	tree_clear(&tree);
+	tree_clear(&data->tree);
 }
 
 // echo && cat

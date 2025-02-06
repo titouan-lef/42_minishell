@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/04 12:04:06 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:04:00 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 
 # include <sys/stat.h>
 # include <stdlib.h>
-# include "builtins.h"
-# include "commands.h"
-# include "tree.h"
-# include "redir.h"
+# include "expansion.h"
+# include "input.h"
+# include "parser.h"
+# include "execution.h"
+# include "here_doc.h"
+# include "lexer.h"
+# include "utils.h"
 # include "unit_test/unit_test.h"
 
 /*---utils---*/
