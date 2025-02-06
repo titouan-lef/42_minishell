@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:40:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/05 19:10:47 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:25:50 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_data
 	t_list				*lst;
 	int					fd[2];
 	int					last_pipe;
-	int					std[3];
 	struct sigaction	act;
 }			t_data;
 
@@ -90,25 +89,16 @@ int				lexer(char *input, t_queue *tokens);
 t_queue			form_cmd(t_queue *tokens);
 t_token			split_command(t_queue tokens);
 
-/*---expansions.c---*/
-int				expand(char ***value, t_data *data, int is_redir);
-char			*replace_word_exit(char *word, int last_exit);
-int				expand_exit_status(char ***value, int last_exit);
-int				expand_tilde(char ***value, char **env, int is_redir);
-int				value_length_quoted(char *value);
-void			quote_value(char *value, char *quoted_value, int *i);
-int				update_env_var(char **word, char *new_word,
-					int *letter, char **env);
-int				update_quote(char **word, char *updated_word, int letter);
-char			*replace_word_env(char *word, char **env_local,
-					int here_doc, int redir);
-int				new_word_lenght(char *word, char **env_local);
+
+///////////////////////////////////////
+//             EXPANSION             //
+///////////////////////////////////////
+/*---env var.c---*/
+char			*get_quoted_value(char *name, char **env);
+char			*replace_word_env(char *word, char **env, int here_doc, int redir);
 int				expand_env_var(char ***value, char **env, int is_redir);
-t_list			*find_matches(char *patern);
-char			*replace_word_wildcard(char *patern);
-int				expand_wildcard(char ***value, int is_redir);
-char			*replace_word_quotes(char *word);
-int				remove_quotes(char ***value);
+
+
 
 /*---compare.c---*/
 int				compare_lexicographicly(char char1, char char2);

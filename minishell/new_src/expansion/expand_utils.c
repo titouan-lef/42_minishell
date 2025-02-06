@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansions.c                                       :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 18:25:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:13:55 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
-t_token	split_command(t_queue tokens)//call je sais pas ou
+t_token	split_command(t_queue tokens)
 {
 	t_token	token;
 	t_token	new_token;
@@ -33,35 +33,6 @@ t_token	split_command(t_queue tokens)//call je sais pas ou
 	}
 	queue_clear(&tokens);
 	return (new_token);
-}
-
-/*
-* Goal: Expand all the element in the value of the token.
-*
-* Return: O if no error, or the error code corresponding.
-*
-* Warning: token and data must not be null.
-*/
-int	expand(char ***value, t_data *data, int is_redir)
-{
-	int	result;
-
-	if (!*value)
-		return (0);
-	result = expand_env_var(value, data->env, is_redir);
-	if (!*value || result)
-		return (result);
-	result = expand_exit_status(value, data->last_exit);
-	if (!*value || result)
-		return (result);
-	result = expand_tilde(value, data->env, is_redir);
-	if (!*value || result)
-		return (result);
-	result = expand_wildcard(value, is_redir);
-	if (!*value || result)
-		return (result);
-	result = remove_quotes(value);
-	return (result);
 }
 
 /*
@@ -107,4 +78,23 @@ void	quote_value(char *value, char *quoted_value, int *i)
 	}
 	else
 		quoted_value[(*i)++] = *value;
+}
+
+/*
+* Goal: Copy word in updated word untill the next quote.
+*
+* Return: The lenght of the quoted sequence
+*
+* Warning: word, updated_word and letter must not be null.
+*/
+int	update_quote(char **word, char *updated_word, int letter)
+{
+	char	c;
+
+	c = **word;
+	updated_word[letter++] = *(*word)++;
+	while (**word != c) //solve segfaul in here_doc by protecting heredoc -> if(**word && **word != c)
+		updated_word[letter++] = *(*word)++;
+	updated_word[letter++] = *(*word)++;
+	return (letter);
 }

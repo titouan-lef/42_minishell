@@ -6,14 +6,14 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 18:19:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:04:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
 /*
-* Goal: Add the splited updated word in updated_value.
+* Goal: Split updated_value on whitespace and rebuilt the command.
 *
 * Return: 1, 0 in case of error.
 *
@@ -25,7 +25,8 @@ static int	update_value(char ***updated_value, char *updated_word,
 	t_queue	tmp;
 	t_token	splited;
 
-	tmp = lexer(updated_word);
+	if (lexer(updated_word, &tmp))
+		return (1);
 	free(updated_word);
 	splited = split_command(tmp);
 	if (is_redir && splited.value && splited.value[0] && splited.value[1])

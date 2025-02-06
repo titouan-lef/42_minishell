@@ -3,15 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/04 19:23:54 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:38:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "builtins.h"
+
+int	dup_data_std(int *std)
+{
+	std[0] = dup(STDIN_FILENO);
+	if (std[0] < 0)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP);
+		std[1] = -1;
+		std[2] = -1;
+		return (1);
+	}
+	std[1] = dup(STDOUT_FILENO);
+	if (std[1] < 0)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP);
+		std[2] = -1;
+		return (1);
+	}
+	std[2] = dup(STDERR_FILENO);
+	if (std[2] < 0)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP);
+		return (1);
+	}
+	return (0);
+}
+
+int	dup2_data_std(int *std)
+{
+	int	result;
+	int	is_error;
+
+	is_error = 0;
+	result = dup2(std[0], STDIN_FILENO);
+	if (result < 0)
+		is_error = 1;
+	result = dup2(std[1], STDOUT_FILENO);
+	if (result < 0)
+		is_error = 1;
+	result = dup2(std[2], STDERR_FILENO);
+	if (result < 0)
+		is_error = 1;
+	if (is_error)
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2);
+	return (is_error);
+}
+
+void	close_data_std(int **std)
+{
+	if (std[0] != -1)
+		close(std[0]);
+	if (std[1] != -1)
+		close(std[1]);
+	if (std[2] != -1)
+		close(std[2]);
+	std[0] = -1;
+	std[1] = -1;
+	std[2] = -1;
+}
 
 static int	builtin_choice(char **cmd, t_data *data, int is_piped)
 {
@@ -49,10 +108,11 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 {
 	int	result;
 	int	result2;
+	int	std[3];
 
 	if (!is_piped)
 	{
-		result = dup_data_std(data);
+		result = dup_data_std(std);
 		if (result)
 			return (result);
 	}
@@ -60,14 +120,13 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 	if (result)
 	{
 		if (!is_piped)
-			close_data_std(data);
+			close_data_std(std);
 		return (result);
 	}
 	result = builtin_choice(cmd, data, is_piped);
-	//data->last_exit = result;
 	if (!is_piped)
-		result2 = dup2_data_std(data);
-	close_data_std(data);
+		result2 = dup2_data_std(std);
+	close_data_std(std);
 	if (!is_piped && result2)
 		return (result2);
 	return (result);

@@ -6,91 +6,29 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 18:19:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:25:04 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
 /*
-* Goal: Copy word in updated word untill the next quote '.
+* Goal: Split the new word on whitespace and rebuilt the command.
 *
-* Warning: word, updated_word and letter must not be null.
-*/
-int	update_quote(char **word, char *updated_word, int letter)
-{
-	char	c;
-
-	c = **word;
-	updated_word[letter++] = *(*word)++;
-	while (**word != c)
-		updated_word[letter++] = *(*word)++;
-	updated_word[letter++] = *(*word)++;
-	return (letter);
-}
-
-static int	do_not_replace(char *updated_word, char *word,
-	int letter, int condition)
-{
-	if (condition && ft_strncmp(word, "<<", 2) == 0)
-	{
-		ft_strlcpy(updated_word + letter, word, ft_strlen(word) + 1);
-		return (1);
-	}
-	return (0);
-}
-
-/*
-* Goal: Make a new word with all the environement variables
-*		in the given word from there value in env.
+* Return: 1 if error malloc, 0 if not.
 *
-* Return: The updated word.
-*
-* Warning: word and env must not be null.
-*/
-char	*replace_word_env(char *word, char **env, int here_doc, int redir)
-{
-	int		letter;
-	char	*updated_word;
-	int		in_double_quotes;
-
-	letter = 0;
-	in_double_quotes = 0;
-	updated_word = ft_calloc(new_word_lenght(word, env) + 1, sizeof(char));
-	while (updated_word && *word)
-	{
-		if (do_not_replace(updated_word, word, letter, !here_doc && redir))
-			break ;
-		if (*word == '"')
-			in_double_quotes = !in_double_quotes;
-		if (*word == '$' && (*(word + 1) == '\'' || *(word + 1) == '\"')
-			&& !in_double_quotes)
-			word++;
-		else if (*word == '$')
-			update_env_var(&word, updated_word, &letter, env);
-		else if (!here_doc && *word == '\'' && !in_double_quotes)
-			letter = update_quote(&word, updated_word, letter);
-		else
-			updated_word[letter++] = *word++;
-	}
-	return (updated_word);
-}
-
-/*
-* Goal: Make a new word with all the environement variables
-*		in the given word from there value in env_local.
-*
-* Return: The updated word.
-*
-* Warning: word and env_local must not be null.
+* Warning: updated_value, updated_word and name must not be null.
 */
 static int	update_value(char ***updated_value, char *updated_word
 	, char *name, int is_redir)
 {
 	t_queue	tmp;
 	t_token	splited;
+	int		result;
 
-	tmp = lexer(updated_word);
+	result = lexer(updated_word, &tmp);
+	if (result)
+		return (result);
 	free(updated_word);
 	splited = split_command(tmp);
 	if (!splited.value)
@@ -112,8 +50,8 @@ static int	update_value(char ***updated_value, char *updated_word
 }
 
 /*
-* Goal: Replace all the environement variables in all the TOKEN_CMD tokens
-*		from there value in env_local.
+* Goal: Replace all the environement variables in the hole command
+*		from there value in env.
 *
 * Return: 1 if errror, 0 if not.
 *

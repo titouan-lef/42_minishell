@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_utils.c                                   :+:      :+:    :+:   */
+/*   replace_wildcard.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/01/31 11:26:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:55:28 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
 /*
-* Goal: Find the new lenght of word arfter pathname expansion.
+* Goal: Find the new lenght of word arfter replacing wildcard.
 *
 * Return: The length.
 *
-* Warning: mathces must not be null.
+* Warning: matches must not be null.
 */
 static int	new_word_length(t_list *matches)
 {

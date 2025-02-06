@@ -6,13 +6,20 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 17:19:16 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:39:13 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 #include "builtins.h"
 
+/*
+* Goal: Add collor patern to the given string.
+*
+* Return: Ths colored string, NULL is error malloc
+*
+* Warning: pwd must not be null.
+*/
 static char	*rebase_pwd(char *pwd, char **env)
 {
 	int		i;
@@ -38,6 +45,13 @@ static char	*rebase_pwd(char *pwd, char **env)
 	return (pwd);
 }
 
+/*
+* Goal: Add collor patern to the given string.
+*
+* Return: Ths colored string, NULL is error malloc
+*
+* Warning: pwd must not be null.
+*/
 static char	*color_pwd(char *pwd)
 {
 	static unsigned char	color = 28;

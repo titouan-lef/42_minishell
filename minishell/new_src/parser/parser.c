@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 19:37:18 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:39:10 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,5 @@ int	parser(t_queue *queue, t_data *data)
 			return (2);
 		}
 	}
-	data->std[0] = -1;
-	data->std[1] = -1;
-	data->std[2] = -1;
 	return (0);
 }

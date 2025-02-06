@@ -6,12 +6,20 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/05 17:22:42 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:39:16 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 
+/*
+* Goal: Read from stdin whith readline and
+* 		add the command to the history if not empty.
+*
+* Return: The line read with readline.
+*
+* Warning: env must not be null.
+*/
 static char	*rl_gets(char **env)
 {
 	char	*line_read ;

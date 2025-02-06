@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/01 18:08:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:49:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,20 @@ static int	match(char *pattern, char *str)
 /*
 * Goal: Get DIR data.
 *
-* Return: The DIR, NULL in case of malloc error.
+* Return: The DIR, NULL in case of malloc or  error.
 */
 static DIR	*get_dir(void)
 {
 	char	*pwd;
 	DIR		*dir;
 
-	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
+	pwd = (char *)malloc(sizeof(char) * PATH_MAX); // replace by get_pwd(env);
 	if (!pwd)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
 	}
-	if (!getcwd(pwd, PATH_MAX))
+	if (!getcwd(pwd, PATH_MAX)) // replace by get_pwd(env);
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		free(pwd);
@@ -73,7 +73,7 @@ static DIR	*get_dir(void)
 }
 
 /*
-* Goal: Create a new mallco node and add it to lst.
+* Goal: Create a new malloc node and add it to lst.
 *
 * Return: 1, 0 if malloc error.
 *
@@ -102,11 +102,12 @@ static int	create_and_addback(t_list **lst, char *filename)
 }
 
 /*
-* Goal: Find all the files in the current dirrectory.
+* Goal: Create a list of all the files in the current dirrectory
+*		that matchs the patern.
 *
-* Return: 1 if it matchs, 0 if not.
+* Return: The list or NULL if malloc or getdir/readdir error.
 *
-* Warning: patern not be null.
+* Warning: patern must not be null.
 */
 t_list	*find_matches(char *patern)
 {
