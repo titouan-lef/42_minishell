@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 18:07:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:23:27 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ void			tree_push_right(t_tree *tree, t_tree *sub_tree);
 
 /*---signal---*/
 int				default_sigaction(struct sigaction *act);
-int				modify_sigaction(struct sigaction *act, void (*f)(int), int ignore_sigquit);
+int				modify_sigaction(struct sigaction *act, void (*f)(int),
+					int ignore_sigquit);
 void			interactive_mode_handler(int sig);
 void			cmd_display_handler(int sig);
 void			here_doc_handler(int sig);

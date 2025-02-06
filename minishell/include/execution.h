@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 18:38:19 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:20:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		first_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 int		midle_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 int		last_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 
-
 /*---CMD EXEC---*/
 int		cmd_exec(t_data *data, t_token *token, int is_piped);
 
@@ -72,13 +71,13 @@ int		pwd(char **env);
 int		unset(char **cmd, char ***env);
 
 /*---external cmd---*/
-int	update_cmd_path(char **path, char *cmd_name, char **env);
+int		update_cmd_path(char **path, char *cmd_name, char **env);
 
 /*---redir---*/
-int	redir_manager(char **redirs, t_list *here_docs);
-int	redirect_input(int fd, char *file_name);
-int	redirect_output(int fd, char *file_name);
-int	redirect_output_append_mode(int fd, char *file_name);
-int	redirect_here_doc(int fd, char *limiter, t_list *here_docs);
+int		redir_manager(char **redirs, t_list *here_docs);
+int		redirect_input(int fd, char *file_name);
+int		redirect_output(int fd, char *file_name);
+int		redirect_output_append_mode(int fd, char *file_name);
+int		redirect_here_doc(int fd, char *limiter, t_list *here_docs);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:06:39 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:29:17 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	write_and_free(int file, char *limiter, char *line, t_data *data)
 
 static int	event(void)
 {
-	return 0;// pas sure qu'on garde.
+	return (0);// pas sure qu'on garde.
 }
 
 /*

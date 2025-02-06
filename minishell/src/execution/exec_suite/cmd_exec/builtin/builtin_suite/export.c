@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:32:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:26:36 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	import_var(char *var, int size, char ***env, int local)
 	{
 		if (!ft_strncmp(var, (*env)[j], size)
 			&& (!(*env)[j][size] || (*env)[j][size] == '='))
-			break;
+			break ;
 		j++;
 	}
 	if (!(*env)[j])

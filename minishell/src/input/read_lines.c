@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 17:06:40 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:30:35 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*read_lines(t_data *data, int here_doc)
 		if (!data->read_lines)
 		{
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-			return(NULL);
+			return (NULL);
 		}
 		if (!data->read_lines[i])
 		{
@@ -73,7 +73,7 @@ char	*read_lines(t_data *data, int here_doc)
 			if (!data->read_lines)
 			{
 				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-				return(NULL);
+				return (NULL);
 			}
 			data->read_lines[0] = ft_strdup("");
 			if (!data->read_lines[0])
@@ -81,7 +81,7 @@ char	*read_lines(t_data *data, int here_doc)
 				free(data->read_lines);
 				data->read_lines = NULL;
 				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-				return(NULL);
+				return (NULL);
 			}
 			data->read_lines[1] = NULL;
 		}

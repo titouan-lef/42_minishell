@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:42:16 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 14:51:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:23:35 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int		parser(t_queue *queue, t_data *data);
 
 /*---state---*/
 t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs);
-t_tree	*common_state(t_tree *tree, t_queue *queue, t_token_name type, t_list **here_docs);
+t_tree	*common_state(t_tree *tree, t_queue *queue, t_token_name type,
+			t_list **here_docs);
 t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs);
 t_tree	*state_junction_ope(t_tree *tree, t_queue *queue, t_list **here_docs);
 t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs);

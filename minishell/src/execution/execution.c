@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 18:29:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:31:51 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,10 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 
 int	make_execution(t_data *data)
 {
-	int	result;//todo revoir
+	int	result;
 	int	result2;
 	int	result3;
-
-	/*if (queue_is_empty(queue))
-		return (0);
-	result = parser(queue, data);*/
+	//todo revoir
 	result3 = modify_sigaction(&data->act, here_doc_handler, 1);
 	result2 = read_here_docs(data);
 	if (result3 || modify_sigaction(&data->act, interactive_mode_handler, 1))

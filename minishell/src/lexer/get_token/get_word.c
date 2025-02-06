@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:03:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 14:38:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:25:40 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	get_quote(const char *input, int *index, char c)
 	(*index)++;
 	return (0);
 }
-
 
 /*
 * Goal: Put the next lettres un buffer until it is not a specal character.

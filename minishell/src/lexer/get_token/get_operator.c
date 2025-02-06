@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:04:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:09:37 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:22:21 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	cmp_and_inc(const char *input, int *index, char c, char *buffer)
 	}
 	return (0);
 }
-
 
 /*
 * Goal: Found out if the token is an opperator, pipe or parenthesis.
