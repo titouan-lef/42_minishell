@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 16:17:32 by tle-floc         ###   ########.fr       */
+/*   Created: 2025/01/15 14:33:41 by tle-floc          #+#    #+#             */
+/*   Updated: 2025/02/03 18:49:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-# include "cmd_exec.h"
+# include <sys/wait.h>
+# include "redir.h"
 
 typedef struct s_stack
 {
@@ -28,20 +29,20 @@ pid_t	stack_pop(t_stack **stack);
 void	stack_clear(t_stack **stack);
 void	stack_init(t_stack **stack);
 
-/*---execution---*/
-int	make_execution(t_queue *queue, t_data *data);
+/*--- execution.c ---*/
 void	clear_data(t_data *data);
 void	exit_exec(t_data *data, int code);
-int	tree_exec(t_data *data, t_tree *tree, int is_piped);
+int		tree_exec(t_data *data, t_tree *tree, int is_piped);
+int		make_execution(t_queue *queue, t_data *data);
 
-/*---logical operator---*/
-int	ope_exec(t_data *data, t_tree *tree, t_token token, int is_piped);
+/*--- *_exec.c ---*/
+int		cmd_exec(t_data *data, t_token *token, int is_piped);
+int		pipe_exec(t_data *data, t_tree *tree);
+int		ope_exec(t_data *data, t_tree *tree, t_token token, int is_piped);
 
-/*---pipe---*/
-int	pipe_exec(t_data *data, t_tree *tree);
-int	first_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
-int	midle_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
-int	last_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
-
+/*--- pipe_exec ---*/
+int		first_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
+int		midle_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
+int		last_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 
 #endif
