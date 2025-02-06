@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:19:49 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:18:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,9 @@ int	update_quote(char **word, char *updated_word, int letter)
 
 	c = **word;
 	updated_word[letter++] = *(*word)++;
-	while (**word != c) //solve segfaul in here_doc by protecting heredoc -> if(**word && **word != c)
+	while (**word && **word != c) //solve segfaul 
 		updated_word[letter++] = *(*word)++;
-	updated_word[letter++] = *(*word)++;
+	if (**word)
+		updated_word[letter++] = *(*word)++;
 	return (letter);
 }

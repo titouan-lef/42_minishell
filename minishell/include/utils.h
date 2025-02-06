@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 15:29:56 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:02:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void			cmd_display_handler(int sig);
 void			here_doc_handler(int sig);
 int				get_signal_receive(void);
 
-/*---tab_utils.c---*/
+/*---tab---*/
 size_t			size_tab(char **tab);
 char			**strdup_tab(char **tab);
 char			**tab_join(char **tab1, char **tab2);
@@ -128,5 +128,9 @@ char			**append_to_tab(char **tab, const char *str);
 /*---compare---*/
 int				strcmp_lexicographicly(const void *p1, const void *p2);
 int				ft_void_strcmp(const void *s1, const void *s2);
+
+/*---path---*/
+char			*get_from_env(char **env, char *name);
+char			*get_cwd(char **env);
 
 #endif

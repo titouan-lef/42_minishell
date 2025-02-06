@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_env_var.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:09:01 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:27:03 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,16 @@ static int	mesure_length(char **word, char **env, int in_double_quote)
 	{
 		length = 1;
 		(*word)++;
-		while (**word != '\'')
+		while (**word && **word != '\'')
 		{
 			length++;
 			(*word)++;
 		}
-		length++;
-		(*word)++;
+		if (**word)
+		{
+			length++;
+			(*word)++;
+		}
 		return (length);
 	}
 	env_var_value = get_quoted_value(*word, env);
@@ -96,8 +99,7 @@ static void	update_env_var(char **word, char *new_word, int *letter, char **env)
 	env_var_value = get_quoted_value(*word, env);
 	if (env_var_value)
 	{
-		ft_strlcpy(new_word + *letter, env_var_value,
-			ft_strlen(env_var_value) + 1);
+		ft_strcpy(new_word + *letter, env_var_value);
 		*letter += ft_strlen(env_var_value);
 	}
 	while (ft_isalnum(**word) || **word == '_')

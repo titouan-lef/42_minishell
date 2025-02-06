@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:14:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:19:32 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ static int	count_replacement(char *word)
 		else if (*word == '\'' && !in_double_quotes)
 		{
 			word++;
-			while (*word != '\'')
+			while (*word && *word != '\'')
 				word++;
-			word++;
+			if (*word)
+				word++;
 		}
 		else
 			word++;

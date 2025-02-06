@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 13:23:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:06:40 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "io.h"
+#include "input.h"
 
 /*
 * Goal: Read from stdin whith readline and

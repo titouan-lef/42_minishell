@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 15:35:15 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:46:04 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "here_doc.h"
+#include "input.h"
 
 void	clear_data(t_data *data)
 {
@@ -50,7 +52,7 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 	return (result);
 }
 
-int	make_execution(t_queue *queue, t_data *data)
+int	make_execution(t_data *data)
 {
 	int	result;//todo revoir
 	int	result2;

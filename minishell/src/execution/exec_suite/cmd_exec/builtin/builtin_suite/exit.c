@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 16:13:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:51:59 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_exec.h"
+#include "input.h"
+#include "execution.h"
 
 static void	clean(t_data *data)
 {
 	clear_data(data);
-	//close_data_std(data);
 	if (data->read_lines)
 		ft_clean_matrix((void **)data->read_lines);
 	ft_clean_matrix((void **)data->env);

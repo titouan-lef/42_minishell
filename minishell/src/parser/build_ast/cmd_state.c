@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_state.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 14:49:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:07:15 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "here_doc.h"
 
 /*
 * Goal: Print errors syntaxes define by the redirections.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 14:53:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:45:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "input.h"
 #include "lexer.h"
 #include "parser.h"
+#include "execution.h"
 
 static void	process_cmd(char *input, t_data *data)
 {
@@ -34,7 +35,7 @@ static void	process_cmd(char *input, t_data *data)
 		data->last_exit = result;
 		return ;
 	}
-	data->last_exit = make_execution(&tokens, data);
+	data->last_exit = make_execution(data);
 }
 
 static void	init_minishell(t_data *data, char **envp)

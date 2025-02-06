@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/05 18:19:22 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/06 17:08:31 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,61 +25,60 @@ LIBFT_HEADER	=	./libft/include
 LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
 SRC				=	minishell.c																\
-					read_lines.c															\
-					dup_utils.c																\
-					tab_utils.c																\
-					commands/compare.c														\
-					commands/token.c														\
-					commands/ast/execution/execution.c										\
-					commands/ast/execution/logic_ope_exec.c									\
-					commands/ast/execution/pipe_exec/first_cmd.c							\
-					commands/ast/execution/pipe_exec/midle_cmd.c							\
-					commands/ast/execution/pipe_exec/last_cmd.c								\
-					commands/ast/execution/pipe_exec/pipe_exec.c							\
-					commands/ast/execution/simple_cmd_exec/simple_cmd_exec.c				\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/cmd_manager.c		\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/update_cmd_path.c	\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/builtin.c	\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/cd.c		\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/goto_dir.c	\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/echo.c		\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/env.c		\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/exit.c		\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/export.c	\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/pwd.c		\
-					commands/ast/execution/simple_cmd_exec/cmd_manager/builtins/unset.c		\
-					commands/ast/execution/simple_cmd_exec/redir_manager/redir_manager.c	\
-					commands/ast/execution/simple_cmd_exec/redir_manager/redirect.c			\
-					commands/ast/execution/stack/stack_primitive.c							\
-					commands/ast/parsing/control_ope_state.c								\
-					commands/ast/parsing/parsing.c											\
-					commands/ast/parsing/simple_cmd_state.c									\
-					commands/ast/parsing/token_state_utils.c								\
-					commands/ast/tree/tree_primitive.c										\
-					commands/ast/tree/tree_push.c											\
-					commands/expansion/exit_status_expansion.c								\
-					commands/expansion/expansions.c											\
-					commands/expansion/get_env_var.c										\
-					commands/expansion/get_files.c											\
-					commands/expansion/pathname_expansion.c									\
-					commands/expansion/quote_removal.c										\
-					commands/expansion/tilde_expansion.c									\
-					commands/expansion/variable_expansion.c									\
-					commands/expansion/wildcard_utils.c										\
-					commands/lexer/parser/parser.c											\
-					commands/lexer/lexer/get_token.c									\
-					commands/lexer/lexer/token_utils.c									\
-					commands/lexer/lexer/lexer.c									\
-					commands/redirection/get_here_doc.c										\
-					commands/redirection/here_doc.c											\
-					commands/redirection/random.c											\
-					display/display.c														\
-					queue/queue_primitive.c													\
-					queue/queue_utils.c														\
-					signals/signal_handler.c												\
-					signals/signals.c
-
-
+					execution/execution.c													\
+					execution/exec_suite/logic_ope_exec.c									\
+					execution/exec_suite/cmd_exec/cmd_exec.c								\
+					execution/exec_suite/cmd_exec/builtin/builtin.c							\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/echo.c				\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/env.c				\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/exit.c				\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/export.c			\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/pwd.c				\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/unset.c				\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/cd/cd.c				\
+					execution/exec_suite/cmd_exec/builtin/builtin_suite/cd/goto_dir.c		\
+					execution/exec_suite/cmd_exec/external_cmd/update_cmd_path.c			\
+					execution/exec_suite/cmd_exec/redir/redir_suite.c						\
+					execution/exec_suite/cmd_exec/redir/redir.c								\
+					execution/exec_suite/pipe_exec/pipe_exec.c								\
+					execution/exec_suite/pipe_exec/cmd_order/first_cmd.c					\
+					execution/exec_suite/pipe_exec/cmd_order/last_cmd.c						\
+					execution/exec_suite/pipe_exec/cmd_order/midle_cmd.c					\
+					execution/exec_suite/pipe_exec/stack/stack_primitive.c					\
+					expansion/expand_utils.c												\
+					expansion/expansions.c													\
+					expansion/expansion_suite/exit_status.c									\
+					expansion/expansion_suite/quote_removal.c								\
+					expansion/expansion_suite/tilde.c										\
+					expansion/expansion_suite/environment_variable/get_env_var.c			\
+					expansion/expansion_suite/environment_variable/replace_env_var.c		\
+					expansion/expansion_suite/environment_variable/variable_expansion.c	\
+					expansion/expansion_suite/wildcard/get_files.c							\
+					expansion/expansion_suite/wildcard/pathname_expansion.c					\
+					expansion/expansion_suite/wildcard/replace_wildcard.c					\
+					here_doc/here_doc.c														\
+					here_doc/here_doc_utils.c												\
+					input/display.c															\
+					input/read_lines.c														\
+					lexer/lexer.c															\
+					lexer/get_token/get_operator.c											\
+					lexer/get_token/get_redir.c												\
+					lexer/get_token/get_word.c												\
+					parser/parser.c															\
+					parser/build_ast/build_ast.c											\
+					parser/build_ast/cmd_state.c											\
+					parser/build_ast/control_ope_state.c									\
+					parser/build_ast/token_state_utils.c									\
+					utils/compare_utils.c													\
+					utils/path_utils.c														\
+					utils/tab_utils.c														\
+					utils/token_utils.c														\
+					utils/queue/queue_primitive.c											\
+					utils/queue/queue_utils.c												\
+					utils/signal/signal_handler.c											\
+					utils/signal/signals.c													\
+					utils/tree/tree_primitive.c												\
+					utils/tree/tree_push.c
 
 #==================== OBJECT ====================#
 

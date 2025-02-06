@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 16:13:22 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:50:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,19 @@ static int	builtin_choice(char **cmd, t_data *data, int is_piped)
 	return (result);
 }
 
+static void	close_data_std(int *std)
+{
+	if (std[0] != -1)
+		close(std[0]);
+	if (std[1] != -1)
+		close(std[1]);
+	if (std[2] != -1)
+		close(std[2]);
+	std[0] = -1;
+	std[1] = -1;
+	std[2] = -1;
+}
+
 /*
 * Goal: Launch the corresponding builtins command.
 *
@@ -118,15 +131,3 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 	return (result);
 }
 
-void	close_data_std(int **std)
-{
-	if (std[0] != -1)
-		close(std[0]);
-	if (std[1] != -1)
-		close(std[1]);
-	if (std[2] != -1)
-		close(std[2]);
-	std[0] = -1;
-	std[1] = -1;
-	std[2] = -1;
-}

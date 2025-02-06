@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tree_push.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:37:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/09 18:41:19 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:08:10 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tree.h"
+#include "utils.h"
 
 /*
 * Goal: Add 'sub_tree' on the left part of 'tree'

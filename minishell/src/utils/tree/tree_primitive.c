@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tree_primitive.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 14:44:48 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/06 17:41:21 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:08:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tree.h"
+#include "utils.h"
 
 int	tree_is_empty(t_tree *tree)
 {
