@@ -6,12 +6,11 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 16:15:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:37:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/stat.h>
-#include "cmd_exec.h"
+#include "execution.h"
 
 static int	goto_home(char **env)
 {

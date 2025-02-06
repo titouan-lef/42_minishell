@@ -6,12 +6,11 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:59:04 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:38:27 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/stat.h>
-#include "cmd_exec.h"
+#include "execution.h"
 
 /*
 * Goal: Find all the possible paths where to execute the dommand.

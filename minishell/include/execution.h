@@ -3,23 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 16:45:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:38:19 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-# include "cmd_exec.h"
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include "utils.h"
 
 typedef struct s_stack
 {
 	pid_t			pid;
 	struct s_stack	*next;
 }	t_stack;
+
+typedef enum e_redir_name
+{
+	INPUT,
+	HERE_DOC,
+	OUTPUT,
+	OUTPUT_APPEND,
+	ERROR,
+}	t_redir_name;
 
 /*--- stack_primitive.c ---*/
 int		stack_is_empty(t_stack *stack);
@@ -42,5 +53,32 @@ int		pipe_exec(t_data *data, t_tree *tree);
 int		first_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 int		midle_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 int		last_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
+
+
+/*---CMD EXEC---*/
+int		cmd_exec(t_data *data, t_token *token, int is_piped);
+
+/*---builtin---*/
+int		builtin_manager(char **cmd, char **redir, t_data *data, int is_piped);
+int		cd(char **cmd, char **env);
+int		goto_dir(char *dir, char **env);
+int		echo(char **cmd);
+int		env(char **cmd, char **env);
+int		my_exit(char **cmd, t_data *data, int is_piped);
+int		export(char **cmd, char ***env_local, char ***env_export);
+char	*get_from_env(char **env, char *name);
+char	*get_cwd(char **env);
+int		pwd(char **env);
+int		unset(char **cmd, char ***env);
+
+/*---external cmd---*/
+int	update_cmd_path(char **path, char *cmd_name, char **env);
+
+/*---redir---*/
+int	redir_manager(char **redirs, t_list *here_docs);
+int	redirect_input(int fd, char *file_name);
+int	redirect_output(int fd, char *file_name);
+int	redirect_output_append_mode(int fd, char *file_name);
+int	redirect_here_doc(int fd, char *limiter, t_list *here_docs);
 
 #endif

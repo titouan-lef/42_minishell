@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/06 17:08:31 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/06 18:33:31 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ LIBFT			=	$(LIBFT_DIR)libft.a
 SRC_DIR			=	./src/
 SRC				=	minishell.c																\
 					execution/execution.c													\
+					execution/exit_utils.c													\
 					execution/exec_suite/logic_ope_exec.c									\
 					execution/exec_suite/cmd_exec/cmd_exec.c								\
 					execution/exec_suite/cmd_exec/builtin/builtin.c							\
@@ -65,10 +66,10 @@ SRC				=	minishell.c																\
 					lexer/get_token/get_redir.c												\
 					lexer/get_token/get_word.c												\
 					parser/parser.c															\
-					parser/build_ast/build_ast.c											\
 					parser/build_ast/cmd_state.c											\
 					parser/build_ast/control_ope_state.c									\
-					parser/build_ast/token_state_utils.c									\
+					parser/build_ast/state_utils.c											\
+					parser/build_ast/state.c												\
 					utils/compare_utils.c													\
 					utils/path_utils.c														\
 					utils/tab_utils.c														\

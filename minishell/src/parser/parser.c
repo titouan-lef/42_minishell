@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 14:47:57 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:13:18 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	parser(t_queue *queue, t_data *data)
 	*queue = form_cmd(queue);
 	if (queue_is_empty(queue))
 		return (1);
-	/*** a deplacer dans build ast***/
 	data->tree = NULL;
 	data->lst = NULL;
 	while (!queue_is_empty(queue))

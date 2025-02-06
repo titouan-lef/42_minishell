@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 17:20:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:03:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "input.h"
 
 int	g_sig_receive = 0;
 

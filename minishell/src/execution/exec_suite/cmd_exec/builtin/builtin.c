@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 16:50:58 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:31:41 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_exec.h"
+#include "execution.h"
 
 static int	dup_data_std(int *std)
 {

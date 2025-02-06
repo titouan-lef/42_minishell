@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_ast.c                                        :+:      :+:    :+:   */
+/*   state.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:46:18 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 14:49:03 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:13:06 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,3 @@ t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
 		tree = common_state(tree, queue, type, here_docs);
 	return (tree);
 }
-
-/*
-fonction a faire
-*/

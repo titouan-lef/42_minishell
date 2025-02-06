@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 17:02:52 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:07:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <signal.h>
 # include "libft.h"
 

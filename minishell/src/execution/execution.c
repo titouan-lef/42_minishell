@@ -3,33 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 16:46:04 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:29:49 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "here_doc.h"
-#include "input.h"
-
-void	clear_data(t_data *data)
-{
-	tree_clear(&data->tree);
-	clear_here_docs(data->lst);
-}
-
-void	exit_exec(t_data *data, int code)
-{
-	if (data->read_lines)
-		ft_clean_matrix((void **)data->read_lines);
-	ft_clean_matrix((void **)data->env);
-	ft_clean_matrix((void **)data->env_export);
-	clear_data(data);
-	rl_clear_history();
-	exit(code);
-}
 
 int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 {

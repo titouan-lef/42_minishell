@@ -6,11 +6,11 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 16:13:32 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:32:02 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_exec.h"
+#include "execution.h"
 
 static int	import_var(char *var, int size, char ***env, int local)
 {

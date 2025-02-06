@@ -6,13 +6,14 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:05:16 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 15:24:41 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:39:57 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
+# include <dirent.h>
 # include "utils.h"
 
 int		expand(char ***value, t_data *data, int is_redir);

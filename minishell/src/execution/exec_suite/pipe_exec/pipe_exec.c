@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
 #include "execution.h"
 
 static int	pipeline_manager(t_data *data, t_tree *tree, t_stack **stack, int is_first, int is_last)

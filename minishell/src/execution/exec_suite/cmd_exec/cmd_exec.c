@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 16:48:35 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:39:13 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
-#include "cmd_exec.h"
 #include "execution.h"
 #include "expansion.h"
-#include "input.h"
 
 /*
 * Goal: Detect a builtin function.
