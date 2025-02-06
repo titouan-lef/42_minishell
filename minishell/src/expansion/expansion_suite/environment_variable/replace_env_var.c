@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 17:27:03 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:53:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	mesure_length(char **word, char **env, int in_double_quote)
 *
 * Warning: word and env_local must not be null.
 */
-static int	new_word_lenght(char *word, char **env_local)
+static int	new_word_lenght(char *word, char **env_local, int here_doc)
 {
 	int		length;
 	int		in_double_quotes;
@@ -75,7 +75,7 @@ static int	new_word_lenght(char *word, char **env_local)
 			while (ft_isalnum(*word) || *word == '_')
 				word++;
 		}
-		else if (*word == '\'' && !in_double_quotes)
+		else if (!here_doc && *word == '\'' && !in_double_quotes)
 			length += mesure_length(&word, NULL, 1);
 		else
 		{
@@ -141,7 +141,7 @@ char	*replace_word_env(char *word, char **env, int here_doc, int redir)
 
 	letter = 0;
 	in_double_quotes = 0;
-	updated_word = ft_calloc(new_word_lenght(word, env) + 1, sizeof(char));
+	updated_word = ft_calloc(new_word_lenght(word, env, here_doc) + 1, sizeof(char));
 	while (updated_word && *word)
 	{
 		if (do_not_replace(updated_word, word, letter, !here_doc && redir))
