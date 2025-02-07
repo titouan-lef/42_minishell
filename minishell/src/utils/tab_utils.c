@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tab_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:27:31 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 13:20:36 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:04:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,14 @@ char	**tab_join_and_free(char **tab1, char **tab2)
 	char	**new_tab;
 
 	new_tab = tab_join(tab1, tab2);
+	if (!new_tab)
+	{
+		if (tab1)
+			ft_clean_matrix((void **)tab1);
+		if (tab2)
+			ft_clean_matrix((void **)tab2);
+		return (NULL);
+	}
 	if (new_tab != tab1)
 		free(tab1);
 	if (new_tab != tab2)
@@ -120,20 +128,21 @@ char	**append_to_tab(char **tab, const char *str)
 	new_tab = ft_calloc((size_tab(tab) + 2), sizeof(char *));
 	if (!new_tab)
 	{
-		ft_clean_matrix((void **)tab);
+		if (tab)
+			ft_clean_matrix((void **)tab);
 		return (NULL);
 	}
-	j = 0;
-	while (tab && tab[j])
-	{
+	j = -1;
+	while (tab && tab[++j])
 		new_tab[j] = tab[j];
+	if (!tab)
 		j++;
-	}
 	new_tab[j] = ft_strdup(str);
 	if (!new_tab[j])
 	{
 		free(new_tab);
-		ft_clean_matrix((void **)tab);
+		if (tab)
+			ft_clean_matrix((void **)tab);
 		return (NULL);
 	}
 	free(tab);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   goto_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:32:15 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:15:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ int	goto_dir(char *dir, char **env)
 			return (1);
 		}
 	}
-	set_oldpwd(env, pwd);
+	result = set_oldpwd(env, pwd);
 	free(pwd);
-	set_pwd(env);
-	return (0);
+	if (result)
+		return (result);
+	result = set_pwd(env);
+	return (result);
 }

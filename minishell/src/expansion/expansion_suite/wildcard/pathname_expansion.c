@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 17:06:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:14:32 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*
 * Goal: Split updated_value on whitespace and rebuilt the command.
 *
-* Return: 1, 0 in case of error.
+* Return: 0, 1 in case of error.
 *
 * Warning: updated_value and updated_word must not be null.
 */
@@ -27,7 +27,7 @@ static int	update_value(char ***updated_value, char *updated_word,
 	t_token	splited;
 
 	if (lexer(updated_word, &tmp))
-		return (1);
+		return (0);
 	free(updated_word);
 	splited = split_command(tmp);
 	if (is_redir && splited.value && splited.value[0] && splited.value[1])
@@ -45,9 +45,9 @@ static int	update_value(char ***updated_value, char *updated_word,
 	if (!*updated_value)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 /*
@@ -60,7 +60,7 @@ static int	update_value(char ***updated_value, char *updated_word,
 static int	do_not_replace_word(char ***updated_value, const char *patern)
 {
 	*updated_value = append_to_tab(*updated_value, patern);
-	if (!updated_value)
+	if (!*updated_value)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
@@ -96,7 +96,7 @@ static int	process_wildcard(char ***updated_value, char *patern, int is_redir)
 	}
 	updated_word = replace_word_wildcard(name);
 	if (updated_word)
-		result = !update_value(updated_value, updated_word, name, is_redir);
+		result = update_value(updated_value, updated_word, name, is_redir);
 	else
 		result = do_not_replace_word(updated_value, patern);
 	return (result);

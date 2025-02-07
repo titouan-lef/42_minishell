@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/07 15:11:02 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:15:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static int	builtin_choice(char **cmd, t_data *data, int is_piped)
 	else if (!ft_strcmp(cmd[0], "unset"))
 	{
 		result = unset(cmd, &data->env);
-		result = unset(cmd, &data->env_export);
+		if (!result)
+			result = unset(cmd, &data->env_export);
 	}
 	else if (!ft_strcmp(cmd[0], "env"))
 		result = env(cmd, data->env);

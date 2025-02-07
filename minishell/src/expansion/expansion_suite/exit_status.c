@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:51:56 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:22:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char	*replace_word_exit(char *word, int last_exit)
 			- 2 * nb_replace + 1, sizeof(char));
 	if (!updated_word)
 	{
+		free(exit_status);
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
 	}

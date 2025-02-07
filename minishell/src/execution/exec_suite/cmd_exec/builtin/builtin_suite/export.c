@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 14:19:54 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:14:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	replace_var(char **var, char *new_var)
 	tmp = ft_strdup(new_var);
 	if (!tmp)
 	{
-		ft_printf_fd(2, "%s:, %s\n", NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
 	}
 	free(*var);
@@ -31,7 +31,7 @@ static int	import_var(char *var, int size, char ***env, int local)
 {
 	int		j;
 
-	j = 1;
+	j = 0;
 	while ((*env)[j])
 	{
 		if (!ft_strncmp(var, (*env)[j], size)
@@ -44,7 +44,7 @@ static int	import_var(char *var, int size, char ***env, int local)
 		*env = append_to_tab(*env, var);
 		if (!*env)
 		{
-			ft_printf_fd(2, "%s:, %s\n", NAME, ERR_MALLOC);
+			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			return (1);
 		}
 	}

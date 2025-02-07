@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:13:18 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:06:08 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	update(t_token *token, t_token *cmd, t_queue *reorganized_tokens)
 	}
 	if (malloc_error)
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-	if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
+	else if (token->name != TOKEN_WORD && token->name != TOKEN_REDIR)
 	{
 		if (push_redir_cmd(reorganized_tokens, cmd))
 			malloc_error = 1;
