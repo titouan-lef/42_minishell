@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 20:23:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:24:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # define ERR_SYNTAX_END "'"
 # define ERR_RND "Impossible to geneate a here_doc name"
 # define ERR_EXP "not a valid identifier"
+# define ERR_NUM_ARG "numeric argument required"
+# define ERR_NB_ARG "too many arguments"
 
 /*---token struct---*/
 typedef enum e_token_name

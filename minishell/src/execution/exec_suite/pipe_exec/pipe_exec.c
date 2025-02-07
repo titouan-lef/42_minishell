@@ -12,15 +12,16 @@
 
 #include "execution.h"
 
-static int	pipeline_manager(t_data *data, t_tree *tree, t_stack **stack, int is_first, int is_last)
+static int	pipeline_manager(t_data *data, t_tree *tree,
+				t_stack **stack, int pos)
 {
 	int	result;
 
 	if (tree->left->token.name == TOKEN_PIPE)
-		result = pipeline_manager(data, tree->left, stack, is_first, 0);
+		result = pipeline_manager(data, tree->left, stack, pos & 0b10);
 	else
 	{
-		if (is_first)
+		if (pos & 0b10)
 			result = first_cmd(data, tree->left, stack);
 		else
 			result = midle_cmd(data, tree->left, stack);
@@ -28,10 +29,10 @@ static int	pipeline_manager(t_data *data, t_tree *tree, t_stack **stack, int is_
 	if (result)
 		return (result);
 	if (tree->right->token.name == TOKEN_PIPE)
-		result = pipeline_manager(data, tree->right, stack, 0, is_last);
+		result = pipeline_manager(data, tree->right, stack, pos & 0b01);
 	else
 	{
-		if (is_last)
+		if (pos & 0b01)
 			result = last_cmd(data, tree->right, stack);
 		else
 			result = midle_cmd(data, tree->right, stack);
@@ -71,7 +72,7 @@ int	pipe_exec(t_data *data, t_tree *tree)
 	t_stack	*stack;
 
 	stack_init(&stack);
-	result = pipeline_manager(data, tree, &stack, 1, 1);
+	result = pipeline_manager(data, tree, &stack, 0b11);
 	if (result)
 	{
 		stack_clear(&stack);

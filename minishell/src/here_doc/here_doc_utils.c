@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 14:55:43 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:21:12 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
 
-static void	fill_str(char *random_string, int fd, size_t length)//if norm problem --> rand_str.c
+static void	fill_str(char *random_string, int fd, size_t length)
 {
 	char	random_char;
 	size_t	i;
@@ -69,9 +69,9 @@ static t_list	*new_here_doc(char *limiter)
 /*
 * Goal: Generate a random string of alpha numeric characters.
 *
-* Return: The generated string.
+* Return: The generated string./if norm problem --> rand_str.c
 */
-char	*generate_random_string(size_t length)//if norm problem --> rand_str.c
+char	*generate_random_string(size_t length)
 {
 	int		fd;
 	char	*random_string;

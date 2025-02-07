@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:28:50 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 18:29:51 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:13:19 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	exit_exec(t_data *data, int code)
 {
 	if (data->read_lines)
 		ft_clean_matrix((void **)data->read_lines);
-	ft_clean_matrix((void **)data->env);
-	ft_clean_matrix((void **)data->env_export);
+	if (data->env)
+		ft_clean_matrix((void **)data->env);
+	if (data->env_export)
+		ft_clean_matrix((void **)data->env_export);
 	clear_data(data);
 	rl_clear_history();
 	exit(code);

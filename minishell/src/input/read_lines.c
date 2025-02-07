@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 20:30:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:08:53 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,45 @@
 *
 * Warning: env must not be null.
 */
-static char	*rl_gets(char **env)
+static char	*rl_gets(char **env, int here_doc)
 {
 	char	*line_read ;
 	char	*prompt;
 
-	prompt = get_prompt(env);
-	if (!prompt)
-		return (NULL);
-	line_read = readline(prompt);
-	free(prompt);
-	if (line_read && *line_read)
-		add_history(line_read);
+	if (here_doc)
+		line_read = readline(" >");
+	else
+	{
+		prompt = get_prompt(env);
+		if (!prompt)
+			return (NULL);
+		line_read = readline(prompt);
+		free(prompt);
+		if (line_read && *line_read)
+			add_history(line_read);
+	}
 	return (line_read);
+}
+
+static int	built_empty_cmd(t_data *data)
+{
+	free(data->read_lines);
+	data->read_lines = (char **)malloc(2 * sizeof(char *));
+	if (!data->read_lines)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		return (1);
+	}
+	data->read_lines[0] = ft_strdup("");
+	if (!data->read_lines[0])
+	{
+		free(data->read_lines);
+		data->read_lines = NULL;
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		return (1);
+	}
+	data->read_lines[1] = NULL;
+	return (0);
 }
 
 /*
@@ -53,10 +79,7 @@ char	*read_lines(t_data *data, int here_doc)
 			ft_clean_matrix((void **)data->read_lines);
 		data->read_lines = NULL;
 		i = 0;
-		if (here_doc)
-			line_read = readline("> ");
-		else
-			line_read = rl_gets(data->env);
+		line_read = rl_gets(data->env, here_doc);
 		if (!line_read)
 			return (NULL);
 		data->read_lines = ft_split(line_read, '\n');
@@ -66,26 +89,15 @@ char	*read_lines(t_data *data, int here_doc)
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			return (NULL);
 		}
-		if (!data->read_lines[i])
-		{
-			free(data->read_lines);
-			data->read_lines = (char **)malloc(2 * sizeof(char *));
-			if (!data->read_lines)
-			{
-				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		if (!data->read_lines[0])
+			if (built_empty_cmd(data))
 				return (NULL);
-			}
-			data->read_lines[0] = ft_strdup("");
-			if (!data->read_lines[0])
-			{
-				free(data->read_lines);
-				data->read_lines = NULL;
-				ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-				return (NULL);
-			}
-			data->read_lines[1] = NULL;
-		}
 	}
 	line_read = data->read_lines[i++];
 	return (line_read);
+}
+
+int	event(void)
+{
+	return (0);
 }

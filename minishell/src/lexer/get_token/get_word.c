@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_word.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:03:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 20:25:40 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 13:41:43 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,24 @@ static int	get_quote(const char *input, int *index, char c)
 	return (0);
 }
 
+static t_token_name	detect_redir(const char *input, int *index,
+	char *buffer, int start)
+{
+	t_token_name	token_name;
+	int				status;
+
+	if (ft_isdigit(*buffer))
+		ft_to_number(buffer, &status, INT_MAX);
+	else
+		status = 1;
+	if ((input[*index] == '<' || input[*index] == '>') && status == 0)
+	{
+		token_name = get_redir(input, index, buffer + *index - start);
+		return (token_name);
+	}
+	return (TOKEN_WORD);
+}
+
 /*
 * Goal: Put the next lettres un buffer until it is not a specal character.
 *
@@ -42,13 +60,14 @@ t_token_name	get_word(const char *input, int *index, char *buffer)
 {
 	t_token_name	token_name;
 	int				start;
-	int				status;
 
 	start = *index;
-	while (input[*index]
-		&& (!ft_is_in_charset("&|()<> \t\n\v\r\f", input[*index])
-			|| (input[*index] == '&' && input[*index + 1] != '&')))
+	while (input[*index])
 	{
+		if (input[*index] == '&' && input[*index + 1] == '&')
+			break ;
+		if (ft_is_in_charset("|()<> \t\n\v\r\f", input[*index]))
+			break ;
 		if (input[*index] == '\'' || input[*index] == '\"')
 		{
 			if (get_quote(input, index, input[*index]))
@@ -58,14 +77,6 @@ t_token_name	get_word(const char *input, int *index, char *buffer)
 			(*index)++;
 	}
 	ft_strlcpy(buffer, input + start, *index - start + 1);
-	if (ft_isdigit(*buffer))
-		ft_to_number(buffer, &status, INT_MAX);
-	else
-		status = 1;
-	if ((input[*index] == '<' || input[*index] == '>') && status == 0)
-	{
-		token_name = get_redir(input, index, buffer + *index - start);
-		return (token_name);
-	}
-	return (TOKEN_WORD);
+	token_name = detect_redir(input, index, buffer, start);
+	return (token_name);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_files.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:40:01 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:44:26 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,16 @@ static int	match(char *pattern, char *str)
 /*
 * Goal: Get DIR data.
 *
-* Return: The DIR, NULL in case of malloc or  error.
+* Return: The DIR, NULL in case of malloc or error.
 */
 static DIR	*get_dir(void)
 {
 	char	*pwd;
 	DIR		*dir;
 
-	pwd = (char *)malloc(sizeof(char) * PATH_MAX); // replace by get_pwd(env);
+	pwd = get_cwd(NULL);
 	if (!pwd)
-	{
-		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
-	}
-	if (!getcwd(pwd, PATH_MAX)) // replace by get_pwd(env);
-	{
-		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-		free(pwd);
-		return (NULL);
-	}
 	dir = opendir(pwd);
 	free(pwd);
 	if (!dir)

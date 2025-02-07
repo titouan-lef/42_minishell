@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logic_ope_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:52:30 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 16:07:09 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:13:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	ope_exec(t_data *data, t_tree *tree, t_token token, int is_piped)
 {
 	int	result;
 
-	/*if (is_piped)
-		close_data_std(data);*/
 	result = tree_exec(data, tree->left, 0);
 	if (ft_strcmp(token.value[0], "&&") == 0)
 		result = and_exec(data, tree, is_piped, result);

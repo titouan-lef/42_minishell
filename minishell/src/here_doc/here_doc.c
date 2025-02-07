@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 20:29:17 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:39:31 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,49 @@
 #include "expansion.h"
 
 /*
-* Goal: Replace env var if needed and write the line in the file.
+* Goal: Expand env var and exit status from line.
+*
+* Return: the expanded line, NULL id malloc error.
+*
+* Warning: line and data must not me null.
+*/
+static char	*expand_line(char *line, t_data *data)
+{
+	char	*old;
+
+	line = replace_word_env(line, data->env, 1, 0);
+	if (!line)
+	{
+		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		return (NULL);
+	}
+	old = line;
+	line = replace_word_exit(line, data->last_exit);
+	free(old);
+	if (!line)
+	{
+		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		return (NULL);
+	}
+	return (line);
+}
+
+/*
+* Goal: Expand if needed and write the line in the file.
 *
 * Return: 0 if succed, 1 if not.
 *
-* Warning: limit, line and env must not me null.
+* Warning: limiter, line and data must not me null.
 */
 static int	write_and_free(int file, char *limiter, char *line, t_data *data)
 {
-	char	*old;
 	int		result;
 
 	if (!ft_strchr(limiter, '\'') && !ft_strchr(limiter, '\"'))
 	{
-		line = replace_word_env(line, data->env, 1, 0);
+		line = expand_line(line, data);
 		if (!line)
-		{
-			ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
 			return (1);
-		}
-		old = line;
-		line = replace_word_exit(line, data->last_exit);
-		free(old);
-		if (!line)
-		{
-			ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
-			return (1);
-		}
 		result = ft_putendl_fd(line, file);
 		free(line);
 	}
@@ -53,11 +69,6 @@ static int	write_and_free(int file, char *limiter, char *line, t_data *data)
 		return (1);
 	}
 	return (0);
-}
-
-static int	event(void)
-{
-	return (0);// pas sure qu'on garde.
 }
 
 /*

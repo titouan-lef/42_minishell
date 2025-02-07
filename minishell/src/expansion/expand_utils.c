@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 17:18:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:52:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	update_quote(char **word, char *updated_word, int letter)
 
 	c = **word;
 	updated_word[letter++] = *(*word)++;
-	while (**word && **word != c) //solve segfaul 
+	while (**word && **word != c)
 		updated_word[letter++] = *(*word)++;
 	if (**word)
 		updated_word[letter++] = *(*word)++;

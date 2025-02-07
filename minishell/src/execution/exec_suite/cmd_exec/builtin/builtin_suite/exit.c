@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:31:57 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:24:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ int	my_exit(char **cmd, t_data *data, int is_piped)
 	exit_status = (char)ft_to_number(cmd[1], &status, LLONG_MAX);
 	if (status)
 	{
-		ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", NAME, cmd[1]);
+		ft_printf_fd(2, "%s: exit: %s: %s\n", NAME, cmd[1], ERR_NUM_ARG);
 		clean(data);
 		exit(2);
 	}
 	if (cmd[2] != NULL)
 	{
-		ft_printf_fd(2, "%s: exit: too many arguments\n", NAME);
+		ft_printf_fd(2, "%s: exit: %s\n", NAME, ERR_NB_ARG);
 		return (1);
 	}
 	clean(data);

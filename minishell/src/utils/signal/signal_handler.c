@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 18:03:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 13:23:01 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	interactive_mode_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_sig_receive = 128 + SIGINT;
-		ft_putendl_error("");//canal error ? i thnik so, is solve the space probleme
+		ft_putendl_error("");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -61,9 +61,5 @@ void	here_doc_handler(int sig)
 	{
 		g_sig_receive = 128 + sig;
 		rl_done = 1;
-		/*ioctl(0, TIOCSTI, "\n");
-		ft_printf("\033[A");
-		rl_replace_line("",0);
-		rl_redisplay();*/
 	}
 }

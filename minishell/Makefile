@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
+#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/06 18:33:31 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/02/07 14:36:45 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC				=	minishell.c																\
 					execution/exec_suite/cmd_exec/builtin/builtin_suite/unset.c				\
 					execution/exec_suite/cmd_exec/builtin/builtin_suite/cd/cd.c				\
 					execution/exec_suite/cmd_exec/builtin/builtin_suite/cd/goto_dir.c		\
+					execution/exec_suite/cmd_exec/external_cmd/external_cmd_exec.c			\
 					execution/exec_suite/cmd_exec/external_cmd/update_cmd_path.c			\
 					execution/exec_suite/cmd_exec/redir/redir_suite.c						\
 					execution/exec_suite/cmd_exec/redir/redir.c								\

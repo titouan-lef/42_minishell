@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 20:20:02 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:30:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int		midle_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 int		last_cmd(t_data *data, t_tree *sub_tree, t_stack **stack);
 
 /*---CMD EXEC---*/
+int		external_cmd_manager(char **cmd, char **redir,
+			t_data *data, int is_piped);
 int		cmd_exec(t_data *data, t_token *token, int is_piped);
 
 /*---builtin---*/

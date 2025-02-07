@@ -3,19 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 20:26:36 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:19:54 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+static int	replace_var(char **var, char *new_var)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(new_var);
+	if (!tmp)
+	{
+		ft_printf_fd(2, "%s:, %s\n", NAME, ERR_MALLOC);
+		return (1);
+	}
+	free(*var);
+	*var = tmp;
+	return (0);
+}
+
 static int	import_var(char *var, int size, char ***env, int local)
 {
 	int		j;
-	char	*tmp;
 
 	j = 1;
 	while ((*env)[j])
@@ -26,28 +40,28 @@ static int	import_var(char *var, int size, char ***env, int local)
 		j++;
 	}
 	if (!(*env)[j])
-		*env = append_to_tab(*env, var);//protect
-	else if (local)
 	{
-		tmp = ft_strdup(var);
-		if (!tmp)
+		*env = append_to_tab(*env, var);
+		if (!*env)
 		{
 			ft_printf_fd(2, "%s:, %s\n", NAME, ERR_MALLOC);
 			return (1);
 		}
-		free((*env)[j]);
-		(*env)[j] = tmp;
 	}
+	else if (local)
+		if (replace_var(&(*env)[j], var))
+			return (1);
 	return (0);
 }
 
-static int	length_valid_name(char *var)
+static int	length_valid_name(char *var, int *result)
 {
 	int	size;
 
 	if (ft_isdigit(var[0]) || var[0] == '=')
 	{
 		ft_printf_fd(2, "%s: export: `%s': %s\n", NAME, var, ERR_EXP);
+		*result = 1;
 		return (-1);
 	}
 	size = 0;
@@ -56,6 +70,7 @@ static int	length_valid_name(char *var)
 		if (!ft_isalnum(var[size]) && var[size] != '_')
 		{
 			ft_printf_fd(2, "%s: export: `%s': %s\n", NAME, var, ERR_EXP);
+			*result = 1;
 			return (-1);
 		}
 		size++;
@@ -91,10 +106,10 @@ int	export(char **cmd, char ***env_local, char ***env_export)
 	int	result;
 
 	result = 0;
-	i = 1;
-	while (cmd[i])
+	i = 0;
+	while (cmd[++i])
 	{
-		size = length_valid_name(cmd[i]);
+		size = length_valid_name(cmd[i], &result);
 		if (size != -1)
 		{
 			if (cmd[i][size])
@@ -107,9 +122,6 @@ int	export(char **cmd, char ***env_local, char ***env_export)
 			else if (import_var(cmd[i], size, env_export, 0))
 				return (1);
 		}
-		else
-			result = 1;
-		i++;
 	}
 	if (i == 1)
 		print_export(*env_export);

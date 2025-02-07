@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tilde.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:14:38 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:48:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 
-static void	find_and_replace(char *updated_word, char *word, char *home, int is_redir)
+static void	find_and_replace(char *updated_word, char *word,
+	char *home, int is_redir)
 {
 	int		letter;
 	int		done;
@@ -25,7 +26,7 @@ static void	find_and_replace(char *updated_word, char *word, char *home, int is_
 	{
 		if (!done && *word == '~' && (!*(word + 1) || *(word + 1) == '/'))
 		{
-			letter += ft_strlcpy(updated_word + letter, home, length + 1); // serait plus simpe avec un strcpy ??
+			letter += ft_strlcpy(updated_word + letter, home, length + 1);
 			word++;
 		}
 		else if (*word == '\'' || *word == '\"')

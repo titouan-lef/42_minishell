@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_suite.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:38:31 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:41:15 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	redirect_input(int fd, char *file_name)
 	fd_file = open(file_name, O_RDONLY);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_FILE); //is a directory // no such file or directory
+		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_FILE);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)

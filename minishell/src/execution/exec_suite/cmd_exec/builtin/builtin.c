@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 20:28:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:11:02 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,8 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 
 	if (!is_piped)
 	{
-		result = dup_data_std(std);
-		if (result)
-			return (result);
+		if (dup_data_std(std))
+			return (1);
 	}
 	result = redir_manager(redir, data->lst);
 	if (result)
@@ -124,9 +123,11 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 	}
 	result = builtin_choice(cmd, data, is_piped);
 	if (!is_piped)
+	{
 		result2 = dup2_data_std(std);
-	close_data_std(std);
-	if (!is_piped && result2)
-		return (result2);
+		close_data_std(std);
+		if (result2)
+			return (result2);
+	}
 	return (result);
 }

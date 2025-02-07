@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 20:31:51 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:13:08 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ int	make_execution(t_data *data)
 {
 	int	result;
 	int	result2;
-	int	result3;
-	//todo revoir
-	result3 = modify_sigaction(&data->act, here_doc_handler, 1);
+
+	result = modify_sigaction(&data->act, here_doc_handler, 1);
 	result2 = read_here_docs(data);
-	if (result3 || modify_sigaction(&data->act, interactive_mode_handler, 1))
+	if (result || modify_sigaction(&data->act, interactive_mode_handler, 1))
 	{
 		clear_data(data);
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:01:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 20:25:15 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:44:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*get_cwd(char **env)
 	if (getcwd(pwd, PATH_MAX) == NULL)
 	{
 		free(pwd);
+		if (!env)
+			return (NULL);
 		pwd = get_from_env(env, "PWD");
 	}
 	return (pwd);

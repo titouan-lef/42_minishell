@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   state.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:46:18 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 18:13:06 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:59:38 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_tree	*common_state(t_tree *tree, t_queue *queue, t_token_name type, t_list **here_docs)
+t_tree	*common_state(t_tree *tree, t_queue *queue,
+	t_token_name type, t_list **here_docs)
 {
 	if (type == TOKEN_CMD)
 		tree = state_cmd(tree, queue, here_docs);

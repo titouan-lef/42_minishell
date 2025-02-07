@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 17:19:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:51:56 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,15 @@ static int	count_replacement(char *word)
 			nb_replace++;
 			word += 2;
 		}
-		else if (*word == '\'' && !in_double_quotes)
-		{
+		else
 			word++;
+		if (*(word - 1) == '\'' && !in_double_quotes)
+		{
 			while (*word && *word != '\'')
 				word++;
 			if (*word)
 				word++;
 		}
-		else
-			word++;
 	}
 	return (nb_replace);
 }
