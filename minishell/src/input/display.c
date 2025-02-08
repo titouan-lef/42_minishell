@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 17:06:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/08 16:13:22 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ char	*get_prompt(char **env)
 		prompt = ft_strdup("minishell$ ");
 		if (!prompt)
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-		return (prompt);
 	}
 	return (prompt);
 }

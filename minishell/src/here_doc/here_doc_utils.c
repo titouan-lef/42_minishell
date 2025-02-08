@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:21:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/08 16:09:41 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,22 @@ static t_list	*new_here_doc(char *limiter)
 	element = ft_calloc(1, sizeof(t_here_doc));
 	if (!element)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
 	}
 	element->limiter = ft_strdup(limiter);
 	if (!element)
 	{
-		ft_printf_fd(2, "%s: %s", NAME, ERR_MALLOC);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		free(element);
 		return (NULL);
 	}
 	new = ft_lstnew(element);
 	if (!new)
 	{
-		clear_here_docs(new);
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		free(element->limiter);
+		free(element);
 		return (NULL);
 	}
 	return (new);
@@ -78,7 +80,10 @@ char	*generate_random_string(size_t length)
 
 	random_string = (char *)ft_calloc((length + 1), sizeof(char));
 	if (!random_string)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
+	}
 	fd = open("/dev/random", O_RDONLY);
 	if (fd < 0)
 	{
@@ -138,7 +143,8 @@ void	clear_here_docs(t_list *here_docs)
 {
 	while (here_docs)
 	{
-		unlink(((t_here_doc *)here_docs->content)->filename);
+		if (((t_here_doc *)here_docs->content)->filename)
+			unlink(((t_here_doc *)here_docs->content)->filename);
 		free(((t_here_doc *)here_docs->content)->filename);
 		free(((t_here_doc *)here_docs->content)->limiter);
 		here_docs = ft_lstremove_front(here_docs, free);

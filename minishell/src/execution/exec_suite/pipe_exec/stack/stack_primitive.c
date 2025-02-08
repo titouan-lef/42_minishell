@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_primitive.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:39:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/15 17:17:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:24:05 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	stack_push(t_stack **stack, pid_t pid)
 	element = (t_stack *)malloc(sizeof(t_stack));
 	if (!element)
 	{
-		ft_putendl_error("Error malloc stack push");
+		ft_printf_fd(2, "%s: Error malloc stack push\n", NAME);
 		return (1);
 	}
 	element->pid = pid;

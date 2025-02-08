@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:37:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 17:08:10 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:30:07 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	tree_push_left(t_tree *tree, t_tree *sub_tree)
 {
 	if (tree_is_empty(tree) || tree->left != NULL)
 	{
-		ft_putendl_error("Error tree push left");
+		ft_printf_fd(2, "%s: Error tree push left\n", NAME);
 		return ;
 	}
 	tree->left = sub_tree;
@@ -36,7 +36,7 @@ void	tree_push_right(t_tree *tree, t_tree *sub_tree)
 {
 	if (tree_is_empty(tree) || tree->right != NULL)
 	{
-		ft_putendl_error("Error tree push right");
+		ft_printf_fd(2, "%s: Error tree push right\n", NAME);
 		return ;
 	}
 	tree->right = sub_tree;
