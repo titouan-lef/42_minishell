@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 19:14:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/08 11:16:20 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	length_valid_name(char *var, int *result)
 {
 	int	size;
 
-	if (ft_isdigit(var[0]) || var[0] == '=')
+	if (ft_isdigit(var[0]) || var[0] == '=' || var[0] == '\0')
 	{
 		ft_printf_fd(2, "%s: export: `%s': %s\n", NAME, var, ERR_EXP);
 		*result = 1;
