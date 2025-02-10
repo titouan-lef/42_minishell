@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/07 14:24:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:23:46 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_data
 	char				**env_export;
 	int					last_exit;
 	t_tree				*tree;
-	t_list				*lst;
+	t_list				*here_docs;
 	int					fd[2];
 	int					last_pipe;
 	struct sigaction	act;

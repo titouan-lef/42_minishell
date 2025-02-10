@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd_exec.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/07 14:40:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	execve_manager(char **cmd, char **redir, t_data *data)
 
 	if (default_sigaction(&data->act))
 		exit_exec(data, 1);
-	result = redir_manager(redir, data->lst);
+	result = redir_manager(redir, data->here_docs);
 	if (result || !cmd)
 		exit_exec(data, result);
 	path = NULL;

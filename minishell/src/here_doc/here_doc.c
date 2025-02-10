@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:39:31 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int	read_here_docs(t_data *data)
 	int			fd;
 	int			result;
 
-	here_docs = data->lst;
+	here_docs = data->here_docs;
 	while (here_docs)
 	{
 		here_doc = here_docs->content;

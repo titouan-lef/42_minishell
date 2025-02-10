@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 19:32:41 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ static void write_result(t_queue *queue, t_data *data)
 
 	redirect_outputs(&outputs);
 	parser(queue, data);
-	clear_here_docs(data->lst);
+	clear_here_docs(data->here_docs);
 	breadth_first_search(data->tree);
 	set_normal_outputs(&outputs);
 	tree_clear(&data->tree);

@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:28:50 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 09:41:38 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 void	clear_data(t_data *data)
 {
 	tree_clear(&data->tree);
-	clear_here_docs(data->lst);
+	clear_here_docs(data->here_docs);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 07:55:36 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ int	parser(t_queue *queue, t_data *data)
 	if (queue_is_empty(queue))
 		return (1);
 	data->tree = NULL;
-	data->lst = NULL;
+	data->here_docs = NULL;
 	while (!queue_is_empty(queue))
 	{
-		data->tree = next_state(data->tree, queue, &data->lst);
+		data->tree = next_state(data->tree, queue, &data->here_docs);
 		if (tree_is_empty(data->tree))
 		{
 			queue_clear(queue);
