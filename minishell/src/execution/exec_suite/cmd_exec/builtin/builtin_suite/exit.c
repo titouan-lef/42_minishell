@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 13:03:23 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:54:20 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,19 @@ int	my_exit(char **cmd, t_data *data, int is_piped)
 {
 	char	exit_status;
 	int		status;
+	size_t	i;
 
 	if (!is_piped)
 		ft_printf_fd(2, "exit\n");
 	if (cmd == NULL || cmd[1] == NULL)
 	{
 		clean(data);
-		exit(0);
+		exit(data->last_exit);
 	}
-	exit_status = (char)ft_to_number(cmd[1], &status, LLONG_MAX);
+	i = 0;
+	while (ft_isspace(cmd[1][i]))
+		++i;
+	exit_status = (char)ft_to_number(cmd[1] + i, &status, LLONG_MAX);
 	if (status)
 	{
 		ft_printf_fd(2, "%s: exit: %s: %s\n", NAME, cmd[1], ERR_NUM_ARG);

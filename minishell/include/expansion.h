@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:05:16 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 17:02:56 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:20:25 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*replace_word_exit(char *word, int last_exit);
 int		expand_exit_status(char ***value, int last_exit);
 
 /*---tilde---*/
-int		expand_tilde(char ***value, char **env, int is_redir);
+int		expand_tilde(char **value, char **env, int is_redir);
 
 /*---wildcard---*/
 t_list	*find_matches(char *patern);

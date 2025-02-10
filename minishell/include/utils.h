@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 11:23:46 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:10:51 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define ERR_CLOSE "close failed"
 # define ERR_NO_FILE "No such file or directory"
 # define ERR_NO_PERM "Permission denied"
-# define ERR_NO_CMD "Command not found"
+# define ERR_NO_CMD "command not found"
 # define ERR_SYNTAX_START ": syntax error near unexpected token `"
 # define ERR_SYNTAX_END "'"
 # define ERR_RND "Impossible to geneate a here_doc name"

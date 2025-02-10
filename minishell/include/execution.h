@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/07 14:30:52 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:54:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include "utils.h"
 
 typedef struct s_stack

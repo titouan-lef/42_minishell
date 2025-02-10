@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tilde.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:41:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:20:19 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,26 @@ static char	*replace_word_tilde(char *word, char *home, int is_redir)
 *
 * Return: 0 on success, 1 on failure.
 */
-int	expand_tilde(char ***value, char **env, int is_redir) // could just use **value
+int	expand_tilde(char **value, char **env, int is_redir)
 {
 	int		i;
 	char	*updated_word;
 	char	*home;
 
 	i = 0;
-	while ((*value)[i])
+	while (value[i])
 	{
-		if (ft_strnstr((*value)[i], "~", ft_strlen((*value)[i])))
+		if (ft_strnstr(value[i], "~", ft_strlen(value[i])))
 		{
 			home = get_from_env(env, "HOME");
 			if (home)
 			{
-				updated_word = replace_word_tilde((*value)[i], home, is_redir);
+				updated_word = replace_word_tilde(value[i], home, is_redir);
 				free(home);
 				if (!updated_word)
 					return (1);
-				free((*value)[i]);
-				(*value)[i] = updated_word;
+				free(value[i]);
+				value[i] = updated_word;
 			}
 		}
 		i++;

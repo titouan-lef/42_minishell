@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_tilde_expansion.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/02 19:28:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:20:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,19 +129,19 @@ void	test_tilde_expand(char **envp)
 
 	/*--- test 1 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "~", NULL), NULL);
-	expand_tilde(&token.value, envp, 0);
+	expand_tilde(token.value, envp, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", getenv("HOME"), NULL);
 	token_clear(token);
 
 	/*--- test 2 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "~~", NULL), NULL);
-	expand_tilde(&token.value, envp, 0);
+	expand_tilde(token.value, envp, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", "~~", NULL);
 	token_clear(token);
 
 	/*--- test 3 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "~/", NULL), NULL);
-	expand_tilde(&token.value, envp, 0);
+	expand_tilde(token.value, envp, 0);
 	tmp = ft_strjoin(getenv("HOME"), "/");
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", tmp, NULL);
 	free (tmp);
@@ -149,13 +149,13 @@ void	test_tilde_expand(char **envp)
 
 	/*--- test 4 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", " ~", NULL), NULL);
-	expand_tilde(&token.value, envp, 0);
+	expand_tilde(token.value, envp, 0);
 	assert_equal_token_value(token, &test_number, TOKEN_CMD, "echo", " ~", NULL);
 	token_clear(token);
 
 	/*--- test 5 ---*/
 	token = token_create(TOKEN_CMD, NULL, built_tab(">~", NULL));
-	expand_tilde(&token.redir, envp, 1);
+	expand_tilde(token.redir, envp, 1);
 	tmp = ft_strjoin(">", getenv("HOME"));
 	assert_equal_token_redir(token, &test_number, TOKEN_CMD, tmp, NULL);
 	free(tmp);

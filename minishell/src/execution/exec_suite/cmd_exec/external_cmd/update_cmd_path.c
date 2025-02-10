@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:49:12 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:38:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:54:52 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	access_path_cmd(char *cmd_name, char **path)
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (1);
 	}
-	if (access(cmd_name, F_OK) == 0 && access(cmd_name, X_OK))
+	if (errno == EACCES)
 	{
 		ft_printf_fd(2, "%s: %s: %s\n", NAME, cmd_name, ERR_NO_PERM);
 		return (126);

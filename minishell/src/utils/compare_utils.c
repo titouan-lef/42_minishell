@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compare_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:29:53 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:08:07 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:46:46 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	strcmp_lexicographicly(const void *p1, const void *p2)
 			return (result);
 		i++;
 	}
+	if (str1[i] != '\0' || str2[i] != '\0')
+		return (str1[i] - str2[i]);
 	result = ft_strcmp(str1, str2);
 	return (-result);
 }

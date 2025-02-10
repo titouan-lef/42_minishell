@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_suite.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:56:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:33:43 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	redirect_output(int fd, char *file_name)
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_PERM);
+		if (access(file_name, F_OK) == 0)
+			ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_PERM);
+		else
+			ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_FILE);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
@@ -100,7 +103,10 @@ int	redirect_output_append_mode(int fd, char *file_name)
 	fd_file = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_file == -1)
 	{
-		ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_PERM);
+		if (access(file_name, F_OK) == 0)
+			ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_PERM);
+		else
+			ft_printf_fd(2, "%s: %s: %s\n", NAME, file_name, ERR_NO_FILE);
 		return (1);
 	}
 	if (dup2(fd_file, fd) == -1)
