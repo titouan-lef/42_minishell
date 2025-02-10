@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:51:26 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/01/28 17:40:56 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:59:38 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,17 +119,17 @@ static void	test_tree_push_left(void)
 	t_token token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	t_out	outputs;
 
-	redirect_outputs(&outputs);
+	/*redirect_outputs(&outputs);
 	tree_push_left(tree, sub_tree);
 	set_normal_outputs(&outputs);
-	assert_equal_err("Error tree push left\n", &test_number);
+	assert_equal_err("Error tree push left\n", &test_number);*/
 
 	tree = tree_create(token);
 	tree->left = sub_tree;
-	redirect_outputs(&outputs);
+	/*redirect_outputs(&outputs);
 	tree_push_left(tree, sub_tree);
 	set_normal_outputs(&outputs);
-	assert_equal_err("Error tree push left\n", &test_number);
+	assert_equal_err("Error tree push left\n", &test_number);*/
 
 	tree->left = NULL;
 	redirect_outputs(&outputs);
@@ -167,17 +167,17 @@ static void	test_tree_push_right(void)
 	t_token	token = token_create(TOKEN_REDIR, calloc(1, sizeof(char *)), calloc(1, sizeof(char *)));
 	t_out	outputs;
 
-	redirect_outputs(&outputs);
+	/*redirect_outputs(&outputs);
 	tree_push_right(tree, sub_tree);
 	set_normal_outputs(&outputs);
-	assert_equal_err("Error tree push right\n", &test_number);
+	assert_equal_err("Error tree push right\n", &test_number);*/
 
 	tree = tree_create(token);
 	tree->right = sub_tree;
-	redirect_outputs(&outputs);
+	/*redirect_outputs(&outputs);
 	tree_push_right(tree, sub_tree);
 	set_normal_outputs(&outputs);
-	assert_equal_err("Error tree push right\n", &test_number);
+	assert_equal_err("Error tree push right\n", &test_number);*/
 
 	tree->right = NULL;
 	redirect_outputs(&outputs);

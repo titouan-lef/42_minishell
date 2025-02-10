@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/07 13:23:01 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:10:32 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	get_signal_receive(void)
 
 /*
 * Goal: Detect SIGINT (Ctrl + C) and SIGQUIT (Ctrl + \).
-* - SIGQUIT : Remove "^\".
 * - SIGINT :
 *	- Move to new line.
 *	- Start to read new line which start like the old (allows the old

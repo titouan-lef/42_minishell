@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 19:06:08 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 07:55:36 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	parser(t_queue *queue, t_data *data)
 	while (!queue_is_empty(queue))
 	{
 		data->tree = next_state(data->tree, queue, &data->lst);
-		if (data->tree == NULL)
+		if (tree_is_empty(data->tree))
 		{
 			queue_clear(queue);
 			return (2);

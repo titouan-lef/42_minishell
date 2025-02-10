@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logic_ope_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:52:30 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/07 15:13:11 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:50:07 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ static int	or_exec(t_data *data, t_tree *tree, int is_piped, int result)
 	return (result);
 }
 
+/*
+* Goal: Execute the first command and execute the second
+* according to the result of the first.
+*/
 int	ope_exec(t_data *data, t_tree *tree, t_token token, int is_piped)
 {
 	int	result;
