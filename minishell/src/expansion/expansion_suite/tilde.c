@@ -6,12 +6,17 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:48:05 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:41:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 
+/*
+* Goal: Fill the new word by copying the value of HOME instead of ~.
+*
+* Return: The updated word.
+*/
 static void	find_and_replace(char *updated_word, char *word,
 	char *home, int is_redir)
 {
@@ -40,12 +45,9 @@ static void	find_and_replace(char *updated_word, char *word,
 }
 
 /*
-* Goal: Make a new word with all the environement variables
-*		in the given word from there value in env_local.
+* Goal: Make a new word by replacing ~ by the value of HOME.
 *
 * Return: The updated word.
-*
-* Warning: word and env_local must not be null.
 */
 static char	*replace_word_tilde(char *word, char *home, int is_redir)
 {
@@ -67,11 +69,9 @@ static char	*replace_word_tilde(char *word, char *home, int is_redir)
 * Goal: Replace all the environement variables in all the TOKEN_CMD tokens
 *		from there value in env_local.
 *
-* Return: 0 if errror, 1 if not.
-*
-* Warning: token and env_local must not be null.
+* Return: 0 on success, 1 on failure.
 */
-int	expand_tilde(char ***value, char **env, int is_redir)
+int	expand_tilde(char ***value, char **env, int is_redir) // could just use **value
 {
 	int		i;
 	char	*updated_word;

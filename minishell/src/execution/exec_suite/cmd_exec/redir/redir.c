@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:49:39 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:32:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:56:33 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 /*
 * Goal: Identify the type of redirection.
 *
-* Return: the enum redir name.
-*
-* Warning: redir must not me null.
+* Return: The enum redir name.
 */
 static int	choose_redir(char *redir)
 {
@@ -37,9 +35,7 @@ static int	choose_redir(char *redir)
 /*
 * Goal: Find id in the redir.
 *
-* Return: The fd found, -1 if no fd.
-*
-* Warning: redir must not me null.
+* Return: The fd found, -1 if not.
 */
 static int	find_fd(char **redir)
 {
@@ -54,11 +50,9 @@ static int	find_fd(char **redir)
 }
 
 /*
-* Goal: Redirect the output or input with the given redirection.
+* Goal: Redirect output or input with the given redirection.
 *
-* Return: 0 if succes, the code error if an error occur.
-*
-* Warning: token.value must not me null.
+* Return: O on success, or the error code corresponding.
 */
 int	redir_manager(char **redirs, t_list *here_docs)
 {

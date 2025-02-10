@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 16:08:53 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:20:48 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 /*
 * Goal: Read from stdin whith readline and
-* 		add the command to the history if not empty.
+*		add the command to the history if not empty.
 *
-* Return: The line read with readline.
-*
-* Warning: env must not be null.
+* Return: The read line.
 */
 static char	*rl_gets(char **env, int here_doc)
 {
@@ -40,6 +38,11 @@ static char	*rl_gets(char **env, int here_doc)
 	return (line_read);
 }
 
+/*
+* Goal: Created a empty command.
+*
+* Return: 0 on success, 1 on failure.
+*/
 static int	built_empty_cmd(t_data *data)
 {
 	free(data->read_lines);
@@ -64,9 +67,7 @@ static int	built_empty_cmd(t_data *data)
 /*
 * Goal: Read from stdin whith readline or from last readline.
 *
-* Return: The line read with readline or from last read.
-*
-* Warning: data must not be null.
+* Return: The read line.
 */
 char	*read_lines(t_data *data, int here_doc)
 {
@@ -97,6 +98,11 @@ char	*read_lines(t_data *data, int here_doc)
 	return (line_read);
 }
 
+/*
+* Goal: Empty function used to disable readline holding pormpt.
+*
+* Return: 0.
+*/
 int	event(void)
 {
 	return (0);

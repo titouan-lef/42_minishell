@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:44:26 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:36:46 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 * Goal: Verify is the string match the patern.
 *
 * Return: 1 if it matchs, 0 if not.
-*
-* Warning: patern and str must not be null.
 */
 static int	match(char *pattern, char *str)
 {
@@ -43,7 +41,7 @@ static int	match(char *pattern, char *str)
 /*
 * Goal: Get DIR data.
 *
-* Return: The DIR, NULL in case of malloc or error.
+* Return: The DIR, NULL in case of malloc error.
 */
 static DIR	*get_dir(void)
 {
@@ -66,9 +64,7 @@ static DIR	*get_dir(void)
 /*
 * Goal: Create a new malloc node and add it to lst.
 *
-* Return: 1, 0 if malloc error.
-*
-* Warning: lst and filename must not be null.
+* Return: 0 on success, 1 on failure.
 */
 static int	create_and_addback(t_list **lst, char *filename)
 {
@@ -96,9 +92,7 @@ static int	create_and_addback(t_list **lst, char *filename)
 * Goal: Create a list of all the files in the current dirrectory
 *		that matchs the patern.
 *
-* Return: The list or NULL if malloc or getdir/readdir error.
-*
-* Warning: patern must not be null.
+* Return: The list or NULL if malloc error or getdir/readdir error.
 */
 t_list	*find_matches(char *patern)
 {

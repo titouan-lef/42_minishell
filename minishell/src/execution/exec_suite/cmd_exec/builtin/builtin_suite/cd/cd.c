@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:37:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:59:16 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ static int	goback(char **env)
 /*
 * Goal: Equivalent of the pwd cd.
 *
-* Return: 1 in case of error, 0 if none.
-*
-* Warning: env must not be null.
+* Return: 0 on success, 1 on failure.
 */
 int	cd(char **cmd, char **env)
 {

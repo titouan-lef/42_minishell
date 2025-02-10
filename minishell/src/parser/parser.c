@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:09:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 * Goal: Push the tokens redir and cmd in the given token queue
 *		if they are not empty.
 *
-* Warning: token, redir and cmd must not be null.
+* Return: 0 on success, 1 on failure.
 */
 static int	push_redir_cmd(t_queue *tokens, t_token *cmd)
 {
@@ -35,6 +35,13 @@ static int	push_redir_cmd(t_queue *tokens, t_token *cmd)
 	return (malloc_error);
 }
 
+/*
+* Goal: Add the token.value from WORD and REDIR in the token cmd.
+*		Push the token cmd  and the token in the queue if the detected token
+*		is neither a WORD or a REDIR.
+*
+* Return: 0 on success, 1 on failure.
+*/
 static int	update(t_token *token, t_token *cmd, t_queue *reorganized_tokens)
 {
 	int	malloc_error;
@@ -63,11 +70,9 @@ static int	update(t_token *token, t_token *cmd, t_queue *reorganized_tokens)
 }
 
 /*
-* Goal: Groups the word and redir tokens.
+* Goal: Groups the word and redir tokens into cmd token.
 *
 * Return: The reorganized queue.
-*
-* Warning: token must not be null.
 */
 static t_queue	form_cmd(t_queue *tokens)
 {
@@ -93,6 +98,11 @@ static t_queue	form_cmd(t_queue *tokens)
 	return (reorganized_tokens);
 }
 
+/*
+* Goal: Parse every element of the queue and built the tree for execution.
+*
+* Return: 0 on success, 1 if malloc error and 2 if syntax error.
+*/
 int	parser(t_queue *queue, t_data *data)
 {
 	*queue = form_cmd(queue);

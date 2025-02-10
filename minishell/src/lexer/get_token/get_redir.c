@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   get_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:03:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 14:38:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:22:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
+/*
+* Goal: Found the name of file for redirection.
+*
+* Return: The result of get_word.
+*/
 static t_token_name	get_filename(const char *input, int *index,
 		char *buffer, int offset_buffer)
 {
@@ -27,8 +32,6 @@ static t_token_name	get_filename(const char *input, int *index,
 * Goal: Found out if the token is an redirection.
 *
 * Return: TOKEN_REDIR if the current token is a redir, TOKEN_NULL if not.
-*
-* Warning: input, index and buffer must not be null.
 */
 t_token_name	get_redir(const char *input, int *index, char *buffer)
 {

@@ -14,9 +14,9 @@
 
 /*
 * Goal: Make the redirection and execute command regarding of his position
-* in the pipeline.
-* 	0b10 check if it is the first command of the pipeline.
-* 	0b01 check if it is the last command of the pipeline.
+*		in the pipeline.
+*		0b10 check if it is the first command of the pipeline.
+*		0b01 check if it is the last command of the pipeline.
 *
 * Return: The result of redirections.
 */
@@ -48,6 +48,11 @@ static int	pipeline_manager(t_data *data, t_tree *tree,
 	return (result);
 }
 
+/*
+* Goal: Waits for all the child processes.
+*
+* Return: Last command's code or 1 if error.
+*/
 static int	wait_children(t_stack *stack, t_data *data)
 {
 	int	result;
@@ -76,7 +81,7 @@ static int	wait_children(t_stack *stack, t_data *data)
 
 /*
 * Goal: Make the redirection and execute all commands. PID are stacked
-* in 'stack' to update exit status with the last command's exit.
+*		in 'stack' to update exit status with the last command's exit.
 *
 * Return: Last command's code or 1 if error.
 */

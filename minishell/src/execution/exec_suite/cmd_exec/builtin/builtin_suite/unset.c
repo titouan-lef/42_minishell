@@ -6,17 +6,12 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:38:50 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 19:14:38 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:57:36 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-/*
-* Goal: Equivalent of the unset command.
-*
-* Warning: None.
-*/
 static int	is_var_to_unset(char *var_name, char **list)
 {
 	int	length;
@@ -57,6 +52,11 @@ static int	update_new_env(char ***new_env, char *str, char **cmd)
 	return (0);
 }
 
+/*
+* Goal: Remove all the variable given in cmd for the env.
+*
+* Return: 0 on success, 1 on malloc failure.
+*/
 int	unset(char **cmd, char ***env)
 {
 	char	**new_env;

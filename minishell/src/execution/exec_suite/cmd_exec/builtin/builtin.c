@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:59:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,9 @@ static void	close_data_std(int *std)
 }
 
 /*
-* Goal: Launch the corresponding builtins command.
+* Goal: Calls the corresponding builtins command.
 *
-* Return: O if no error, or the error code corresponding.
-*
-* Warning: cmd and data must not be null.
+* Return: 0 on succes, the code error corresponding.
 */
 int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 {

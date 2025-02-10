@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 14:24:00 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:03:23 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ static void	clean(t_data *data)
 	rl_clear_history();
 }
 
+/*
+* Goal: Exit the actual processus with the preciced code in cmd[1].
+*
+* Return: 1 if wrong number of argument and cmd[1] is a long long.
+*/
 int	my_exit(char **cmd, t_data *data, int is_piped)
 {
 	char	exit_status;

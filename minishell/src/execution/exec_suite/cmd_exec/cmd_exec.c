@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/07 14:31:56 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:57:10 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 * Goal: Detect a builtin function.
 *
 * Return: 1 if true, 0 if not.
-*
-* Warning: cmd_name must not be null.
 */
 static int	is_builtin_cmd(char *cmd_name)
 {
@@ -36,9 +34,7 @@ static int	is_builtin_cmd(char *cmd_name)
 /*
 * Goal: Execute the command int the given token.
 *
-* Return: O if no error, 1 if the fork failed.
-*
-* Warning: token.value and data must not be null.
+* Return: O on success, 1 on fork failure.
 */
 static int	cmd_manager(t_token token, t_data *data, int is_piped)
 {
@@ -61,9 +57,7 @@ static int	cmd_manager(t_token token, t_data *data, int is_piped)
 /*
 * Goal: Execute the command of the given token.
 *
-* Return: O if no error, or the error code corresponding.
-*
-* Warning: token, tree and data must not be null.
+* Return: O on success, or the error code corresponding.
 */
 int	cmd_exec(t_data *data, t_token *token, int is_piped)
 {

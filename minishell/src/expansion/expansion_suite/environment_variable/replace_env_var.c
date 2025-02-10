@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:39:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:45:31 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 * Goal: Find the lenght the word until next quote or after replacing the env.
 *
 * Return: The length of the new word.
-*
-* Warning: word and env must not be null.
 */
 static int	mesure_length(char **word, char **env, int in_double_quote)
 {
@@ -48,8 +46,6 @@ static int	mesure_length(char **word, char **env, int in_double_quote)
 * Goal: Find the length of the word after replacing the env var by there value.
 *
 * Return: The length of the new word.
-*
-* Warning: word and env_local must not be null.
 */
 static int	new_lenght(char *word, char **env_local, int here_doc)
 {
@@ -82,8 +78,6 @@ static int	new_lenght(char *word, char **env_local, int here_doc)
 
 /*
 * Goal: Add the value of the env var in new_word.
-*
-* Warning: word, new_word, letter and env must not be null.
 */
 static void	update_env_var(char **word, char *new_word, int *letter, char **env)
 {
@@ -104,9 +98,7 @@ static void	update_env_var(char **word, char *new_word, int *letter, char **env)
 /*
 * Goal: Do not replace env var in the there '<<' in a redir.
 *
-* Return: 1 if the here_doc is found, 0 if not
-*
-* Warning: word, updated_word must not be null.
+* Return: 1 if the here_doc is found, 0 if not.
 */
 static int	do_not_replace(char *updated_word, char *word,
 	int letter, int condition)
@@ -124,8 +116,6 @@ static int	do_not_replace(char *updated_word, char *word,
 *		in the given word are replaced with there value in env.
 *
 * Return: The new word.
-*
-* Warning: word and env must not be null.
 */
 char	*replace_word_env(char *word, char **env, int here_doc, int redir)
 {

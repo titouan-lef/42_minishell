@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_operator.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:04:03 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 20:22:21 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:23:43 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 *		Increment *index i they are equal.
 *
 * Return: 1 if equal, 0 if not.
-*
-* Warning: input, index and buffer must not be null.
 */
 static int	cmp_and_inc(const char *input, int *index, char c, char *buffer)
 {
@@ -39,8 +37,6 @@ static int	cmp_and_inc(const char *input, int *index, char c, char *buffer)
 * Goal: Found out if the token is an opperator, pipe or parenthesis.
 *
 * Return: The enum of the token type, TOKEN_NULL if none of them.
-*
-* Warning: input, index and buffer must not be null.
 */
 t_token_name	get_operator(const char *input, int *index, char *buffer)
 {

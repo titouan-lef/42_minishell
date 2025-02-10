@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 09:10:32 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:32:58 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int	g_sig_receive = 0;
 
+/*
+* Goal: Get the value of the received signal
+* 
+* Return: 0 if no signal, 128 + sig in case of signal.
+*/
 int	get_signal_receive(void)
 {
 	int	tmp;
@@ -25,13 +30,13 @@ int	get_signal_receive(void)
 
 /*
 * Goal: Detect SIGINT (Ctrl + C) and SIGQUIT (Ctrl + \).
-* - SIGINT :
-*	- Move to new line.
-*	- Start to read new line which start like the old (allows the old
-* line to be displayed).
-*	- Clear the line (allows to doesn't start like the old line).
-*	- Update display to show prompt without wait that the user write
-* in terminal.
+*	- SIGINT :
+*		- Move to new line.
+*		- Start to read new line which start like the old (allows the old
+*		line to be displayed).
+*		- Clear the line (allows to doesn't start like the old line).
+*		- Update display to show prompt without wait that the user write
+*		in terminal.
 */
 void	interactive_mode_handler(int sig)
 {
@@ -45,6 +50,13 @@ void	interactive_mode_handler(int sig)
 	}
 }
 
+/*
+* Goal: Detect SIGINT (Ctrl + C) and SIGQUIT (Ctrl + \).
+*	- SIGINT :
+*		- Move to new line.
+*	- SIQUIT :
+*		- Print "Quit" and move to new line.
+*/
 void	cmd_display_handler(int sig)
 {
 	g_sig_receive = 128 + sig;
@@ -54,6 +66,11 @@ void	cmd_display_handler(int sig)
 		ft_putendl_error("Quit");
 }
 
+/*
+* Goal: Detect SIGINT (Ctrl + C).
+*	- SIGINT :
+*		- Stop readline.
+*/
 void	here_doc_handler(int sig)
 {
 	if (sig == SIGINT)

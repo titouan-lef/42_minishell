@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 17:22:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:43:29 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ static void	find_and_replace(char *updated_word, char *word,
 * Goal: Make a new word with all the environement variables
 *		in the given word from there value in env_local.
 *
-* Return: The updated word.
-*
-* Warning: word and env_local must not be null.
+* Return: The updated word, NULL if error.
 */
 char	*replace_word_exit(char *word, int last_exit)
 {
@@ -107,9 +105,7 @@ char	*replace_word_exit(char *word, int last_exit)
 * Goal: Replace all the environement variables in all the TOKEN_CMD tokens
 *		from there value in env_local.
 *
-* Return: 0 if errror, 1 if not.
-*
-* Warning: token and env_local must not be null.
+* Return: 0 on success, 1 on failure.
 */
 int	expand_exit_status(char ***value, int last_exit)
 {

@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:31:50 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 12:52:25 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+/*
+* Goal: Prints the actual environement.
+*/
 int	env(char **cmd, char **env)
 {
 	int	i;

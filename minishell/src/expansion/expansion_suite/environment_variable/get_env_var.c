@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:09:00 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:34:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *
 * Return: The value of the env var.
 *
-* Warning: name and env_local must not be null.
+* Warning: The return value must not be freed.
 */
 static char	*get_value(char *name, char **env_local)
 {
@@ -43,8 +43,6 @@ static char	*get_value(char *name, char **env_local)
 *		and quote the quotes.
 *
 * Return: The quoted value of the env var.
-*
-* Warning: name and env must not be null.
 */
 char	*get_quoted_value(char *name, char **env)
 {

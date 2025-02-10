@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_ope_state.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:59:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 07:56:26 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:10:30 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 * Goal: Create a sub tree until a closing parenthesis is found.
 *
-* Return: The sub tree (or NULL if error).
+* Return: The sub tree, NULL if error.
 */
 static t_tree	*build_sub_tree(t_queue *queue, t_list **here_docs)
 {
@@ -46,7 +46,7 @@ static t_tree	*build_sub_tree(t_queue *queue, t_list **here_docs)
 /*
 * Goal: Create a sub tree and add it on the right of the junction operator node.
 *
-* Return: The new tree (or NULL if error).
+* Return: The new tree, NULL if error.
 */
 static t_tree	*build_sub_tree_right(t_tree *tree, t_queue *queue,
 					t_list **here_docs)
@@ -68,10 +68,10 @@ static t_tree	*build_sub_tree_right(t_tree *tree, t_queue *queue,
 /*
 * Goal: Manage the open parenthesis in tree.
 *
-* Return: The new tree (or NULL if error).
+* Return: The new tree, NULL if error.
 *
 * Warning: Tree is a sub tree (junction operator or start of command),
-* so a correct tree is empty.
+*		so a correct tree is empty.
 */
 t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 {
@@ -102,7 +102,7 @@ t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 /*
 * Goal: Add and manage junction operator (|, && and ||) in tree.
 *
-* Return: The new tree (or NULL if error).
+* Return: The new tree, NULL if error.
 */
 t_tree	*state_junction_ope(t_tree *tree, t_queue *queue, t_list **here_docs)
 {

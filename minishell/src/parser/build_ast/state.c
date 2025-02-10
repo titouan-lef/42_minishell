@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   state.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:46:18 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 09:29:00 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:48:09 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 * Goal: Update the 'tree' with the next "common" state define by
-* the next token of the 'queue'.
+*		the next token of the 'queue'.
 *
 * Return: New tree or NULL if the next token is a ")", a "|", a "||" or a "&&".
 */
@@ -36,7 +36,7 @@ t_tree	*common_state(t_tree *tree, t_queue *queue,
 
 /*
 * Goal: Update the 'tree' with the next state define by
-* the next token of the 'queue'.
+*		the next token of the 'queue'.
 *
 * Return: New tree or NULL if the next token is a ")".
 */

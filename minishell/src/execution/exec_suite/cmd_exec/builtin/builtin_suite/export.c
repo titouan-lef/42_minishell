@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/08 11:16:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:58:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,13 @@ static void	print_export(char **env)
 	}
 }
 
+/*
+* Goal: Add the givens varivalies given in cmd, in the environement.
+*		Add only is env_exprot if no value is preciced.
+*		Prints the env_export if not argument in given in cmd.
+*
+* Return: 1 if at least one of the variable name is invalid, 0 if not.
+*/
 int	export(char **cmd, char ***env_local, char ***env_export)
 {
 	int	i;

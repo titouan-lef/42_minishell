@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:05:16 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 18:39:57 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:02:56 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		remove_quotes(char ***value);
 char	*replace_word_quotes(char *word);
 
 /*---utils---*/
-t_token	split_command(t_queue tokens);
+t_token	join_command(t_queue tokens);
 int		value_length_quoted(char *value);
 void	quote_value(char *value, char *quoted_value, int *i);
 int		update_quote(char **word, char *updated_word, int letter);

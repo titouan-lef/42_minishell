@@ -6,18 +6,16 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/08 16:13:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:25:14 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 
 /*
-* Goal: Add collor patern to the given string.
+* Goal: Replace the value of HOME by '~' if present in pwd.
 *
-* Return: Ths colored string, NULL is error malloc
-*
-* Warning: pwd must not be null.
+* Return: The abbreviated pwd.
 */
 static char	*rebase_pwd(char *pwd, char **env)
 {
@@ -47,9 +45,7 @@ static char	*rebase_pwd(char *pwd, char **env)
 /*
 * Goal: Add collor patern to the given string.
 *
-* Return: Ths colored string, NULL is error malloc
-*
-* Warning: pwd must not be null.
+* Return: The colored string, NULL if error malloc
 */
 static char	*color_pwd(char *pwd)
 {
@@ -74,9 +70,7 @@ static char	*color_pwd(char *pwd)
 /*
 * Goal: Generate the prompt with the current directory.
 *
-* Return: The prompt, NULL is error malloc
-*
-* Warning: env must not be null.
+* Return: The prompt, NULL if error malloc
 */
 char	*get_prompt(char **env)
 {

@@ -6,18 +6,16 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:21:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 19:14:22 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:08:45 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 /*
-* Goal: Equivalent of the pwd command.
+* Goal: Prints the actuals worinkg dirrectory.
 *
-* Return: Nothing.
-*
-* Warning: None.
+* Return: 1 if getcwd failed and PWD is unset.
 */
 int	pwd(char **env)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   state_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:16:23 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 09:33:12 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:47:56 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 * Goal: Adds the token of the head of the queue to the root of the tree.
 *
 * Warning: Funtion returns NULL if malloc fails.
-* Queue mustn't be NULL.
+*		Queue mustn't be NULL.
 */
 t_tree	*add_new_token(t_tree *tree, t_queue *queue)
 {
@@ -59,7 +59,7 @@ void	print_error_token_value(char *value)
 
 /*
 * Goal: Print the syntax error message of the next token in the queue.
-* If queue is empty, the syntax error is "newline".
+*		If queue is empty, the syntax error is "newline".
 */
 void	print_error_token(t_queue *queue)
 {

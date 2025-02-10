@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:16:05 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:42:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 
 /*
-* Goal: Increment lenght until the quote is open.
-*
-* Warning: word and length must not be null.
+* Goal: Increment lenght and *word until next quote.
 */
 static void	skip_quotes_in_counting(char **word, int *length, char c)
 {
@@ -33,8 +31,6 @@ static void	skip_quotes_in_counting(char **word, int *length, char c)
 * Goal: Find the length of the word after removing the quotes.
 *
 * Return: The length of the new word.
-*
-* Warning: word must not be null.
 */
 static int	shorter_word_lenght(char *word)
 {
@@ -57,9 +53,7 @@ static int	shorter_word_lenght(char *word)
 }
 
 /*
-* Goal: Update word until the quote is open.
-*
-* Warning: updated_word, word and length must not be null.
+* Goal: Update word until next quote.
 */
 static void	skip_quotes_in_replacing(char *updated_word,
 		char **word, int *letter, char c)
@@ -75,9 +69,7 @@ static void	skip_quotes_in_replacing(char *updated_word,
 * Goal: Make a new word with all the environement variables
 *		in the given word from there value in env_local.
 *
-* Return: The updated word.
-*
-* Warning: word and env_local must not be null.
+* Return: The updated word, NULL if error.
 */
 char	*replace_word_quotes(char *word)
 {
@@ -107,9 +99,7 @@ char	*replace_word_quotes(char *word)
 * Goal: Replace all the environement variables in all the TOKEN_CMD tokens
 *		from there value in env_local.
 *
-* Return: 1 if errror, 0 if not.
-*
-* Warning: token and env_local must not be null.
+* Return: 0 on success, 1 on failure.
 */
 int	remove_quotes(char ***value)
 {

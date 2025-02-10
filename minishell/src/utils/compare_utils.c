@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compare_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:29:53 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:29:08 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:08:07 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ static int	compare_lexicographicly(char char1, char char2)
 	return (char1 - char2);
 }
 
+/*
+* Goal: Special sort for wildcards.
+*
+* Return: >0 if p1 > p2, <0 if not and 0 if equals.
+*/
 int	strcmp_lexicographicly(const void *p1, const void *p2)
 {
 	size_t	i;
@@ -59,6 +64,11 @@ int	strcmp_lexicographicly(const void *p1, const void *p2)
 	return (-result);
 }
 
+/*
+* Goal: strcmp changing the arguments for ft_insertion_qsort.
+*
+* Return: The result of ft_strcmp.
+*/
 int	ft_void_strcmp(const void *s1, const void *s2)
 {
 	char	*str1;

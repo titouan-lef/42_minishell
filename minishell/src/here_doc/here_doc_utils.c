@@ -6,12 +6,15 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/08 16:09:41 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:29:20 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
 
+/*
+* Goal: Fill the random_string with random characteres.
+*/
 static void	fill_str(char *random_string, int fd, size_t length)
 {
 	char	random_char;
@@ -35,9 +38,7 @@ static void	fill_str(char *random_string, int fd, size_t length)
 /*
 * Goal: Create a new node of struct here_doc with the given limiter.
 *
-* Return: The here_doc struct, NULL if error.
-*
-* Warning: limit must not me null.
+* Return: The here_doc node, NULL if error.
 */
 static t_list	*new_here_doc(char *limiter)
 {
@@ -71,7 +72,7 @@ static t_list	*new_here_doc(char *limiter)
 /*
 * Goal: Generate a random string of alpha numeric characters.
 *
-* Return: The generated string./if norm problem --> rand_str.c
+* Return: The generated string, NULL if malloc error.
 */
 char	*generate_random_string(size_t length)
 {
@@ -100,10 +101,8 @@ char	*generate_random_string(size_t length)
 * Goal: Add each here_doc found in the list
 *		and detects errors syntaxes in redirections.
 *
-* Return: -1 if succed, -2 if malloc error or the index of
-*			the element in redir that have a syntax error.
-*
-* Warning: redirs and here_docs must not me null.
+* Return: -1 on success, -2 if malloc error or the index of
+*		the element in redir that have a syntax error.
 */
 int	fill_here_doc_lst(char **redirs, t_list **here_docs)
 {
@@ -136,8 +135,6 @@ int	fill_here_doc_lst(char **redirs, t_list **here_docs)
 
 /*
 * Goal: Clear the list of here_doc struct.
-*
-* Warning: here_docs must not me null.
 */
 void	clear_here_docs(t_list *here_docs)
 {

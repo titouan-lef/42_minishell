@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:06:18 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 18:31:46 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:58:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 /*
-* Goal: Equivalent of the echo command.
-*
-* Warning: str must not be null.
+* Goal: Prints each argument precised in cmd separated by a space.
+*		The -n option remove the \n at the end
 */
 int	echo(char **cmd)
 {

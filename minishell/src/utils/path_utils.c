@@ -6,12 +6,19 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:01:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:44:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:09:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
+/*
+* Goal: Found the value of the vairalbe 'name'.
+*
+* Return: The curent wordking dirrectory path, NULL if error.
+*
+* Warning: The returned value must be freed.
+*/
 char	*get_from_env(char **env, char *name)
 {
 	char	*pwd;
@@ -37,6 +44,12 @@ char	*get_from_env(char **env, char *name)
 	return (pwd);
 }
 
+/*
+* Goal: Found the current working dirrectory.
+*		If getcwd fails, return the value of PWD.
+*
+* Return: The curent wordking dirrectory path, NULL if error.
+*/
 char	*get_cwd(char **env)
 {
 	char	*pwd;

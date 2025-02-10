@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 17:05:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:45:00 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 /*
 * Goal: Split the new word on whitespace and rebuilt the command.
 *
-* Return: 1 if error malloc, 0 if not.
-*
-* Warning: updated_value, updated_word and name must not be null.
+* Return: 0 in success, 1 on malloc failure.
 */
 static int	update_value(char ***updated_value, char *updated_word
 	, char *name, int is_redir)
@@ -31,7 +29,7 @@ static int	update_value(char ***updated_value, char *updated_word
 	if (result)
 		return (result);
 	free(updated_word);
-	splited = split_command(tmp);
+	splited = join_command(tmp);
 	if (!splited.value)
 		return (0);
 	else if (is_redir && splited.value && splited.value[0] && splited.value[1])
@@ -51,12 +49,10 @@ static int	update_value(char ***updated_value, char *updated_word
 }
 
 /*
-* Goal: Replace all the environement variables in the hole command
+* Goal: Replace all the environement variables in the tab
 *		from there value in env.
 *
-* Return: 1 if errror, 0 if not.
-*
-* Warning: token and env_local must not be null.
+* Return: 0 on success, 1 on failure.
 */
 int	expand_env_var(char ***value, char **env, int is_redir)
 {

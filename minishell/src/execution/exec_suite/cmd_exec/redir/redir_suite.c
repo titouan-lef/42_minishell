@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 12:41:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:56:27 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 #include "here_doc.h"
 
 /*
-* Goal: Redirect the fd input in a file (STDIN if fd=-1).
+* Goal: Redirects the file out to fd for reading (STDIN if fd=-1).
 *
-* Return: 0 if succes, the code error if an error occur.
-*
-* Warning: file_name must not me null.
+* Return: O on success, or the error code corresponding.
 */
 int	redirect_input(int fd, char *file_name)
 {
@@ -48,11 +46,9 @@ int	redirect_input(int fd, char *file_name)
 }
 
 /*
-* Goal: Redirect the fd output in a file (STDOUT if fd=-1).
+* Goal: Redirects the file to fd for writting (STDOUT if fd=-1).
 *
-* Return: 0 if succes, the code error if an error occur.
-*
-* Warning: file_name must not me null.
+* Return: O on success, or the error code corresponding.
 */
 int	redirect_output(int fd, char *file_name)
 {
@@ -83,9 +79,9 @@ int	redirect_output(int fd, char *file_name)
 }
 
 /*
-* Goal: Redirect the fd output in a file in append mode(STDOUT if fd=-1).
+* Goal: Redirects the file to fd for appending (STDOUT if fd=-1).
 *
-* Return: 0 if succes, the code error if an error occur.
+* Return: O on success, or the error code corresponding.
 *
 * Warning: file_name (fn) must not me null.
 */
@@ -118,11 +114,9 @@ int	redirect_output_append_mode(int fd, char *file_name)
 }
 
 /*
-* Goal: Redirect the fd input in a file in append mode(STDOUT if fd=-1).
+* Goal: Redirects the heredoc to fd for reading (STDOUT if fd=-1).
 *
-* Return: 0 if succes, the code error if an error occur.
-*
-* Warning: limit must not me null.
+* Return: O on success, or the error code corresponding.
 */
 int	redirect_here_doc(int fd, char *limiter, t_list *here_docs)
 {

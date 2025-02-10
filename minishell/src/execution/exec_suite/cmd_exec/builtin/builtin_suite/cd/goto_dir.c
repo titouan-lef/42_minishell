@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:05:35 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 19:15:36 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:59:06 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ static int	set_pwd(char **env)
 	return (0);
 }
 
+/*
+* Goal: Change the current woring dirrectory to the given dirrectory.
+*		Update the values of PWD and OLDPWD
+*
+* Return: 0 on success, 1 on failure.
+*/
 int	goto_dir(char *dir, char **env)
 {
 	int			result;

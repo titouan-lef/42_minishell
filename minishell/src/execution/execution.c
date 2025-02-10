@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 10:53:39 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:48:34 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 }
 
 /*
-* Goal: Read here doc with good signal and execute the commande line
-* thanks to the tree.
+* Goal: Read here doc with good signal and execute every commande in the tree.
 */
 int	make_execution(t_data *data)
 {

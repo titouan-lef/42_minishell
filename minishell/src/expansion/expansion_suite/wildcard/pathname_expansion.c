@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 18:14:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:34:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 /*
 * Goal: Split updated_value on whitespace and rebuilt the command.
 *
-* Return: 0, 1 in case of error.
-*
-* Warning: updated_value and updated_word must not be null.
+* Return: 0 on sucess, 1 on failure.
 */
 static int	update_value(char ***updated_value, char *updated_word,
 	char *patern, int is_redir)
@@ -29,7 +27,7 @@ static int	update_value(char ***updated_value, char *updated_word,
 	if (lexer(updated_word, &tmp))
 		return (0);
 	free(updated_word);
-	splited = split_command(tmp);
+	splited = join_command(tmp);
 	if (is_redir && splited.value && splited.value[0] && splited.value[1])
 	{
 		token_clear(splited);
@@ -53,9 +51,7 @@ static int	update_value(char ***updated_value, char *updated_word,
 /*
 * Goal: Add to the updated_vlaue the given patern.
 *
-* Return: 1 if errror, 0 if not.
-*
-* Warning: updated_value and patern must not be null.
+* Return: 0 on success, 1 on failure.
 */
 static int	do_not_replace_word(char ***updated_value, const char *patern)
 {
@@ -71,9 +67,7 @@ static int	do_not_replace_word(char ***updated_value, const char *patern)
 /*
 * Goal: Add to the updated_value all the find filenames or patern if no match.
 *
-* Return: 1 if errror, 0 if not.
-*
-* Warning: updated_value and patern must not be null.
+* Return: 0 on success, 1 on failure.
 */
 static int	process_wildcard(char ***updated_value, char *patern, int is_redir)
 {
@@ -106,9 +100,7 @@ static int	process_wildcard(char ***updated_value, char *patern, int is_redir)
 * Goal: Replace all the paterns with correspondings files
 		in the current directory.
 *
-* Return: 1 if errror, 0 if not.
-*
-* Warning: token must not be null.
+* Return: 0 on success, 1 on failure.
 */
 int	expand_wildcard(char ***value, int is_redir) //check speed file creation
 {

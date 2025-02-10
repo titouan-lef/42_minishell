@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:28:50 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:47:24 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	clear_data(t_data *data)
 
 /*
 * Goal: Clear data when the program must be exited, so clear read lines,
-* env, env export, tree, here doc list and history.
+*		env, env export, tree, here doc list and history.
 */
 void	exit_exec(t_data *data, int code)
 {

@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/06 17:07:15 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:14:32 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 * Goal: Print errors syntaxes define by the redirections.
 *
 * Warning: If a redir start by a digit, print the number.
-* Else print <, >, << or >>.
+*		Else print <, >, << or >>.
 */
 static void	print_error_redir(char *token_error)
 {
@@ -41,12 +41,12 @@ static void	print_error_redir(char *token_error)
 
 /*
 * Goal: Add each here_doc found in the list and print errors syntaxes in
-* redirections.
+*		redirections.
 *
-* Return: 0 if success, 1 else.
+* Return: 0 on success, 1 on failure.
 *
 * Warning: If a syntax error is detected, it's the next redir which is printed
-* or the next token if it was the last redir.
+*		or the next token if it was the last redir.
 */
 static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 {
@@ -69,7 +69,7 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 /*
 * Goal: Add and manage command in tree.
 *
-* Return: The new tree (or NULL if error).
+* Return: The new tree, NULL if error.
 */
 t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs)
 {

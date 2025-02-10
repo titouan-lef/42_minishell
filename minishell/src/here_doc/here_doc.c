@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:30:21 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 /*
 * Goal: Expand env var and exit status from line.
 *
-* Return: the expanded line, NULL id malloc error.
-*
-* Warning: line and data must not me null.
+* Return: the expanded line, NULL if malloc error.
 */
 static char	*expand_line(char *line, t_data *data)
 {
@@ -45,9 +43,7 @@ static char	*expand_line(char *line, t_data *data)
 /*
 * Goal: Expand if needed and write the line in the file.
 *
-* Return: 0 if succed, 1 if not.
-*
-* Warning: limiter, line and data must not me null.
+* Return: 0 on success, 1 on failure.
 */
 static int	write_and_free(int file, char *limiter, char *line, t_data *data)
 {
@@ -74,9 +70,7 @@ static int	write_and_free(int file, char *limiter, char *line, t_data *data)
 /*
 * Goal: Read the input and writes it in the file.
 *
-* Return: 0 if succed, 1 if not or -1 the limiter is detected
-*
-* Warning: limiters and env must not me null.
+* Return: 0 on success, 1 on failure or -1 if the limiter is detected.
 */
 static int	process_line(int file, char *limiter,
 			char *unquoted_limiter, t_data *data)
@@ -106,11 +100,9 @@ static int	process_line(int file, char *limiter,
 }
 
 /*
-* Goal: Put all the readed lines in the here_doc file until EOF.
+* Goal: Put all the readed lines in the here_doc file.
 *
-* Return: 0 if succed, 1 if not.
-*
-* Warning: limit and env must not me null.
+* Return: 0 on success, 1 on failure.
 */
 static int	get_here_doc_input(int file, char **limiter, t_data *data)
 {
@@ -137,9 +129,9 @@ static int	get_here_doc_input(int file, char **limiter, t_data *data)
 }
 
 /*
-* Goal: Create a file with a random name.
+* Goal: Ask the input lines for each here_doc priviously detected.
 *
-* Return: 0 if succed, 1 if not.
+* Return: 0 on success, 1 on failure.
 */
 int	read_here_docs(t_data *data)
 {

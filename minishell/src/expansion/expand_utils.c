@@ -6,13 +6,19 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 15:52:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:46:44 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 
-t_token	split_command(t_queue tokens)
+/*
+* Goal: Join all the tokens of the given queue in a unic token command.
+*		All the values are joined together.
+*
+* Return: The token created, it is token.value is null in case or error.
+*/
+t_token	join_command(t_queue tokens)
 {
 	t_token	token;
 	t_token	new_token;
@@ -39,8 +45,6 @@ t_token	split_command(t_queue tokens)
 * Goal: Find the length of the value afted being quoted.
 *
 * Return: The new length.
-*
-* Warning: value must not be null.
 */
 int	value_length_quoted(char *value)
 {
@@ -59,8 +63,6 @@ int	value_length_quoted(char *value)
 
 /*
 * Goal: Copy the char value[i] and quoting quotes in quoted_value .
-*
-* Warning: value and quoted_value must not be null.
 */
 void	quote_value(char *value, char *quoted_value, int *i)
 {
@@ -84,8 +86,6 @@ void	quote_value(char *value, char *quoted_value, int *i)
 * Goal: Copy word in updated word untill the next quote.
 *
 * Return: The lenght of the quoted sequence
-*
-* Warning: word, updated_word and letter must not be null.
 */
 int	update_quote(char **word, char *updated_word, int letter)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:21 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 15:14:56 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:32:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 /*
 * Goal: Expand all the element in the value of the token.
 *
-* Return: O if no error, or the error code corresponding.
-*
-* Warning: token and data must not be null.
+* Return: O on success, or the error code corresponding.
 */
 int	expand(char ***value, t_data *data, int is_redir)
 {

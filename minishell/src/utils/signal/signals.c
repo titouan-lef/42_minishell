@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:33:12 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 09:19:21 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:47:37 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static int	signal_sigaction(struct sigaction *act, int ignore_sigquit)
 }
 
 /*
-* Goal: Redefine signals on their default use.
+* Goal: Reset signals to their default use.
 *
-* Return: 0 on success, 1 else.
+* Return: 0 on success, 1 on failure.
 */
 int	default_sigaction(struct sigaction *act)
 {
@@ -55,9 +55,9 @@ int	default_sigaction(struct sigaction *act)
 
 /*
 * Goal: Define signals handler with 'f' function.
-* 'ignore_sigquit' allows to ignore SIGQUIT.
+*		'ignore_sigquit' allows to ignore SIGQUIT.
 *
-* Return: 0 on success, 1 else.
+* Return: 0 on success, 1 on failure.
 */
 int	modify_sigaction(struct sigaction *act, void (*f)(int), int ignore_sigquit)
 {

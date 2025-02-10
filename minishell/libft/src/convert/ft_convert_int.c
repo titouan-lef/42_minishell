@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_convert_int.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:34:13 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/03 20:09:20 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:02:52 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	ft_update_number(long long *nb, char c, int is_neg, long long max)
 /*
 * Goal: Add digit 'c' at the end of 'nb'.
 *
-* Return: 0 if success, 2 if not number and 3 if overflow.
+* Return: 0 on success, 2 if not number and 3 if overflow.
 */
 static int	ft_char_to_number(long long *nb, const char *nptr, int is_neg,
 				long long max)
@@ -61,9 +61,9 @@ static int	ft_char_to_number(long long *nb, const char *nptr, int is_neg,
 * Goal: Convert 'nptr' to a long long.
 *
 * Return: A long long and set status to :
-* 	0 if success.
-* 	1 if not number.
-* 	2 if there is a not digit character.
+* 	0 on success.
+* 	1 if not a number.
+* 	2 if there is a non-digit character.
 * 	3 if overflow.
 */
 long long	ft_to_number(const char *nptr, int *status, long long max)

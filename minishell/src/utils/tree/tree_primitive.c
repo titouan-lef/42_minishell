@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   tree_primitive.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 14:44:48 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 07:59:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:46:11 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
+/*
+* Goal: Check if tree is empty.
+*
+* Return: 1 if tree is empyt, 0 if not
+*/
 int	tree_is_empty(t_tree *tree)
 {
 	return (tree == NULL);
@@ -21,7 +26,7 @@ int	tree_is_empty(t_tree *tree)
 * Goal: Add a new node at the top that contains 'token'.
 *
 * Warning: The old tree will be on the new node left.
-* Funtion returns NULL if malloc fails.
+*		Funtion returns NULL if malloc fails.
 */
 t_tree	*tree_add_parent(t_tree *tree, t_token token)
 {
@@ -34,6 +39,9 @@ t_tree	*tree_add_parent(t_tree *tree, t_token token)
 	return (parent);
 }
 
+/*
+* Goal: Clear the tree.
+*/
 void	tree_clear(t_tree **tree)
 {
 	if (tree_is_empty(*tree))
@@ -48,9 +56,9 @@ void	tree_clear(t_tree **tree)
 }
 
 /*
-* Goal: Create a tree of one node with value of 'token'.
+* Goal: Create a tree node with value of 'token'.
 *
-* Warning: Funtion returns NULL if malloc fails.
+* Return: The node, NULL if malloc fails.
 */
 t_tree	*tree_create(t_token token)
 {

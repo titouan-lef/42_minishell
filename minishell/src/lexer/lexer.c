@@ -16,8 +16,6 @@
 * Goal: Put the token found in buffer.
 *
 * Return: The enum of the token type.
-*
-* Warning: input, index and buffer must not be null.
 */
 static t_token_name	get_token(char *input, int *index, char *buffer)
 {
@@ -37,6 +35,12 @@ static t_token_name	get_token(char *input, int *index, char *buffer)
 	return (token_name);
 }
 
+/*
+* Goal: Fill a token whith the input.
+*		Set the index for next detection.
+*
+* Return: 0 on success, 1 if malloc error.
+*/
 static int	init_token(t_token *token, char *input, int *index)
 {
 	char	*buffer;
@@ -56,6 +60,12 @@ static int	init_token(t_token *token, char *input, int *index)
 	return (0);
 }
 
+/*
+* Goal: Add the token to the queue if valid token_name.
+*		Clear the token if it is not.
+*
+* Return: 0 on success, 1 if malloc error.
+*/
 static int	push_or_free(t_queue *tokens, t_token *token)
 {
 	if (token->name == TOKEN_NULL)
@@ -70,11 +80,10 @@ static int	push_or_free(t_queue *tokens, t_token *token)
 }
 
 /*
-* Goal: Found all the tokens in the input command.
+* Goal: Find all the tokens from the input command.
+*		Add each token found to the queue 'tokens'.
 *
-* Return: 0 if success, 1 else.
-*
-* Warning: input and tokens must not be null.
+* Return: 0 on success, 1 on failure.
 */
 int	lexer(char *input, t_queue *tokens)
 {

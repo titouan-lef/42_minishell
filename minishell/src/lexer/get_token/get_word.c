@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:03:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 13:41:43 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:21:17 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 /*
 * Goal: Detect the end of the quote.
+*		Set the index after the end of quoted part.
 *
-* Warning: input, index must not be null.
+* Return: 1 if error syntax, 0 if not.
 */
 static int	get_quote(const char *input, int *index, char c)
 {
@@ -31,6 +32,11 @@ static int	get_quote(const char *input, int *index, char c)
 	return (0);
 }
 
+/*
+* Goal: Buffer the following letters until the next special character is reached.
+*
+* Return: The enum type of the detected token.
+*/
 static t_token_name	detect_redir(const char *input, int *index,
 	char *buffer, int start)
 {
@@ -50,11 +56,9 @@ static t_token_name	detect_redir(const char *input, int *index,
 }
 
 /*
-* Goal: Put the next lettres un buffer until it is not a specal character.
+* Goal: Buffer the following letters until the next special character is reached.
 *
-* Return: Nothing, as buffer is pointer.
-*
-* Warning: input, index and buffer must not be null.
+* Return: The enum type of the detected token.
 */
 t_token_name	get_word(const char *input, int *index, char *buffer)
 {
