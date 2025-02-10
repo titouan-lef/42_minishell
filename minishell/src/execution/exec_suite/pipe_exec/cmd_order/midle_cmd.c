@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   midle_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:30:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/03 18:16:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:14:19 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ static void	child(t_data *data, t_tree *sub_tree, t_stack **stack)
 	exit_exec(data, result);
 }
 
+/*
+* Goal: Redirected the input and the output for the command.
+*
+* Return: 0 if success, 1 else.
+*/
 int	midle_cmd(t_data *data, t_tree *sub_tree, t_stack **stack)
 {
 	int	pid;
