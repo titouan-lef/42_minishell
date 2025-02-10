@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 17:13:06 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:04:15 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,18 +114,8 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 			return (1);
 	}
 	result = redir_manager(redir, data->here_docs);
-	if (result)
-	{
-		if (!is_piped)
-		{
-			result2 = dup2_data_std(std);
-			close_data_std(std);
-			if (result2)
-				return (result2);
-		}
-		return (result);
-	}
-	result = builtin_choice(cmd, data, is_piped);
+	if (result == 0)
+		result = builtin_choice(cmd, data, is_piped);
 	if (!is_piped)
 	{
 		result2 = dup2_data_std(std);
