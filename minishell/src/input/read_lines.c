@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 15:20:48 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:16:31 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static char	*rl_gets(char **env, int here_doc)
 			return (NULL);
 		line_read = readline(prompt);
 		free(prompt);
-		if (line_read && *line_read)
-			add_history(line_read);
 	}
 	return (line_read);
 }
@@ -90,11 +88,12 @@ char	*read_lines(t_data *data, int here_doc)
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			return (NULL);
 		}
-		if (!data->read_lines[0])
-			if (built_empty_cmd(data))
-				return (NULL);
+		if (!data->read_lines[0] && built_empty_cmd(data))
+			return (NULL);
 	}
 	line_read = data->read_lines[i++];
+	if (!here_doc && line_read && *line_read)
+		add_history(line_read);
 	return (line_read);
 }
 

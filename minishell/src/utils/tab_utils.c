@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tab_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 17:27:31 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/07 19:04:12 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:38:24 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ char	**tab_join(char **tab1, char **tab2)
 		tab1++;
 	}
 	while (*tab2)
-		new_tab[index++] = *(tab2++);
+	{
+		new_tab[index++] = *tab2;
+		tab2++;
+	}
 	return (new_tab);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 17:10:51 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:56:58 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ typedef enum e_token_name
 	TOKEN_REDIR,
 	TOKEN_LOGIC_OPE,
 	TOKEN_CMD,
-}		t_token_name;
+}	t_token_name;
 
 typedef struct s_token
 {
 	t_token_name	name;
 	char			**value;
 	char			**redir;
-}		t_token;
+}	t_token;
 
 /*---queue struct---*/
 typedef struct s_element

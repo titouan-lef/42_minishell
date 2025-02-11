@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:25:14 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:01:41 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*get_prompt(char **env)
 	free(tmp);
 	if (!prompt)
 	{
-		prompt = ft_strdup("minishell$ ");
+		prompt = ft_strjoin(NAME, "$ ");
 		if (!prompt)
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 	}

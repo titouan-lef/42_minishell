@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
+#    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/11 11:56:28 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/11 20:02:19 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,13 +110,11 @@ ifndef VERBOSE
 .SILENT:
 endif
 
-all				:
-				$(MAKE) $(NAME) --no-print-directory
+all				: $(NAME)
+
+bonus			: $(NAME)
 
 $(DISPLAY_TRACKER):
-				$(MAKE) display --no-print-directory
-
-display			:
 				echo
 				echo " /░░      /░░ /░░           /░░           /░░                 /░░ /░░"
 				echo "| ░░░    /░░░|__/          |__/          | ░░                | ░░| ░░"
@@ -145,10 +143,10 @@ $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
 $(OBJ_DIR)		:
 				mkdir -p $@
 
-tester			:	$(LIBFT) $(filter-out minishell.c ,$(OBJ))
-				cp $(LIBFT) $(NAME).a
-				ar -rs $(NAME).a $(filter-out minishell.c ,$(OBJ))
-				echo "$(GREEN)$(NAME).a ready for tester ✅️✅️$(INIT)";\
+# tester			:	$(LIBFT) $(filter-out minishell.c ,$(OBJ))
+# 				cp $(LIBFT) $(NAME).a
+# 				ar -rs $(NAME).a $(filter-out minishell.c ,$(OBJ))
+# 				echo "$(GREEN)$(NAME).a ready for tester ✅️✅️$(INIT)";\
 
 clean			:
 				if [ -d $(LIBFT_DIR)$(BUILD_DIR) ];\
@@ -181,6 +179,6 @@ re				:
 				touch $(DISPLAY_TRACKER)
 				$(MAKE) all --no-print-directory
 
-.PHONY	=	display all clean fclean re tester
+.PHONY	=	all clean fclean re bonus
 
 -include $(DEP)

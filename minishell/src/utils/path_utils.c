@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:01:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 15:09:27 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:44:44 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 */
 char	*get_from_env(char **env, char *name)
 {
-	char	*pwd;
+	char	*value;
 	int		i;
 	int		length;
 
@@ -35,13 +35,13 @@ char	*get_from_env(char **env, char *name)
 	}
 	if (env[i] == NULL)
 		return (NULL);
-	pwd = ft_strdup(env[i] + length + 1);
-	if (!pwd)
+	value = ft_strdup(env[i] + length + 1);
+	if (!value)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		return (NULL);
 	}
-	return (pwd);
+	return (value);
 }
 
 /*

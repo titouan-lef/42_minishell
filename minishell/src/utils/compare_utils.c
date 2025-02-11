@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:29:53 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 18:46:46 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:33:00 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	strcmp_lexicographicly(const void *p1, const void *p2)
 }
 
 /*
-* Goal: strcmp changing the arguments for ft_insertion_qsort.
+* Goal: Special sort for export.
 *
 * Return: The result of ft_strcmp.
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_removal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 09:30:28 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:42:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:33:12 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 /*
 * Goal: Increment lenght and *word until next quote.
 */
-static void	skip_quotes_in_counting(char **word, int *length, char c)
+static void	skip_quotes_in_counting(char **word, int *length)
 {
+	char	c;
+
+	c = **word;
 	(*word)++;
 	while (**word && **word != c)
 	{
@@ -39,10 +42,8 @@ static int	shorter_word_lenght(char *word)
 	length = 0;
 	while (*word)
 	{
-		if (*word == '\'')
-			skip_quotes_in_counting(&word, &length, '\'');
-		else if (*word == '\"')
-			skip_quotes_in_counting(&word, &length, '\"');
+		if (*word == '\'' || *word == '\"')
+			skip_quotes_in_counting(&word, &length);
 		else
 		{
 			length++;
@@ -56,8 +57,11 @@ static int	shorter_word_lenght(char *word)
 * Goal: Update word until next quote.
 */
 static void	skip_quotes_in_replacing(char *updated_word,
-		char **word, int *letter, char c)
+		char **word, int *letter)
 {
+	char	c;
+
+	c = **word;
 	(*word)++;
 	while (**word && **word != c)
 		updated_word[(*letter)++] = *(*word)++;
@@ -85,10 +89,8 @@ char	*replace_word_quotes(char *word)
 	}
 	while (*word)
 	{
-		if (*word == '\'')
-			skip_quotes_in_replacing(updated_word, &word, &letter, '\'');
-		else if (*word == '\"')
-			skip_quotes_in_replacing(updated_word, &word, &letter, '\"');
+		if (*word == '\'' || *word == '\"')
+			skip_quotes_in_replacing(updated_word, &word, &letter);
 		else
 			updated_word[letter++] = *word++;
 	}

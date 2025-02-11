@@ -98,5 +98,6 @@ int	pipe_exec(t_data *data, t_tree *tree)
 		return (result);
 	}
 	result = wait_children(stack, data);
+	stack_clear(&stack);
 	return (result);
 }
