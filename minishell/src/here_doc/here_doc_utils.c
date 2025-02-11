@@ -6,7 +6,7 @@
 /*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:29:20 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:55:42 by lguerbig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_list	*new_here_doc(char *limiter)
 		return (NULL);
 	}
 	element->limiter = ft_strdup(limiter);
-	if (!element)
+	if (!element->limiter)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 		free(element);

@@ -6,7 +6,7 @@
 #    By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/07 14:36:45 by lguerbig         ###   ########.fr        #
+#    Updated: 2025/02/11 11:56:28 by lguerbig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ SRC				=	minishell.c																\
 					expansion/expansion_suite/tilde.c										\
 					expansion/expansion_suite/environment_variable/get_env_var.c			\
 					expansion/expansion_suite/environment_variable/replace_env_var.c		\
-					expansion/expansion_suite/environment_variable/variable_expansion.c	\
+					expansion/expansion_suite/environment_variable/variable_expansion.c		\
 					expansion/expansion_suite/wildcard/get_files.c							\
 					expansion/expansion_suite/wildcard/pathname_expansion.c					\
 					expansion/expansion_suite/wildcard/replace_wildcard.c					\
@@ -181,6 +181,6 @@ re				:
 				touch $(DISPLAY_TRACKER)
 				$(MAKE) all --no-print-directory
 
-.PHONY	=	display all clean fclean re $(LIBFT) $(NAME) $(OBJ) $(OBJ_DIR)
+.PHONY	=	display all clean fclean re tester
 
 -include $(DEP)
