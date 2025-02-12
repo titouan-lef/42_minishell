@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_ope_state.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:59:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 16:10:30 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:23:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *
 * Return: The sub tree, NULL if error.
 */
-static t_tree	*build_sub_tree(t_queue *queue, t_list **here_docs)
+static t_tree	*build_sub_tree(t_queue *queue, t_data *data)
 {
 	t_tree			*sub_tree;
 	t_token_name	type;
@@ -34,7 +34,7 @@ static t_tree	*build_sub_tree(t_queue *queue, t_list **here_docs)
 				remove_token(queue);
 			return (sub_tree);
 		}
-		sub_tree = next_state(sub_tree, queue, here_docs);
+		sub_tree = next_state(sub_tree, queue, data);
 		if (tree_is_empty(sub_tree))
 			return (NULL);
 	}
@@ -49,13 +49,13 @@ static t_tree	*build_sub_tree(t_queue *queue, t_list **here_docs)
 * Return: The new tree, NULL if error.
 */
 static t_tree	*build_sub_tree_right(t_tree *tree, t_queue *queue,
-					t_list **here_docs)
+					t_data *data)
 {
 	t_token_name	type;
 	t_tree			*sub_tree;
 
 	type = queue_first_name(queue);
-	sub_tree = common_state(NULL, queue, type, here_docs);
+	sub_tree = common_state(NULL, queue, type, data);
 	if (tree_is_empty(sub_tree))
 	{
 		tree_clear(&tree);
@@ -73,7 +73,7 @@ static t_tree	*build_sub_tree_right(t_tree *tree, t_queue *queue,
 * Warning: Tree is a sub tree (junction operator or start of command),
 *		so a correct tree is empty.
 */
-t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
+t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_data *data)
 {
 	t_token_name	type;
 
@@ -84,7 +84,7 @@ t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 		return (NULL);
 	}
 	remove_token(queue);
-	sub_tree = build_sub_tree(queue, here_docs);
+	sub_tree = build_sub_tree(queue, data);
 	if (!sub_tree || queue_is_empty(queue))
 		return (sub_tree);
 	type = queue_first_name(queue);
@@ -95,7 +95,7 @@ t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 		return (NULL);
 	}
 	if (type == TOKEN_PIPE)
-		sub_tree = state_junction_ope(sub_tree, queue, here_docs);
+		sub_tree = state_junction_ope(sub_tree, queue, data);
 	return (sub_tree);
 }
 
@@ -104,7 +104,7 @@ t_tree	*state_par_open(t_tree *sub_tree, t_queue *queue, t_list **here_docs)
 *
 * Return: The new tree, NULL if error.
 */
-t_tree	*state_junction_ope(t_tree *tree, t_queue *queue, t_list **here_docs)
+t_tree	*state_junction_ope(t_tree *tree, t_queue *queue, t_data *data)
 {
 	if (tree_is_empty(tree))
 	{
@@ -120,6 +120,6 @@ t_tree	*state_junction_ope(t_tree *tree, t_queue *queue, t_list **here_docs)
 		tree_clear(&tree);
 		return (NULL);
 	}
-	tree = build_sub_tree_right(tree, queue, here_docs);
+	tree = build_sub_tree_right(tree, queue, data);
 	return (tree);
 }

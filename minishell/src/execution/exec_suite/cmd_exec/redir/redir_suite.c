@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:54:23 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 19:13:28 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:12:57 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,28 +119,4 @@ int	redirect_output_append_mode(int fd, char *file_name)
 	}
 	close(fd_file);
 	return (0);
-}
-
-/*
-* Goal: Redirects the heredoc to fd for reading (STDOUT if fd=-1).
-*
-* Return: O on success, or the error code corresponding.
-*/
-int	redirect_here_doc(int fd, char *limiter, t_list *here_docs)
-{
-	char	*file_name;
-	int		result;
-
-	file_name = NULL;
-	while (here_docs)
-	{
-		if (!ft_strcmp(((t_here_doc *)(here_docs->content))->limiter, limiter))
-		{
-			file_name = ((t_here_doc *)(here_docs->content))->filename;
-			break ;
-		}
-		here_docs = here_docs->next;
-	}
-	result = redirect_input(fd, file_name);
-	return (result);
 }

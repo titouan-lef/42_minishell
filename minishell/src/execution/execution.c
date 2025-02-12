@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 16:48:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:33:42 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,12 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 }
 
 /*
-* Goal: Read here doc with good signal and execute every commande in the tree.
+* Goal: Execute every commands in the tree.
 */
 int	make_execution(t_data *data)
 {
 	int	result;
 
-	result = modify_sigaction(&data->act, here_doc_handler, 1);
-	if (result)
-	{
-		clear_data(data);
-		return (1);
-	}
-	result = read_here_docs(data);
-	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
-	{
-		clear_data(data);
-		return (1);
-	}
-	if (result)
-	{
-		clear_data(data);
-		return (result);
-	}
 	result = tree_exec(data, data->tree, 0);
 	clear_data(data);
 	return (result);

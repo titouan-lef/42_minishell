@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/11 13:16:31 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:34:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ char	*read_lines(t_data *data, int here_doc)
 			return (NULL);
 	}
 	line_read = data->read_lines[i++];
-	if (!here_doc && line_read && *line_read)
-		add_history(line_read);
 	return (line_read);
 }
 

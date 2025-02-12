@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:49:39 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:56:33 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:25:47 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ static int	choose_redir(char *redir)
 	if (!*redir)
 		return (ERROR);
 	if (*redir == '<')
-	{
-		if (*(redir + 1) == '<')
-			return (HERE_DOC);
 		return (INPUT);
-	}
 	if (*(redir + 1) == '>')
 		return (OUTPUT_APPEND);
 	return (OUTPUT);
@@ -54,7 +50,7 @@ static int	find_fd(char **redir)
 *
 * Return: O on success, or the error code corresponding.
 */
-int	redir_manager(char **redirs, t_list *here_docs)
+int	redir_manager(char **redirs)
 {
 	int		i;
 	int		fd;
@@ -71,8 +67,6 @@ int	redir_manager(char **redirs, t_list *here_docs)
 		fd = find_fd(&redir);
 		if (choose_redir(redir) == INPUT)
 			result = redirect_input(fd, redir + 1);
-		else if (choose_redir(redir) == HERE_DOC)
-			result = redirect_here_doc(fd, redir + 2, here_docs);
 		else if (choose_redir(redir) == OUTPUT)
 			result = redirect_output(fd, redir + 1);
 		else if (choose_redir(redir) == OUTPUT_APPEND)

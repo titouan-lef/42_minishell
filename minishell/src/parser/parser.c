@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:09:34 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:47:27 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,24 +100,34 @@ static t_queue	form_cmd(t_queue *tokens)
 
 /*
 * Goal: Parse every element of the queue and built the tree for execution.
+* Heredocs and signals associated are managed here.
 *
-* Return: 0 on success, 1 if malloc error and 2 if syntax error.
+* Return: 0 on success, 1 if malloc error or sigaction failed
+* and 2 if syntax error.
 */
 int	parser(t_queue *queue, t_data *data)
 {
+	int	result;
+
 	*queue = form_cmd(queue);
 	if (queue_is_empty(queue))
 		return (1);
+	if (modify_sigaction(&data->act, here_doc_handler, 1))
+	{
+		queue_clear(queue);
+		return (1);
+	}
 	data->tree = NULL;
 	data->here_docs = NULL;
-	while (!queue_is_empty(queue))
+	result = 0;
+	while (!result && !queue_is_empty(queue))
 	{
-		data->tree = next_state(data->tree, queue, &data->here_docs);
+		data->tree = next_state(data->tree, queue, data);
 		if (tree_is_empty(data->tree))
-		{
-			queue_clear(queue);
-			return (2);
-		}
+			result = 2;
 	}
-	return (0);
+	queue_clear(queue);
+	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
+		return (1);
+	return (result);
 }

@@ -53,7 +53,7 @@ static int	pipeline_manager(t_data *data, t_tree *tree,
 *
 * Return: Last command's code or 1 if error.
 */
-static int	wait_children(t_stack *stack, t_data *data)
+static int	wait_children(t_stack **stack, t_data *data)
 {
 	int	result;
 	int	pid;
@@ -61,15 +61,15 @@ static int	wait_children(t_stack *stack, t_data *data)
 	int	status;
 
 	result = -1;
-	last_pid = stack_pop(&stack);
+	last_pid = stack_pop(stack);
 	if (modify_sigaction(&data->act, cmd_display_handler, 0))
 		return (1);
 	pid = waitpid(-1, &status, 0);
 	if (pid == last_pid)
 		result = WEXITSTATUS(status);
-	while (!stack_is_empty(stack))
+	while (!stack_is_empty(*stack))
 	{
-		stack_pop(&stack);
+		stack_pop(stack);
 		pid = waitpid(-1, &status, 0);
 		if (pid == last_pid)
 			result = WEXITSTATUS(status);
@@ -97,7 +97,7 @@ int	pipe_exec(t_data *data, t_tree *tree)
 		stack_clear(&stack);
 		return (result);
 	}
-	result = wait_children(stack, data);
+	result = wait_children(&stack, data);
 	stack_clear(&stack);
 	return (result);
 }

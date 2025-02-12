@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_state.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:17:09 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 16:14:32 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:29:01 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,18 @@ static void	print_error_redir(char *token_error)
 * Warning: If a syntax error is detected, it's the next redir which is printed
 *		or the next token if it was the last redir.
 */
-static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
+static int	update_here_docs(t_tree *tree, t_queue *queue, t_data *data)
 {
 	int		result;
 	char	*token_error;
+	int		pos_err;
 
-	result = fill_here_doc_lst(tree->token.redir, here_docs);
-	if (result == -1)
+	result = fill_here_doc_lst(tree->token.redir, data, &pos_err);
+	if (result == 0)
 		return (0);
-	if (result == -2)
-		return (1);
-	token_error = tree->token.redir[result + 1];
+	if (result != 2)
+		return (result);
+	token_error = tree->token.redir[pos_err + 1];
 	if (!token_error)
 		print_error_token(queue);
 	else
@@ -71,14 +72,14 @@ static int	update_here_docs(t_tree *tree, t_queue *queue, t_list **here_docs)
 *
 * Return: The new tree, NULL if error.
 */
-t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs)
+t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_data *data)
 {
 	t_token_name	next_token_name;
 
 	tree = add_new_token(tree, queue);
 	if (tree_is_empty(tree))
 		return (NULL);
-	if (update_here_docs(tree, queue, here_docs))
+	if (update_here_docs(tree, queue, data))
 	{
 		tree_clear(&tree);
 		return (NULL);
@@ -87,7 +88,7 @@ t_tree	*state_cmd(t_tree *tree, t_queue *queue, t_list **here_docs)
 		return (tree);
 	next_token_name = queue_first_name(queue);
 	if (next_token_name == TOKEN_PIPE)
-		tree = state_junction_ope(tree, queue, here_docs);
+		tree = state_junction_ope(tree, queue, data);
 	else if (next_token_name == TOKEN_PAR_OPEN)
 	{
 		if (!tree->token.redir && tree->token.value && !tree->token.value[1])

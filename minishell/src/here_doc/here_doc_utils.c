@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/11 16:46:10 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:42:19 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,86 +64,85 @@ char	*generate_random_string(size_t length)
 }
 
 /*
-* Goal: Create a new node of struct here_doc with the given limiter.
+* Goal: Read here doc and add file name in data list.
 *
-* Return: The here_doc node, NULL if error.
+* Return: 0 on success, 1 on failure.
 */
-static t_list	*new_here_doc(char *limiter)
+static int	process_here_doc(char **redir, char *limiter, t_data *data)
 {
-	t_list		*new;
-	t_here_doc	*element;
+	char	*filename;
+	int		result;
+	t_list	*new;
+	char	*tmp;
 
-	element = ft_calloc(1, sizeof(t_here_doc));
-	if (!element)
-	{
-		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-		return (NULL);
-	}
-	element->limiter = ft_strdup(limiter);
-	if (!element->limiter)
-	{
-		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-		free(element);
-		return (NULL);
-	}
-	new = ft_lstnew(element);
+	result = read_here_doc(limiter, &filename, data);
+	if (result)
+		return (result);
+	new = ft_lstnew(filename);
 	if (!new)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
-		free(element->limiter);
-		free(element);
-		return (NULL);
+		free(filename);
+		return (1);
 	}
-	return (new);
+	ft_lstadd_back(&data->here_docs, new);
+	tmp = ft_strjoin("<", filename);
+	if (!tmp)
+	{
+		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
+		return (1);
+	}
+	free(*redir);
+	*redir = tmp;
+	return (0);
 }
 
 /*
-* Goal: Add each here_doc found in the list
-*		and detects errors syntaxes in redirections.
+* Goal: Process each here doc found and detects error syntaxes in 'redirs'.
+* Index of redir that have a syntax error is define in 'i'.
 *
-* Return: -1 on success, -2 if malloc error or the index of
-*		the element in redir that have a syntax error.
+* Return: 0 on succes or the code error corresponding (2 is syntax error).
 */
-int	fill_here_doc_lst(char **redirs, t_list **here_docs)
+int	fill_here_doc_lst(char **redirs, t_data *data, int *i)
 {
-	t_list	*new;
 	char	*redir;
-	int		i;
+	int		result;
 
 	if (!redirs)
-		return (-1);
-	i = 0;
-	while (redirs[i])
+		return (0);
+	*i = 0;
+	while (redirs[*i])
 	{
-		redir = redirs[i++];
+		redir = redirs[*i];
 		while (redir[0] != '<' && redir[0] != '>')
 			redir++;
 		if (!redir[1] || ((redir[1] == '<' || redir[1] == '>') && !redir[2]))
-			return (i - 1);
-		if (redir[0] != '<' || redir[1] != '<')
-			continue ;
-		redir += 2;
-		if (redir[0] == '\0')
-			return (i - 1);
-		new = new_here_doc(redir);
-		if (!new)
-			return (-2);
-		ft_lstadd_back(here_docs, new);
+			return (2);
+		if (redir[0] == '<' && redir[1] == '<')
+		{
+			if (redir[0] == '\0')
+				return (2);
+			result = process_here_doc(redirs + *i, redir + 2, data);
+			if (result)
+				return (result);
+		}
+		*i += 1;
 	}
-	return (-1);
+	return (0);
 }
 
 /*
-* Goal: Clear the list of here_doc struct.
+* Goal: Clear the list of heredocs filename.
 */
 void	clear_here_docs(t_list *here_docs)
 {
+	char	*filename;
+
 	while (here_docs)
 	{
-		if (((t_here_doc *)here_docs->content)->filename)
-			unlink(((t_here_doc *)here_docs->content)->filename);
-		free(((t_here_doc *)here_docs->content)->filename);
-		free(((t_here_doc *)here_docs->content)->limiter);
+		filename = (char *)here_docs->content;
+		if (filename)
+			unlink(filename);
 		here_docs = ft_lstremove_front(here_docs, free);
 	}
 }

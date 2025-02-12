@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 17:54:56 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:25:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_stack
 typedef enum e_redir_name
 {
 	INPUT,
-	HERE_DOC,
 	OUTPUT,
 	OUTPUT_APPEND,
 	ERROR,
@@ -77,10 +76,9 @@ int		unset(char **cmd, char ***env);
 int		update_cmd_path(char **path, char *cmd_name, char **env);
 
 /*---redir---*/
-int		redir_manager(char **redirs, t_list *here_docs);
+int		redir_manager(char **redirs);
 int		redirect_input(int fd, char *file_name);
 int		redirect_output(int fd, char *file_name);
 int		redirect_output_append_mode(int fd, char *file_name);
-int		redirect_here_doc(int fd, char *limiter, t_list *here_docs);
 
 #endif

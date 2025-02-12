@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:30:21 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:42:16 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,17 @@ static int	process_line(int file, char *limiter,
 *
 * Return: 0 on success, 1 on failure.
 */
-static int	get_here_doc_input(int file, char **limiter, t_data *data)
+static int	get_here_doc_input(int file, char *limiter, t_data *data)
 {
 	char	*unquoted_limiter;
 	int		result;
 
-	unquoted_limiter = replace_word_quotes(*limiter);
+	unquoted_limiter = replace_word_quotes(limiter);
 	if (!unquoted_limiter)
 		return (1);
 	while (1)
 	{
-		result = process_line(file, *limiter, unquoted_limiter, data);
+		result = process_line(file, limiter, unquoted_limiter, data);
 		if (result == -1)
 			break ;
 		if (result)
@@ -123,41 +123,33 @@ static int	get_here_doc_input(int file, char **limiter, t_data *data)
 			return (result);
 		}
 	}
-	free(*limiter);
-	*limiter = unquoted_limiter;
+	free(unquoted_limiter);
 	return (0);
 }
 
 /*
-* Goal: Ask the input lines for each here_doc priviously detected.
+* Goal: Ask the input lines of the here_doc.
 *
 * Return: 0 on success, 1 on failure.
 */
-int	read_here_docs(t_data *data)
+int	read_here_doc(char *limiter, char **filename, t_data *data)
 {
-	t_list		*here_docs;
-	t_here_doc	*here_doc;
-	int			fd;
-	int			result;
+	int	fd;
+	int	result;
 
-	here_docs = data->here_docs;
-	while (here_docs)
+	*filename = generate_random_string(10);
+	if (!*filename)
+		return (1);
+	fd = open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
 	{
-		here_doc = here_docs->content;
-		here_doc->filename = generate_random_string(10);
-		if (!here_doc->filename)
-			return (1);
-		fd = open(here_doc->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
-			return (1);
-		}
-		result = get_here_doc_input(fd, &here_doc->limiter, data);
-		close(fd);
-		if (result)
-			return (result);
-		here_docs = here_docs->next;
+		free(*filename);
+		ft_printf_fd(2, "%s: %s", NAME, ERR_HERDOC_ACC);
+		return (1);
 	}
-	return (0);
+	result = get_here_doc_input(fd, limiter, data);
+	close(fd);
+	if (result)
+		free(*filename);
+	return (result);
 }

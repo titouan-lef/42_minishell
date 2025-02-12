@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/06 16:45:25 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:34:41 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line_read = read_lines(&data, 0);
+		if (line_read && line_read[0] != '\0')
+			add_history(line_read);
 		code = get_signal_receive();
 		if (code)
 			data.last_exit = code;

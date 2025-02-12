@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   state.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:46:18 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 14:48:09 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:23:56 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 * Return: New tree or NULL if the next token is a ")", a "|", a "||" or a "&&".
 */
 t_tree	*common_state(t_tree *tree, t_queue *queue,
-	t_token_name type, t_list **here_docs)
+	t_token_name type, t_data *data)
 {
 	if (type == TOKEN_CMD)
-		tree = state_cmd(tree, queue, here_docs);
+		tree = state_cmd(tree, queue, data);
 	else if (type == TOKEN_PAR_OPEN)
-		tree = state_par_open(tree, queue, here_docs);
+		tree = state_par_open(tree, queue, data);
 	else
 	{
 		print_error_token(queue);
@@ -40,14 +40,14 @@ t_tree	*common_state(t_tree *tree, t_queue *queue,
 *
 * Return: New tree or NULL if the next token is a ")".
 */
-t_tree	*next_state(t_tree *tree, t_queue *queue, t_list **here_docs)
+t_tree	*next_state(t_tree *tree, t_queue *queue, t_data *data)
 {
 	t_token_name	type;
 
 	type = queue_first_name(queue);
 	if (type == TOKEN_LOGIC_OPE || type == TOKEN_PIPE)
-		tree = state_junction_ope(tree, queue, here_docs);
+		tree = state_junction_ope(tree, queue, data);
 	else
-		tree = common_state(tree, queue, type, here_docs);
+		tree = common_state(tree, queue, type, data);
 	return (tree);
 }
