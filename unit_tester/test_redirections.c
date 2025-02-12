@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 11:16:01 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 11:24:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:11:43 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	test_redirs(char **env)
 	t_in	in;
 	int		fd;
 	int		result;
+	int		tmp;
 
 	start_test("redirections");
 	data.env = env;
@@ -137,7 +138,7 @@ void	test_redirs(char **env)
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
 	redir = built_tab(">out", NULL);
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	assert_redir_out(out, &test_number, "out", NULL);
 	ft_clean_matrix((void **)redir);
 	fflush(stdout);
@@ -146,7 +147,7 @@ void	test_redirs(char **env)
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
 	redir = built_tab(">out", ">outfile", NULL);
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
 	ft_clean_matrix((void **)redir);
 	fflush(stdout);
@@ -155,7 +156,7 @@ void	test_redirs(char **env)
 	out.save_out = dup(STDOUT_FILENO);
 	out.save_err = dup(STDERR_FILENO);
 	redir = built_tab(">>out", ">outfile", NULL);
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
 	ft_clean_matrix((void **)redir);
 	fflush(stdout);
@@ -165,7 +166,7 @@ void	test_redirs(char **env)
 	out.save_err = dup(STDERR_FILENO);
 	redir = built_tab(">>out", ">outfile", NULL);
 	close(open("out", O_CREAT, 0644));
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	assert_redir_out(out, &test_number, "out", "outfile", NULL);
 	ft_clean_matrix((void **)redir);
 	fflush(stdout);
@@ -174,7 +175,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab(">>out", ">outfile", NULL);
 	open("out", O_CREAT, 000);
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied\n", &test_number);
 	unlink("out");
@@ -185,7 +186,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab(">out", ">outfile", NULL);
 	open("out", O_CREAT, 000);
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: out: Permission denied\n", &test_number);
 	unlink("out");
@@ -196,7 +197,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	in.save_in = dup(STDIN_FILENO);
 	redir = built_tab("<in", NULL);
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	set_normal_outputs(&out);
 	assert_equal_err("minishell: in: No such file or directory\n", &test_number);
 	set_normal_input(&in);
@@ -206,7 +207,7 @@ void	test_redirs(char **env)
 	in.save_in = dup(STDIN_FILENO);
 	redir = built_tab("<in", NULL);
 	close(open("in", O_CREAT, 0644));
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	assert_redir_in("in", "test\n", 0, &test_number);
 	set_normal_input(&in);
 	ft_clean_matrix((void **)redir);
@@ -216,7 +217,7 @@ void	test_redirs(char **env)
 	redir = built_tab("<in", "<infile", NULL);
 	close(open("in", O_CREAT, 0644));
 	close(open("infile", O_CREAT, 0644));
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	assert_redir_in("in", "", 0, &test_number);
 	assert_redir_in("infile", "test\n", 0, &test_number);
 	set_normal_input(&in);
@@ -228,7 +229,7 @@ void	test_redirs(char **env)
 	close(open("in", O_CREAT, 0644));
 	close(open("infile", O_CREAT, 0644));
 	close(open("testin", O_CREAT, 0644));
-	redir_manager(redir, NULL);
+	redir_manager(redir);
 	assert_redir_in("in", "", 0, &test_number);
 	assert_redir_in("infile", "", 0, &test_number);
 	assert_redir_in("testin", "test\n", 0, &test_number);
@@ -247,16 +248,14 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
-	redir_manager(redir, here_docs);
+	redir_manager(redir);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
-	clear_here_docs(here_docs);
+	assert_redir_in((char *)data.here_docs->content, "test\n", 1, &test_number);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -271,14 +270,13 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	data.here_docs = NULL;
-	fill_here_doc_lst(redir, &data.here_docs);
-	read_here_docs(&data);
+	fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
-	redir_manager(redir, data.here_docs);
+	redir_manager(redir);
 	ft_clean_matrix((void **)redir);
 	char *expected = ft_strjoin(getenv("USER"),"\n");
-	assert_redir_in(((t_here_doc *)data.here_docs->content)->filename, expected, 1, &test_number);
+	assert_redir_in((char *)data.here_docs->content, expected, 1, &test_number);
 	free(expected);
 	clear_here_docs(data.here_docs);
 	unlink("here_doc");
@@ -295,13 +293,12 @@ void	test_redirs(char **env)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	data.here_docs = NULL;
-	fill_here_doc_lst(redir, &data.here_docs);
-	read_here_docs(&data);
+	fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
-	redir_manager(redir, data.here_docs);
+	redir_manager(redir);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)data.here_docs->content)->filename, "$USER\n", 1, &test_number);
+	assert_redir_in((char *)data.here_docs->content, "$USER\n", 1, &test_number);
 	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
@@ -316,17 +313,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	fill_here_doc_lst(redir, &data, &tmp);
 	here_docs = data.here_docs;
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
-	redir_manager(redir, here_docs);
+	redir_manager(redir);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
-	clear_here_docs(here_docs);
+	assert_redir_in((char *)data.here_docs->content, "$USER\n", 1, &test_number);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -340,17 +335,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	fill_here_doc_lst(redir, &data, &tmp);
 	here_docs = data.here_docs;
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
-	redir_manager(redir, here_docs);
+	redir_manager(redir);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "$USER\n", 1, &test_number);
-	clear_here_docs(here_docs);
+	assert_redir_in((char *)data.here_docs->content, "$USER\n", 1, &test_number);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -364,18 +357,16 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	fill_here_doc_lst(redir, &data, &tmp);
 	here_docs = data.here_docs;
 	remove_quotes(&redir);
-	redir_manager(redir, here_docs);
+	redir_manager(redir);
 	assert_redir_out(out, &test_number, "ok", NULL);
 	//set_normal_outputs(&out);
 	ft_clean_matrix((void **)redir);
-	assert_redir_in(((t_here_doc *)here_docs->content)->filename, "test\n", 1, &test_number);
-	clear_here_docs(here_docs);
+	assert_redir_in((char *)data.here_docs->content, "test\n", 1, &test_number);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	unlink("ok");
 	set_normal_input(&in);
@@ -390,19 +381,17 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
-	redir_manager(redir, data.here_docs);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
+	redir_manager(redir);
 	set_normal_outputs(&out);
-		if (result == -1)
+	if (result == 0)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
 	assert_redir_in("ok", "test2\n", 1, &test_number);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -416,17 +405,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -440,17 +427,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -464,17 +449,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -488,17 +471,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -512,17 +493,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -536,17 +515,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -560,17 +537,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -584,17 +559,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
-		if (result == 1)
+		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -608,17 +581,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -632,17 +603,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -656,17 +625,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 
@@ -680,17 +647,15 @@ void	test_redirs(char **env)
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	here_docs = NULL;
-	result = fill_here_doc_lst(redir, &here_docs);
-	data.here_docs = here_docs;
-	read_here_docs(&data);
+	data.here_docs = NULL;
+	result = fill_here_doc_lst(redir, &data, &tmp);
 	set_normal_outputs(&out);
 		if (result == 2)
 		print_ok(&test_number);
 	else
 		print_ko("", "error detected in redir", &test_number);
 	ft_clean_matrix((void **)redir);
-	clear_here_docs(here_docs);
+	clear_here_docs(data.here_docs);
 	unlink("here_doc");
 	set_normal_input(&in);
 

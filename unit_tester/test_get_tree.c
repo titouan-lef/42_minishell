@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:12:14 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 11:24:23 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:09:03 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -827,6 +827,7 @@ void	test_get_tree(char **envp)
 	char	*str;
 
 	data.env = strdup_tab(envp);
+	ft_bzero(&data.act, sizeof(struct sigaction));
 
 	start_test("parser");
 	test_number = 1;
