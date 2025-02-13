@@ -6,11 +6,12 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/12 15:47:27 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:08:35 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "here_doc.h"
 
 /*
 * Goal: Push the tokens redir and cmd in the given token queue
@@ -126,6 +127,8 @@ int	parser(t_queue *queue, t_data *data)
 		if (tree_is_empty(data->tree))
 			result = 2;
 	}
+	if (result)
+		clear_here_docs(data->here_docs);
 	queue_clear(queue);
 	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
 		return (1);
