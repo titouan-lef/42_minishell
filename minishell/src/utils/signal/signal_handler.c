@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:53:21 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/13 11:26:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:57:06 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int	g_sig_receive = 0;
 */
 int	get_signal_receive(void)
 {
-	int	tmp;
+	return (g_sig_receive);
+}
 
-	tmp = g_sig_receive;
+void	reset_signal_receive(void)
+{
 	g_sig_receive = 0;
-	return (tmp);
 }
 
 /*

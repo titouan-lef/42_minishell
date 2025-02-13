@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/13 12:15:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:58:40 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ int	external_cmd_manager(char **cmd, char **redir, t_data *data, int is_piped)
 
 	if (is_piped)
 		execve_manager(cmd, redir, data);
-	if (modify_sigaction(&data->act, cmd_display_handler, 0))
+	if (data->is_root_process == 1
+		&& modify_sigaction(&data->act, cmd_display_handler, 0))
 		return (1);
 	result = fork_cmd(cmd, redir, data);
-	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
+	if (data->is_root_process == 1
+		&& modify_sigaction(&data->act, interactive_mode_handler, 1))
 		return (1);
 	return (result);
 }

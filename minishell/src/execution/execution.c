@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/13 12:25:16 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:49:23 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int	get_child_exit_status(int status)
 	int	result;
 
 	if (WIFSIGNALED(status))
+	{
 		result = get_signal_receive();
+		if (result != 128 + SIGINT)
+			reset_signal_receive();
+	}
 	else
 		result = WEXITSTATUS(status);
 	return (result);
@@ -32,6 +36,8 @@ int	tree_exec(t_data *data, t_tree *tree, int is_piped)
 	t_token	*token;
 	int		result;
 
+	if (get_signal_receive() == 128 + SIGINT)
+		return (128 + SIGINT);
 	token = &tree->token;
 	if (token->name == TOKEN_CMD)
 	{

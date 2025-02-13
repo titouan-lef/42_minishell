@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:39 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/11 12:56:58 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:46:48 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_data
 	int					fd[2];
 	int					last_pipe;
 	struct sigaction	act;
+	int					is_root_process;
 }	t_data;
 
 /*---token---*/
@@ -115,6 +116,7 @@ void			tree_push_left(t_tree *tree, t_tree *sub_tree);
 void			tree_push_right(t_tree *tree, t_tree *sub_tree);
 
 /*---signal---*/
+int				ignore_sigaction(struct sigaction *act);
 int				default_sigaction(struct sigaction *act);
 int				modify_sigaction(struct sigaction *act, void (*f)(int),
 					int ignore_sigquit);
@@ -122,6 +124,7 @@ void			interactive_mode_handler(int sig);
 void			cmd_display_handler(int sig);
 void			here_doc_handler(int sig);
 int				get_signal_receive(void);
+void			reset_signal_receive(void);
 
 /*---tab---*/
 size_t			size_tab(char **tab);

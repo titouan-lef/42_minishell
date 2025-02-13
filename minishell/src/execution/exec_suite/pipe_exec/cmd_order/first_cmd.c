@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:30:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/13 11:47:33 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:47:36 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static void	child(t_data *data, t_tree *sub_tree, t_stack **stack)
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_DUP2);
 		exit_exec(data, 1);
 	}
+	data->is_root_process = 0;
+	if (ignore_sigaction(&data->act))
+		exit_exec(data, 1);
 	result = tree_exec(data, sub_tree, 1);
 	exit_exec(data, result);
 }

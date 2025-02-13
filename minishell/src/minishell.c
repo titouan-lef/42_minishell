@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/13 12:10:05 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:37:47 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ static void	process_cmd(char *input, t_data *data)
 		data->last_exit = result;
 		return ;
 	}
+	data->is_root_process = 1;
 	data->last_exit = make_execution(data);
-	get_signal_receive();
+	reset_signal_receive();
 }
 
 static void	init_minishell(t_data *data, char **envp)
@@ -88,6 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line_read && line_read[0] != '\0')
 			add_history(line_read);
 		code = get_signal_receive();
+		reset_signal_receive();
 		if (code)
 			data.last_exit = code;
 		if (!line_read)
