@@ -6,14 +6,14 @@
 #    By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/15 14:44:24 by lguerbig          #+#    #+#              #
-#    Updated: 2025/02/11 20:02:19 by tle-floc         ###   ########.fr        #
+#    Updated: 2025/02/13 15:14:05 by tle-floc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #===================== BASE =====================#
 
 CC				:=	cc
-CFLAGS			+=	-Wall -Wextra -Werror -MP -MMD -g
+CFLAGS			+=	-Wall -Wextra -Werror -MP -MMD
 BUILD_DIR		:=	.build/
 HEADERS			:=	./include/
 NAME			:=	minishell
@@ -27,7 +27,7 @@ SRC_DIR			=	./src/
 SRC				=	minishell.c																\
 					execution/execution.c													\
 					execution/exit_utils.c													\
-					execution/exec_suite/logic_ope_exec.c									\
+					execution/exec_suite/logic_ope_exec_bonus.c								\
 					execution/exec_suite/cmd_exec/cmd_exec.c								\
 					execution/exec_suite/cmd_exec/builtin/builtin.c							\
 					execution/exec_suite/cmd_exec/builtin/builtin_suite/echo.c				\
@@ -51,27 +51,27 @@ SRC				=	minishell.c																\
 					expansion/expansions.c													\
 					expansion/expansion_suite/exit_status.c									\
 					expansion/expansion_suite/quote_removal.c								\
-					expansion/expansion_suite/tilde.c										\
+					expansion/expansion_suite/tilde_bonus.c									\
 					expansion/expansion_suite/environment_variable/get_env_var.c			\
 					expansion/expansion_suite/environment_variable/replace_env_var.c		\
 					expansion/expansion_suite/environment_variable/variable_expansion.c		\
-					expansion/expansion_suite/wildcard/get_files.c							\
-					expansion/expansion_suite/wildcard/pathname_expansion.c					\
-					expansion/expansion_suite/wildcard/replace_wildcard.c					\
+					expansion/expansion_suite/wildcard/get_files_bonus.c					\
+					expansion/expansion_suite/wildcard/pathname_expansion_bonus.c			\
+					expansion/expansion_suite/wildcard/replace_wildcard_bonus.c				\
 					here_doc/here_doc.c														\
 					here_doc/here_doc_utils.c												\
 					input/display.c															\
 					input/read_lines.c														\
 					lexer/lexer.c															\
-					lexer/get_token/get_operator.c											\
+					lexer/get_token/get_operator_bonus.c									\
 					lexer/get_token/get_redir.c												\
 					lexer/get_token/get_word.c												\
 					parser/parser.c															\
 					parser/build_ast/cmd_state.c											\
-					parser/build_ast/control_ope_state.c									\
+					parser/build_ast/control_ope_state_bonus.c								\
 					parser/build_ast/state_utils.c											\
 					parser/build_ast/state.c												\
-					utils/compare_utils.c													\
+					utils/compare_utils_bonus.c												\
 					utils/path_utils.c														\
 					utils/tab_utils.c														\
 					utils/token_utils.c														\
@@ -142,11 +142,6 @@ $(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
 
 $(OBJ_DIR)		:
 				mkdir -p $@
-
-# tester			:	$(LIBFT) $(filter-out minishell.c ,$(OBJ))
-# 				cp $(LIBFT) $(NAME).a
-# 				ar -rs $(NAME).a $(filter-out minishell.c ,$(OBJ))
-# 				echo "$(GREEN)$(NAME).a ready for tester ✅️✅️$(INIT)";\
 
 clean			:
 				if [ -d $(LIBFT_DIR)$(BUILD_DIR) ];\
