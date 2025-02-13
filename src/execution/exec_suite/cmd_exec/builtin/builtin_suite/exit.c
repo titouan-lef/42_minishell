@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:58:45 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/13 18:53:44 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:57:28 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ static void	clean(t_data *data, int *std)
 	close_data_std(std);
 	if (data->read_lines)
 		ft_clean_matrix((void **)data->read_lines);
-	ft_clean_matrix((void **)data->env);
-	ft_clean_matrix((void **)data->env_export);
+	if (data->env)
+		ft_clean_matrix((void **)data->env);
+	if (data->env_export)
+		ft_clean_matrix((void **)data->env_export);
 	rl_clear_history();
 }
 

@@ -6,17 +6,20 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/12 17:31:36 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:13:49 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static int	replace_var(char **var, char *new_var)
+static int	replace_var(char **var, char *new_var, int size)
 {
 	char	*tmp;
 
-	tmp = ft_strdup(new_var);
+	if (new_var[size] == '+')
+		tmp = ft_strjoin(*var, new_var + size + 2);
+	else
+		tmp = ft_strdup(new_var);
 	if (!tmp)
 	{
 		ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
@@ -27,6 +30,30 @@ static int	replace_var(char **var, char *new_var)
 	return (0);
 }
 
+static int	add_var(char *var, int size, char ***env)
+{
+	char	*tmp;
+	char	*tmp2;
+
+	tmp2 = NULL;
+	if (var[size] == '+')
+	{
+		tmp = ft_strndup(var, size);
+		if (!tmp)
+			return (1);
+		tmp2 = ft_strjoin(tmp, var + size + 1);
+		free(tmp);
+		if (!tmp2)
+			return (1);
+		var = tmp2;
+	}
+	*env = append_to_tab(*env, var);
+	free(tmp2);
+	if (!*env)
+		return (1);
+	return (0);
+}
+
 static int	import_var(char *var, int size, char ***env, int local)
 {
 	int	j;
@@ -34,22 +61,21 @@ static int	import_var(char *var, int size, char ***env, int local)
 	j = 0;
 	while ((*env)[j])
 	{
-		if (!ft_strncmp(var, (*env)[j], size)
-			&& (!(*env)[j][size] || (*env)[j][size] == '='))
+		if (!ft_strncmp(var, (*env)[j], size) && (!(*env)[j][size]
+			|| (*env)[j][size] == '=' || (*env)[j][size] == '+'))
 			break ;
 		j++;
 	}
 	if (!(*env)[j])
 	{
-		*env = append_to_tab(*env, var);
-		if (!*env)
+		if (add_var(var, size, env))
 		{
 			ft_printf_fd(2, "%s: %s\n", NAME, ERR_MALLOC);
 			return (1);
 		}
 	}
 	else if (local)
-		if (replace_var(&(*env)[j], var))
+		if (replace_var(&(*env)[j], var, size))
 			return (1);
 	return (0);
 }
@@ -58,7 +84,8 @@ static int	length_valid_name(char *var, int *result)
 {
 	int	size;
 
-	if (ft_isdigit(var[0]) || var[0] == '=' || var[0] == '\0')
+	size = 0;
+	if (!ft_isalpha(var[size]) && var[size] != '_')
 	{
 		ft_printf_fd(2, "%s: export: `%s': %s\n", NAME, var, ERR_EXP);
 		*result = 1;
@@ -69,6 +96,8 @@ static int	length_valid_name(char *var, int *result)
 	{
 		if (!ft_isalnum(var[size]) && var[size] != '_')
 		{
+			if (var[size] == '+' && var[size + 1] == '=')
+				return (size);
 			ft_printf_fd(2, "%s: export: `%s': %s\n", NAME, var, ERR_EXP);
 			*result = 1;
 			return (-1);
@@ -76,27 +105,6 @@ static int	length_valid_name(char *var, int *result)
 		size++;
 	}
 	return (size);
-}
-
-static void	print_export(char **env)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	ft_insertion_qsort(env, size_tab(env), sizeof(char *), ft_void_strcmp);
-	while (env[i])
-	{
-		j = 0;
-		ft_putstr("declare -x ");
-		while (env[i][j] && env[i][j] != '=')
-			ft_putchar(env[i][j++]);
-		if (env[i][j])
-			ft_printf("=\"%s\"\n", env[i] + j + 1);
-		else
-			ft_putchar('\n');
-		i++;
-	}
 }
 
 /*

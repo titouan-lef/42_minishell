@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/13 18:41:53 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:14:54 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		goto_dir(char *dir, char **env);
 int		echo(char **cmd);
 int		env(char **env);
 int		my_exit(char **cmd, t_data *data, int is_piped, int *std);
+void	print_export(char **env);
 int		export(char **cmd, char ***env_local, char ***env_export);
 char	*get_from_env(char **env, char *name);
 char	*get_cwd(char **env);
