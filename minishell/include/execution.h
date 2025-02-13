@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/12 12:25:45 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:14:35 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	stack_init(t_stack **stack);
 int		make_execution(t_data *data);
 void	clear_data(t_data *data);
 void	exit_exec(t_data *data, int code);
+int		get_child_exit_status(int status);
 int		tree_exec(t_data *data, t_tree *tree, int is_piped);
 
 /*---logical operator---*/
@@ -64,7 +65,7 @@ int		builtin_manager(char **cmd, char **redir, t_data *data, int is_piped);
 int		cd(char **cmd, char **env);
 int		goto_dir(char *dir, char **env);
 int		echo(char **cmd);
-int		env(char **cmd, char **env);
+int		env(char **env);
 int		my_exit(char **cmd, t_data *data, int is_piped);
 int		export(char **cmd, char ***env_local, char ***env_export);
 char	*get_from_env(char **env, char *name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:57:15 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/10 16:58:24 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:31:36 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	replace_var(char **var, char *new_var)
 
 static int	import_var(char *var, int size, char ***env, int local)
 {
-	int		j;
+	int	j;
 
 	j = 0;
 	while ((*env)[j])

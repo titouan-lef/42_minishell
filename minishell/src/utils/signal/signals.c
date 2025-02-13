@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguerbig <lguerbig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:33:12 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/10 15:47:37 by lguerbig         ###   ########.fr       */
+/*   Updated: 2025/02/13 11:34:26 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	default_sigaction(struct sigaction *act)
 	int	is_error;
 
 	act->sa_handler = SIG_DFL;
+	act->sa_flags = 0;
 	is_error = signal_sigaction(act, 0);
 	if (is_error)
 		return (is_error);
@@ -64,6 +65,7 @@ int	modify_sigaction(struct sigaction *act, void (*f)(int), int ignore_sigquit)
 	int	is_error;
 
 	act->sa_handler = f;
+	act->sa_flags = SA_RESTART;
 	is_error = signal_sigaction(act, ignore_sigquit);
 	if (is_error)
 		return (is_error);

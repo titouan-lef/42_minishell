@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:21:24 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/12 14:34:56 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:42:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*rl_gets(char **env, int here_doc)
 	char	*prompt;
 
 	if (here_doc)
-		line_read = readline(" >");
+		line_read = readline("> ");
 	else
 	{
 		prompt = get_prompt(env);

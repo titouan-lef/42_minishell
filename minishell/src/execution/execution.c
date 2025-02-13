@@ -6,12 +6,23 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:53:05 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/12 15:33:42 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:25:16 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "here_doc.h"
+
+int	get_child_exit_status(int status)
+{
+	int	result;
+
+	if (WIFSIGNALED(status))
+		result = get_signal_receive();
+	else
+		result = WEXITSTATUS(status);
+	return (result);
+}
 
 /*
 * Goal: Manage execution based on the current node and the pipeline status.

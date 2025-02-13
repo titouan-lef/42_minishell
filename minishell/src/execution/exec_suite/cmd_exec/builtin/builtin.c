@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/12 12:26:57 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:12:37 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	builtin_choice(char **cmd, t_data *data, int is_piped)
 			result = unset(cmd, &data->env_export);
 	}
 	else if (!ft_strcmp(cmd[0], "env"))
-		result = env(cmd, data->env);
+		result = env(data->env);
 	else
 		result = my_exit(cmd, data, is_piped);
 	return (result);
@@ -111,7 +111,10 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 	if (!is_piped)
 	{
 		if (dup_data_std(std))
+		{
+			close_data_std(std);
 			return (1);
+		}
 	}
 	result = redir_manager(redir);
 	if (result == 0)

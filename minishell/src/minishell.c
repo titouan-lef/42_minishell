@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:34:29 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/12 14:34:41 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:10:05 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	process_cmd(char *input, t_data *data)
 		return ;
 	}
 	data->last_exit = make_execution(data);
+	get_signal_receive();
 }
 
 static void	init_minishell(t_data *data, char **envp)

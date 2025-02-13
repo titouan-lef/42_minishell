@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:49:28 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/12 12:26:56 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:15:42 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,9 @@ static int	fork_cmd(char **cmd, char **redir, t_data *data)
 	}
 	if (pid == 0)
 		execve_manager(cmd, redir, data);
-	if (modify_sigaction(&data->act, cmd_display_handler, 0))
-		return (1);
 	waitpid(pid, &exit_status, 0);
-	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
-		return (1);
-	data->last_exit = WEXITSTATUS(exit_status);
-	exit_status = get_signal_receive();
-	if (exit_status)
-		return (exit_status);
-	return (data->last_exit);
+	exit_status = get_child_exit_status(exit_status);
+	return (exit_status);
 }
 
 int	external_cmd_manager(char **cmd, char **redir, t_data *data, int is_piped)
@@ -77,6 +70,10 @@ int	external_cmd_manager(char **cmd, char **redir, t_data *data, int is_piped)
 
 	if (is_piped)
 		execve_manager(cmd, redir, data);
+	if (modify_sigaction(&data->act, cmd_display_handler, 0))
+		return (1);
 	result = fork_cmd(cmd, redir, data);
+	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
+		return (1);
 	return (result);
 }

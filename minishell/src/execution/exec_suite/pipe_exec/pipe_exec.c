@@ -53,29 +53,27 @@ static int	pipeline_manager(t_data *data, t_tree *tree,
 *
 * Return: Last command's code or 1 if error.
 */
-static int	wait_children(t_stack **stack, t_data *data)
+static int	wait_children(t_stack **stack)
 {
 	int	result;
 	int	pid;
 	int	last_pid;
 	int	status;
 
+	if (stack_is_empty(*stack))
+		return (1);
 	result = -1;
 	last_pid = stack_pop(stack);
-	if (modify_sigaction(&data->act, cmd_display_handler, 0))
-		return (1);
 	pid = waitpid(-1, &status, 0);
 	if (pid == last_pid)
-		result = WEXITSTATUS(status);
+		result = get_child_exit_status(status);
 	while (!stack_is_empty(*stack))
 	{
 		stack_pop(stack);
 		pid = waitpid(-1, &status, 0);
 		if (pid == last_pid)
-			result = WEXITSTATUS(status);
+			result = get_child_exit_status(status);
 	}
-	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
-		return (1);
 	return (result);
 }
 
@@ -88,16 +86,18 @@ static int	wait_children(t_stack **stack, t_data *data)
 int	pipe_exec(t_data *data, t_tree *tree)
 {
 	int		result;
+	int		result2;
 	t_stack	*stack;
 
+	if (modify_sigaction(&data->act, cmd_display_handler, 0))
+		return (1);
 	stack_init(&stack);
 	result = pipeline_manager(data, tree, &stack, 0b11);
-	if (result)
-	{
-		stack_clear(&stack);
-		return (result);
-	}
-	result = wait_children(&stack, data);
+	result2 = wait_children(&stack);
 	stack_clear(&stack);
-	return (result);
+	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
+		return (1);
+	if (result)
+		return (result);
+	return (result2);
 }

@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:30:20 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/11 19:09:14 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 11:46:35 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ int	last_cmd(t_data *data, t_tree *sub_tree, t_stack **stack)
 		child(data, sub_tree, stack);
 	close(data->last_pipe);
 	result = stack_push(stack, pid);
+	if (result)
+		waitpid(pid, NULL, 0);
 	return (result);
 }
