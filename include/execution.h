@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:34:31 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/13 12:14:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:41:53 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ int		external_cmd_manager(char **cmd, char **redir,
 int		cmd_exec(t_data *data, t_token *token, int is_piped);
 
 /*---builtin---*/
+void	close_data_std(int *std);
 int		builtin_manager(char **cmd, char **redir, t_data *data, int is_piped);
 int		cd(char **cmd, char **env);
 int		goto_dir(char *dir, char **env);
 int		echo(char **cmd);
 int		env(char **env);
-int		my_exit(char **cmd, t_data *data, int is_piped);
+int		my_exit(char **cmd, t_data *data, int is_piped, int *std);
 int		export(char **cmd, char ***env_local, char ***env_export);
 char	*get_from_env(char **env, char *name);
 char	*get_cwd(char **env);

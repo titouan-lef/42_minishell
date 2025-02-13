@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:55:17 by tle-floc          #+#    #+#             */
-/*   Updated: 2025/02/12 17:12:37 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:39:45 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	dup2_data_std(int *std)
 	return (is_error);
 }
 
-static int	builtin_choice(char **cmd, t_data *data, int is_piped)
+static int	builtin_choice(char **cmd, t_data *data, int is_piped, int *std)
 {
 	int	result;
 
@@ -80,11 +80,11 @@ static int	builtin_choice(char **cmd, t_data *data, int is_piped)
 	else if (!ft_strcmp(cmd[0], "env"))
 		result = env(data->env);
 	else
-		result = my_exit(cmd, data, is_piped);
+		result = my_exit(cmd, data, is_piped, std);
 	return (result);
 }
 
-static void	close_data_std(int *std)
+void	close_data_std(int *std)
 {
 	if (std[0] != -1)
 		close(std[0]);
@@ -118,7 +118,7 @@ int	builtin_manager(char **cmd, char **redir, t_data *data, int is_piped)
 	}
 	result = redir_manager(redir);
 	if (result == 0)
-		result = builtin_choice(cmd, data, is_piped);
+		result = builtin_choice(cmd, data, is_piped, std);
 	if (!is_piped)
 	{
 		result2 = dup2_data_std(std);

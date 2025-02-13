@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:49:43 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/13 18:08:35 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:06:36 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,22 @@ static t_queue	form_cmd(t_queue *tokens)
 	return (reorganized_tokens);
 }
 
+static int	exit_parser(t_queue *queue, t_data *data, int result)
+{
+	int	result2;
+
+	if (result)
+		clear_here_docs(data->here_docs);
+	queue_clear(queue);
+	result2 = get_signal_receive();
+	reset_signal_receive();
+	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
+		return (1);
+	if (result2)
+		return (result2);
+	return (result);
+}
+
 /*
 * Goal: Parse every element of the queue and built the tree for execution.
 * Heredocs and signals associated are managed here.
@@ -127,10 +143,6 @@ int	parser(t_queue *queue, t_data *data)
 		if (tree_is_empty(data->tree))
 			result = 2;
 	}
-	if (result)
-		clear_here_docs(data->here_docs);
-	queue_clear(queue);
-	if (modify_sigaction(&data->act, interactive_mode_handler, 1))
-		return (1);
+	result = exit_parser(queue, data, result);
 	return (result);
 }

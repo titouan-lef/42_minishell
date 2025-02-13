@@ -6,7 +6,7 @@
 /*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 00:20:34 by lguerbig          #+#    #+#             */
-/*   Updated: 2025/02/13 12:48:08 by tle-floc         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:00:28 by tle-floc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static int	process_line(int file, char *limiter,
 	line = read_lines(data, 1);
 	rl_event_hook = 0;
 	code = get_signal_receive();
-	reset_signal_receive();
 	if (!line || code)
 	{
 		if (code)
@@ -151,6 +150,9 @@ int	read_here_doc(char *limiter, char **filename, t_data *data)
 	result = get_here_doc_input(fd, limiter, data);
 	close(fd);
 	if (result)
+	{
+		unlink(*filename);
 		free(*filename);
+	}
 	return (result);
 }
