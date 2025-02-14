@@ -1,0 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tester.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 15:28:01 by lguerbig          #+#    #+#             */
+/*   Updated: 2025/02/04 12:04:24 by tle-floc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "tester.h"
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	test_echo(envp);
+	test_pwd(envp);
+	test_cd(envp);
+	test_unset();
+	test_tokenizer();
+	test_lexer();
+	test_tree();
+	test_get_tree(envp);
+	test_var_expand(envp);
+	test_exit_expand();
+	test_tilde_expand(envp);
+	test_to_number();
+	test_pathname_expand();
+	test_quote_removal();
+	test_redirs(envp);
+	printf("\n");
+	return (0);
+}

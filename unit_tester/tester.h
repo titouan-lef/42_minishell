@@ -1,0 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tester.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tle-floc <tle-floc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 15:30:09 by lguerbig          #+#    #+#             */
+/*   Updated: 2025/02/06 19:04:00 by tle-floc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef TESTER_H
+# define TESTER_H
+
+# include <sys/stat.h>
+# include <stdlib.h>
+# include "expansion.h"
+# include "input.h"
+# include "parser.h"
+# include "execution.h"
+# include "here_doc.h"
+# include "lexer.h"
+# include "utils.h"
+# include "unit_test/unit_test.h"
+
+/*---utils---*/
+char	*enum_to_str(t_token_name token);
+char	**built_tab(char* first, ...);
+
+/*---special_assert---*/
+void	assert_equal_queue_value(t_queue result, size_t *i, ...);
+void	assert_equal_queue_redir(t_queue result, size_t *i, ...);
+
+/*---tests---*/
+void	test_cd(char **envp);
+void	test_echo(char **envp);
+void	test_pwd(char **envp);
+void	test_unset(void);
+void	test_tokenizer(void);
+void	test_lexer(void);
+void	test_tree(void);
+void	test_get_tree(char **env);
+void	test_var_expand(char **envp);
+void	test_exit_expand(void);
+void	test_pathname_expand(void);
+void	test_tilde_expand(char **envp);
+void	test_to_number(void);
+void	test_quote_removal(void);
+void	test_redirs(char **envp);
+
+
+#endif
