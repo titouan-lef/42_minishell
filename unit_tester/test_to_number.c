@@ -61,7 +61,6 @@ static void	execution_int(int start, int end, long long max, size_t *test_number
 
 static void	test_to_long_long_error(size_t *test_number)
 {
-	int		result;
 	int		status;
 	char	str[6][25] = {
 		"-20v",
@@ -74,7 +73,7 @@ static void	test_to_long_long_error(size_t *test_number)
 
 	for (int i = 0; i < 6; ++i)
 	{
-		result = (int)ft_to_number(str[i], &status, INT_MAX);
+		ft_to_number(str[i], &status, INT_MAX);
 		assert_true(status, test_number);
 	}
 }
@@ -88,7 +87,6 @@ static void	test_to_long_long(size_t *test_number)
 
 static void	test_to_int_error(size_t *test_number)
 {
-	int		result;
 	int		status;
 	char	str[6][25] = {
 		"-20v",
@@ -101,7 +99,7 @@ static void	test_to_int_error(size_t *test_number)
 
 	for (int i = 0; i < 6; ++i)
 	{
-		result = (int)ft_to_number(str[i], &status, INT_MAX);
+		ft_to_number(str[i], &status, INT_MAX);
 		assert_true(status, test_number);
 	}
 }

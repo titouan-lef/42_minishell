@@ -157,7 +157,7 @@ static void	assert_equal_output(char *expected, size_t *i, char *file)
 		perror("malloc failed: assert_equal_output");
 		exit(1);
 	}
-	read(fd, result, 10000);
+	(void)read(fd, result, 10000);
 	close(fd);
 	unlink(file);
 	if (strcmp(expected, result) == 0)

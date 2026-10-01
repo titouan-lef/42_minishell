@@ -119,7 +119,6 @@ static void	assert_redir_in(char *file, char *expected, int here_doc, size_t *i)
 void	test_redirs(char **env)
 {
 	t_data	data;
-	t_list	*here_docs;
 	size_t	test_number;
 	char	**redir;
 	t_out	out;
@@ -243,7 +242,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 15);
+	(void)write(fd, "test\nhere_doc\n", 15);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -264,7 +263,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "$USER\nhere_doc\n", 16);
+	(void)write(fd, "$USER\nhere_doc\n", 16);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -287,7 +286,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<\"here_doc\"", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "$USER\nhere_doc\n", 18);
+	(void)write(fd, "$USER\nhere_doc\n", 18);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -308,14 +307,13 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<\'\"\'here_doc", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "$USER\n\"here_doc\n", 18);
+	(void)write(fd, "$USER\n\"here_doc\n", 18);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	data.here_docs = NULL;
 	fill_here_doc_lst(redir, &data, &tmp);
-	here_docs = data.here_docs;
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
 	redir_manager(redir);
@@ -330,14 +328,13 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_\'doc\'", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "$USER\nhere_doc\n", 18);
+	(void)write(fd, "$USER\nhere_doc\n", 18);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	data.here_docs = NULL;
 	fill_here_doc_lst(redir, &data, &tmp);
-	here_docs = data.here_docs;
 	set_normal_outputs(&out);
 	remove_quotes(&redir);
 	redir_manager(redir);
@@ -352,14 +349,13 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 15);
+	(void)write(fd, "test\nhere_doc\n", 15);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	data.here_docs = NULL;
 	fill_here_doc_lst(redir, &data, &tmp);
-	here_docs = data.here_docs;
 	remove_quotes(&redir);
 	redir_manager(redir);
 	assert_redir_out(out, &test_number, "ok", NULL);
@@ -376,7 +372,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\ntest2\nok\n", 23);
+	(void)write(fd, "test\nhere_doc\ntest2\nok\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -400,7 +396,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -422,7 +418,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">>", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -444,7 +440,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", "<", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -466,7 +462,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", "<<", "<<ok", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -488,7 +484,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -510,7 +506,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">>", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -532,7 +528,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", "<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -554,7 +550,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", "<<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -576,7 +572,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">out", ">", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -598,7 +594,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">out", ">>", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -620,7 +616,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">out", "<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
@@ -642,7 +638,7 @@ void	test_redirs(char **env)
 	redirect_outputs(&out);
 	redir = built_tab("<<here_doc", ">out", "<<", NULL);
 	fd = open("here_doc", O_WRONLY | O_CREAT, 0644);
-	write(fd, "test\nhere_doc\n", 23);
+	(void)write(fd, "test\nhere_doc\n", 23);
 	close(fd);
 	fd = open("here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);

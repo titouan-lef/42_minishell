@@ -101,7 +101,7 @@ void	test_pathname_expand(void)
 	test_number = 1;
 
 	mkdir("test", 0755);
-	chdir("test");
+	(void)chdir("test");
 
 	/*--- test 1 ---*/
 	token = token_create(TOKEN_CMD, built_tab("echo", "*", NULL), NULL);
@@ -203,7 +203,7 @@ void	test_pathname_expand(void)
 	unlink("makefile");
 	unlink("makeFile");
 
-	chdir("..");
+	(void)chdir("..");
 	rmdir("test");
 
 }

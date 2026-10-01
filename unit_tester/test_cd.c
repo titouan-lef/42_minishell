@@ -78,7 +78,7 @@ void	test_cd(char **envp)
 	pwd = get_cwd(env);
 	ft_clean_matrix((void **)env_tmp);
 	assert_equal_s(save_pwd, pwd, &test_number);
-	chdir(save_pwd);
+	(void)chdir(save_pwd);
 	free(pwd);
 
 	free(save_pwd);

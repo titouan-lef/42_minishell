@@ -76,10 +76,8 @@ static int	process_line(int file, char *limiter,
 			char *unquoted_limiter, t_data *data)
 {
 	char	*line;
-	int		limiter_length;
 	int		code;
 
-	limiter_length = ft_strlen(unquoted_limiter);
 	rl_event_hook = event;
 	line = read_lines(data, 1);
 	rl_event_hook = 0;
