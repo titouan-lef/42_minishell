@@ -94,14 +94,14 @@ DEP				:=	$(SRC:%.c=$(BUILD_DIR)%.d)
 
 #==================== COLOR =====================#
 
-INIT			:=	\e[0m
-BLACK			:=	\e[30m
-RED				:=	\e[31m
-GREEN			:=	\e[32m
-YELLOW			:=	\e[33m
-BLUE			:=	\e[34m
-MAGENTA			:=	\e[35m
-CYAN			:=	\e[36m
+INIT			:=	\033[0m
+BLACK			:=	\033[30m
+RED				:=	\033[31m
+GREEN			:=	\033[32m
+YELLOW			:=	\033[33m
+BLUE			:=	\033[34m
+MAGENTA			:=	\033[35m
+CYAN			:=	\033[36m
 
 #===================== RULE =====================#
 
@@ -111,70 +111,75 @@ ifndef VERBOSE
 .SILENT:
 endif
 
-all				: $(NAME)
+all: $(NAME)
 
-bonus			: $(NAME)
+bonus: $(NAME)
 
 $(DISPLAY_TRACKER):
-				echo
-				echo " /░░      /░░ /░░           /░░           /░░                 /░░ /░░"
-				echo "| ░░░    /░░░|__/          |__/          | ░░                | ░░| ░░"
-				echo "| ░░░░  /░░░░ /░░ /░░░░░░░  /░░  /░░░░░░░| ░░░░░░░   /░░░░░░ | ░░| ░░"
-				echo "| ░░ ░░/░░ ░░| ░░| ░░__  ░░| ░░ /░░_____/| ░░__  ░░ /░░__  ░░| ░░| ░░"
-				echo "| ░░  ░░░| ░░| ░░| ░░  \ ░░| ░░|  ░░░░░░ | ░░  \ ░░| ░░░░░░░░| ░░| ░░"
-				echo "| ░░\  ░ | ░░| ░░| ░░  | ░░| ░░ \____  ░░| ░░  | ░░| ░░_____/| ░░| ░░"
-				echo "| ░░ \/  | ░░| ░░| ░░  | ░░| ░░ /░░░░░░░/| ░░  | ░░|  ░░░░░░░| ░░| ░░"
-				echo "|__/     |__/|__/|__/  |__/|__/|_______/ |__/  |__/ \_______/|__/|__/"
-				echo
+				printf "\n"
+				printf " /░░      /░░ /░░           /░░           /░░                 /░░ /░░\n"
+				printf "| ░░░    /░░░|__/          |__/          | ░░                | ░░| ░░\n"
+				printf "| ░░░░  /░░░░ /░░ /░░░░░░░  /░░  /░░░░░░░| ░░░░░░░   /░░░░░░ | ░░| ░░\n"
+				printf "| ░░ ░░/░░ ░░| ░░| ░░__  ░░| ░░ /░░_____/| ░░__  ░░ /░░__  ░░| ░░| ░░\n"
+				printf "| ░░  ░░░| ░░| ░░| ░░  \ ░░| ░░|  ░░░░░░ | ░░  \ ░░| ░░░░░░░░| ░░| ░░\n"
+				printf "| ░░\  ░ | ░░| ░░| ░░  | ░░| ░░ \____  ░░| ░░  | ░░| ░░_____/| ░░| ░░\n"
+				printf "| ░░ \/  | ░░| ░░| ░░  | ░░| ░░ /░░░░░░░/| ░░  | ░░|  ░░░░░░░| ░░| ░░\n"
+				printf "|__/     |__/|__/|__/  |__/|__/|_______/ |__/  |__/ \_______/|__/|__/\n"
+				printf "\n"
 				touch $(DISPLAY_TRACKER)
 				sleep 0.5
 
-$(LIBFT)		:
-				echo "$(BLUE)Making libft👷👷$(INIT)"
+$(LIBFT):
+				printf "$(BLUE)Making libft🔨$(INIT)\n"
 				$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
-$(NAME)			:	$(DISPLAY_TRACKER) $(LIBFT) $(OBJ)
+$(NAME): $(DISPLAY_TRACKER) $(LIBFT) $(OBJ)
 				$(CC) -lreadline -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
-				echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)"
+				printf "$(GREEN)$(NAME) ready ✅️✅️$(INIT)\n"
 
-$(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
-				echo "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)"
+$(BUILD_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
+				printf "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)\n"
 				$(CC) -I$(HEADERS) -I$(LIBFT_HEADER) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)		:
+$(OBJ_DIR):
 				mkdir -p $@
 
-clean			:
+clean:
 				if [ -d $(LIBFT_DIR)$(BUILD_DIR) ];\
-				then echo "$(BLUE)Cleanning libft✨🧹$(INIT)";\
+				then printf "$(BLUE)Cleanning libft✨🧹$(INIT)\n";\
 				$(MAKE) $@ -C $(LIBFT_DIR) --no-print-directory;\
 				fi;
 				if [ -d $(BUILD_DIR) ];\
-				then echo "$(BLUE)Cleanning $(NAME)✨🧹$(INIT)";\
-				echo "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)";\
+				then printf "$(BLUE)Cleanning $(NAME)✨🧹$(INIT)\n";\
+				printf "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)\n";\
 				rm -rf $(BUILD_DIR);\
 				fi;
 				rm -f $(DISPLAY_TRACKER)
 
-fclean			:	clean
+fclean: clean
 				if [ -f $(LIBFT) ];\
-				then echo "$(BLUE)Cleanning libft✨🧹$(INIT)";\
+				then printf "$(BLUE)Cleanning libft✨🧹$(INIT)\n";\
 				$(MAKE) $@ -C $(LIBFT_DIR) --no-print-directory;\
 				fi;
 				if [ -f $(NAME) ];\
-				then echo "$(BLUE)Cleanning $(NAME)✨🧹$(INIT)";\
-				echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
+				then printf "$(BLUE)Cleanning $(NAME)✨🧹$(INIT)\n";\
+				printf "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)\n";\
 				rm -f $(NAME);\
 				fi;
 				rm -f $(DISPLAY_TRACKER)
 
-re				:
+re:
 				rm -f $(DISPLAY_TRACKER)
 				$(MAKE) $(DISPLAY_TRACKER) --no-print-directory
 				$(MAKE)	fclean --no-print-directory
 				touch $(DISPLAY_TRACKER)
 				$(MAKE) all --no-print-directory
 
-.PHONY	=	all clean fclean re bonus
+tester: $(LIBFT) $(filter-out minishell.c ,$(OBJ))
+				cp $(LIBFT) $(NAME).a
+				ar -rs $(NAME).a $(filter-out minishell.c ,$(OBJ))
+				printf "$(GREEN)$(NAME).a ready for tester ✅️✅️$(INIT)\n";\
+
+.PHONY := all clean fclean re bonus tester
 
 -include $(DEP)

@@ -22,7 +22,6 @@ NAME			:=	minishell_unit_tester
 
 #==================== SOURCE ====================#
 
-SRC_DIR			=	#src/
 SRC				=	unit_test/unit_test.c		\
 					tester.c					\
 					test_cd.c					\
@@ -52,21 +51,21 @@ DEP				:=	$(SRC:%.c=$(BUILD_DIR)%.d)
 
 #==================== COLOR =====================#
 
-INIT			:=	\e[0m
-BLACK			:=	\e[30m
-RED				:=	\e[31m
-GREEN			:=	\e[32m
-YELLOW			:=	\e[33m
-BLUE			:=	\e[34m
-MAGENTA			:=	\e[35m
-CYAN			:=	\e[36m
+INIT			:=	\033[0m
+BLACK			:=	\033[30m
+RED				:=	\033[31m
+GREEN			:=	\033[32m
+YELLOW			:=	\033[33m
+BLUE			:=	\033[34m
+MAGENTA			:=	\033[35m
+CYAN			:=	\033[36m
 
 #===================== RULE =====================#
 ifndef VERBOSE
 .SILENT:
 endif
 
-all				:	display
+all: display
 				if [ ! -f minishell.a ];\
 				then $(MAKE) tester -C ../minishell >/dev/null;\
 				$(MAKE) fclean -C ../minishell >/dev/null;\
@@ -78,54 +77,54 @@ all				:	display
 				valgrind --leak-check=full --show-leak-kinds=all --suppressions=vsupp ./$(NAME);\
 				fi;
 
-display			:
+display:
 				clear
-				echo "$(BLUE)"
-				echo "  __  __ _       _     _          _ _    _   _       _ _      _____         _            "
-				echo " |  \/  (_)_ __ (_)___| |__   ___| | |  | | | |_ __ (_) |_   |_   _|__  ___| |_ ___ _ __ "
-				echo " | |\/| | | '_ \| / __| '_ \ / _ \ | |  | | | | '_ \| | __|    | |/ _ \/ __| __/ _ \ '__|"
-				echo " | |  | | | | | | \__ \ | | |  __/ | |  | |_| | | | | | |_     | |  __/\__ \ ||  __/ |   "
-				echo " |_|  |_|_|_| |_|_|___/_| |_|\___|_|_|   \___/|_| |_|_|\__|    |_|\___||___/\__\___|_|   "
-				echo "$(INIT)"
+				printf "$(BLUE)\n"
+				printf "  __  __ _       _     _          _ _    _   _       _ _      _____         _            \n"
+				printf " |  \/  (_)_ __ (_)___| |__   ___| | |  | | | |_ __ (_) |_   |_   _|__  ___| |_ ___ _ __ \n"
+				printf " | |\/| | | '_ \| / __| '_ \ / _ \ | |  | | | | '_ \| | __|    | |/ _ \/ __| __/ _ \ '__|\n"
+				printf " | |  | | | | | | \__ \ | | |  __/ | |  | |_| | | | | | |_     | |  __/\__ \ ||  __/ |   \n"
+				printf " |_|  |_|_|_| |_|_|___/_| |_|\___|_|_|   \___/|_| |_|_|\__|    |_|\___||___/\__\___|_|   \n"
+				printf "$(INIT)\n"
 
-$(NAME)			: $(OBJ)
+$(NAME): $(OBJ)
 				$(CC) -lreadline $(CFLAGS) -I$(HEADERS) -I$(LIBFT_DIR) $(OBJ) minishell.a -o $(NAME);\
-				#echo "$(GREEN)$(NAME) ready ✅️✅️$(INIT)";\
+				#printf "$(GREEN)$(NAME) ready ✅️✅️$(INIT)\n";\
 
-$(BUILD_DIR)%.o	:	$(SRC_DIR)%.c | $(OBJ_DIR)
-				#echo "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)"
+$(BUILD_DIR)%.o: %.c | $(OBJ_DIR)
+				#printf "$(GREEN)Compiling : $(MAGENTA)$<$(INI\nT)"
 				$(CC) $(CFLAGS) -I$(HEADERS) -I$(LIBFT_DIR) -c $< -o $@
 
-$(OBJ_DIR)		:
+$(OBJ_DIR):
 				mkdir -p $@
 
-clean			:
+clean:
 				if [ -d $(BUILD_DIR) ];\
-				then echo "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)";\
+				then printf "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)\n";\
 				rm -rf $(BUILD_DIR);\
 				fi;
 
-fclean			:	clean
+fclean: clean
 				if [ -f minishell.a ];\
-				then echo "$(RED)Removing : $(MAGENTA)minishell.a$(INIT)";\
+				then printf "$(RED)Removing : $(MAGENTA)minishell.a$(INIT)\n";\
 				rm -f minishell.a;\
 				fi;
 				if [ -f cout.log ];\
-				then echo "$(RED)Removing : $(MAGENTA)cout.log$(INIT)";\
+				then printf "$(RED)Removing : $(MAGENTA)cout.log$(INIT)\n";\
 				rm -f cout.log;\
 				fi;
 				if [ -f cerr.log ];\
-				then echo "$(RED)Removing : $(MAGENTA)cerr.log$(INIT)";\
+				then printf "$(RED)Removing : $(MAGENTA)cerr.log$(INIT)\n";\
 				rm -f cerr.log;\
 				fi;
 				if [ -f $(NAME) ];\
-				then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)";\
+				then printf "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)\n";\
 				rm -f $(NAME);\
 				fi;
 				$(MAKE) $@ -C ../minishell;\
 
-re				:	fclean all
+re: fclean all
 
-.PHONY	=	all clean fclean re $(NAME) $(OBJ) $(OBJ_DIR)
+.PHONY := all clean fclean re display
 
 -include $(DEP)

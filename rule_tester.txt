@@ -1,6 +1,0 @@
-Rule tester
-
-tester			:	$(LIBFT) $(filter-out minishell.c ,$(OBJ))
-				cp $(LIBFT) $(NAME).a
-				ar -rs $(NAME).a $(filter-out minishell.c ,$(OBJ))
-				echo "$(GREEN)$(NAME).a ready for tester ✅️✅️$(INIT)";\

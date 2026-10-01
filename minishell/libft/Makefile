@@ -24,14 +24,14 @@ NAME :=			libft.a
 
 #==================== COLOR =====================#
 
-INIT :=		\e[0m
-BLACK :=	\e[30m
-RED :=		\e[31m
-GREEN :=	\e[32m
-YELLOW :=	\e[33m
-BLUE :=		\e[34m
-MAGENTA :=	\e[35m
-CYAN :=		\e[36m
+INIT :=		\033[0m
+BLACK :=	\033[30m
+RED :=		\033[31m
+GREEN :=	\033[32m
+YELLOW :=	\033[33m
+BLUE :=		\033[34m
+MAGENTA :=	\033[35m
+CYAN :=		\033[36m
 
 #==================== SOURCE ====================#
 
@@ -95,21 +95,21 @@ HEADERS =	./include/
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "$(CYAN)Archiving : $(MAGENTA)$@$(INIT)"
+	@printf "$(CYAN)Archiving : $(MAGENTA)$@$(INIT)\n"
 	@ar -rcs $@ $^
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
-	@echo "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)"
+	@printf "$(GREEN)Compiling : $(MAGENTA)$<$(INIT)\n"
 	@$(CC) $(CFLAGS) -I$(HEADERS) -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $@
 
 clean:
-	@if [ -d $(BUILD_DIR) ]; then echo "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)"; rm -rf $(BUILD_DIR); fi;
+	@if [ -d $(BUILD_DIR) ]; then printf "$(RED)Removing directory : $(BLUE)$(BUILD_DIR)$(INIT)\n"; rm -rf $(BUILD_DIR); fi;
 
 fclean: clean
-	@if [ -f $(NAME) ]; then echo "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)"; rm -f $(NAME); fi;
+	@if [ -f $(NAME) ]; then printf "$(RED)Removing : $(MAGENTA)$(NAME)$(INIT)\n"; rm -f $(NAME); fi;
 
 re:	fclean all
 
