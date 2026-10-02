@@ -1,60 +1,72 @@
-# 🖥️ minishell 🍼👶
+# Minishell
 
-## General rules 📏
-### Coding ⌨️
-- Every feature must have his header associated that is include in the main header `minishel.h`.
-- Use a static function whenever is possible (must not appered in the header).
-- All functions in the header should be organized like the files.
-- The function must not be named `ft_*.c`.
-- Comment every function:
-  - **Goal**
-  - **Return**
-  - **Warning**
-```c
-/*
-* Goal: Describe the global goal of your function.
-*
-* Return: What the fonction return (None for void() function).
-*
-* Warning: Cases that can be problematic.
-*/
-type function_name(args){}
+*This project has been created as part of the 42 curriculum by lguerbig and tle-floc.*
+
+## Description
+
+Minishell is a lightweight Unix shell written in C, inspired by Bash. It reproduces the core behavior of a real command interpreter: reading user input, parsing it, and executing commands, all built on top of low-level system calls.
+The project is an exploration of how a shell works under the hood : process creation, file descriptor manipulation, signal handling and inter-process communication.
+
+### Features
+
+- Interactive prompt with a working command history (via GNU Readline).
+- Command execution by searching the `PATH` variable, or by using a relative or absolute path.
+- Quoting : single quotes (`'`) prevent all meta-character interpretation, while double quotes (`"`) prevent it except for the dollar sign (`$`). Unclosed quotes and unsupported special characters (such as `\` and `;`) are not interpreted.
+- Redirections:
+  - `<` redirects input.
+  - `>` redirects output.
+  - `<<` reads input until a delimiter line is found (heredoc).
+  - `>>` redirects output in append mode.
+- Pipes (`|`) : the output of each command in a pipeline is connected to the input of the next one.
+- Environment variable expansion (`$VAR`) and exit status expansion (`$?`), which holds the exit status of the most recently executed foreground pipeline.
+- Signal handling that behaves like Bash in interactive mode :
+  - `Ctrl-C` displays a new prompt on a new line.
+  - `Ctrl-D` exits the shell.
+  - `Ctrl-\` does nothing.
+- Built-in commands :
+  - `echo` (with the `-n` option)
+  - `cd` (with a relative or absolute path only)
+  - `pwd`
+  - `export`
+  - `unset`
+  - `env`
+  - `exit`
+- Logical operators `&&` and `||`, with parentheses to control priority.
+- Wildcard expansion (`*`) for the current working directory.
+
+### Technical constraints
+- A single global variable is allowed, used only to store the number of a received signal. It carries no other information and gives no access to the program's data structures, so signal handlers never touch the main data.
+- No memory leaks are tolerated in the project's own code (leaks originating from `readline()` itself are not considered).
+- The scope is limited to the subject; when a behavior is ambiguous, Bash is used as the reference.
+- This project must be written in accordance with the [42 Norm](https://github.com/42School/norminette).
+
+### Allowed external functions
+`readline`, `rl_clear_history`, `rl_on_new_line`, `rl_replace_line`, `rl_redisplay`, `add_history`, `printf`, `malloc`, `free`, `write`, `access`, `open`, `read`, `close`, `fork`, `wait`, `waitpid`, `wait3`, `wait4`, `signal`, `sigaction`, `sigemptyset`, `sigaddset`, `kill`, `exit`, `getcwd`, `chdir`, `stat`, `lstat`, `fstat`, `unlink`, `execve`, `dup`, `dup2`, `pipe`, `opendir`, `readdir`, `closedir`, `strerror`, `perror`, `isatty`, `ttyname`, `ttyslot`, `ioctl`, `getenv`, `tcsetattr`, `tcgetattr`, `tgetent`, `tgetflag`, `tgetnum`, `tgetstr`, `tgoto`, `tputs`
+
+## Tools
+
+| Tool | Version |
+|------|---------|
+| clang | 12 |
+| valgrind | 3.18.1 |
+| Make | any |
+
+## Project architecture
+
 ```
-- Every feature must have his complete unit test.
-- Use the `unit test library` for your unit tests.
-
-
-### Project Managment 📜
-- Respect the [Git Organisation](#git-organisation)
-- Merge on the `main` branch as soon as a feature is done
-- Commit title must be formated like `KEY_WORD: commit title` with the followings key_words:
-  - **ADD**
-  - **UPDATE**
-  - **REMOVE**
-  - **FIX**
-  - **WIP** (Work In Progress)
-```bash
-git commit -m 'KEY_WORD: commit title' -m 'commit description'
-```
-- Respect the [File Organisation](#file-organisation)
-
-
-## File Organisation
--  Everything that needs to be pushed to the `vlogsphere` will be in a directory called `minishell`
-- The rest will be organized in the root directory:
-  - `README.md`
-  - Unit tests
-  - `.gitignore`
-```plaintext
-project-root/
-├── minishell/
-│   ├── [project files...]
-├── README.md
-├── .gitignore
+project-root
+├── minishell
+│   └── [project files...]
 ├── unit_tester
-    E --> F(Env);s/
-│   ├── [unit test files...]
+│   └── [unit test files...]
+├── .gitignore
+├── en.subject.pdf
+├── flake.lock
+├── flake.nix
+└── README.md
 ```
+
+For this project, we have created our own [tester](unit_tester/README.md).
 
 ## General Process
 
@@ -66,84 +78,53 @@ struct data"--> C(Lexer);
     Z --"char *line"--> A;
     C --"struct data
 queue"--> D{AST};
-    D --"struct data
-token_redir"--> E(Redirect);
+    D <-- "queue
+token_cmd"--> J(Redirection);
     D --"struct data
 token_cmd"--> F(Expansion);
+    D <-- "struct data
+queue"--> K(Heredoc);
     F --"struct data
+token_redir"--> E(Redirect);
+    E --"struct data
 token_cmd" --> G(Execute_cmd);
     G --"struct data
 char **cmd" --> H(Execve);
     G --"struct data
 char **cmd" --> I(Builtins);
-    
 ```
 
-## Git Organisation
-### Work in your branch
-See all branches (and what is the current branch)
-```bash 
-git branch
-```
-Create a new branch `branch_name`
-```bash
-git branch <branch_name>
-```
-Switch to a branch
-```bash
-git checkout <branch_name>
-```
-### Update your branch with current `main`
-1. Switch to your branch (if you are on another) and push to ensure your branch is up-to-date before merging
-```bash
-git checkout <branch_name>
-git push
-```
-2. Switch to the main branch and pull
-```bash
-git checkout main
-git pull
-```
-3. Switch back to your branch and merge with the main branch
-```bash
-git checkout <branch_name>
-git merge main
-```
-### Push Workflow
-1. [Update your branch with current main](#update-your-branch-with-current-main)
+## Instructions
 
-2. Fix conflicts (if any), commit, and push the resolution
+### Nix
 
-3. Run unit tests (fix failing tests if necessary, commit the fixes, and push)
+To avoid compatibility issues, you can use the Nix terminal :
+```bash
+nix develop
+```
+In particular, the terminal will have readline and Valgrind installed.
 
-4. Switch to `main`
+### Project
+
+All commands are executed in the minishell directory.
+
+#### Makefile
+
+Use the provided `Makefile` to compile the project and manage it:
+
+| Command | Description |
+|--------|-------------|
+| `make` / `make all` / `make bonus` | Compile the project |
+| `make clean` | Remove object files |
+| `make fclean` | Remove object files and executables |
+| `make re` | Clean and recompile the project |
+
+#### Run program
+
+To launch the program :
 ```bash
-git checkout main
+./minishell
 ```
-5. Merge your work in main
-```bash
-git merge <branch_name>
-```
-6. Push modification
-```bash
-git push
-```
-```mermaid
-%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'showCommitLabel':true,'mainBranchOrder': 2}} }%%
-        gitGraph
-        commit id: "last stable version"
-        branch you order: 1
-        commit id:"your work"
-        checkout main
-        branch mate order: 3
-        commit id:"update"
-        checkout main
-        merge mate id:"new stable version"
-        checkout you
-        merge main 
-        commit id:"fix conflicts" type: REVERSE
-        checkout main
-        merge you id:"final stable vesrion"
-```
-## Sources
+
+## Resources
 - [Bash documentation](https://www.gnu.org/software/bash/manual/html_node/index.html)
